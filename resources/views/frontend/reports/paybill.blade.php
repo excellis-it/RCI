@@ -116,7 +116,27 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-12 mb-4">
+
+                                            <div class="form-group col-md-3 mb-2">
+                                                <div class="col-md-12">
+                                                    <label>A/c Off Sign</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <select class="form-control" name="account_officer_sign"
+                                                        id="account_officer_sign">
+                                                        <option value="">Select Accountant</option>
+                                                        @foreach ($accountants as $accountant)
+                                                            <option value="{{ $accountant->id }}">
+                                                                {{ $accountant->user_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                {{-- validation  --}}
+                                                @error('account_officer_sign')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            {{-- <div class="form-group col-md-12 mb-4">
                                                 <div class="card p-3 shadow-sm border rounded">
                                                     <label class="mb-2"><strong>Select Report Type</strong></label>
 
@@ -155,7 +175,7 @@
                                                         </div>
                                                     @endif
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
 
                                         </div>

@@ -204,7 +204,8 @@ class ReportController extends Controller
     public function paybill()
     {
         $categories = Category::orderBy('id', 'desc')->get();
-        return view('frontend.reports.paybill', compact('categories'));
+        $accountants  = User::role('ACCOUNTANT')->get();
+        return view('frontend.reports.paybill', compact('categories','accountants'));
     }
 
     public function paybillGenerate(Request $request)
@@ -214,7 +215,7 @@ class ReportController extends Controller
             'category' => 'required',
             'month' => 'required',
             'year' => 'required',
-            'report_type' => 'required',
+            'account_officer_sign' => 'required',
         ]);
 
         $report_type = $request->report_type;
@@ -247,6 +248,8 @@ class ReportController extends Controller
             ->orderBy('id', 'asc')
             ->with('desigs')
             ->get();
+
+            // dd($member_datas->toArray());
 
         if ($member_datas->count() == 0) {
             return redirect()->back()->with('error', 'No data found for the selected criteria');
@@ -381,10 +384,15 @@ class ReportController extends Controller
         }
 
         $groupedData = collect($all_members_info)->chunk(5);
+        $cgegisData = collect($all_members_info)->chunk(40);
+
+        // dd($all_members_info);
+
         $month =  date('F', mktime(0, 0, 0, $request->month, 10));
         $year = $request->year;
         $logo = Helper::logo() ?? '';
         $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
+        $accountant = User::where('id', $request->account_officer_sign)->first();
 
         $pdf = PDF::loadView('frontend.reports.paybill-generate', compact(
             'pay_bill_no',
@@ -394,7 +402,9 @@ class ReportController extends Controller
             'da_percent',
             'all_members_info',
             'groupedData',
-            'category_fund_type'
+            'category_fund_type',
+            'cgegisData',
+            'accountant'
         ))->setPaper('a3', 'landscape');
         // return view('frontend.reports.paybill-generate')->with(compact(
         //     'pay_bill_no',
@@ -404,7 +414,9 @@ class ReportController extends Controller
         //     'da_percent',
         //     'all_members_info',
         //     'groupedData',
-        // 'category_fund_type'
+        //     'category_fund_type',
+        //     'cgegisData',
+        //     'accountant'
         // ));
 
         return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');

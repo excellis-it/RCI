@@ -55,6 +55,18 @@
 <body style="background: #fff;">
 
     @php
+        $main_count = 0;
+
+        $hba_adv_arr = [];
+        $car_adv_arr = [];
+        $sco_adv_arr = [];
+        $comp_adv_arr = [];
+        $fest_adv_arr = [];
+        $hba_int_arr = [];
+        $car_int_arr = [];
+        $sco_int_arr = [];
+        $comp_int_arr = [];
+
         $pageArrayBasicPay = [];
         $pageArrayDa = [];
         $pageArrayHra = [];
@@ -223,9 +235,9 @@
                                 <tr>
                                     <td colspan="4"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px;  border-right: 0px;">
-                                        PAY BILL {{ $pay_bill_no ?? 'N/A' }} FOR THE MONTH OF
-                                        {{ \Illuminate\Support\Str::upper($month ?? 'N/A') }}
-                                        - {{ $year ?? 'N/A' }} </br>{{ $category_fund_type }} STAFF
+                                        PAY BILL {{ $pay_bill_no ?? '0' }} FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }}
+                                        - {{ $year ?? '0' }} </br>{{ $category_fund_type }} STAFF
                                     </td>
                                     <td colspan="4" style="text-align: center;border-left:0px;border-right:0px;">
                                         <img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px;border:1px solid #ffffff;border-right:0px;border-left:0px;"
@@ -281,7 +293,7 @@
                                     </td>
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
-                                        BASIC PAY<br>DA ({{ $da_percent->percentage ?? 'N/A' }}%)<br>HRA<br>TPT
+                                        BASIC PAY<br>DA ({{ $da_percent->percentage ?? '0' }}%)<br>HRA<br>TPT
                                         ALLOW<br>TPTDA<br>SPL PAY
                                     </td>
                                     <td valign="top"
@@ -410,6 +422,7 @@
                                 $total_nps_10_arr = 0;
                                 $total_nps_14_adj = 0;
                                 $totalPayslipPay = 0;
+
                             @endphp
 
 
@@ -761,24 +774,24 @@
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
                                     margin: 0px 0px !important; text-transform: uppercase; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
                                             {{ $key + 1 }}<br>
-                                            {{ $member_info['member_data']->name ?? 'N/A' }}<br>
-                                            {{ $member_info['member_data']->emp_id ?? 'N/A' }}<br>
-                                            {{ $member_info['member_data']['desigs']->designation ?? 'N/A' }}<br>
+                                            {{ $member_info['member_data']->name ?? '0' }}<br>
+                                            {{ $member_info['member_data']->emp_id ?? '0' }}<br>
+                                            {{ $member_info['member_data']['desigs']->designation ?? '0' }}<br>
                                             {{ $member_info['details']['member_core_info']->bank_acc_no ?? '0000-0000-0000-00' }}<br>
-                                            {{ $member_info['details']['member_core_info']['banks']->ifsc ?? 'N/A' }}
+                                            {{ $member_info['details']['member_core_info']['banks']->ifsc ?? '0' }}
                                         </td>
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
                                 margin: 0px 0px !important; text-transform: uppercase; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
-                                            {{ $member_info['member_data']->pm_level ?? 'N/A' }}<br>
+                                            {{ $member_info['member_data']->pm_level ?? '0' }}<br>
                                             {{ $member_info['member_data']->dob ?? '' }} <br>
                                             {{ !empty($member_info['details']['member_core_info']->gpf_acc_no) ? $member_info['details']['member_core_info']->gpf_acc_no . '/' : '' }}
-                                            {{ $member_info['member_data']->pran_number ?? 'N/A' }}
+                                            {{ $member_info['member_data']->pran_number ?? '0' }}
                                             <br>
                                             {{ $member_info['member_data']->doj_lab ?? '' }}<br>
-                                            {{ $member_info['details']['member_credit']->var_incr ?? 'N/A' }}<br>
-                                            {{ $member_info['member_data']->next_inr ?? 'N/A' }}<br>
-                                            {{ $member_info['details']['member_core_info']->pan_no ?? 'N/A' }}
+                                            {{ $member_info['details']['member_credit']->var_incr ?? '0' }}<br>
+                                            {{ $member_info['member_data']->next_inr ?? '0' }}<br>
+                                            {{ $member_info['details']['member_core_info']->pan_no ?? '0' }}
 
                                         </td>
                                         <td valign="top"
@@ -954,6 +967,11 @@
                                                     {{ $member_info['details']['member_loans']['hba_adv_data']['total_amount'] ?? 0 }}
                                                     BAL:-
                                                     {{ $member_info['details']['member_loans']['hba_adv_data']['balance'] ?? 0 }}
+
+                                                    @php
+                                                        $hba_adv_arr[$main_count] =
+                                                            $member_info['details']['member_loans']['hba_adv_data'];
+                                                    @endphp
                                                 @endif
                                                 @if (($member_info['details']['member_loans']['hba_int'] ?? 0) > 0)
                                                     HBA
@@ -965,6 +983,12 @@
                                                     {{ $member_info['details']['member_loans']['hba_int_data']['total_amount'] ?? 0 }}
                                                     BAL:-
                                                     {{ $member_info['details']['member_loans']['hba_int_data']['balance'] ?? 0 }}
+
+                                                    @php
+
+                                                        $hba_int_arr[$main_count] =
+                                                            $member_info['details']['member_loans']['hba_int_data'];
+                                                    @endphp
                                                 @endif
 
                                                 @if (($member_info['details']['member_loans']['car_adv'] ?? 0) > 0)
@@ -977,17 +1001,29 @@
                                                     {{ $member_info['details']['member_loans']['car_adv_data']['total_amount'] ?? 0 }}
                                                     BAL:-
                                                     {{ $member_info['details']['member_loans']['car_adv_data']['balance'] ?? 0 }}
+
+                                                    @php
+
+                                                        $car_adv_arr[$main_count] =
+                                                            $member_info['details']['member_loans']['car_adv_data'];
+
+                                                    @endphp
                                                 @endif
                                                 @if (($member_info['details']['member_loans']['car_int'] ?? 0) > 0)
                                                     CAR
-                                                    {{ $member_info['details']['member_loans']['hba_int_data']['present_inst_no'] ?? 0 }}
+                                                    {{ $member_info['details']['member_loans']['car_int_data']['present_inst_no'] ?? 0 }}
                                                     /
-                                                    {{ $member_info['details']['member_loans']['hba_int_data']['tot_no_of_inst'] ?? 0 }}
+                                                    {{ $member_info['details']['member_loans']['car_int_data']['tot_no_of_inst'] ?? 0 }}
                                                     @ {{ $member_info['details']['member_loans']['car_int'] ?? 0 }} TOT
                                                     INT:-
-                                                    {{ $member_info['details']['member_loans']['hba_int_data']['total_amount'] ?? 0 }}
+                                                    {{ $member_info['details']['member_loans']['car_int_data']['total_amount'] ?? 0 }}
                                                     BAL:-
-                                                    {{ $member_info['details']['member_loans']['hba_int_data']['balance'] ?? 0 }}
+                                                    {{ $member_info['details']['member_loans']['car_int_data']['balance'] ?? 0 }}
+                                                    @php
+
+                                                        $car_int_arr[$main_count] =
+                                                            $member_info['details']['member_loans']['car_int_data'];
+                                                    @endphp
                                                 @endif
 
                                                 @if (($member_info['details']['member_loans']['sco_adv'] ?? 0) > 0)
@@ -1000,6 +1036,12 @@
                                                     {{ $member_info['details']['member_loans']['sco_adv_data']['total_amount'] ?? 0 }}
                                                     BAL:-
                                                     {{ $member_info['details']['member_loans']['sco_adv_data']['balance'] ?? 0 }}
+                                                    @php
+
+                                                        $sco_adv_arr[$main_count] =
+                                                            $member_info['details']['member_loans']['sco_adv_data'];
+
+                                                    @endphp
                                                 @endif
                                                 @if (($member_info['details']['member_loans']['sco_int'] ?? 0) > 0)
                                                     SCO
@@ -1011,6 +1053,11 @@
                                                     {{ $member_info['details']['member_loans']['sco_int_data']['total_amount'] ?? 0 }}
                                                     BAL:-
                                                     {{ $member_info['details']['member_loans']['sco_int_data']['balance'] ?? 0 }}
+                                                    @php
+                                                        $sco_int_arr[$main_count] =
+                                                            $member_info['details']['member_loans']['sco_int_data'];
+
+                                                    @endphp
                                                 @endif
 
                                                 @if (($member_info['details']['member_loans']['comp_adv'] ?? 0) > 0)
@@ -1023,6 +1070,11 @@
                                                     {{ $member_info['details']['member_loans']['comp_adv_data']['total_amount'] ?? 0 }}
                                                     BAL:-
                                                     {{ $member_info['details']['member_loans']['comp_adv_data']['balance'] ?? 0 }}
+                                                    @php
+                                                        $comp_adv_arr[$main_count] =
+                                                            $member_info['details']['member_loans']['comp_adv_data'];
+
+                                                    @endphp
                                                 @endif
                                                 @if (($member_info['details']['member_loans']['comp_int'] ?? 0) > 0)
                                                     COMP
@@ -1034,6 +1086,11 @@
                                                     {{ $member_info['details']['member_loans']['comp_int_data']['total_amount'] ?? 0 }}
                                                     BAL:-
                                                     {{ $member_info['details']['member_loans']['comp_int_data']['balance'] ?? 0 }}
+                                                    @php
+
+                                                        $comp_int_arr[$main_count] =
+                                                            $member_info['details']['member_loans']['comp_int_data'];
+                                                    @endphp
                                                 @endif
 
                                                 @if (($member_info['details']['member_loans']['fest_adv'] ?? 0) > 0)
@@ -1046,10 +1103,16 @@
                                                     {{ $member_info['details']['member_loans']['fest_adv_data']['total_amount'] ?? 0 }}
                                                     BAL:-
                                                     {{ $member_info['details']['member_loans']['fest_adv_data']['balance'] ?? 0 }}
+                                                    @php
+
+                                                        $fest_adv_arr[$main_count] =
+                                                            $member_info['details']['member_loans']['fest_adv_data'];
+                                                    @endphp
                                                 @endif
                                             </td>
                                         </tr>
                                     @endif
+                                    {{ $main_count++ }}
                                 @endforeach
 
                             <tfoot>
@@ -1217,9 +1280,9 @@
                 ">
                                     {{-- Lorem Ipsum is simply dummy text --}}
                                     <br>
-                                    PAY BILL {{ $pay_bill_no ?? 'N/A' }} FOR THE MONTH OF
-                                    {{ \Illuminate\Support\Str::upper($month ?? 'N/A') }}
-                                    - {{ $year ?? 'N/A' }} </br>{{ $category_fund_type }} STAFF
+                                    PAY BILL {{ $pay_bill_no ?? '0' }} FOR THE MONTH OF
+                                    {{ \Illuminate\Support\Str::upper($month ?? '0') }}
+                                    - {{ $year ?? '0' }} </br>{{ $category_fund_type }} STAFF
                                 </td>
                                 <td
                                     style="
@@ -2275,9 +2338,9 @@ background: #cdcdcd;
                 ">
                                     {{-- Lorem Ipsum is simply dummy text --}}
                                     <br>
-                                    PAY BILL {{ $pay_bill_no ?? 'N/A' }} FOR THE MONTH OF
-                                    {{ \Illuminate\Support\Str::upper($month ?? 'N/A') }}
-                                    - {{ $year ?? 'N/A' }} </br>{{ $category_fund_type }} STAFF
+                                    PAY BILL {{ $pay_bill_no ?? '0' }} FOR THE MONTH OF
+                                    {{ \Illuminate\Support\Str::upper($month ?? '0') }}
+                                    - {{ $year ?? '0' }} </br>{{ $category_fund_type }} STAFF
                                 </td>
                                 <td
                                     style="
@@ -2334,10 +2397,10 @@ background: #cdcdcd;
                                     style="
                   font-size: 10px;
                   line-height: 14px;
-                  font-weight: 600;
+                  font-weight: 500;
                   color: #000;
                   text-align: left;
-                  padding: 0px 5px !important;
+                  padding: 0px 2px !important;
                   margin: 0px 0px !important;
                   border-top: 1px solid #000;
                   border-left: 1px solid #000;
@@ -2349,10 +2412,10 @@ background: #cdcdcd;
                                     style="
                   font-size: 10px;
                   line-height: 14px;
-                  font-weight: 600;
+                  font-weight: 500;
                   color: #000;
                   text-align: left;
-                  padding: 0px 5px !important;
+                  padding: 0px 2px !important;
                   margin: 0px 0px !important;
                   border-top: 1px solid #000;
                   border-left: 1px solid #000;
@@ -2364,10 +2427,10 @@ background: #cdcdcd;
                                     style="
                   font-size: 10px;
                   line-height: 14px;
-                  font-weight: 600;
+                  font-weight: 500;
                   color: #000;
                   text-align: left;
-                  padding: 0px 5px !important;
+                  padding: 0px 2px !important;
                   margin: 0px 0px !important;
                   border-top: 1px solid #000;
                   border-left: 1px solid #000;
@@ -2379,10 +2442,10 @@ background: #cdcdcd;
                                     style="
                   font-size: 10px;
                   line-height: 14px;
-                  font-weight: 600;
+                  font-weight: 500;
                   color: #000;
                   text-align: left;
-                  padding: 0px 5px !important;
+                  padding: 0px 2px !important;
                   margin: 0px 0px !important;
                   border-top: 1px solid #000;
                   border-left: 1px solid #000;
@@ -2394,10 +2457,10 @@ background: #cdcdcd;
                                     style="
                   font-size: 10px;
                   line-height: 14px;
-                  font-weight: 600;
+                  font-weight: 500;
                   color: #000;
                   text-align: left;
-                  padding: 0px 5px !important;
+                  padding: 0px 2px !important;
                   margin: 0px 0px !important;
                   border-top: 1px solid #000;
                   border-left: 1px solid #000;
@@ -2409,10 +2472,10 @@ background: #cdcdcd;
                                     style="
                   font-size: 10px;
                   line-height: 14px;
-                  font-weight: 600;
+                  font-weight: 500;
                   color: #000;
                   text-align: left;
-                  padding: 0px 5px !important;
+                  padding: 0px 2px !important;
                   margin: 0px 0px !important;
                   border-top: 1px solid #000;
                   border-left: 1px solid #000;
@@ -2424,10 +2487,10 @@ background: #cdcdcd;
                                     style="
                   font-size: 10px;
                   line-height: 14px;
-                  font-weight: 600;
+                  font-weight: 500;
                   color: #000;
                   text-align: left;
-                  padding: 0px 5px !important;
+                  padding: 0px 2px !important;
                   margin: 0px 0px !important;
                   border-left: 1px solid #000;
                   border-top: 1px solid #000;
@@ -2440,10 +2503,10 @@ background: #cdcdcd;
                                     style="
             font-size: 10px;
             line-height: 14px;
-            font-weight: 600;
+            font-weight: 500;
             color: #000;
             text-align: left;
-            padding: 0px 5px !important;
+            padding: 0px 2px !important;
             margin: 0px 0px !important;
             border-top: 1px solid #000;
             border-right: 1px solid #000;
@@ -2455,10 +2518,10 @@ background: #cdcdcd;
                                     style="
       font-size: 10px;
       line-height: 14px;
-      font-weight: 600;
+      font-weight: 500;
       color: #000;
       text-align: left;
-      padding: 0px 5px !important;
+      padding: 0px 2px !important;
       margin: 0px 0px !important;
       border-top: 1px solid #000;
       border-right: 1px solid #000;
@@ -2470,10 +2533,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2485,10 +2548,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2500,10 +2563,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2515,10 +2578,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2530,10 +2593,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2545,10 +2608,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2560,10 +2623,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2575,10 +2638,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2590,10 +2653,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2605,10 +2668,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2620,10 +2683,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2635,10 +2698,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2650,10 +2713,10 @@ background: #cdcdcd;
                                     style="
     font-size: 10px;
     line-height: 14px;
-    font-weight: 600;
+    font-weight: 500;
     color: #000;
     text-align: left;
-    padding: 0px 5px !important;
+    padding: 0px 2px !important;
     margin: 0px 0px !important;
     border-top: 1px solid #000;
     border-right: 1px solid #000;
@@ -2665,10 +2728,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2680,10 +2743,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2695,10 +2758,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2710,10 +2773,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2725,10 +2788,10 @@ background: #cdcdcd;
                                     style="
 font-size: 10px;
 line-height: 14px;
-font-weight: 600;
+font-weight: 500;
 color: #000;
 text-align: left;
-padding: 0px 5px !important;
+padding: 0px 2px !important;
 margin: 0px 0px !important;
 border-top: 1px solid #000;
 border-right: 1px solid #000;
@@ -2740,10 +2803,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2755,10 +2818,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2770,10 +2833,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2785,10 +2848,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2800,10 +2863,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2815,10 +2878,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2830,10 +2893,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2845,10 +2908,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2860,10 +2923,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2875,10 +2938,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2890,10 +2953,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2905,10 +2968,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             color: #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             text-align: left;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             border-right: 1px solid #000;
@@ -2920,10 +2983,10 @@ background: #cdcdcd;
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         font-size: 10px;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         line-height: 14px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        font-weight: 500;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         color: #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         text-align: left;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 0px 5px !important;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 0px 2px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         margin: 0px 0px !important;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         border-top: 1px solid #000;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         border-right: 1px solid #000;
@@ -4388,9 +4451,9 @@ background: #cdcdcd;
                 ">
                                     {{-- Lorem Ipsum is simply dummy text --}}
                                     <br>
-                                    PAY BILL {{ $pay_bill_no ?? 'N/A' }} FOR THE MONTH OF
-                                    {{ \Illuminate\Support\Str::upper($month ?? 'N/A') }}
-                                    - {{ $year ?? 'N/A' }} </br>{{ $category_fund_type }} STAFF
+                                    PAY BILL {{ $pay_bill_no ?? '0' }} FOR THE MONTH OF
+                                    {{ \Illuminate\Support\Str::upper($month ?? '0') }}
+                                    - {{ $year ?? '0' }} </br>{{ $category_fund_type }} STAFF
                                 </td>
                                 <td
                                     style="
@@ -4587,9 +4650,9 @@ background: #cdcdcd;
             ">
                                     {{-- Lorem Ipsum is simply dummy text --}}
                                     <br>
-                                    PAY BILL {{ $pay_bill_no ?? 'N/A' }} FOR THE MONTH OF
-                                    {{ \Illuminate\Support\Str::upper($month ?? 'N/A') }}
-                                    - {{ $year ?? 'N/A' }} </br>{{ $category_fund_type }} STAFF
+                                    PAY BILL {{ $pay_bill_no ?? '0' }} FOR THE MONTH OF
+                                    {{ \Illuminate\Support\Str::upper($month ?? '0') }}
+                                    - {{ $year ?? '0' }} </br>{{ $category_fund_type }} STAFF
                                 </td>
                                 <td
                                     style="
@@ -4627,7 +4690,8 @@ background: #cdcdcd;
                 height: 20px;
               ">
                                     SUMMARY FOR CATEGORY {{ $category_fund_type == 'NPS' ? 'NS' : 'GS' }} FOR THE
-                                    MONTH OF MARCH -2025
+                                    MONTH OF {{ \Illuminate\Support\Str::upper($month ?? '0') }} -
+                                    {{ $year ?? '0' }}
                                 </td>
                             </tr>
                         </tbody>
@@ -6798,7 +6862,7 @@ background: #cdcdcd;
                                                             : '';
                                                     $totalInWords = $rupees . $paise . ' only';
 
-                                                    $totalInWords = ucwords(str_replace('-',' ',$totalInWords));
+                                                    $totalInWords = ucwords(str_replace('-', ' ', $totalInWords));
                                                 @endphp
                                                 <p style="font-size: 20px; text-align: center;">Nett
                                                     {{ $total }}
@@ -6819,7 +6883,4713 @@ background: #cdcdcd;
             </tr>
         </tbody>
     </table>
-    {{-- <div class="page-break"></div> --}}
+    <div class="page-break"></div>
+    @foreach ($cgegisData as $cgegis_key => $cgegis_data)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+                  font-size: 18px;
+                  line-height: 14px;
+                  font-weight: 500;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+
+                                        RECOVERY SCHEDULE OF CGEGIS IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+                  font-size: 15px;
+                  line-height: 18px;
+                  font-weight: 500;
+                  color: #000;
+                  text-align: left;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+                                        Page No: {{ $cgegis_key + 1 }}
+                                    </td>
+                                    <td
+                                        style="
+                  font-size: 15px;
+                  line-height: 18px;
+                  font-weight: 400;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+                  font-size: 15px;
+                  line-height: 18px;
+                  font-weight: 400;
+                  color: #000;
+                  text-align: right;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-top: 1px solid #000;
+                  border-left: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-top: 1px solid #000;
+                  border-left: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-top: 1px solid #000;
+                  border-left: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        EMP CODE
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: right;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        CGE AMOUNT
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: right;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  border-right: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        CGE ARR AMOUNT
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_cge_amount = 0;
+                                    $total_cge_arr = 0;
+                                @endphp
+                                @foreach ($cgegis_data as $key => $all_member)
+                                    @php
+                                        $cgegis = round($all_member['details']['member_debit']->cgegis ?? 0);
+                                        $cgeis_arr = round($all_member['details']['member_debit']->cgeis_arr ?? 0);
+                                        $total_cge_amount += $cgegis;
+                                        $total_cge_arr += $cgeis_arr;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $all_member['member_data']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $all_member['member_data']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $all_member['member_data']->pran_number ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $all_member['member_data']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $cgegis }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $cgeis_arr }} </td>
+                                    </tr>
+                                @endforeach
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-{{ $cgegis_key + 1 }}
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_cge_amount }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_cge_arr }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endforeach
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+        style="border-radius: 0px; margin: 0 auto; text-align: center">
+        <tbody>
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td colspan="9"
+                                    style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                    GRAND SUMMARY OF CGEGIS SUBSCRIPTION
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <thead>
+                            <tr>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    PAGE SUMMARY</th>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    TOTAL AMOUNT</th>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; background: #cdcdcd;">
+                                    TOTAL ARREAR AMOUNT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $total_cge_amount_last = 0;
+                                $total_cge_arr_last = 0;
+                            @endphp
+
+                            @foreach ($cgegisData as $cgegis_key => $cgegis_data)
+                                @php
+                                    $total_cge_amount = 0;
+                                    $total_cge_arr = 0;
+                                @endphp
+
+                                @foreach ($cgegis_data as $all)
+                                    @php
+                                        $cgegis = round($all['details']['member_debit']->cgegis ?? 0);
+                                        $cgeis_arr = round($all['details']['member_debit']->cgeis_arr ?? 0);
+                                        $total_cge_amount += $cgegis;
+                                        $total_cge_arr += $cgeis_arr;
+                                    @endphp
+                                @endforeach
+
+                                @php
+                                    $total_cge_amount_last += $total_cge_amount;
+                                    $total_cge_arr_last += $total_cge_arr;
+                                @endphp
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-{{ $cgegis_key + 1 }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_cge_amount }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_cge_arr }}
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            <tr>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    GRAND SUMMARY
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $total_cge_amount_last }}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $total_cge_arr_last }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                    {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_cge_amount_last)) }}
+                                    Only)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                                    amount of these schedule tallies with the amount deducted from pay bill</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="height: 50px;"></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td style="font-size: 16px; width: 70%; text-align: left;">
+                                    CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                </td>
+                                <td style="font-size: 16px; text-align: left;">
+                                    {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                    ACCOUNTS OFFICER<br>
+                                    For Director
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="page-break"></div>
+    @foreach ($cgegisData as $cghs_key => $cghs_data)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+                  font-size: 18px;
+                  line-height: 14px;
+                  font-weight: 500;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+
+                                        RECOVERY SCHEDULE OF CGHS IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+                  font-size: 15px;
+                  line-height: 18px;
+                  font-weight: 500;
+                  color: #000;
+                  text-align: left;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+                                        Page No: {{ $cghs_key + 1 }}
+                                    </td>
+                                    <td
+                                        style="
+                  font-size: 15px;
+                  line-height: 18px;
+                  font-weight: 400;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+                  font-size: 15px;
+                  line-height: 18px;
+                  font-weight: 400;
+                  color: #000;
+                  text-align: right;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-top: 1px solid #000;
+                  border-left: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-top: 1px solid #000;
+                  border-left: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-top: 1px solid #000;
+                  border-left: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        EMP CODE
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: right;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        CGE AMOUNT
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: right;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  border-right: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        CGE ARR AMOUNT
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_cge_amount = 0;
+                                    $total_cge_arr = 0;
+                                @endphp
+                                @foreach ($cghs_data as $key => $all_member)
+                                    @php
+                                        $cghs = round($all_member['details']['member_debit']->cghs ?? 0);
+                                        $cgeis_arr = round($all_member['details']['member_debit']->cgeis_arr ?? 0);
+                                        $total_cge_amount += $cghs;
+                                        $total_cge_arr += $cgeis_arr;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $all_member['member_data']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $all_member['member_data']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $all_member['member_data']->pran_number ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $all_member['member_data']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $cghs }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $cgeis_arr }} </td>
+                                    </tr>
+                                @endforeach
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-{{ $cghs_key + 1 }}
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_cge_amount }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_cge_arr }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endforeach
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+        style="border-radius: 0px; margin: 0 auto; text-align: center">
+        <tbody>
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td colspan="9"
+                                    style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                    GRAND SUMMARY OF CGHS SUBSCRIPTION
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <thead>
+                            <tr>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    PAGE SUMMARY</th>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    TOTAL AMOUNT</th>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; background: #cdcdcd;">
+                                    TOTAL ARREAR AMOUNT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $total_cge_amount_last = 0;
+                                $total_cge_arr_last = 0;
+                            @endphp
+
+                            @foreach ($cgegisData as $cghs_key => $cghs_data)
+                                @php
+                                    $total_cge_amount = 0;
+                                    $total_cge_arr = 0;
+                                @endphp
+
+                                @foreach ($cghs_data as $all)
+                                    @php
+                                        $cghs = round($all['details']['member_debit']->cghs ?? 0);
+                                        $cgeis_arr = round($all['details']['member_debit']->cgeis_arr ?? 0);
+                                        $total_cge_amount += $cghs;
+                                        $total_cge_arr += $cgeis_arr;
+                                    @endphp
+                                @endforeach
+
+                                @php
+                                    $total_cge_amount_last += $total_cge_amount;
+                                    $total_cge_arr_last += $total_cge_arr;
+                                @endphp
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-{{ $cghs_key + 1 }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_cge_amount }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_cge_arr }}
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            <tr>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    GRAND SUMMARY
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $total_cge_amount_last }}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $total_cge_arr_last }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                    {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_cge_amount_last)) }}
+                                    Only)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                                    amount of these schedule tallies with the amount deducted from pay bill</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="height: 50px;"></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td style="font-size: 16px; width: 70%; text-align: left;">
+                                    CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                </td>
+                                <td style="font-size: 16px; text-align: left;">
+                                    {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                    ACCOUNTS OFFICER<br>
+                                    For Director
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+
+
+    @if (count($hba_adv_arr) > 0)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+              font-size: 18px;
+              line-height: 14px;
+              font-weight: 500;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+
+                                        RECOVERY SCHEDULE OF HBA ADV IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                                        {{ $pay_bill_no ?? 0 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 500;
+              color: #000;
+              text-align: left;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                        Page No: 1
+                                    </td>
+                                    <td
+                                        style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 400;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 400;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        EMP CODE
+                                    </th>
+
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        ADVANCE
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              border-right: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        HBA ADV REC
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        INST NO/TO INT
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      border-right: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        APPR INT
+                                    </th>
+                                    <th
+                                        style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  background: #cdcdcd;
+">
+                                        BALANCE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_advance_rec = 0;
+                                @endphp
+                                @foreach ($hba_adv_arr as $key => $advance)
+                                    @php
+                                        $advance_rec = round($advance['inst_amount'] ?? 0);
+                                        $total_advance_rec += $advance_rec;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->pran_number ?? '0' }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_amount'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance_rec }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['present_inst_no'] ?? 0 }} /
+                                            {{ $advance['tot_no_of_inst'] ?? 0 }}</td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_interest'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['balance'] ?? 0 }} </td>
+                                    </tr>
+                                @endforeach
+
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                        GRAND SUMMARY OF HBA ADV SUBSCRIPTION
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        PAGE SUMMARY</th>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        TOTAL AMOUNT</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        GRAND SUMMARY
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                        {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_advance_rec)) }}
+                                        Only)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 50px;"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                    </td>
+                                    <td style="font-size: 16px; text-align: left;">
+                                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                        ACCOUNTS OFFICER<br>
+                                        For Director
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    @endif
+
+    @if (count($car_adv_arr) > 0)
+
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+                  font-size: 18px;
+                  line-height: 14px;
+                  font-weight: 500;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+
+                                        RECOVERY SCHEDULE OF CAR ADV IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                                        {{ $pay_bill_no ?? 0 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+                  font-size: 15px;
+                  line-height: 18px;
+                  font-weight: 500;
+                  color: #000;
+                  text-align: left;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+                                        Page No: 1
+                                    </td>
+                                    <td
+                                        style="
+                  font-size: 15px;
+                  line-height: 18px;
+                  font-weight: 400;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+                  font-size: 15px;
+                  line-height: 18px;
+                  font-weight: 400;
+                  color: #000;
+                  text-align: right;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  text-transform: uppercase;
+                ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-top: 1px solid #000;
+                  border-left: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-top: 1px solid #000;
+                  border-left: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-top: 1px solid #000;
+                  border-left: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        EMP CODE
+                                    </th>
+
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: right;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        ADVANCE
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: right;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                  border-right: 1px solid #000;
+                  background: #cdcdcd;
+                ">
+                                        CAR ADV REC
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              border-right: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        INST NO/TO INT
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        APPR INT
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      border-right: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        BALANCE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_advance_rec = 0;
+                                @endphp
+                                @foreach ($car_adv_arr as $key => $advance)
+                                    @php
+                                        $advance_rec = round($advance['inst_amount'] ?? 0);
+                                        $total_advance_rec += $advance_rec;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->pran_number ?? '0' }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_amount'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance_rec }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['present_inst_no'] ?? 0 }} /
+                                            {{ $advance['tot_no_of_inst'] ?? 0 }}</td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_interest'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['balance'] ?? 0 }} </td>
+                                    </tr>
+                                @endforeach
+
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                        GRAND SUMMARY OF CAR ADV SUBSCRIPTION
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        PAGE SUMMARY</th>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        TOTAL AMOUNT</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        GRAND SUMMARY
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                        {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_advance_rec)) }}
+                                        Only)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 50px;"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                    </td>
+                                    <td style="font-size: 16px; text-align: left;">
+                                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                        ACCOUNTS OFFICER<br>
+                                        For Director
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endif
+
+    @if (count($sco_adv_arr) > 0)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 18px;
+          line-height: 14px;
+          font-weight: 500;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+
+                                        RECOVERY SCHEDULE OF SCO ADV IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                                        {{ $pay_bill_no ?? 0 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 500;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        Page No: 1
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP CODE
+                                    </th>
+
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        ADVANCE
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        SCO ADV REC
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      border-right: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        INST NO/TO INT
+                                    </th>
+                                    <th
+                                        style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  background: #cdcdcd;
+">
+                                        APPR INT
+                                    </th>
+                                    <th
+                                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: right;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                        BALANCE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_advance_rec = 0;
+                                @endphp
+                                @foreach ($sco_adv_arr as $key => $advance)
+                                    @php
+                                        $advance_rec = round($advance['inst_amount'] ?? 0);
+                                        $total_advance_rec += $advance_rec;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->pran_number ?? '0' }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_amount'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance_rec }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['present_inst_no'] ?? 0 }} /
+                                            {{ $advance['tot_no_of_inst'] ?? 0 }}</td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_interest'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['balance'] ?? 0 }} </td>
+                                    </tr>
+                                @endforeach
+
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                        GRAND SUMMARY OF SCO ADV SUBSCRIPTION
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        PAGE SUMMARY</th>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        TOTAL AMOUNT</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        GRAND SUMMARY
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                        {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_advance_rec)) }}
+                                        Only)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that
+                                        total
+                                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 50px;"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                    </td>
+                                    <td style="font-size: 16px; text-align: left;">
+                                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                        ACCOUNTS OFFICER<br>
+                                        For Director
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endif
+    @if (count($comp_adv_arr) > 0)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 18px;
+          line-height: 14px;
+          font-weight: 500;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+
+                                        RECOVERY SCHEDULE OF COMP ADV IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                                        {{ $pay_bill_no ?? 0 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 500;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        Page No: 1
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP CODE
+                                    </th>
+
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        ADVANCE
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        COMP ADV REC
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      border-right: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        INST NO/TO INT
+                                    </th>
+                                    <th
+                                        style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  background: #cdcdcd;
+">
+                                        APPR INT
+                                    </th>
+                                    <th
+                                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: right;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                        BALANCE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_advance_rec = 0;
+                                @endphp
+                                @foreach ($comp_adv_arr as $key => $advance)
+                                    @php
+                                        $advance_rec = round($advance['inst_amount'] ?? 0);
+                                        $total_advance_rec += $advance_rec;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->pran_number ?? '0' }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_amount'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance_rec }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['present_inst_no'] ?? 0 }} /
+                                            {{ $advance['tot_no_of_inst'] ?? 0 }}</td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_interest'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['balance'] ?? 0 }} </td>
+                                    </tr>
+                                @endforeach
+
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                        GRAND SUMMARY OF COMP ADV SUBSCRIPTION
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        PAGE SUMMARY</th>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        TOTAL AMOUNT</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        GRAND SUMMARY
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                        {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_advance_rec)) }}
+                                        Only)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that
+                                        total
+                                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 50px;"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                    </td>
+                                    <td style="font-size: 16px; text-align: left;">
+                                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                        ACCOUNTS OFFICER<br>
+                                        For Director
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endif
+    @if (count($fest_adv_arr) > 0)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 18px;
+          line-height: 14px;
+          font-weight: 500;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+
+                                        RECOVERY SCHEDULE OF FEST ADV IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                                        {{ $pay_bill_no ?? 0 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 500;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        Page No: 1
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP CODE
+                                    </th>
+
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        ADVANCE
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        FEST ADV REC
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      border-right: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        INST NO/TO INT
+                                    </th>
+                                    <th
+                                        style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  background: #cdcdcd;
+">
+                                        APPR INT
+                                    </th>
+                                    <th
+                                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: right;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                        BALANCE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_advance_rec = 0;
+                                @endphp
+                                @foreach ($fest_adv_arr as $key => $advance)
+                                    @php
+                                        $advance_rec = round($advance['inst_amount'] ?? 0);
+                                        $total_advance_rec += $advance_rec;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->pran_number ?? '0' }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_amount'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance_rec }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['present_inst_no'] ?? 0 }} /
+                                            {{ $advance['tot_no_of_inst'] ?? 0 }}</td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_interest'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['balance'] ?? 0 }} </td>
+                                    </tr>
+                                @endforeach
+
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                        GRAND SUMMARY OF FEST ADV SUBSCRIPTION
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        PAGE SUMMARY</th>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        TOTAL AMOUNT</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        GRAND SUMMARY
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                        {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_advance_rec)) }}
+                                        Only)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that
+                                        total
+                                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 50px;"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                    </td>
+                                    <td style="font-size: 16px; text-align: left;">
+                                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                        ACCOUNTS OFFICER<br>
+                                        For Director
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endif
+    @if (count($hba_int_arr) > 0)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 18px;
+          line-height: 14px;
+          font-weight: 500;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+
+                                        RECOVERY SCHEDULE OF HBA INT IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                                        {{ $pay_bill_no ?? 0 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 500;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        Page No: 1
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP CODE
+                                    </th>
+
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        ADVANCE
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        HBA INT REC
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      border-right: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        INST NO/TO INT
+                                    </th>
+
+                                    <th
+                                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: right;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                        BALANCE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_advance_rec = 0;
+                                @endphp
+                                @foreach ($hba_int_arr as $key => $advance)
+                                    @php
+                                        $advance_rec = round($advance['inst_amount'] ?? 0);
+                                        $total_advance_rec += $advance_rec;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->pran_number ?? '0' }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_amount'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance_rec }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['present_inst_no'] ?? 0 }} /
+                                            {{ $advance['tot_no_of_inst'] ?? 0 }}</td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['balance'] ?? 0 }} </td>
+                                    </tr>
+                                @endforeach
+
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                        GRAND SUMMARY OF HBA INT SUBSCRIPTION
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        PAGE SUMMARY</th>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        TOTAL AMOUNT</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        GRAND SUMMARY
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                        {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_advance_rec)) }}
+                                        Only)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that
+                                        total
+                                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 50px;"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                    </td>
+                                    <td style="font-size: 16px; text-align: left;">
+                                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                        ACCOUNTS OFFICER<br>
+                                        For Director
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endif
+    @if (count($car_int_arr) > 0)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 18px;
+          line-height: 14px;
+          font-weight: 500;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+
+                                        RECOVERY SCHEDULE OF CAR INT IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                                        {{ $pay_bill_no ?? 0 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 500;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        Page No: 1
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP CODE
+                                    </th>
+
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        ADVANCE
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        CAR INT REC
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      border-right: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        INST NO/TO INT
+                                    </th>
+
+                                    <th
+                                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: right;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                        BALANCE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_advance_rec = 0;
+                                @endphp
+                                @foreach ($car_int_arr as $key => $advance)
+                                    @php
+                                        $advance_rec = round($advance['inst_amount'] ?? 0);
+                                        $total_advance_rec += $advance_rec;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->pran_number ?? '0' }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_amount'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance_rec }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['present_inst_no'] ?? 0 }} /
+                                            {{ $advance['tot_no_of_inst'] ?? 0 }}</td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['balance'] ?? 0 }} </td>
+                                    </tr>
+                                @endforeach
+
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                        GRAND SUMMARY OF CAR INT SUBSCRIPTION
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        PAGE SUMMARY</th>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        TOTAL AMOUNT</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        GRAND SUMMARY
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                        {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_advance_rec)) }}
+                                        Only)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that
+                                        total
+                                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 50px;"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                    </td>
+                                    <td style="font-size: 16px; text-align: left;">
+                                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                        ACCOUNTS OFFICER<br>
+                                        For Director
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endif
+    @if (count($sco_int_arr) > 0)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 18px;
+          line-height: 14px;
+          font-weight: 500;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+
+                                        RECOVERY SCHEDULE OF SCO INT IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                                        {{ $pay_bill_no ?? 0 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 500;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        Page No: 1
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+          font-size: 15px;
+          line-height: 18px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          text-transform: uppercase;
+        ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-left: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        EMP CODE
+                                    </th>
+
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        ADVANCE
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        SCO INT REC
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      border-right: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        INST NO/TO INT
+                                    </th>
+
+                                    <th
+                                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: right;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                        BALANCE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_advance_rec = 0;
+                                @endphp
+                                @foreach ($sco_int_arr as $key => $advance)
+                                    @php
+                                        $advance_rec = round($advance['inst_amount'] ?? 0);
+                                        $total_advance_rec += $advance_rec;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->pran_number ?? '0' }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_amount'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance_rec }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['present_inst_no'] ?? 0 }} /
+                                            {{ $advance['tot_no_of_inst'] ?? 0 }}</td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['balance'] ?? 0 }} </td>
+                                    </tr>
+                                @endforeach
+
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                        GRAND SUMMARY OF SCO INT SUBSCRIPTION
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        PAGE SUMMARY</th>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        TOTAL AMOUNT</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        GRAND SUMMARY
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                        {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_advance_rec)) }}
+                                        Only)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that
+                                        total
+                                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 50px;"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                    </td>
+                                    <td style="font-size: 16px; text-align: left;">
+                                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                        ACCOUNTS OFFICER<br>
+                                        For Director
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endif
+    @if (count($comp_int_arr) > 0)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+      font-size: 18px;
+      line-height: 14px;
+      font-weight: 500;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      text-transform: uppercase;
+    ">
+
+                                        RECOVERY SCHEDULE OF COMP INT IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                                        {{ $pay_bill_no ?? 0 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+      font-size: 15px;
+      line-height: 18px;
+      font-weight: 500;
+      color: #000;
+      text-align: left;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      text-transform: uppercase;
+    ">
+                                        Page No: 1
+                                    </td>
+                                    <td
+                                        style="
+      font-size: 15px;
+      line-height: 18px;
+      font-weight: 400;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      text-transform: uppercase;
+    ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+      font-size: 15px;
+      line-height: 18px;
+      font-weight: 400;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      text-transform: uppercase;
+    ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-top: 1px solid #000;
+      border-left: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-top: 1px solid #000;
+      border-left: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-top: 1px solid #000;
+      border-left: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        EMP CODE
+                                    </th>
+
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: center;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  background: #cdcdcd;
+">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        ADVANCE
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      border-right: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        COMP INT REC
+                                    </th>
+                                    <th
+                                        style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  background: #cdcdcd;
+">
+                                        INST NO/TO INT
+                                    </th>
+
+                                    <th
+                                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: right;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                        BALANCE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_advance_rec = 0;
+                                @endphp
+                                @foreach ($comp_int_arr as $key => $advance)
+                                    @php
+                                        $advance_rec = round($advance['inst_amount'] ?? 0);
+                                        $total_advance_rec += $advance_rec;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['member']->pran_number ?? '0' }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['total_amount'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance_rec }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['present_inst_no'] ?? 0 }} /
+                                            {{ $advance['tot_no_of_inst'] ?? 0 }}</td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $advance['balance'] ?? 0 }} </td>
+                                    </tr>
+                                @endforeach
+
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                        GRAND SUMMARY OF COMP INT SUBSCRIPTION
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        PAGE SUMMARY</th>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        TOTAL AMOUNT</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        GRAND SUMMARY
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                        {{ $total_advance_rec }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                        {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_advance_rec)) }}
+                                        Only)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that
+                                        total
+                                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 50px;"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                    </td>
+                                    <td style="font-size: 16px; text-align: left;">
+                                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                        ACCOUNTS OFFICER<br>
+                                        For Director
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endif
 </body>
 
 </html>

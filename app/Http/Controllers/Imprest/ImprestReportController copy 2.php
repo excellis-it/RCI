@@ -49,7 +49,7 @@ class ImprestReportController extends Controller
 
     //
     public function imprestReport()
-    {
+    { 
         $accountants  = User::role('ACCOUNTANT')->get();
         return view('imprest.reports.form', compact('accountants'));
     }

@@ -40,7 +40,7 @@
             </div>
             <div class="col-md-6 text-end mb-3">
                 <h5>Last Payment Date -
-                    {{ !empty($lastPayment->vr_date) != null ? $lastPayment->vr_date : '' }}</h5>
+                    {{ !empty($lastPayment->cheq_date) != null ? $lastPayment->cheq_date : '' }}</h5>
             </div>
         </div>
         <!--  Row 1 -->
