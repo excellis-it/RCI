@@ -4,7 +4,7 @@
     <input type="hidden" name="member_id" value="{{ $member->id }}">
     <input type="hidden" name="current_year" value="{{ $currentYear }}">
     <input type="hidden" name="current_month" value="{{ $currentMonth }}">
-
+    {{-- @dd($member_credit); --}}
     <div class="row">
         <div class="col-md-3">
             <div class="form-group mb-2">

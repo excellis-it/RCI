@@ -538,7 +538,7 @@ class MemberController extends Controller
             ->get();
 
         $check_credit_member_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)
-            ->where('month', $request->current_month)->where('year', $request->current_year)->first();
+            ->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
 
         // $check_recovery_member = MemberRecovery::where('member_id', $request->member_id)->get();
         // if (count($check_recovery_member) > 0) {
@@ -550,7 +550,7 @@ class MemberController extends Controller
         // }
 
         if ($check_credit_member_monthly) {
-            $credit_member_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+            $credit_member_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
         } else {
             $credit_member_monthly = new MemberMonthlyDataCredit();
         }
@@ -676,7 +676,7 @@ class MemberController extends Controller
     {
         $currentMonth = $request->current_month;
         $currentYear = $request->current_year;
-        $check_credit_member = MemberMonthlyDataCredit::where('member_id', $request->memberID)->where('month', $currentMonth)->where('year', $currentYear)->get();
+        $check_credit_member = MemberMonthlyDataCredit::where('member_id', $request->memberID)->where('month', $currentMonth)->where('year', $currentYear)->orderBy('id', 'desc')->get();
         if (count($check_credit_member) > 0) {
             return response()->json(['message' => 'Member credit already added', 'status' => 'success']);
         } else {
@@ -741,10 +741,10 @@ class MemberController extends Controller
 
         $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', $request->current_month)->whereYear('created_at', $request->current_year)->get();
 
-        $check_debit_member_monthly_check = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
-
+        $check_debit_member_monthly_check = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $request->current_month)->orderBy('id', 'desc')->where('year', $request->current_year)->first();
+       
         if ($check_debit_member_monthly_check) {
-            $check_debit_member_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+            $check_debit_member_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
         } else {
             $check_debit_member_monthly = new MemberMonthlyDataDebit();
         }
@@ -1021,10 +1021,10 @@ class MemberController extends Controller
 
         $check_original_recovery_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', $request->current_month)->whereYear('created_at', $request->current_year)->get();
 
-        $check_original_recovery_member_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+        $check_original_recovery_member_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
 
         if ($check_original_recovery_member_monthly) {
-            $original_recovery_member_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+            $original_recovery_member_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
         } else {
             $original_recovery_member_monthly = new MemberMonthlyDataRecovery();
         }
@@ -1133,9 +1133,9 @@ class MemberController extends Controller
         ]);
 
         $check_recovery_member = MemberRecovery::where('member_id', $request->member_id)->get();
-        $check_recovery_member_monthly = MemberMonthlyDataVarInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+        $check_recovery_member_monthly = MemberMonthlyDataVarInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
         if ($check_recovery_member_monthly) {
-            $recovery_member_monthly = MemberMonthlyDataVarInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+            $recovery_member_monthly = MemberMonthlyDataVarInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
         } else {
             $recovery_member_monthly = new MemberMonthlyDataVarInfo();
         }
@@ -1229,9 +1229,9 @@ class MemberController extends Controller
         // ]);
 
         $check_core_member = MemberCoreInfo::where('member_id', $request->member_id)->get();
-        $check_core_member_monthly = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+        $check_core_member_monthly = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
         if ($check_core_member_monthly) {
-            $core_member_monthly = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+            $core_member_monthly = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
         } else {
             $core_member_monthly = new MemberMonthlyDataCoreInfo();
         }
@@ -1255,6 +1255,11 @@ class MemberController extends Controller
         $core_member_monthly->s_pay = $request->s_pay;
         $core_member_monthly->ifsc = $request->ifsc;
         $core_member_monthly->save();
+
+        $member_infos = Member::findOrFail($request->member_id);
+        $member_infos->pran_number = $request->pran_no;
+        $member_infos->pan_no = $request->pan_no;
+        $member_infos->save();
 
 
         $member_debit_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $request->current_month)->where('year', $request->current_year)->first() ?? '';
@@ -1398,11 +1403,11 @@ class MemberController extends Controller
         if (count($check_personal_member) > 0) {
             $update_personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->first();
 
-            $member_credit_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $current_month)->where('year', $current_year)->first() ?? '';
+            $member_credit_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->where('month', $current_month)->where('year', $current_year)->orderBy('id', 'desc')->first() ?? '';
 
-            $member_debit_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $current_month)->where('year', $current_year)->first() ?? '';
+            $member_debit_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $current_month)->where('year', $current_year)->orderBy('id', 'desc')->first() ?? '';
 
-
+            // dd($member_credit_monthly);
 
             if ($update_personal_member->basic != $request->basic) {
                 $member = Member::where('id', $request->member_id)->first();
@@ -1573,7 +1578,7 @@ class MemberController extends Controller
                     $member_recovery->save();
                 }
 
-                $member_recovery_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $current_month)->where('year', $current_year)->first();
+                $member_recovery_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $current_month)->where('year', $current_year)->orderBy('id', 'desc')->first();
                 if ($member_recovery_monthly) {
                     $member_recovery_monthly->med_ins = 0;
                     $member_recovery_monthly->save();
@@ -1587,7 +1592,7 @@ class MemberController extends Controller
                     $member_recovery->med_ins = $med_ins_amount;
                     $member_recovery->save();
                 }
-                $member_recovery_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $current_month)->where('year', $current_year)->first();
+                $member_recovery_monthly = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $current_month)->where('year', $current_year)->orderBy('id', 'desc')->first();
                 if ($member_recovery_monthly) {
                     //get med_ins amount from category
                     $med_ins_amount = Category::where('id', $request->category)->first() ?? '';
@@ -1929,7 +1934,7 @@ class MemberController extends Controller
         if ($member_recovery) {
 
             if ($request->policy_name == 'LIC' && $request->rec_stop == 'No') {
-                $total_lic = MemberMonthlyDataPolicyInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->where('policy_name', 'LIC')->where('rec_stop', 'No')->sum('amount');
+                $total_lic = MemberMonthlyDataPolicyInfo::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->where('policy_name', 'LIC')->where('rec_stop', 'No')->sum('amount');
 
 
                 $member_recovery->lic = $total_lic;
@@ -2538,7 +2543,7 @@ class MemberController extends Controller
             }
             if (($hasEOL) || ($hasHPL)) {
                 // check if member has nps
-                $coreInfo = MemberMonthlyDataCoreInfo::where('member_id', $request->memberID)->where('month', $request->current_month)->where('year', $request->current_year)->first();
+                $coreInfo = MemberMonthlyDataCoreInfo::where('member_id', $request->memberID)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
                 $nps = $coreInfo->pran_no ?? null;
 
                 $no_of_days = $leave->no_of_days;

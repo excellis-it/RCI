@@ -41,7 +41,10 @@ class MemberMonthlyDataCredit extends Model
         'remarks',
         'month',
         'year',
-        'apply_date'
+        'apply_date',
+        'npg_adj',
+        'npsc'
+
     ];
 
     public function member()

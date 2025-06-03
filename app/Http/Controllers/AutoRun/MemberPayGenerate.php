@@ -260,7 +260,7 @@ class MemberPayGenerate extends Controller
                     $hraAmount = $hraPercentage ? round(($basicPay * $hraPercentage->percentage) / 100) : 0;
                 }
             }
-
+            $member_credit_monthly_data->pay = $basicPay;
             $member_credit_monthly_data->da = $daAmount;
             $member_credit_monthly_data->tpt = $tptAmount;
             $member_credit_monthly_data->da_on_tpt = $tptDa;
@@ -871,7 +871,7 @@ class MemberPayGenerate extends Controller
                         $hraAmount = $hraPercentage ? round(($basicPay * $hraPercentage->percentage) / 100) : 0;
                     }
                 }
-
+                $member_credit_monthly_data->pay = $basicPay;
                 $member_credit_monthly_data->da = $daAmount;
                 $member_credit_monthly_data->tpt = $tptAmount;
                 $member_credit_monthly_data->da_on_tpt = $tptDa;

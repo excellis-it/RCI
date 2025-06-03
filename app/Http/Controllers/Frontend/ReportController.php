@@ -260,18 +260,22 @@ class ReportController extends Controller
                 'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
                     ->where('year', $request->year)
                     ->where('month', $themonth)
+                    ->orderBy('id', 'desc')
                     ->first(),
                 'member_debit' => MemberMonthlyDataDebit::where('member_id', $member_data->id)
                     ->where('year', $request->year)
                     ->where('month', $themonth)
+                    ->orderBy('id', 'desc')
                     ->first(),
                 'member_recovery' => MemberMonthlyDataRecovery::where('member_id', $member_data->id)
                     ->where('year', $request->year)
                     ->where('month', $themonth)
+                    ->orderBy('id', 'desc')
                     ->first(),
                 'member_core_info' => MemberMonthlyDataCoreInfo::where('member_id', $member_data->id)
                     ->where('year', $request->year)
                     ->where('month', $themonth)
+                    ->orderBy('id', 'desc')
                     ->first(),
                 'member_loans' => [
                     'hba_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
@@ -384,11 +388,12 @@ class ReportController extends Controller
         }
 
         $groupedData = collect($all_members_info)->chunk(5);
-        $cgegisData = collect($all_members_info)->chunk(40);
+        $allMember40Data = collect($all_members_info)->chunk(40);
 
         // dd($all_members_info);
 
         $month =  date('F', mktime(0, 0, 0, $request->month, 10));
+        $number_month = $request->month;
         $year = $request->year;
         $logo = Helper::logo() ?? '';
         $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
@@ -403,8 +408,9 @@ class ReportController extends Controller
             'all_members_info',
             'groupedData',
             'category_fund_type',
-            'cgegisData',
-            'accountant'
+            'allMember40Data',
+            'accountant',
+            'number_month'
         ))->setPaper('a3', 'landscape');
         // return view('frontend.reports.paybill-generate')->with(compact(
         //     'pay_bill_no',
@@ -415,7 +421,7 @@ class ReportController extends Controller
         //     'all_members_info',
         //     'groupedData',
         //     'category_fund_type',
-        //     'cgegisData',
+        //     'allMember40Data',
         //     'accountant'
         // ));
 
