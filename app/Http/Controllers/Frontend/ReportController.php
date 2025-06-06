@@ -66,137 +66,159 @@ class ReportController extends Controller
     public function payslip()
     {
         $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'asc')->get();
-        return view('frontend.reports.payslip', compact('members'));
+            $categories = Category::orderBy('id', 'desc')->get();
+        return view('frontend.reports.payslip', compact('members', 'categories'));
     }
 
     public function payslipGenerate(Request $request)
     {
         $request->validate([
+            'e_status' => 'required',
+            'generate_by' => 'required|in:member,category',
             'month' => 'required',
             'year' => 'required',
-            'report_type' => 'required',
+            'member_id' => $request->generate_by === 'member' ? 'required' : 'nullable',
+            'category' => $request->generate_by === 'category' ? 'required' : 'nullable',
         ]);
 
-        $month = str_pad($request->month, 2, '0', STR_PAD_LEFT); // Ensure two digits (e.g., 03)
-        $year = $request->year;
+        $the_month = (int) $request->month;
+        $the_year = (int) $request->year;
 
-        if ($request->report_type == 'group') {
+        $financialYear = $the_month >= 4
+            ? $the_year . '-' . ($the_year + 1)
+            : ($the_year - 1) . '-' . $the_year;
 
+        $report_type = $request->report_type;
+        $month = str_pad($the_month, 2, '0', STR_PAD_LEFT);
 
-            $all_members = Member::with([
-                'memberCredit' => function ($query) use ($month, $year) {
-                    $query->where('month', $month)
-                        ->where('year', $year);
-                },
-                'memberOneDebit' => function ($query) use ($month, $year) {
-                    $query->where('month', $month)
-                        ->where('year', $year);
-                },
-                'memberCoreInfo' =>
-                function ($query) use ($month, $year) {
-                    $query->where('month', $month)
-                        ->where('year', $year)->latest();
-                },
-                'memberOneRecovery' =>
-                // no month year ch3ecking
-                function ($query) use ($month, $year) {
-                    $query->where('month', $month)
-                        ->where('year', $year)->latest();
-                },
-            ])
+        $all_members_info = [];
 
+        if ($request->member_id) {
+            $monthly_members_data = [$request->member_id];
+            $member = Member::findOrFail($request->member_id);
+
+            $category_fund_type = Category::find($member->category)->fund_type ?? null;
+            if (!$category_fund_type) {
+                return redirect()->back()->with('error', 'No fund type added for this category');
+            }
+
+            $member_datas = Member::whereIn('id', $monthly_members_data)
+                ->where('e_status', $request->e_status)
+                ->where('member_status', 1)
                 ->where('pay_stop', 'No')
                 ->orderBy('id', 'asc')
+                ->with('desigs')
                 ->get();
-
-            $dateObj = \DateTime::createFromFormat('!m', $month);
-            $monthName = $dateObj->format('F');
-
-            $member_data_collection = [];
-
-            foreach ($all_members as $member) {
-                if ($member->memberCredit || $member->memberOneDebit || $member->memberCoreInfo || $member->memberOneRecovery) {
-                    $member_quarter_charge = ($member->memberOneDebit->quarter_charges ?? 0) +
-                        ($member->memberOneDebit->elec ?? 0) +
-                        ($member->memberOneDebit->water ?? 0) +
-                        ($member->memberOneDebit->furn ?? 0) +
-                        ($member->memberOneDebit->misc2 ?? 0);
-
-                    $member_data_collection[] = [
-                        'member_data' => $member,
-                        'member_credit_data' => $member->memberCredit,
-                        'member_debit_data' => $member->memberOneDebit,
-                        'member_core_info' => $member->memberCoreInfo,
-                        'member_recoveries_data' => $member->memberOneRecovery,
-                        'member_quarter_charge' => $member_quarter_charge,
-                    ];
-                }
-            }
-
-
-            $setting = Setting::first();
-            $paperType = $request->paper_type ?? $setting->pdf_page_type;
-            $pdf = PDF::loadView('frontend.reports.group-payslip-generate', compact('member_data_collection', 'monthName', 'year'))->setPaper('a4', $paperType);
-            return $pdf->download('payslip-' . $monthName . '-' . $year . '.pdf');
         } else {
+            $monthly_members_data = MemberMonthlyData::where('year', $the_year)
+                ->where('month', $month)
+                ->pluck('member_id');
 
-            if ($request->member_id == null) {
-                return redirect()->back()->with('error', 'Please select a member');
+            $category_fund_type = Category::find($request->category)->fund_type ?? null;
+            if (!$category_fund_type) {
+                return redirect()->back()->with('error', 'No fund type added for this category');
             }
 
+            $member_datas = Member::whereIn('id', $monthly_members_data)
+                ->where('e_status', $request->e_status)
+                ->where('category', $request->category)
+                ->where('member_status', 1)
+                ->where('pay_stop', 'No')
+                ->orderBy('id', 'asc')
+                ->with('desigs')
+                ->get();
+        }
 
-            $member_data = Member::where('id', $request->member_id)->first() ?? '';
-            $member_credit_data = MemberMonthlyDataCredit::where('member_id', $request->member_id)->first() ?? '';
-            $member_debit_data = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $month)
-                ->where('year', $year)->first() ?? '';
-            $member_core_info = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->where('month', $month)
-                ->where('year', $year)->first() ?? '';
-            $member_recoveries_data = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where('month', $month)
-                ->where('year', $year)->first() ?? '';
+        if ($member_datas->count() === 0) {
+            return redirect()->back()->with('error', 'No data found for the selected criteria');
+        }
 
-            // dd($member_credit_data, $member_debit_data,$member_core_info, $month, $year);
-            $month = $request->month;
-            $dateObj = \DateTime::createFromFormat('!m', $month);
-            $monthName = $dateObj->format('F');
-            $year = $request->year;
-            $member_quarter_charge = ($member_debit_data->quarter_charges ?? 0) + ($member_debit_data->elec ?? 0) + ($member_debit_data->water ?? 0) + ($member_debit_data->furn ?? 0) + ($member_debit_data->misc2 ?? 0);
-            $logo = Helper::logo() ?? '';
+        foreach ($member_datas as $member_data) {
+            $member_credit_data = MemberMonthlyDataCredit::where([
+                ['member_id', $member_data->id],
+                ['year', $the_year],
+                ['month', $month],
+            ])->latest()->first();
 
-            //  return view('frontend.reports.payslip-generate',[
-            //     'logo' => $logo,
-            //     'member_data' => $member_data,
-            //     'member_credit_data' => $member_credit_data,
-            //     'member_debit_data' => $member_debit_data,
-            //     'member_core_info' => $member_core_info,
-            //     'monthName' => $monthName,
-            //     'year' => $year,
-            //     'member_quarter_charge' => $member_quarter_charge,
-            // ]);
-            $setting = Setting::first();
-            $paperType = $request->paper_type ?? $setting->pdf_page_type;
-            $pdf = PDF::loadView('frontend.reports.payslip-generate', [
-                'logo' => $logo,
+            $member_debit_data = MemberMonthlyDataDebit::where([
+                ['member_id', $member_data->id],
+                ['year', $the_year],
+                ['month', $month],
+            ])->latest()->first();
+
+            $member_recoveries_data = MemberMonthlyDataRecovery::where([
+                ['member_id', $member_data->id],
+                ['year', $the_year],
+                ['month', $month],
+            ])->latest()->first();
+
+            $member_core_info = MemberMonthlyDataCoreInfo::where([
+                ['member_id', $member_data->id],
+                ['year', $the_year],
+                ['month', $month],
+            ])->latest()->first();
+
+            $loan_ids = [
+                1 => 'hba_adv',
+                2 => 'hba_int',
+                3 => 'car_adv',
+                4 => 'car_int',
+                5 => 'sco_adv',
+                6 => 'sco_int',
+                7 => 'comp_adv',
+                8 => 'comp_int',
+                9 => 'fest_adv'
+            ];
+
+            $member_loans = [];
+            foreach ($loan_ids as $id => $key) {
+                $loan_info = MemberMonthlyDataLoanInfo::where([
+                    ['member_id', $member_data->id],
+                    ['year', $the_year],
+                    ['month', $month],
+                    ['loan_id', $id],
+                ])->first();
+
+                $member_loans[$key] = $loan_info->inst_amount ?? 0;
+                $member_loans[$key . '_data'] = $loan_info ?? 0;
+            }
+
+            $all_members_info[] = [
                 'member_data' => $member_data,
                 'member_credit_data' => $member_credit_data,
                 'member_debit_data' => $member_debit_data,
                 'member_core_info' => $member_core_info,
-                'monthName' => $monthName,
-                'year' => $year,
-                'member_quarter_charge' => $member_quarter_charge,
-            ])->setPaper('a4', $paperType)->setOption('enable-local-file-access', true)   // so your @font-face URLs work
-                ->setOption('encoding', 'UTF-8');
-            $pdf->set_option('isHtml5ParserEnabled', true);
-            $pdf->set_option('isPhpEnabled', true);
-            $pdf->set_option('isRemoteEnabled', true);
-            $pdf->set_option('dpi', 120);
-            // $pdf->set_option('defaultFont', 'dejavusans');               // ensure ;
-
-            // Optional: To force Unicode rendering
-            // $pdf->getDomPDF()->set_option("isHtml5ParserEnabled", true);
-            // $pdf->getDomPDF()->set_option("isPhpEnabled", true);
-            return $pdf->download('payslip-' . $member_data->name . '-' . $monthName . '-' . $year . '.pdf');
+                'member_recoveries_data' => $member_recoveries_data,
+                'member_loans' => $member_loans,
+            ];
         }
+
+        // Assume single member (if using only one)
+        $member_info = $all_members_info;
+
+        $logo = Helper::logo() ?? '';
+        $monthName = \DateTime::createFromFormat('!m', $the_month)->format('F');
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+
+        $pdf = PDF::loadView('frontend.reports.payslip-generate', [
+            'logo' => $logo,
+            'member_info' => $member_info,
+            'monthName' => $monthName,
+            'year' => $the_year,
+        ])
+            ->setPaper('a3', $paperType)
+            ->setOption('enable-local-file-access', true)
+            ->setOption('encoding', 'UTF-8')
+            ->setOption('isHtml5ParserEnabled', true)
+            ->setOption('isPhpEnabled', true)
+            ->setOption('isRemoteEnabled', true);
+
+        return response($pdf->output(), 200)
+    ->header('Content-Type', 'application/pdf')
+    ->header('Content-Disposition', 'attachment; filename="payslip.pdf"');
     }
+
 
     // public function crv()
     // {
@@ -459,20 +481,20 @@ class ReportController extends Controller
             })->get()
             ->chunk(40)->toArray();
 
-            $meber_chunk_data_misc = Member::whereIn('id', $monthly_members_data)->with([
-                'memberOneDebit' => function ($query) use ($request, $themonth) {
-                    $query->where('year', $request->year)
-                        ->where('month', $themonth)
-                        ->latest(); // optional: for ordering, not limiting
-                },
-                'memberPersonalInfo',
-                'desigs'
-            ])
-                ->whereHas('memberOneDebit', function ($query) {
-                    $query->whereNotNull('misc1')
-                        ->where('misc1', '!=', 0);
-                })->get()
-                ->chunk(40)->toArray();
+        $meber_chunk_data_misc = Member::whereIn('id', $monthly_members_data)->with([
+            'memberOneDebit' => function ($query) use ($request, $themonth) {
+                $query->where('year', $request->year)
+                    ->where('month', $themonth)
+                    ->latest(); // optional: for ordering, not limiting
+            },
+            'memberPersonalInfo',
+            'desigs'
+        ])
+            ->whereHas('memberOneDebit', function ($query) {
+                $query->whereNotNull('misc1')
+                    ->where('misc1', '!=', 0);
+            })->get()
+            ->chunk(40)->toArray();
 
         // dd($meber_chunk_data_misc);
 

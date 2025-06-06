@@ -373,8 +373,42 @@ class MemberController extends Controller
 
         // return $member;
 
-        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'nps_sub_val', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules', 'currentMonth', 'currentYear', 'divisions',
-        'groups' ));
+        return view('frontend.members.edit', compact(
+            'member',
+            'member_credit',
+            'member_debit',
+            'member_recovery',
+            'banks',
+            'member_core',
+            'member_personal',
+            'nps_sub_val',
+            'cadres',
+            'exServices',
+            'paybands',
+            'quaters',
+            'pgs',
+            'pmLevels',
+            'designations',
+            'pmIndexes',
+            'cgegises',
+            'categories',
+            'loans',
+            'members_loans_info',
+            'policies',
+            'member_policies',
+            'member_expectations',
+            'member_original_recovery',
+            'member_cghs',
+            'memberGpf',
+            'daPercentage',
+            'check_hba',
+            'member_var_info',
+            'rules',
+            'currentMonth',
+            'currentYear',
+            'divisions',
+            'groups'
+        ));
     }
 
 
@@ -483,7 +517,42 @@ class MemberController extends Controller
             $daAmount = $da_percentage_val ? round(($basicPay * $da_percentage_val->percentage) / 100) : 0;
         }
 
-        return view('frontend.members.filter-year-month', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'nps_sub_val', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules', 'currentYear', 'currentMonth'));
+        return view('frontend.members.filter-year-month', compact(
+            'member',
+            'member_credit',
+            'member_debit',
+            'member_recovery',
+            'banks',
+            'member_core',
+            'member_personal',
+            'nps_sub_val',
+            'cadres',
+            'exServices',
+            'paybands',
+            'quaters',
+            'pgs',
+            'pmLevels',
+            'designations',
+            'pmIndexes',
+            'cgegises',
+            'categories',
+            'loans',
+            'members_loans_info',
+            'policies',
+            'member_policies',
+            'member_expectations',
+            'member_original_recovery',
+            'member_cghs',
+            'memberGpf',
+            'daPercentage',
+            'check_hba',
+            'member_var_info',
+            'rules',
+            'currentYear',
+            'currentMonth',
+            'divisions',
+            'groups'
+        ));
     }
 
 
@@ -1570,7 +1639,7 @@ class MemberController extends Controller
                 $cgaData = Cghs::where('pay_level_id', $request->pm_level)->first();
 
                 if ($cgaData) {
-                    $member_debit_monthly->cghs =  $cgaData->amount;
+                    $member_debit_monthly->cghs =  $cgaData->contribution;
                     $member_debit_monthly->save();
                 }
             }
@@ -2980,7 +3049,7 @@ class MemberController extends Controller
         if ($member->cgegis) {
             $cgegisData = Cgegis::find($member->cgegis);
             if ($cgegisData) {
-                $cgegisDeduction = $cgegisData->amount;
+                $cgegisDeduction = $cgegisData->value;
                 $deductionsTotal += $cgegisDeduction;
             }
         }
@@ -2989,7 +3058,7 @@ class MemberController extends Controller
         if ($member->pm_level) {
             $cgaData = Cghs::where('pay_level_id', $member->pm_level)->first();
             if ($cgaData) {
-                $cghsDeduction = $cgaData->amount;
+                $cghsDeduction = $cgaData->contribution;
                 $deductionsTotal += $cghsDeduction;
             }
         }

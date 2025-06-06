@@ -507,7 +507,7 @@ class MemberController extends Controller
         if ($member->cgegis) {
             $cgegisData = Cgegis::find($member->cgegis);
             if ($cgegisData) {
-                $cgegisDeduction = $cgegisData->amount;
+                $cgegisDeduction = $cgegisData->value;
                 $deductionsTotal += $cgegisDeduction;
             }
         }

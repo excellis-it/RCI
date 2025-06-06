@@ -7,9 +7,14 @@
 @endpush
 
 @section('content')
-    <section id="loading">
-        <div id="loading-content"></div>
-    </section>
+        <div id="loaderOverlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(255, 255, 255, 0.7); z-index: 9999; justify-content: center; align-items: center;">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div style="margin-left: 10px; font-size: 1.2rem;">Generating Paybill PDF...</div>
+    </div>
     <div class="container-fluid">
         <div class="breadcome-list">
             <div class="d-flex">
@@ -32,9 +37,9 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('reports.paybill-generate') }}" method="POST">
+                            <form id="paybillForm" >
                                 @csrf
-                            
+
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="row">
@@ -50,12 +55,12 @@
                                                         value="category" {{ old('generate_by', 'category') == 'category' ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="by_category">Category</label>
                                                 </div>
-                            
+
                                                 @error('generate_by')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                            
+
                                             <div class="form-group col-md-4 mb-2">
                                                 <div class="col-md-12">
                                                     <label>Employee Status</label>
@@ -72,7 +77,7 @@
                                                     @endif
                                                 </div>
                                             </div>
-                            
+
                                             <div class="form-group col-md-6 mb-2" id="member_section"
                                                 style="display: {{ old('generate_by') == 'member' ? 'block' : 'none' }};">
                                                 <label for="member_id">Member</label>
@@ -88,7 +93,7 @@
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                            
+
                                             <div class="form-group col-md-6 mb-2" id="category_section"
                                                 style="display: {{ old('generate_by', 'category') == 'category' ? 'block' : 'none' }};">
                                                 <label for="category">Category</label>
@@ -104,7 +109,7 @@
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                            
+
                                             <div class="form-group col-md-4 mb-2">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
@@ -124,7 +129,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                            
+
                                             <div class="form-group col-md-4 mb-4">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
@@ -149,7 +154,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                            
+
                                             <div class="form-group col-md-3 mb-2">
                                                 <div class="col-md-12">
                                                     <label>A/c Off Sign</label>
@@ -187,6 +192,71 @@
 @endsection
 
 @push('scripts')
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('paybillForm');
+        const loader = document.getElementById('loaderOverlay');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            loader.style.display = 'flex';
+
+            // Clear previous errors
+            document.querySelectorAll('.text-danger').forEach(el => el.remove());
+
+            const formData = new FormData(form);
+
+            fetch("{{ route('reports.paybill-generate') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json', // Accept JSON to get validation errors
+                },
+                body: formData
+            })
+                .then(async response => {
+                    if (response.status === 422) {
+                        const data = await response.json();
+                        showValidationErrors(data.errors);
+                        throw new Error("Validation failed");
+                    }
+                    if (!response.ok) throw new Error("Invalid PDF response");
+
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Paybill-{{ now()->format('Y-m') }}.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    if (error.message !== "Validation failed") {
+                        alert("Failed to generate PDF: " + error.message);
+                    }
+                })
+                .finally(() => {
+                    loader.style.display = 'none';
+                });
+        });
+
+        function showValidationErrors(errors) {
+            for (const [field, messages] of Object.entries(errors)) {
+                const input = document.querySelector(`[name="${field}"]`);
+                if (input) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.classList.add('text-danger');
+                    errorDiv.innerText = messages[0];
+                    input.closest('.form-group').appendChild(errorDiv);
+                }
+            }
+        }
+    });
+</script>
     <script>
         $(document).ready(function() {
             $('.select2').select2({
@@ -202,7 +272,7 @@
             const byCategory = document.getElementById('by_category');
             const memberSection = document.getElementById('member_section');
             const categorySection = document.getElementById('category_section');
-    
+
             function toggleFields() {
                 if (byMember.checked) {
                     memberSection.style.display = 'block';
@@ -212,7 +282,7 @@
                     categorySection.style.display = 'block';
                 }
             }
-    
+
             // Initial check on page load using PHP-injected old value
             @if (old('generate_by') === 'member')
                 byMember.checked = true;
@@ -220,7 +290,7 @@
                 byCategory.checked = true;
             @endif
             toggleFields();
-    
+
             // Add event listeners
             byMember.addEventListener('change', toggleFields);
             byCategory.addEventListener('change', toggleFields);

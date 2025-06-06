@@ -391,7 +391,7 @@ class MemberPayGenerate extends Controller
             if ($member->cgegis) {
                 $cgegisData = Cgegis::find($member->cgegis);
                 if ($cgegisData) {
-                    $cgegisDeduction = $cgegisData->amount;
+                    $cgegisDeduction = $cgegisData->value;
                     $member_debit_monthly_data->cgegis = $cgegisDeduction;
                     $deduction += $cgegisDeduction;
                 }
@@ -403,7 +403,7 @@ class MemberPayGenerate extends Controller
                 $cgaData = Cghs::where('pay_level_id', $member->pm_level)->first();
                 // if ($member_debit->cghs && $member_debit->cghs == 0) {
                 if ($cgaData) {
-                    $cghsDeduction = $cgaData->amount;
+                    $cghsDeduction = $cgaData->contribution;
                     $member_debit_monthly_data->cghs = $cghsDeduction;
                     $deduction += $cghsDeduction;
                 }
@@ -1008,7 +1008,7 @@ class MemberPayGenerate extends Controller
                     if ($member->cgegis) {
                         $cgegisData = Cgegis::find($member->cgegis);
                         if ($cgegisData) {
-                            $cgegisDeduction = $cgegisData->amount;
+                            $cgegisDeduction = $cgegisData->value;
                             $member_debit_monthly_data->cgegis = $cgegisDeduction;
                             $deduction += $cgegisDeduction;
                         }
@@ -1020,7 +1020,7 @@ class MemberPayGenerate extends Controller
                         $cgaData = Cghs::where('pay_level_id', $member->pm_level)->first();
                         // if ($member_debit->cghs == 0) {
                         if ($cgaData) {
-                            $cghsDeduction = $cgaData->amount;
+                            $cghsDeduction = $cgaData->contribution;
                             $member_debit_monthly_data->cghs = $cghsDeduction;
                             $deduction += $cghsDeduction;
                         }
