@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('member_monthly_data_credits', function (Blueprint $table) {
-            $table->decimal('member_monthly_data_debits')->nullable()->after('npg_arrs');
+        Schema::table('member_personal_infos', function (Blueprint $table) {
+            $table->string('group')->nullable()->after('category');
+            $table->string('division')->nullable()->after('group');
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('member_monthly_data_credits', function (Blueprint $table) {
-            $table->dropColumn('licence_fee');
+        Schema::table('member_personal_infos', function (Blueprint $table) {
+            $table->dropColumn('group');
+            $table->dropColumn('division');
         });
     }
 };

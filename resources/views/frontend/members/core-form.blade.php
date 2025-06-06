@@ -143,7 +143,7 @@
         </div>
     </div>
     <div class="row">
-
+{{-- @dd($member->nps_available) --}}
         @if ($member->nps_available == 'Yes')
             <div class="col-md-3">
                 <div class="form-group mb-2">

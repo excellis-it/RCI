@@ -32,12 +32,30 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form action="{{ route('reports.paybill-generate') }}" method="POST" >
+                            <form action="{{ route('reports.paybill-generate') }}" method="POST">
                                 @csrf
-
+                            
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="row">
+                                            <div class="form-group col-md-12 mb-2">
+                                                <label>Generate Data By:</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="generate_by" id="by_member"
+                                                        value="member" {{ old('generate_by') == 'member' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="by_member">Member</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="generate_by" id="by_category"
+                                                        value="category" {{ old('generate_by', 'category') == 'category' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="by_category">Category</label>
+                                                </div>
+                            
+                                                @error('generate_by')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                            
                                             <div class="form-group col-md-4 mb-2">
                                                 <div class="col-md-12">
                                                     <label>Employee Status</label>
@@ -45,38 +63,48 @@
                                                 <div class="col-md-12">
                                                     <select name="e_status" class="form-select" id="e_status">
                                                         <option value="">Select Employee Status</option>
-                                                        <option value="active">Active</option>
-                                                        <option value="deputation">On Deputation</option>
+                                                        <option value="active" {{ old('e_status') == 'active' ? 'selected' : '' }}>Active</option>
+                                                        <option value="deputation" {{ old('e_status') == 'deputation' ? 'selected' : '' }}>On Deputation</option>
                                                     </select>
                                                     @if ($errors->has('e_status'))
                                                         <div class="error" style="color:red;">
                                                             {{ $errors->first('e_status') }}</div>
                                                     @endif
-
                                                 </div>
                                             </div>
-
-                                            <div class="form-group col-md-4 mb-2">
-                                                <div class="col-md-12">
-                                                    <label>Category</label>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <select name="category" class="form-select" id="category">
-                                                        <option value="">Select Employee Category</option>
-                                                        @foreach ($categories as $category)
-                                                            <option value="{{ $category->id }}">
-                                                                {{ $category->category }}</option>
-
-                                                        @endforeach
-                                                    </select>
-                                                    @if ($errors->has('category'))
-                                                        <div class="error" style="color:red;">
-                                                            {{ $errors->first('category') }}</div>
-                                                    @endif
-
-                                                </div>
+                            
+                                            <div class="form-group col-md-6 mb-2" id="member_section"
+                                                style="display: {{ old('generate_by') == 'member' ? 'block' : 'none' }};">
+                                                <label for="member_id">Member</label>
+                                                <select class="form-select select2" name="member_id" id="member_id">
+                                                    <option value="">Select Member</option>
+                                                    @foreach ($members as $member)
+                                                        <option value="{{ $member->id }}" {{ old('member_id') == $member->id ? 'selected' : '' }}>
+                                                            {{ $member->name }} ({{ $member->pers_no }})
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('member_id')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
-
+                            
+                                            <div class="form-group col-md-6 mb-2" id="category_section"
+                                                style="display: {{ old('generate_by', 'category') == 'category' ? 'block' : 'none' }};">
+                                                <label for="category">Category</label>
+                                                <select class="form-select select2" name="category" id="category">
+                                                    <option value="">Select Category</option>
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}" {{ old('category') == $category->id ? 'selected' : '' }}>
+                                                            {{ $category->category }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('category')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                            
                                             <div class="form-group col-md-4 mb-2">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
@@ -86,19 +114,17 @@
                                                         <select name="year" class="form-select" id="report_year">
                                                             <option value="">Select Year</option>
                                                             @for ($i = date('Y'); $i >= 1958; $i--)
-                                                                <option value="{{ $i }}">
+                                                                <option value="{{ $i }}" {{ old('year') == $i ? 'selected' : '' }}>
                                                                     {{ $i }}</option>
                                                             @endfor
                                                         </select>
-                                                        @if ($errors->has('year'))
-                                                            <div class="error" style="color:red;">
-                                                                {{ $errors->first('year') }}</div>
-                                                        @endif
-
+                                                        @error('year')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
-
+                            
                                             <div class="form-group col-md-4 mb-4">
                                                 <div class="row align-items-center">
                                                     <div class="col-md-12">
@@ -107,26 +133,32 @@
                                                     <div class="col-md-12">
                                                         <select name="month" class="form-select" id="report_month">
                                                             <option value="">Select Month</option>
+                                                            {{-- The options for month will likely be populated via JavaScript after a year is selected.
+                                                                However, you can still use old('month') to select the previously chosen month. --}}
+                                                            @if (old('month'))
+                                                                <option value="{{ old('month') }}" selected>
+                                                                    {{-- You'll need to convert the month number to a name if you want to display it --}}
+                                                                    {{ date('F', mktime(0, 0, 0, old('month'), 10)) }}
+                                                                </option>
+                                                            @endif
                                                         </select>
                                                         @if ($errors->has('month'))
                                                             <div class="error" style="color:red;">
                                                                 {{ $errors->first('month') }}</div>
                                                         @endif
-
                                                     </div>
                                                 </div>
                                             </div>
-
+                            
                                             <div class="form-group col-md-3 mb-2">
                                                 <div class="col-md-12">
                                                     <label>A/c Off Sign</label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <select class="form-control" name="account_officer_sign"
-                                                        id="account_officer_sign">
+                                                    <select class="form-control" name="account_officer_sign" id="account_officer_sign">
                                                         <option value="">Select Accountant</option>
                                                         @foreach ($accountants as $accountant)
-                                                            <option value="{{ $accountant->id }}">
+                                                            <option value="{{ $accountant->id }}" {{ old('account_officer_sign') == $accountant->id ? 'selected' : '' }}>
                                                                 {{ $accountant->user_name }}</option>
                                                         @endforeach
                                                     </select>
@@ -136,56 +168,14 @@
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            {{-- <div class="form-group col-md-12 mb-4">
-                                                <div class="card p-3 shadow-sm border rounded">
-                                                    <label class="mb-2"><strong>Select Report Type</strong></label>
-
-                                                    @php
-                                                        $reportTypes = [
-                                                            'paybill' => 'Paybill',
-                                                            'credit_summary' => 'Credit Summary Report',
-                                                            'debit_summary' => 'Debit Summary Report',
-                                                            'debit2_summary' => 'Debit2 Summary Report for Bill No',
-                                                            'category_summary_ns' => 'Summary for Category NS for the Month',
-                                                            'change_statement_credits' => 'Change Statement (Credits) - NIE NPS Bill',
-                                                            'change_statement_debits' => 'Change Statement (Debits) - NIE NPS Bill',
-                                                            'recovery_cgegis' => 'Recovery Schedule of CGEGIS',
-                                                            'grand_summary_cgegis' => 'Grand Summary of CGEGIS',
-                                                            'recovery_cghs' => 'Recovery Schedule of CGHS',
-                                                            'grand_summary_cghs' => 'Grand Summary of CGHS',
-                                                            'recovery_quarter' => 'Recovery Schedule of Quarter Charges',
-                                                            'recovery_misc' => 'Recovery Schedule of MISC',
-                                                            'recovery_employee_contribution' => 'Recovery Schedule of Employee Monthly Contribution',
-                                                            'grand_summary_pension' => 'Grand Summary Pension',
-                                                        ];
-                                                    @endphp
-
-                                                    @foreach ($reportTypes as $value => $label)
-                                                        <div class="form-check form-check-inline me-4 mb-2">
-                                                            <input class="form-check-input" type="radio" name="report_type" id="{{ $value }}" value="{{ $value }}" {{ old('report_type', 'paybill') == $value ? 'checked' : '' }}>
-                                                            <label class="form-check-label" for="{{ $value }}">
-                                                                {{ $label }}
-                                                            </label>
-                                                        </div>
-                                                    @endforeach
-
-                                                    @if ($errors->has('report_type'))
-                                                        <div class="error mt-2" style="color:red;">
-                                                            {{ $errors->first('report_type') }}
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div> --}}
-
-
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                         <label></label>
+                                        <label></label>
                                         <div class="form-group mb-2">
                                             <button type="submit" class="listing_add">Generate</button>
                                         </div>
-                                      </div>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -197,7 +187,45 @@
 @endsection
 
 @push('scripts')
-
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: 'Select an option',
+                allowClear: true,
+                theme: 'bootstrap4',
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const byMember = document.getElementById('by_member');
+            const byCategory = document.getElementById('by_category');
+            const memberSection = document.getElementById('member_section');
+            const categorySection = document.getElementById('category_section');
+    
+            function toggleFields() {
+                if (byMember.checked) {
+                    memberSection.style.display = 'block';
+                    categorySection.style.display = 'none';
+                } else {
+                    memberSection.style.display = 'none';
+                    categorySection.style.display = 'block';
+                }
+            }
+    
+            // Initial check on page load using PHP-injected old value
+            @if (old('generate_by') === 'member')
+                byMember.checked = true;
+            @else
+                byCategory.checked = true;
+            @endif
+            toggleFields();
+    
+            // Add event listeners
+            byMember.addEventListener('change', toggleFields);
+            byCategory.addEventListener('change', toggleFields);
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('#report_year').change(function() {
@@ -205,7 +233,7 @@
                 var currentDate = new Date();
                 var monthDropdown = $('#report_month');
 
-                if(year == currentDate.getFullYear()) {
+                if (year == currentDate.getFullYear()) {
                     var currentMonth = currentDate.getMonth();
                     var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
 
@@ -213,7 +241,9 @@
                     for (var month = 1; month <= endMonth; month++) {
                         var option = $('<option></option>');
                         option.val(month);
-                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
+                        option.text(new Date(year, month - 1).toLocaleString('default', {
+                            month: 'long'
+                        }));
                         monthDropdown.append(option);
                     }
 
@@ -222,7 +252,9 @@
                     for (var month = 1; month <= 12; month++) {
                         var option = $('<option></option>');
                         option.val(month);
-                        option.text(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
+                        option.text(new Date(year, month - 1).toLocaleString('default', {
+                            month: 'long'
+                        }));
                         monthDropdown.append(option);
                     }
                 }
@@ -230,5 +262,4 @@
             });
         });
     </script>
-
 @endpush

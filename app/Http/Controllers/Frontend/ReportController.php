@@ -205,18 +205,34 @@ class ReportController extends Controller
     {
         $categories = Category::orderBy('id', 'desc')->get();
         $accountants  = User::role('ACCOUNTANT')->get();
-        return view('frontend.reports.paybill', compact('categories','accountants'));
+        $members = Member::orderBy('id', 'asc')->where('name', '!=', 'The Director, CHESS')->with('designation')->get();
+        return view('frontend.reports.paybill', compact('categories', 'accountants', 'members'));
     }
 
     public function paybillGenerate(Request $request)
     {
         $request->validate([
             'e_status' => 'required',
-            'category' => 'required',
+            'generate_by' => 'required|in:member,category',
             'month' => 'required',
             'year' => 'required',
             'account_officer_sign' => 'required',
+            // Conditional validation
+            'member_id' => $request->generate_by === 'member' ? 'required' : 'nullable',
+            'category' => $request->generate_by === 'category' ? 'required' : 'nullable',
         ]);
+
+
+        $the_month = (int) $request->month; // Assume month is numeric (1-12)
+        $the_year = (int) $request->year;
+
+        if ($the_month >= 4) {
+            $financialYear = $the_year . '-' . ($the_year + 1);
+        } else {
+            $financialYear = ($the_year - 1) . '-' . $the_year;
+        }
+
+
 
         $report_type = $request->report_type;
 
@@ -230,26 +246,51 @@ class ReportController extends Controller
 
         $all_members_info = [];
 
-        $monthly_members_data = MemberMonthlyData::where('year', $request->year)
-            ->where('month', $themonth)
-            ->pluck('member_id');
+        if ($request->member_id) {
+            $monthly_members_data[] = $request->member_id;
+            $member = Member::findOrFail($request->member_id);
 
-        $category_fund_type = Category::where('id', $request->category)->first()['fund_type'];
-        // dd()
-        if (!$category_fund_type && empty($category_fund_type)) {
-            return redirect()->back()->with('error', 'No fund type add for this category');
+            $category_fund_type = Category::where('id', $member->category)->first()['fund_type'];
+            // dd()
+            if (!$category_fund_type && empty($category_fund_type)) {
+                return redirect()->back()->with('error', 'No fund type add for this category');
+            }
+
+            $member_datas = Member::whereIn('id', $monthly_members_data)
+                ->where('e_status', $request->e_status)
+                ->where('member_status', 1)
+                ->where('pay_stop', 'No')
+                ->orderBy('id', 'asc')
+                ->with('desigs')
+                ->get();
+        } else {
+            $monthly_members_data = MemberMonthlyData::where('year', $request->year)
+                ->where('month', $themonth)
+                ->pluck('member_id');
+
+            $category_fund_type = Category::where('id', $request->category)->first()['fund_type'];
+            // dd()
+            if (!$category_fund_type && empty($category_fund_type)) {
+                return redirect()->back()->with('error', 'No fund type add for this category');
+            }
+
+            $member_datas = Member::whereIn('id', $monthly_members_data)
+                ->where('e_status', $request->e_status)
+                ->where('category', $request->category)
+                ->where('member_status', 1)
+                ->where('pay_stop', 'No')
+                ->orderBy('id', 'asc')
+                ->with('desigs')
+                ->get();
         }
 
-        $member_datas = Member::whereIn('id', $monthly_members_data)
-            ->where('e_status', $request->e_status)
-            ->where('category', $request->category)
-            ->where('member_status', 1)
-            ->where('pay_stop', 'No')
-            ->orderBy('id', 'asc')
-            ->with('desigs')
-            ->get();
 
-            // dd($member_datas->toArray());
+
+
+
+
+
+        // dd($member_datas->toArray(), $monthly_members_data);
 
         if ($member_datas->count() == 0) {
             return redirect()->back()->with('error', 'No data found for the selected criteria');
@@ -327,7 +368,7 @@ class ReportController extends Controller
                         ->where('loan_id', 8)
                         ->first()['inst_amount'] ?? 0,
 
-                        'hba_adv_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                    'hba_adv_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
                         ->where('month', $themonth)
                         ->where('loan_id', 1)
@@ -387,10 +428,58 @@ class ReportController extends Controller
             $all_members_info[] = $combined_member_info;
         }
 
+        $meber_chunk_data_quater = Member::whereIn('id', $monthly_members_data)->with([
+            'memberOneDebit' => function ($query) use ($request, $themonth) {
+                $query->where('year', $request->year)
+                    ->where('month', $themonth)
+                    ->latest(); // optional: for ordering, not limiting
+            },
+            'memberPersonalInfo',
+            'memberPersonalInfo.quarter',
+            'desigs'
+        ])
+            ->whereHas('memberPersonalInfo', function ($query) {
+                $query->whereNotNull('quater_no');
+            })->get()
+            ->chunk(40)->toArray();
+
+
+        $meber_chunk_data_income_tax = Member::whereIn('id', $monthly_members_data)->with([
+            'memberOneDebit' => function ($query) use ($request, $themonth) {
+                $query->where('year', $request->year)
+                    ->where('month', $themonth)
+                    ->latest(); // optional: for ordering, not limiting
+            },
+            'memberPersonalInfo',
+            'desigs'
+        ])
+            ->whereHas('memberOneDebit', function ($query) {
+                $query->whereNotNull('i_tax')
+                    ->where('i_tax', '!=', 0);
+            })->get()
+            ->chunk(40)->toArray();
+
+            $meber_chunk_data_misc = Member::whereIn('id', $monthly_members_data)->with([
+                'memberOneDebit' => function ($query) use ($request, $themonth) {
+                    $query->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->latest(); // optional: for ordering, not limiting
+                },
+                'memberPersonalInfo',
+                'desigs'
+            ])
+                ->whereHas('memberOneDebit', function ($query) {
+                    $query->whereNotNull('misc1')
+                        ->where('misc1', '!=', 0);
+                })->get()
+                ->chunk(40)->toArray();
+
+        // dd($meber_chunk_data_misc);
+
         $groupedData = collect($all_members_info)->chunk(5);
         $allMember40Data = collect($all_members_info)->chunk(40);
 
-        // dd($all_members_info);
+        // dd($allMember40Data);
 
         $month =  date('F', mktime(0, 0, 0, $request->month, 10));
         $number_month = $request->month;
@@ -410,7 +499,11 @@ class ReportController extends Controller
             'category_fund_type',
             'allMember40Data',
             'accountant',
-            'number_month'
+            'number_month',
+            'meber_chunk_data_quater',
+            'meber_chunk_data_income_tax',
+            'financialYear',
+            'meber_chunk_data_misc'
         ))->setPaper('a3', 'landscape');
         // return view('frontend.reports.paybill-generate')->with(compact(
         //     'pay_bill_no',
@@ -1015,6 +1108,7 @@ class ReportController extends Controller
             'professional_tx' => 0,
             'hra_rec' => 0,
             'tpt_rec' => 0,
+            'licence_fee' => 0,
             'misc1_debit' => 0,
             'misc2_debit' => 0,
             'misc3_debit' => 0,
@@ -1081,6 +1175,7 @@ class ReportController extends Controller
             $total['professional_tx'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('ptax');
             $total['hra_rec'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('hra_rec');
             $total['tpt_rec'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('tpt_rec');
+            $total['licence_fee'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('licence_fee');
             $total['misc1_debit'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc1');
             $total['misc2_debit'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc2');
             $total['misc3_debit'] += MemberMonthlyDataDebit::where('member_id', $member->id)->where('year', $year)->where('month', $month)->sum('misc3');

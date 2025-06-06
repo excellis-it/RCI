@@ -38,7 +38,7 @@
 
                                             <!-- Selection Type (Member or Category) -->
                                             <div class="form-group col-md-12 mb-2">
-                                                <label>Generate Data By:</label>
+                                                <label>Generate Data By:</label> 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="generate_by"
                                                         id="by_member" value="member" checked>

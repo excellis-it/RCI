@@ -1748,7 +1748,7 @@
             "#penal_interest", "#nps_sub", "#eol", "#ccl", "#rent", "#elec", "#elec_arr", "#pc", "#water",
             "#water_arr",
             "#arrear_pay", "#npsg", "#npsg_adj", "#ltc_rec", "#medical_rec", "#tada_rec", "#misc3",
-            "#cda", "#furn", "#furn_arr", "#hra_rec", "#cmg", "#tpt_rec", "#society"
+            "#cda", "#furn", "#furn_arr", "#hra_rec", "#cmg", "#tpt_rec", "#licence_fee", "#society"
         ];
 
         function updateTotalDebit() {

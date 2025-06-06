@@ -161,7 +161,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Misc 1</label>
+                        <label>Misc Debit</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="misc1" id="misc1"
@@ -264,7 +264,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Misc 2</label>
+                        <label>Misc Debit(IT)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="misc2" id="misc2"
@@ -352,7 +352,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Misc 3</label>
+                        <label>Misc Rent</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="misc3" id="misc3"
@@ -513,6 +513,21 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="tpt_rec" id="tpt_rec"
                             value="{{ $member_debit->tpt_rec ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Licence Fee</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="licence_fee" id="licence_fee"
+                            value="{{ $member_debit->licence_fee ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>

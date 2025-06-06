@@ -104,6 +104,7 @@
         $pageArrayCghsArr = [];
         $pageArrayCgeisArr = [];
         $pageArrayPenalIntr = [];
+        $pageArrayLicenceFee = [];
         $pageArrayElec = [];
         $pageArrayWater = [];
         $pageArrayFurn = [];
@@ -206,6 +207,7 @@
             $pageArrayCghsArr[$chunkKey] = 0;
             $pageArrayPenalIntr[$chunkKey] = 0;
             $pageArrayElec[$chunkKey] = 0;
+            $pageArrayLicenceFee[$chunkKey] = 0;
             $pageArrayWater[$chunkKey] = 0;
             $pageArrayFurn[$chunkKey] = 0;
             $pageArrayMiscRent[$chunkKey] = 0;
@@ -389,6 +391,7 @@
                                 $totalCghsArr = 0;
                                 $totalCgeisArr = 0;
                                 $totalPenalIntr = 0;
+                                $totalLicenceFee = 0;
                                 $totalElec = 0;
                                 $totalWater = 0;
                                 $totalFurn = 0;
@@ -489,6 +492,7 @@
                                         $totalCghsArr += $debit?->cghs_arr ?? 0;
                                         $totalPenalIntr += $debit?->penal_intr ?? 0;
                                         $totalElec += $debit?->elec ?? 0;
+                                        $totalLicenceFee += $debit?->licence_fee ?? 0;
                                         $totalWater += $debit?->water ?? 0;
                                         $totalFurn += $debit?->furn ?? 0;
                                         $totalMiscRent += $debit?->misc3 ?? 0;
@@ -549,6 +553,7 @@
                                             ($debit?->cgeis_arr ?? 0) +
                                             ($debit?->cghs_arr ?? 0) +
                                             ($debit?->penal_intr ?? 0) +
+                                            ($debit?->licence_fee ?? 0) +
                                             ($debit?->elec ?? 0) +
                                             ($debit?->water ?? 0) +
                                             ($debit?->furn ?? 0) +
@@ -685,6 +690,7 @@
                                             $member_info['details']['member_debit']->penal_intr ?? 0;
 
                                         $pageArrayElec[$chunkKey] += $member_info['details']['member_debit']->elec ?? 0;
+                                        $pageArrayLicenceFee[$chunkKey] += $member_info['details']['member_debit']->licence_fee ?? 0;
                                         $pageArrayWater[$chunkKey] +=
                                             $member_info['details']['member_debit']->water ?? 0;
                                         $pageArrayFurn[$chunkKey] += $member_info['details']['member_debit']->furn ?? 0;
@@ -748,6 +754,7 @@
                                             ($member_info['details']['member_debit']->cgeis_arr ?? 0) +
                                             ($member_info['details']['member_debit']->cghs_arr ?? 0) +
                                             ($member_info['details']['member_debit']->penal_intr ?? 0) +
+                                            ($member_info['details']['member_debit']->licence_fee ?? 0) +
                                             ($member_info['details']['member_debit']->elec ?? 0) +
                                             ($member_info['details']['member_debit']->water ?? 0) +
                                             ($member_info['details']['member_debit']->furn ?? 0) +
@@ -919,7 +926,7 @@
                                         <td valign="top"
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                            0 <br>
+                                                 {{ round($member_info['details']['member_debit']->licence_fee ?? 0) }} <br>
                                             {{ round($member_info['details']['member_debit']->elec ?? 0) }}
                                             <br>
                                             {{ round($member_info['details']['member_debit']->water ?? 0) }}
@@ -953,9 +960,37 @@
                                             ($member_info['details']['member_loans']['sco_int'] ?? 0) > 0 ||
                                             ($member_info['details']['member_loans']['comp_adv'] ?? 0) > 0 ||
                                             ($member_info['details']['member_loans']['comp_int'] ?? 0) > 0 ||
-                                            ($member_info['details']['member_loans']['fest_adv'] ?? 0) > 0)
+                                            ($member_info['details']['member_loans']['fest_adv'] ?? 0) > 0 ||
+                                            (isset($member_info['details']['member_credit']['remarks']) && $member_info['details']['member_credit']['remarks']) ||  (isset($member_info['details']['member_debit']['remarks']) && $member_info['details']['member_debit']['remarks']) ||  (isset($member_info['details']['member_recovery']['remarks']) && $member_info['details']['member_recovery']['remarks'])
+
+
+                                            )
+
                                         <tr>
-                                            <td colspan="14"
+                                            <td colspan="7"
+                                            style=" font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000; border-right:1px solid #fff; ">
+                                            @if(!empty($member_info['details']['member_credit']['remarks']) ||
+                                            !empty($member_info['details']['member_debit']['remarks']) ||
+                                            !empty($member_info['details']['member_recovery']['remarks']))
+
+                                            @php $i = 1; @endphp
+
+                                            @if(!empty($member_info['details']['member_credit']['remarks']))
+                                                {{ $i++ }}) {{ $member_info['details']['member_credit']['remarks'] }}<br>
+                                            @endif
+
+                                            @if(!empty($member_info['details']['member_debit']['remarks']))
+                                                {{ $i++ }}) {{ $member_info['details']['member_debit']['remarks'] }}<br>
+                                            @endif
+
+                                            @if(!empty($member_info['details']['member_recovery']['remarks']))
+                                                {{ $i++ }}) {{ $member_info['details']['member_recovery']['remarks'] }}<br>
+                                            @endif
+
+                                        @endif
+
+                                        </td>
+                                            <td colspan="7"
                                                 style=" font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; ">
                                                 @if (($member_info['details']['member_loans']['hba_adv'] ?? 0) > 0)
                                                     HBA
@@ -1227,7 +1262,7 @@
                                     <td valign="top"
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        0 <br>
+                                          {{ round($totalLicenceFee ?? 0) }} <br>
                                         {{ round($totalElec ?? 0) }}<br>
                                         {{ round($totalWater ?? 0) }}<br>
                                         {{ round($totalFurn ?? 0) }}<br>
@@ -3057,6 +3092,8 @@ background: #cdcdcd;
                                 array_sum($pageArrayPenalIntr)
                             );
                             $totalElec = round(array_sum($pageArrayElec));
+                            $totalLicenceFee = round(array_sum($pageArrayLicenceFee));
+
                             $totalWater = round(array_sum($pageArrayWater));
                             $totalFurn = round(array_sum($pageArrayFurn));
                             $totalMiscRent = round(
@@ -3107,6 +3144,8 @@ background: #cdcdcd;
                                     $cgeisArr = $pageArrayCgeisArr[$key] ?? 0;
                                     $penalIntr = $pageArrayPenalIntr[$key] ?? 0;
                                     $elec = $pageArrayElec[$key] ?? 0;
+                                    $licence_fee = $pageArrayLicenceFee[$key] ?? 0;
+
                                     $water = $pageArrayWater[$key] ?? 0;
                                     $furn = $pageArrayFurn[$key] ?? 0;
                                     $miscRent = $pageArrayMiscRent[$key] ?? 0;
@@ -3146,7 +3185,7 @@ background: #cdcdcd;
                                         $cghsArr +
                                         $cgeisArr +
                                         $penalIntr +
-                                        0 +
+                                        $licence_fee +
                                         $elec +
                                         $water +
                                         $furn +
@@ -3718,7 +3757,8 @@ background: #cdcdcd;
                                         border-right: 1px solid #000;
                                         border-bottom: 1px solid #000;
                                       ">
-                                        0
+                                       {{ $pageArrayLicenceFee[$key] ?? 0 }}
+
                                     </td>
                                     <td
                                         style="
@@ -4364,7 +4404,7 @@ background: #cdcdcd;
                                     border-right: 1px solid #000;
                                     border-bottom: 1px solid #000;
                                 ">
-                                    0
+                                     {{ $totalLicenceFee }}
                                 </td>
                                 <td
                                     style="
@@ -6571,7 +6611,7 @@ background: #cdcdcd;
                             border-right: 1px solid #000;
                             border-bottom: 1px solid #000;
                           ">
-                                                0
+                                                {{ $totalLicenceFee ?? 0 }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -7552,6 +7592,7 @@ background: #cdcdcd;
 
                               ];
                                 @endphp
+
                           @foreach ($cghs_data as $key => $all_member)
                               @php
                                   $currentMonth = $number_month;
@@ -7579,8 +7620,6 @@ background: #cdcdcd;
                                       ->where('year', $previousYear)
                                       ->orderBy('id', 'desc')
                                       ->first();
-
-                                    //   dd($last_month_data_debit);
 
                                       $last_month_data_loan_hba_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
                                       'member_id',
@@ -7618,29 +7657,28 @@ background: #cdcdcd;
                                   $last_month_totals[$cghs_key]['npg_adj'] += $last_month_data['npg_adj'] ?? 0;
                                   $last_month_totals[$cghs_key]['misc_1'] += $last_month_data['misc_1'] ?? 0;
 
-
+                                //   dd( $last_month_totals);
 
 
                                  // 2f) Add each “debit” field into running totals (if you need them)
-                                $last_month_totals[$cghs_key]['gpa_sub']    += $last_month_data_debit['gpa_sub'] ?? 0;
-                                $last_month_totals[$cghs_key]['gpa_adv']    += $last_month_data_debit['gpa_adv'] ?? 0;
-                                $last_month_totals[$cghs_key]['cgegis']     += $last_month_data_debit['cgegis'] ?? 0;
-                                $last_month_totals[$cghs_key]['cghs']       += $last_month_data_debit['cghs'] ?? 0;
+                                $last_month_totals[$cghs_key]['gpa_sub']    += $last_month_debit['gpa_sub'] ?? 0;
+                                $last_month_totals[$cghs_key]['gpa_adv']    += $last_month_debit['gpa_adv'] ?? 0;
+                                $last_month_totals[$cghs_key]['cgegis']     += $last_month_debit['cgegis'] ?? 0;
+                                $last_month_totals[$cghs_key]['cghs']       += $last_month_debit['cghs'] ?? 0;
                                 $last_month_totals[$cghs_key]['hba_adv']    += $last_month_data_loan_hba_adv_sum ?? 0;
                                 $last_month_totals[$cghs_key]['hba_int']    += $last_month_data_loan_hba_adv_int ?? 0;
-                                $last_month_totals[$cghs_key]['i_tax']      += $last_month_data_debit['i_tax'] ?? 0;
-                                $last_month_totals[$cghs_key]['ecess']      += $last_month_data_debit['ecess'] ?? 0;
-                                $last_month_totals[$cghs_key]['misc1']      += $last_month_data_debit['misc1'] ?? 0;
-                                $last_month_totals[$cghs_key]['nps_10_rec'] += $last_month_data_debit['nps_10_rec'] ?? 0;
-                                $last_month_totals[$cghs_key]['npsg']       += $last_month_data_debit['npsg'] ?? 0;
-                                $last_month_totals[$cghs_key]['npsg_adj']   += $last_month_data_debit['npsg_adj'] ?? 0;
-                                $last_month_totals[$cghs_key]['nps_14_adj'] += $last_month_data_debit['nps_14_adj'] ?? 0;
-                                $last_month_totals[$cghs_key]['licence_fee']+= $last_month_data_debit['licence_fee'] ?? 0;
-                                $last_month_totals[$cghs_key]['elec']       += $last_month_data_debit['elec'] ?? 0;
-                                $last_month_totals[$cghs_key]['water']      += $last_month_data_debit['water'] ?? 0;
-                                $last_month_totals[$cghs_key]['furn']       += $last_month_data_debit['furn'] ?? 0;
-                            //    dd( $last_month_totals);
-                            @endphp
+                                $last_month_totals[$cghs_key]['i_tax']      += $last_month_debit['i_tax'] ?? 0;
+                                $last_month_totals[$cghs_key]['ecess']      += $last_month_debit['ecess'] ?? 0;
+                                $last_month_totals[$cghs_key]['misc1']      += $last_month_debit['misc1'] ?? 0;
+                                $last_month_totals[$cghs_key]['nps_10_rec'] += $last_month_debit['nps_10_rec'] ?? 0;
+                                $last_month_totals[$cghs_key]['npsg']       += $last_month_debit['npsg'] ?? 0;
+                                $last_month_totals[$cghs_key]['npsg_adj']   += $last_month_debit['npsg_adj'] ?? 0;
+                                $last_month_totals[$cghs_key]['nps_14_adj'] += $last_month_debit['nps_14_adj'] ?? 0;
+                                $last_month_totals[$cghs_key]['licence_fee']+= $last_month_debit['licence_fee'] ?? 0;
+                                $last_month_totals[$cghs_key]['elec']       += $last_month_debit['elec'] ?? 0;
+                                $last_month_totals[$cghs_key]['water']      += $last_month_debit['water'] ?? 0;
+                                $last_month_totals[$cghs_key]['furn']       += $last_month_debit['furn'] ?? 0;
+                              @endphp
 
                                     @php
                                         $cghs = round($all_member['details']['member_debit']->cghs ?? 0);
@@ -10073,7 +10111,7 @@ background: #cdcdcd;
                     border-top: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{-- {{dd($last_month_totals)}} --}}
+
                     </td>
                     <td style="
                     font-size: 10px;
@@ -10345,7 +10383,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{$last_month_totals[$key_new]['gpa_sub'] ?? 0}}
+                       {{$last_month_totals[$cghs_key]['gpa_sub'] ?? 0}}
 
                     </td>
                      <td style="
@@ -10360,7 +10398,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                                            {{ $last_month_totals[$key_new]['gpa_adv'] ?? 0}}
+                                            {{ $last_month_totals[$cghs_key]['gpa_adv'] ?? 0}}
 
                     </td>
                      <td style="
@@ -10375,7 +10413,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{ $last_month_totals[$key_new]['cgegis'] ?? 0}}
+                        {{ $last_month_totals[$cghs_key]['cgegis'] ?? 0}}
 
                     </td>
                      <td style="
@@ -10390,7 +10428,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ $last_month_totals[$key_new]['cghs']  ?? 0}}
+                       {{ $last_month_totals[$cghs_key]['cghs']  ?? 0}}
 
                     </td>
                                     <td style="
@@ -10405,7 +10443,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{  $last_month_totals[$key_new]['hba_adv']   ?? 0}}
+                       {{  $last_month_totals[$cghs_key]['hba_adv']   ?? 0}}
 
                     </td>
                                     <td style="
@@ -10420,7 +10458,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{    $last_month_totals[$key_new]['hba_int'] ?? 0}}
+                       {{    $last_month_totals[$cghs_key]['hba_int'] ?? 0}}
 
                     </td>
                                     <td style="
@@ -10435,7 +10473,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ $last_month_totals[$key_new]['i_tax'] ?? 0}}
+                      {{ $last_month_totals[$cghs_key]['i_tax'] ?? 0}}
 
                     </td>
                                     <td style="
@@ -10450,7 +10488,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{  $last_month_totals[$key_new]['ecess'] ?? 0}}
+                       {{  $last_month_totals[$cghs_key]['ecess'] ?? 0}}
 
                     </td>
                                     <td style="
@@ -10465,7 +10503,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{  $last_month_totals[$key_new]['misc1']  ?? 0}}
+                       {{  $last_month_totals[$cghs_key]['misc1']  ?? 0}}
 
                     </td>
                                     <td style="
@@ -10480,7 +10518,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{  $last_month_totals[$key_new]['nps_10_rec'] ?? 0}}
+                      {{  $last_month_totals[$cghs_key]['nps_10_rec'] ?? 0}}
 
                     </td>
                                     <td style="
@@ -10495,7 +10533,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ $last_month_totals[$key_new]['npsg']  ?? 0}}
+                      {{ $last_month_totals[$cghs_key]['npsg']  ?? 0}}
 
                     </td>
                     <td style="
@@ -10510,7 +10548,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{$last_month_totals[$key_new]['npsg_adj'] ?? 0}}
+                      {{$last_month_totals[$cghs_key]['npsg_adj'] ?? 0}}
 
                     </td>
                     <td style="
@@ -10525,7 +10563,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                     {{   $last_month_totals[$key_new]['nps_14_adj']  ?? 0}}
+                     {{   $last_month_totals[$cghs_key]['nps_14_adj']  ?? 0}}
 
                     </td>
 
@@ -10541,7 +10579,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                   {{$last_month_totals[$key_new]['licence_fee'] ?? 0}}
+                   {{$last_month_totals[$cghs_key]['licence_fee'] ?? 0}}
 
                     </td>
                     <td style="
@@ -10556,7 +10594,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                   {{$last_month_totals[$key_new]['elec'] ?? 0}}
+                   {{$last_month_totals[$cghs_key]['elec'] ?? 0}}
 
                     </td>
                     <td style="
@@ -10572,7 +10610,7 @@ background: #cdcdcd;
                     border-right: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                  {{ $last_month_totals[$key_new]['water']  ?? 0}}
+                  {{ $last_month_totals[$cghs_key]['water']  ?? 0}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -10587,7 +10625,7 @@ background: #cdcdcd;
                     border-right: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                  {{ $last_month_totals[$key_new]['furn']  ?? 0}}
+                  {{ $last_month_totals[$cghs_key]['furn']  ?? 0}}
                     </td>
                   </tr>
 
@@ -10882,19 +10920,22 @@ background: #cdcdcd;
                                     'furn' => 0,]
                   @endphp
         @foreach ($statements as $statement)
+        {{-- @dd($statement) --}}
             @php
                 $last_month_data_debit = \App\Models\MemberMonthlyDataDebit::where(
                     'member_id',
-                    $all_member['member_data']['id'],
+                    $statement['member_data']['id'],
                 )
                     ->where('month', $previousMonth)
                     ->where('year', $previousYear)
                     ->orderBy('id', 'desc')
                     ->first();
 
+                    // dd($last_month_data_debit, $all_member['member_data']);
+
                     $last_month_data_loan_hba_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
                     'member_id',
-                    $all_member['member_data']['id'],
+                    $statement['member_data']['id'],
                 )
                     ->where('month', $previousMonth)
                     ->where('year', $previousYear)
@@ -10904,7 +10945,7 @@ background: #cdcdcd;
 
                     $last_month_data_loan_hba_adv_int = \App\Models\MemberMonthlyDataLoanInfo::where(
                     'member_id',
-                    $all_member['member_data']['id'],
+                    $statement['member_data']['id'],
                 )
                     ->where('month', $previousMonth)
                     ->where('year', $previousYear)
@@ -10915,7 +10956,7 @@ background: #cdcdcd;
 
                     $this_month_data_loan_hba_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
                     'member_id',
-                    $all_member['member_data']['id'],
+                    $statement['member_data']['id'],
                 )
                     ->where('month', $number_month)
                     ->where('year', $year)
@@ -10925,17 +10966,13 @@ background: #cdcdcd;
 
                     $this_month_data_loan_hba_adv_int = \App\Models\MemberMonthlyDataLoanInfo::where(
                     'member_id',
-                    $all_member['member_data']['id'],
+                    $statement['member_data']['id'],
                 )
                     ->where('month', $number_month)
                     ->where('year', $year)
                     ->where('loan_id', 2)
                     ->orderBy('id', 'desc')
                     ->sum('inst_amount');
-
-            // dd($last_month_data);
-
-        // fallback if no data found
 
                 $last_month_field['gpa_sub']    = $last_month_data_debit['gpa_sub'] ?? 0;
                 $last_month_field['gpa_adv']    = $last_month_data_debit['gpa_adv'] ?? 0;
@@ -11200,6 +11237,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
+                  {{-- @dd($statement['details']['member_debit']->licence_fee , $last_month_field['licence_fee']) --}}
                    {{ (($statement['details']['member_debit']->licence_fee ?? 0) - $last_month_field['licence_fee']) }}
                     </td>
                     <td style="
@@ -11526,7 +11564,6 @@ background: #cdcdcd;
 
                     </td>
                   </tr>
-                  {{-- @dd($this_month_totals['gpa_sub'], $last_month_totals[$key_new]['gpa_sub']) --}}
                   <tr>
 
 
@@ -11797,7 +11834,6 @@ background: #cdcdcd;
       </table>
       <div class="page-break"></div>
       @endforeach
-
 
 
 
@@ -12239,6 +12275,7 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
+        <div class="page-break"></div>
     @endif
 
     @if (count($car_adv_arr) > 0)
@@ -12700,7 +12737,7 @@ background: #cdcdcd;
           font-weight: 500;
           color: #000;
           text-align: center;
-          padding: 0px 5px !important;
+          padding: 0px 5px !important;h
           margin: 0px 0px !important;
           text-transform: uppercase;
         ">
@@ -14183,7 +14220,7 @@ background: #cdcdcd;
           border-top: 1px solid #000;
           background: #cdcdcd;
         ">
-                                        ADVANCE
+                                        TOTAL INTEREST
                                     </th>
                                     <th
                                         style="
@@ -14244,7 +14281,8 @@ background: #cdcdcd;
                                     @php
                                         $advance_rec = round($advance['inst_amount'] ?? 0);
                                         $total_advance_rec += $advance_rec;
-                                    @endphp <tr>
+                                    @endphp
+                                    <tr>
                                         <td
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
                                             {{ $key + 1 }} </td>
@@ -14312,10 +14350,7 @@ background: #cdcdcd;
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
 
                                     </td>
-                                    <td
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
 
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -14607,7 +14642,7 @@ background: #cdcdcd;
           border-top: 1px solid #000;
           background: #cdcdcd;
         ">
-                                        ADVANCE
+                                        TOTAL INTEREST
                                     </th>
                                     <th
                                         style="
@@ -14736,10 +14771,7 @@ background: #cdcdcd;
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
 
                                     </td>
-                                    <td
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
 
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -15031,7 +15063,7 @@ background: #cdcdcd;
           border-top: 1px solid #000;
           background: #cdcdcd;
         ">
-                                        ADVANCE
+                                        TOTAL INTEREST
                                     </th>
                                     <th
                                         style="
@@ -15161,10 +15193,7 @@ background: #cdcdcd;
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
 
                                     </td>
-                                    <td
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
 
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -15456,7 +15485,7 @@ background: #cdcdcd;
       border-top: 1px solid #000;
       background: #cdcdcd;
     ">
-                                        ADVANCE
+                                        TOTAL INTEREST
                                     </th>
                                     <th
                                         style="
@@ -15585,10 +15614,7 @@ background: #cdcdcd;
                                         style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
 
                                     </td>
-                                    <td
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
 
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -15704,6 +15730,3499 @@ background: #cdcdcd;
         </table>
         <div class="page-break"></div>
     @endif
+    @if (count($meber_chunk_data_quater) > 0)
+
+
+@php
+    $page_cal_quater = [];
+@endphp
+    @foreach ($meber_chunk_data_quater as $quater_key => $quaters)
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+        style="border-radius: 0px; margin: 0 auto; text-align: center">
+        <tbody>
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td
+                                    style="
+              font-size: 18px;
+              line-height: 14px;
+              font-weight: 500;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+
+                                    RECOVERY SCHEDULE OF QUARTER CHARGES IN R/O
+                                    {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                    {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 10px 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td
+                                    style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 500;
+              color: #000;
+              text-align: left;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                    Page No: {{ $quater_key + 1 }}
+                                </td>
+                                <td
+                                    style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 400;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                    CHESS,CHESS
+                                </td>
+                                <td
+                                    style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 400;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                    UNIT CODE: 330000110
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <thead>
+                            <tr>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    SRNO
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    EMP NAME
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    EMP CODE
+                                </th>
+
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    RANK
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    PRAN
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    QTR TYPE
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    QTR NO
+                                </th>
+                                <th
+                                style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                LICN
+                            </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              border-right: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    ELECT
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              border-right: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    WATER
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              border-right: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    FURN
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              border-right: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    MISC
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              border-right: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    TOTAL RENT
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $total_licence_fee = 0;
+                                $total_elect = 0;
+                                $total_water = 0;
+                                $total_furn = 0;
+                                $total_misc = 0;
+                                $all_total_recover = 0;
+
+                                $page_cal_quater[$quater_key] = [
+                                    'page_total_licence_fee' => 0,
+                                    'page_total_elect' => 0,
+                                    'page_total_water' => 0,
+                                    'page_total_furn' => 0,
+                                    'page_total_misc' => 0,
+                                    'page_all_total_recover' => 0
+                                ];
+
+                            @endphp
+
+                      @foreach ($quaters as $key => $quater)
+                            @php
+                                $licence_fee = round($quater['member_one_debit']['licence_fee'] ?? 0);
+                                $elect = round($quater['member_one_debit']['elec'] ?? 0);
+                                $water = round($quater['member_one_debit']['water'] ?? 0);
+                                $furn = round($quater['member_one_debit']['furn'] ?? 0);
+                                $misc = round($quater['member_one_debit']['misc3'] ?? 0);
+
+                                $total_licence_fee += $licence_fee;
+                                $total_elect += $elect;
+                                $total_water += $water;
+                                $total_furn += $furn;
+                                $total_misc += $misc;
+
+
+                                $total_recover = $licence_fee + $elect + $water + $furn+ $misc;
+                                $all_total_recover += $licence_fee + $elect + $water + $furn+ $misc;
+
+                                $page_cal_quater[$quater_key]['page_total_licence_fee'] += $licence_fee;
+                                $page_cal_quater[$quater_key]['page_total_elect'] += $elect;
+                                $page_cal_quater[$quater_key]['page_total_water'] += $water;
+                                $page_cal_quater[$quater_key]['page_total_furn'] += $furn;
+                                $page_cal_quater[$quater_key]['page_total_misc'] += $misc;
+                                $page_cal_quater[$quater_key]['page_all_total_recover'] += $licence_fee + $elect + $water + $furn+ $misc;
+
+                            @endphp
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $key + 1 }} </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $quater['name'] ?? '-' }} </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $quater['emp_id'] ?? '-' }} </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $quater['desigs']['designation'] ?? '-' }} </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $quater['pran_number'] ?? '-' }} </td>
+                                        {{-- @dd($quater['member_personal_info']['quarter']) --}}
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $quater['member_personal_info']['quarter']['qrt_type'] ?? '-' }} </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $quater['member_personal_info']['quater_no'] ?? '-' }} </td>
+
+                                        <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $licence_fee ?? '-' }} </td>
+                                        <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $elect ?? '-' }} </td>
+
+
+
+
+                                        <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $water ?? '-' }} </td>
+                                        <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $furn ?? '-' }} </td>
+                                        <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $misc ?? '-' }} </td>
+                                        <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_recover}} </td>
+                                </tr>
+                            @endforeach
+
+                            <tr>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    Page Summary-{{ $quater_key + 1 }}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                </td>
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            </td>
+                            <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        </td>
+                        <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                    </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    Total
+                                </td>
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $total_licence_fee }}
+                            </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $total_elect }}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $total_water }}
+                                </td>
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $total_furn }}
+                            </td>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $total_misc }}
+                            </td>
+                            <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000;border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $all_total_recover }}
+                        </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="page-break"></div>
+@endforeach
+@endif
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+        style="border-radius: 0px; margin: 0 auto; text-align: center">
+        <tbody>
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td colspan="9"
+                                    style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                    GRAND SUMMARY OF HOUSE RENT
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <thead>
+                            <tr>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    PAGE SUMMARY</th>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    LICN</th>
+                                    <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    ELECT</th>
+                                    <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    WATER</th>
+                                    <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    FURN</th>
+                                    <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    MISC</th>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; background: #cdcdcd;">
+                                    TOTAL RENT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @php
+                                $tot_page_total_licence_fee = 0;
+                                $tot_page_total_elect = 0;
+                                $tot_page_total_water = 0;
+                                $tot_page_total_furn = 0;
+                                $tot_page_total_misc = 0;
+                                $tot_page_all_total_recover = 0;
+                            @endphp
+                            @foreach ($page_cal_quater as $cal_quater_key => $cal_quater)
+                                @php
+                                    $tot_page_total_licence_fee += $cal_quater['page_total_licence_fee'] ?? 0;
+                                    $tot_page_total_elect += $cal_quater['page_total_elect'] ?? 0;
+                                    $tot_page_total_water += $cal_quater['page_total_water'] ?? 0;
+                                    $tot_page_total_furn += $cal_quater['page_total_furn'] ?? 0;
+                                    $tot_page_total_misc += $cal_quater['page_total_misc'] ?? 0;
+                                    $tot_page_all_total_recover += $cal_quater['page_all_total_recover'] ?? 0;
+                                 @endphp
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-{{ $cal_quater_key + 1 }}
+                                    </td>
+
+
+
+
+
+
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $cal_quater['page_total_licence_fee'] ?? 0}}
+                                    </td>
+                                    <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $cal_quater['page_total_elect'] ?? 0}}
+                                </td>
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $cal_quater['page_total_water'] ?? 0}}
+                            </td>
+                            <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $cal_quater['page_total_furn'] ?? 0}}
+                        </td>
+                        <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                        {{ $cal_quater['page_total_misc'] ?? 0}}
+                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $cal_quater['page_all_total_recover'] ?? 0}}
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            <tr>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    GRAND SUMMARY
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $tot_page_total_licence_fee ?? 0 }}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $tot_page_total_elect ?? 0}}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $tot_page_total_water ?? 0}}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $tot_page_total_furn ?? 0 }}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $tot_page_total_misc ?? 0  }}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $tot_page_all_total_recover  ?? 0}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                    {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($tot_page_all_total_recover)) }}
+                                    Only)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                                    amount of these schedule tallies with the amount deducted from pay bill</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="height: 50px;"></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td style="font-size: 16px; width: 70%; text-align: left;">
+                                    CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                </td>
+                                <td style="font-size: 16px; text-align: left;">
+                                    {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                    ACCOUNTS OFFICER<br>
+                                    For Director
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+
+    @if (count($meber_chunk_data_income_tax) > 0)
+
+
+    @php
+    $page_cal_income_tax = [];
+@endphp
+    @foreach ($meber_chunk_data_income_tax as $income_tax_key => $income_tax)
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+        style="border-radius: 0px; margin: 0 auto; text-align: center">
+        <tbody>
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td
+                                    style="
+              font-size: 18px;
+              line-height: 14px;
+              font-weight: 500;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+
+                                    RECOVERY SCHEDULE OF INCOME TAX IN R/O
+                                    {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                    {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 10px 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td
+                                    style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 500;
+              color: #000;
+              text-align: left;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                    Page No: {{ $income_tax_key + 1 }}
+                                </td>
+                                <td
+                                    style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 400;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                    CHESS,CHESS
+                                </td>
+                                <td
+                                    style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 400;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                    UNIT CODE: 330000110
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <thead>
+                            <tr>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    SRNO
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    EMP NAME
+                                </th>
+
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    DESIGNATION
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    PRAN
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    PAN NO
+                                </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    IT REC
+                                </th>
+                                <th
+                                style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                EDN CESS/ HEALTH 4%
+                            </th>
+                                <th
+                                    style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              border-right: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                    TOTAL IT
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $total_incom_tax = 0;
+                                $total_ecess = 0;
+
+                                $all_total_income_tax = 0;
+
+                                $page_cal_income_tax[$income_tax_key] = [
+                                    'incom_tax' => 0,
+                                    'ecess' => 0,
+                                    'page_all_total_income_tax' => 0
+                                ];
+
+                            @endphp
+
+                      @foreach ($income_tax as $key =>  $income)
+                            @php
+                                $incom_tax = round($income['member_one_debit']['i_tax'] ?? 0);
+                                $ecess = round($income['member_one_debit']['ecess'] ?? 0);
+
+
+
+                                $total_incom_tax += $incom_tax;
+                                $total_ecess += $ecess;
+
+
+                                $total_income_tax = $incom_tax + $ecess;
+                                $all_total_income_tax += $incom_tax + $ecess;
+
+                                $page_cal_income_tax[$income_tax_key]['incom_tax'] += $incom_tax;
+                                $page_cal_income_tax[$income_tax_key]['ecess'] += $ecess;
+
+                                $page_cal_income_tax[$income_tax_key]['page_all_total_income_tax'] += $incom_tax + $ecess;
+
+                            @endphp
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $key + 1 }} </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $income['name'] ?? '-' }} </td>
+
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $income['desigs']['designation'] ?? '-' }} </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $income['pran_number'] ?? '-' }} </td>
+                                        <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $income['pan_no'] ?? '-' }} </td>
+                                        {{-- @dd($quater['member_personal_info']['quarter']) --}}
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $incom_tax ?? '-' }} </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $ecess ?? '-' }} </td>
+
+                                        <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_income_tax ?? '-' }} </td>
+
+                                </tr>
+                            @endforeach
+
+                            <tr>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    Page Summary-{{ $income_tax_key + 1 }}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                </td>
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            </td>
+                            <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        </td>
+
+
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+
+                                {{ $total_incom_tax }}
+                            </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $total_ecess }}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $all_total_income_tax }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="page-break"></div>
+@endforeach
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+        style="border-radius: 0px; margin: 0 auto; text-align: center">
+        <tbody>
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td colspan="9"
+                                    style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                    GRAND SUMMARY OF INCOME TAX
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 0 0px">
+                    <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                        <thead>
+                            <tr>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    PAGE SUMMARY</th>
+                                <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        IT REC</th>
+                                    <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                    EDN CESS/ HEALTH 4%</th>
+                                    <th
+                                    style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd; border-right: 1px solid #000;" >
+                                    TOTAL IT</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{-- @dd($page_cal_income_tax) --}}
+                            @php
+                                $tot_page_total_income_tax = 0;
+                                $tot_page_total_ecess = 0;
+                                $grand_page_all_total_recover = 0;
+                            @endphp
+                            @foreach ($page_cal_income_tax as $cal_income_tax_key => $cal_income_tax)
+                                @php
+
+
+
+                                    $tot_page_total_income_tax += $cal_income_tax['incom_tax'] ?? 0;
+                                    $tot_page_total_ecess += $cal_income_tax['ecess'] ?? 0;
+
+                                    $grand_page_all_total_recover += $cal_income_tax['page_all_total_income_tax'] ?? 0;
+                                 @endphp
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-{{ $cal_income_tax_key + 1 }}
+                                    </td>
+
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $cal_income_tax['incom_tax'] ?? 0}}
+                                    </td>
+                                    <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $cal_income_tax['ecess'] ?? 0}}
+                                </td>
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                {{ $cal_income_tax['page_all_total_income_tax'] ?? 0}}
+                            </td>
+
+                                </tr>
+                            @endforeach
+
+                            <tr>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    GRAND SUMMARY
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $tot_page_total_income_tax ?? 0 }}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                    {{ $tot_page_total_ecess ?? 0}}
+                                </td>
+                                <td
+                                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                    {{ $grand_page_all_total_recover ?? 0}}
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                    {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($grand_page_all_total_recover)) }}
+                                    Only)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                                    amount of these schedule tallies with the amount deducted from pay bill</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="height: 50px;"></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td style="font-size: 16px; width: 70%; text-align: left;">
+                                    CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                </td>
+                                <td style="font-size: 16px; text-align: left;">
+                                    {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                    ACCOUNTS OFFICER<br>
+                                    For Director
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+    @endif
+
+@if ($category_fund_type == 'NPS')
+    @php
+    $page_array = [];
+    $eol_hpl_array = [];
+    @endphp
+
+@foreach ($allMember40Data as $pension_key => $pensions)
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+<tr>
+  <td style="padding: 0 0px">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+      <tbody>
+        <tr>
+          <td style="
+                font-size: 18px;
+                line-height: 14px;
+                font-weight: 500;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+                text-decoration: underline;
+              ">
+            RECOVERY SCHEDULE OF EMPLOYEE MONTHLY CONTRIBUTION ANNEXURE-II<br><br>
+            (NEW PENSION SCHEME) OF NEW PENSION IN R/O  {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF    {{$number_month ?  date('M', strtotime($number_month)) : '-' }} {{ $year ?? '0' }} {{$pay_bill_no ?? 'N/A'}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+<tr>
+  <td style="padding: 10px 0px">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+      <tbody>
+        <tr>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 500;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+
+              ">
+            Office: CHESS, CHESS
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           PAGE NO : {{$pension_key +1}}
+          </td>
+        </tr>
+        <tr>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 500;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+            DEPT_CD : 2
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+              ">
+           NODAL CD------(CDA-cd OF NODAL OFFICE),
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+
+              ">
+           PAo-- CODE :
+          </td>
+        </tr>
+        <tr>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 500;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+            DDO/UNIT CODE : 330000110
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           FIN YEAR : {{$financialYear}}
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                /* text-transform: uppercase; */
+              ">
+           BILL_SUFF(REG/SUPL/arr)
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           PAY AND ALLOW
+          </td>
+        </tr>
+        <tr>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 500;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+            DV NO :
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           BILL/DV DATE : {{$number_month ?  date('M', strtotime($number_month)) : '-' }} {{ $year ?? '0' }}
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           SCH_MONTH : {{$number_month ?  date('M', strtotime($number_month)) : '-'}}
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           YEAR : {{ $year ?? '0' }}
+          </td>
+        </tr>
+        <tr>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 500;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+            DP RATE :
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           DA RATE : {{$da_percent['percentage'] ?? 0}}
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           SCHDULE AMOUNT RS. :
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           (TOTAL OF TIER-1)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+
+
+<tr>
+  <td style="padding: 0 0px">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+      <thead>
+        <tr>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            SRNO
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            PRAN
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            EMP NAME
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+                PAY BAND
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            DA
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            TIER-1 CURRENT
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            TIER-1 ARREAR
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            EOL ARREAR
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            TIER-1 TOTAL
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            GOVTS CONT
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            GOVTS CONT ARREAR
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            GOVTS EOL ARREAR
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-right: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            GOVTS CONT TOTAL
+          </th>
+          <th style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          border-bottom: 1px solid #000;
+          background: #cdcdcd;
+        ">
+      TOTAL
+    </th>
+        </tr>
+      </thead>
+      <tbody>
+          @php
+          $page_array[$pension_key] = [
+              'page_tier_1_total' => 0,
+              'page_govt_cont_total' => 0,
+              'page_total' => 0
+          ];
+          @endphp
+          @foreach ($pensions as $sub_key => $pension)
+          @php
+              $tier_1_total = ($pension['details']['member_debit']->nps_10_rec ?? 0) - ($pension['details']['member_debit']->npsg_adj ?? 0);
+              $govt_cont_total = ($pension['details']['member_credit']->npsc  ?? 0) - ($pension['details']['member_credit']->npg_adj ?? 0);
+              $total = $tier_1_total + $govt_cont_total;
+              if (isset($pension['details']['member_debit']->npsg_adj) && $pension['details']['member_debit']->npsg_adj > 0) {
+                $eol_hpl_array[] = $pension;
+              }
+
+              $page_array[$pension_key]['page_tier_1_total'] += ($pension['details']['member_debit']->nps_10_rec ?? 0) - ($pension['details']['member_debit']->npsg_adj ?? 0);
+              $page_array[$pension_key]['page_govt_cont_total'] += ($pension['details']['member_credit']->npsc  ?? 0) - ($pension['details']['member_credit']->npg_adj ?? 0);
+              $page_array[$pension_key]['page_total'] += $tier_1_total + $govt_cont_total;
+
+          @endphp
+        <tr>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+            {{$sub_key + 1}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+             {{ $pension['member_data']->pran_number ?? '0' }}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">   {{ $pension['member_data']->name ?? '0' }}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        {{$pension['details']['member_credit']->pay ?? 0}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align:right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+         {{$pension['details']['member_credit']->da ?? 0}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+         {{$pension['details']['member_debit']->nps_10_rec ?? 0}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        0
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+            {{$pension['details']['member_debit']->npsg_adj ?? 0}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        {{$tier_1_total ??0 }}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+          {{$pension['details']['member_credit']->npsc ?? 0}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        0
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+         {{$pension['details']['member_credit']->npg_adj ?? 0}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-right: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        {{$govt_cont_total ?? 0}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          /* border-left: 1px solid #000; */
+          border-right: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        {{$total}}
+          </td>
+        </tr>
+        @endforeach
+
+        <tr>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+Page Summary-{{$pension_key + 1}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align:right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+{{ $page_array[$pension_key]['page_tier_1_total'] ?? 0}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-right: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+         {{ $page_array[$pension_key]['page_govt_cont_total'] ?? 0}}
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          /* border-left: 1px solid #000; */
+          border-right: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+         {{$page_array[$pension_key]['page_total'] ?? 0}}
+          </td>
+        </tr>
+
+
+
+
+
+      </tbody>
+    </table>
+  </td>
+</tr>
+</tbody>
+</table>
+<div class="page-break"></div>
+@endforeach
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+<tr>
+    <td style="padding: 0 0px">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+            <tbody>
+                <tr>
+                    <td colspan="9"
+                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                        GRAND SUMMARY OF NEW PENSION SUBSCRIPTION
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td style="padding: 0 0px">
+        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <th
+                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                        PAGE SUMMARY</th>
+                    <th
+                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                        GOVTS CONT TOTAL</th>
+                    <th
+                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; background: #cdcdcd;">
+                        TIER-1 TOTAL</th>
+                        <th
+                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; background: #cdcdcd;">
+                         TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $total_govt_cont_amount = 0;
+                    $total_tier_1_arr = 0;
+                    $gran_total = 0
+                @endphp
+
+                @foreach ($page_array as $page_array_key => $pension_subscription)
+                    @php
+                        $total_tier_1_arr  += $pension_subscription['page_tier_1_total'];
+                        $total_govt_cont_amount+= $pension_subscription['page_govt_cont_total'];
+                        $gran_total += $pension_subscription['page_total'];
+
+                    @endphp
+
+
+
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            Page Summary-{{ $page_array_key + 1 }}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $pension_subscription['page_govt_cont_total'] ?? 0 }}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $pension_subscription['page_tier_1_total'] ?? 0 }}
+                        </td>
+                        <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                        {{ $pension_subscription['page_total'] ?? 0 }}
+                    </td>
+                    </tr>
+                @endforeach
+
+                <tr>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        GRAND SUMMARY
+                    </td>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        {{ $total_govt_cont_amount ?? 0 }}
+                    </td>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                        {{ $total_tier_1_arr ?? 0 }}
+                    </td>
+
+                    <td
+                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                    {{ $gran_total ?? 0 }}
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td>
+        <table style="width: 100%;">
+            <tbody>
+              ucwords(str_replace('-', ' ', $totalInWords))
+                <tr>
+                    <td colspan="9" style="font-size: 15px; text-align: center;">(TIER-1 Total:- Rupees
+                        {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_tier_1_arr)))) }}
+                        Only)</td>
+                </tr>
+                <tr>
+                  <td colspan="9" style="font-size: 15px; text-align: center;">(GOVTS CONT Total:- Rupees
+                      {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_govt_cont_amount)))) }}
+                      Only)</td>
+              </tr>
+
+              <tr>
+                  <td colspan="9" style="font-size: 15px; text-align: left;">NOTE:- PAO CODE AND DVNO is to filled by the Pay Account Office</td>
+              </tr>
+
+                <tr>
+                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td style="height: 50px;"></td>
+</tr>
+
+<tr>
+    <td>
+        <table style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                    </td>
+                    <td style="font-size: 16px; text-align: left;">
+                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                        ACCOUNTS OFFICER<br>
+                        For Director
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+</tbody>
+</table>
+
+<div class="page-break"></div>
+@if (count($eol_hpl_array) > 0)
+@php
+    $chunks = array_chunk($eol_hpl_array, 35);
+    $eol_hpl_page = [];
+    @endphp
+    @foreach ($chunks as $nps_key => $nps_array)
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td
+                            style="
+  font-size: 18px;
+  line-height: 14px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+
+                            RECOVERY SCHEDULE OF EOHPL NPS ADJ 10% IN R/O
+                            {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                            {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                            {{ $pay_bill_no ?? 0 }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 10px 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 500;
+  color: #000;
+  text-align: left;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            Page No: {{$nps_key + 1}}
+                        </td>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            CHESS,CHESS
+                        </td>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            UNIT CODE: 330000110
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <thead>
+                    <tr>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            SRNO
+                        </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            EMP NAME
+                        </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            EMP CODE
+                        </th>
+                        <th
+                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: center;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+background: #cdcdcd;
+">
+                        PRAN
+                    </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  background: #cdcdcd;
+">
+                            DESIGNATION
+                        </th>
+
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  background: #cdcdcd;
+">
+                            AMOUNT
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                    $eol_hpl_page[$nps_key]['total_npsg_adj'] = 0;
+                @endphp
+
+                    @foreach ($nps_array as $details_key => $nps_details)
+                        @php
+                            $npsg_adj_rec = round($nps_details['details']['member_debit']->npsg_adj ?? 0);
+                            $eol_hpl_page[$nps_key]['total_npsg_adj'] += $npsg_adj_rec;
+                        @endphp <tr>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $key + 1 }} </td>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $nps_details['member_data']->name ?? '0' }} </td>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $nps_details['member_data']->emp_id ?? '0' }} </td>
+
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $nps_details['member_data']->pran_number ?? '0' }} </td>
+
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $nps_details['member_data']['desigs']->designation ?? '0' }} </td>
+
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $npsg_adj_rec ?? 0 }} </td>
+
+                        </tr>
+                    @endforeach
+
+
+
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            Page Summary-{{$nps_key + 1}}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            Total
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $eol_hpl_page[$nps_key]['total_npsg_adj'] }}
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+@if(count($eol_hpl_array) > 15 && count($eol_hpl_array) > 0)
+<div class="page-break"></div>
+@endif
+@endforeach
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td colspan="9"
+                            style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                            GRAND SUMMARY OF EOHPL NPS ADJ 10% SUBSCRIPTION
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <thead>
+                    <tr>
+                        <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                            PAGE SUMMARY</th>
+                        <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                            TOTAL AMOUNT</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                    $gran_total_eol_hpl = 0
+                     @endphp
+
+                @foreach ($eol_hpl_page as $eol_hpl_page_key => $eol_hpl_subscription)
+                @php
+                $gran_total_eol_hpl += $eol_hpl_subscription['total_npsg_adj']
+                @endphp
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            Page Summary-{{$eol_hpl_page_key + 1}}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                            {{ $eol_hpl_subscription['total_npsg_adj'] }}
+                        </td>
+
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            GRAND SUMMARY
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                            {{ $gran_total_eol_hpl }}
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                            {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($gran_total_eol_hpl)))) }}
+                            Only)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                            amount of these schedule tallies with the amount deducted from pay bill</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="height: 50px;"></td>
+    </tr>
+
+    <tr>
+        <td>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="font-size: 16px; width: 70%; text-align: left;">
+                            CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                        </td>
+                        <td style="font-size: 16px; text-align: left;">
+                            {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                            ACCOUNTS OFFICER<br>
+                            For Director
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+<div class="page-break"></div>
+
+
+@endif
+
+@endif
+
+@if ($category_fund_type == 'GPF')
+@php
+    $gpf_subscription_page = [];
+    @endphp
+    @foreach ($allMember40Data as $gpf_subscription_key => $gpf_subscription_array)
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td
+                            style="
+  font-size: 18px;
+  line-height: 14px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+
+                            RECOVERY SCHEDULE OF GPF SUBSCRIPTION IN R/O
+                            {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                            {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                            {{ $pay_bill_no ?? 0 }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 10px 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 500;
+  color: #000;
+  text-align: left;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            Page No: {{$gpf_subscription_key + 1}}
+                        </td>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            CHESS,CHESS
+                        </td>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            UNIT CODE: 330000110
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <thead>
+                    <tr>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            SRNO
+                        </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            EMP NAME
+                        </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            EMP CODE
+                        </th>
+
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  background: #cdcdcd;
+">
+                            RANK
+                        </th>
+                        <th
+                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: center;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+background: #cdcdcd;
+">
+                        BASIC PAY
+                    </th>
+                        <th
+                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: center;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+background: #cdcdcd;
+">
+                        A/C NO
+                    </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  background: #cdcdcd;
+">
+                            SUBS
+                        </th>
+
+                        <th
+                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: right;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+background: #cdcdcd;
+">
+                        REFUND
+                    </th>
+
+                    <th
+                    style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: right;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-right: 1px solid #000;
+border-top: 1px solid #000;
+background: #cdcdcd;
+">
+                    ARRS
+                </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                    $gpf_subscription_page[$gpf_subscription_key]['total_subs'] = 0;
+                    $gpf_subscription_page[$gpf_subscription_key]['total_refund'] = 0;
+                    $gpf_subscription_page[$gpf_subscription_key]['total_arrs'] = 0;
+                @endphp
+
+                    @foreach ($gpf_subscription_array as $new_details_key => $gpf_subscription_details)
+                        @php
+                            $sub_rec = round($gpf_subscription_details['details']['member_debit']->gpa_sub ?? 0);
+                            $refund_rec = round($gpf_subscription_details['details']['member_debit']->gpf_adv ?? 0);
+                            $arrs_rec = round($gpf_subscription_details['details']['member_debit']->gpf_arr ?? 0);
+
+                            $gpf_subscription_page[$gpf_subscription_key]['total_subs'] += $sub_rec;
+                            $gpf_subscription_page[$gpf_subscription_key]['total_refund'] += $refund_rec;
+                            $gpf_subscription_page[$gpf_subscription_key]['total_arrs'] += $arrs_rec;
+                        @endphp
+                         <tr>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $new_details_key + 1 }} </td>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $gpf_subscription_details['member_data']->name ?? '0' }} </td>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $gpf_subscription_details['member_data']->emp_id ?? '0' }} </td>
+
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $gpf_subscription_details['member_data']['desigs']->designation ?? '0' }} </td>
+
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $gpf_subscription_details['details']['member_credit']->pay ?? '0' }} </td>
+
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $gpf_subscription_details['member_data']->gpf_number ?? '0' }} </td>
+
+
+
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $sub_rec ?? 0 }} </td>
+
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $refund_rec ?? 0 }} </td>
+
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                {{ $arrs_rec ?? 0 }} </td>
+
+                        </tr>
+                    @endforeach
+
+
+
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            Page Summary-{{$gpf_subscription_key + 1}}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                        </td>
+                        <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        Total
+
+
+
+
+                    </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $gpf_subscription_page[$gpf_subscription_key]['total_subs'] }}
+                        </td>
+
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $gpf_subscription_page[$gpf_subscription_key]['total_refund'] }}
+                        </td>
+
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $gpf_subscription_page[$gpf_subscription_key]['total_arrs'] }}
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+@if(count($gpf_subscription_array) > 15 && count($gpf_subscription_array) > 0 )
+<div class="page-break"></div>
+@endif
+@endforeach
+<br>
+<br>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td colspan="9"
+                            style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                            GRAND SUMMARY OF GPF SUBSCRIPTION
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <thead>
+                    <tr>
+                        <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                            PAGE SUMMARY</th>
+                        <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                            Amount Of Subscription</th>
+
+                            <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                            Refund Of Withdrawl</th>
+                            <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                            GPF ARRS</th>
+                            <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                            TOTAL AMOUNT</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                    $gran_total_gpf_subs = 0;
+                    $gran_total_gpf_refund = 0;
+                    $gran_total_gpf_arr = 0;
+                    $gran_total_all = 0;
+                     @endphp
+
+                @foreach ($gpf_subscription_page as $gpf_subscription_page_key => $gpf_subscription_subscription)
+                @php
+                $gran_total_gpf_subs += $gpf_subscription_subscription['total_subs'] ?? 0;
+                $gran_total_gpf_refund += $gpf_subscription_subscription['total_refund'] ?? 0;
+                $gran_total_gpf_arr += $gpf_subscription_subscription['total_arrs'] ?? 0;
+                $gran_total_all += ($gpf_subscription_subscription['total_subs'] ?? 0) +
+                ($gpf_subscription_subscription['total_refund'] ?? 0) +
+                ($gpf_subscription_subscription['total_arrs'] ?? 0);
+                @endphp
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            Page Summary-{{$gpf_subscription_page_key + 1}}
+                        </td>
+                        <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                        {{  $gpf_subscription_subscription['total_subs'] ?? 0; }}
+                    </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                            {{  $gpf_subscription_subscription['total_refund'] ?? 0; }}
+                        </td>
+
+                        <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                        {{ $gpf_subscription_subscription['total_arrs'] ?? 0 }}
+                    </td>
+
+                    <td
+                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                    {{($gpf_subscription_subscription['total_subs'] ?? 0) +
+                        ($gpf_subscription_subscription['total_refund'] ?? 0) +
+                        ($gpf_subscription_subscription['total_arrs'] ?? 0)}}
+                </td>
+
+
+                    </tr>
+                    @endforeach
+
+
+
+
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            GRAND SUMMARY
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                            {{ $gran_total_gpf_subs ?? 0 }}
+                        </td>
+                        <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                        {{ $gran_total_gpf_refund ?? 0 }}
+                    </td>
+                    <td
+                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                    {{ $gran_total_gpf_arr ?? 0 }}
+                </td>
+                <td
+                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                {{ $gran_total_all ?? 0 }}
+            </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                            {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($gran_total_all)))) }}
+                            Only)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                            amount of these schedule tallies with the amount deducted from pay bill</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="height: 50px;"></td>
+    </tr>
+
+    <tr>
+        <td>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="font-size: 16px; width: 70%; text-align: left;">
+                            CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                        </td>
+                        <td style="font-size: 16px; text-align: left;">
+                            {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                            ACCOUNTS OFFICER<br>
+                            For Director
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+<div class="page-break"></div>
+@if( count($meber_chunk_data_misc) > 0)
+@php
+    $misc_subscription_page = [];
+    @endphp
+    @foreach ($meber_chunk_data_misc as $misc_subscription_key => $misc_subscription_array)
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td
+                            style="
+  font-size: 18px;
+  line-height: 14px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+
+                            RECOVERY SCHEDULE OF MISC DEBIT I IN R/O
+                            {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                            {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                            {{ $pay_bill_no ?? 0 }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 10px 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 500;
+  color: #000;
+  text-align: left;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            Page No: {{$misc_subscription_key + 1}}
+                        </td>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            CHESS,CHESS
+                        </td>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+
+">
+                            UNIT CODE: 330000110
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <thead>
+                    <tr>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            SRNO
+                        </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            EMP NAME
+                        </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            EMP CODE
+                        </th>
+
+
+                        <th
+                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: center;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+background: #cdcdcd;
+
+">
+                       GPF NO
+                    </th>
+                    <th
+                    style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: center;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+background: #cdcdcd;
+">
+                    DESIGNATION
+                </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  background: #cdcdcd;
+  border-right: 1px solid #000;
+">
+                            AMOUNT
+                        </th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                    $misc_subscription_page[$misc_subscription_key]['misc_sub_rec'] = 0;
+                @endphp
+
+                    @foreach ($misc_subscription_array as $new_details_key => $misc_subscription_details)
+                    {{-- @dd($misc_subscription_details) --}}
+                        @php
+                            $misc_sub_rec = round($misc_subscription_details['member_one_debit']['misc1'] ?? 0);
+
+                            $misc_subscription_page[$misc_subscription_key]['misc_sub_rec'] += $misc_sub_rec;
+                        @endphp
+                         <tr>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $new_details_key + 1 }} </td>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $misc_subscription_details['name'] ?? '0' }} </td>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $misc_subscription_details['emp_id'] ?? '0' }} </td>
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $misc_subscription_details['member_data']['gpf_number'] ?? '0' }} </td>
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $misc_subscription_details['desigs']['designation'] ?? '0' }} </td>
+
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                {{ $misc_sub_rec ?? 0 }} </td>
+                        </tr>
+                    @endforeach
+
+
+
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            Page Summary-{{$misc_subscription_key + 1}}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                        </td>
+
+                        <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        Total
+
+                    </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $misc_subscription_page[$misc_subscription_key]['misc_sub_rec'] }}
+                        </td>
+
+
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+@if(count($misc_subscription_array) > 15 && count($misc_subscription_array) > 0 )
+<div class="page-break"></div>
+@endif
+@endforeach
+<br>
+<br>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td colspan="9"
+                            style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                            GRAND SUMMARY OF MISC DEBIT I SUBSCRIPTION
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <thead>
+                    <tr>
+                        <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                            PAGE SUMMARY</th>
+                            <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;border-right: 1px solid #000;">
+                            TOTAL AMOUNT</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                    $gran_total_misc_subs = 0;
+                     @endphp
+
+                @foreach ($misc_subscription_page as $misc_subscription_page_key => $misc_subscription_subscription)
+                @php
+                $gran_total_misc_subs += $misc_subscription_subscription['misc_sub_rec'] ?? 0;
+                @endphp
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            Page Summary-{{$misc_subscription_page_key + 1}}
+                        </td>
+                        <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                        {{  $misc_subscription_subscription['misc_sub_rec'] ?? 0; }}
+                    </td>
+
+
+                    </tr>
+                    @endforeach
+
+
+
+
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            GRAND SUMMARY
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                            {{ $gran_total_misc_subs ?? 0 }}
+                        </td>
+
+
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                            {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($gran_total_misc_subs)))) }}
+                            Only)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                            amount of these schedule tallies with the amount deducted from pay bill</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="height: 50px;"></td>
+    </tr>
+
+    <tr>
+        <td>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="font-size: 16px; width: 70%; text-align: left;">
+                            CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                        </td>
+                        <td style="font-size: 16px; text-align: left;">
+                            {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                            ACCOUNTS OFFICER<br>
+                            For Director
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+@endif
+
+@endif
 </body>
 
 </html>

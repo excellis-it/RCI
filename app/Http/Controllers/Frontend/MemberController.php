@@ -373,7 +373,8 @@ class MemberController extends Controller
 
         // return $member;
 
-        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'nps_sub_val', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules', 'currentMonth', 'currentYear'));
+        return view('frontend.members.edit', compact('member', 'member_credit', 'member_debit', 'member_recovery', 'banks', 'member_core', 'member_personal', 'nps_sub_val', 'cadres', 'exServices', 'paybands', 'quaters', 'pgs', 'pmLevels', 'designations', 'pmIndexes', 'cgegises', 'categories', 'loans', 'members_loans_info', 'policies', 'member_policies', 'member_expectations', 'member_original_recovery', 'member_cghs', 'memberGpf', 'daPercentage', 'check_hba', 'member_var_info', 'rules', 'currentMonth', 'currentYear', 'divisions',
+        'groups' ));
     }
 
 
@@ -742,7 +743,7 @@ class MemberController extends Controller
         $check_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', $request->current_month)->whereYear('created_at', $request->current_year)->get();
 
         $check_debit_member_monthly_check = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $request->current_month)->orderBy('id', 'desc')->where('year', $request->current_year)->first();
-       
+
         if ($check_debit_member_monthly_check) {
             $check_debit_member_monthly = MemberMonthlyDataDebit::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
         } else {
@@ -792,6 +793,8 @@ class MemberController extends Controller
         $check_debit_member_monthly->cmg = $request->cmg ?? 0;
         $check_debit_member_monthly->pli = $request->pli;
         $check_debit_member_monthly->scooter = $request->scooter;
+
+        $check_debit_member_monthly->licence_fee = $request->licence_fee;
         $check_debit_member_monthly->tpt_rec = $request->tpt_rec;
         $check_debit_member_monthly->net_pay = $request->net_pay;
         $check_debit_member_monthly->basic = $request->basic;
@@ -1259,6 +1262,7 @@ class MemberController extends Controller
         $member_infos = Member::findOrFail($request->member_id);
         $member_infos->pran_number = $request->pran_no;
         $member_infos->pan_no = $request->pan_no;
+        $member_infos->gpf_number = $request->gpf_acc_no;
         $member_infos->save();
 
 
@@ -1378,9 +1382,12 @@ class MemberController extends Controller
         $member_details->pm_index = $request->pm_index;
         $member_details->basic = $request->basic;
         $member_details->desig = $request->desig;
-        $member_details->group = $request->group;
+
         $member_details->cadre = $request->cadre;
         $member_details->category = $request->category;
+        $member_details->group = $request->group;
+        $member_details->division = $request->division;
+
         $member_details->status = $request->status;
         $member_details->g_pay = $request->g_pay;
         $member_details->fund_type = $request->fund_type;
@@ -1400,6 +1407,8 @@ class MemberController extends Controller
 
 
         $check_personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->get();
+
+
         if (count($check_personal_member) > 0) {
             $update_personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->first();
 
@@ -1460,37 +1469,34 @@ class MemberController extends Controller
                 }
 
 
-                    // NPS calculations if applicable
-                    $npsDeduction = 0;
-                    $npsDeductionGovt = 0;
-                    $gmcDeduction = 0;
-                    $npsSubTotal = 0;
-                    $npsGMCTotal = 0;
-                    if ($member->memberCategory->fund_type == 'NPS') {
-                        $npsDeduction = round(($basicPay + $daAmount) * 10 / 100);
-                        //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
-                        $npsSubTotal = $npsDeduction + $npsDeductionGovt;
+                // NPS calculations if applicable
+                $npsDeduction = 0;
+                $npsDeductionGovt = 0;
+                $gmcDeduction = 0;
+                $npsSubTotal = 0;
+                $npsGMCTotal = 0;
+                if ($member->memberCategory->fund_type == 'NPS') {
+                    $npsDeduction = round(($basicPay + $daAmount) * 10 / 100);
+                    //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
+                    $npsSubTotal = $npsDeduction + $npsDeductionGovt;
+                }
+                if ($member->memberCategory->fund_type == 'NPS') {
+                    $gmcDeduction = round(($basicPay + $daAmount) * 14 / 100);
+                    $npsGMCTotal = $gmcDeduction;
+                }
 
-                    }
-                    if ($member->memberCategory->fund_type == 'NPS') {
-                        $gmcDeduction = round(($basicPay + $daAmount) * 14 / 100);
-                        $npsGMCTotal = $gmcDeduction;
+                // GPF calculations if applicable
+                $gpfDeduction = 0;
+                if ($member->memberCategory->fund_type == 'GPF') {
+                    $gpfDeduction = round(($basicPay + $daAmount) * 10 / 100);
+                }
 
-                    }
-
-                    // GPF calculations if applicable
-                    $gpfDeduction = 0;
-                    if ($member->memberCategory->fund_type == 'GPF') {
-                        $gpfDeduction = round(($basicPay + $daAmount) * 10 / 100);
-
-                    }
-
-                    $npsg = 0;
-                    $nps_10_rec = 0;
-                    if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
-                        $npsg = round((($basicPay + $daAmount) * 14) / 100);
-                        $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
-                    }
+                $npsg = 0;
+                $nps_10_rec = 0;
+                if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
+                    $npsg = round((($basicPay + $daAmount) * 14) / 100);
+                    $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
+                }
 
                 if ($member_debit_monthly) {
 
@@ -1523,6 +1529,10 @@ class MemberController extends Controller
             $update_personal_member->pm_index = $request->pm_index;
             $update_personal_member->desig = $request->desig;
             $update_personal_member->category = $request->category;
+            $update_personal_member->group = $request->group;
+            $update_personal_member->division = $request->division;
+
+
             $update_personal_member->doj_service = $request->doj_service;
             $update_personal_member->quater_no = $request->quater_no;
             $update_personal_member->dop = $request->dop;
@@ -1673,6 +1683,9 @@ class MemberController extends Controller
             $personal_member->pm_index = $request->pm_index;
             $personal_member->desig = $request->desig;
             $personal_member->category = $request->category;
+            $personal_member->group = $request->group;
+            $personal_member->division = $request->division;
+
             $personal_member->doj_service = $request->doj_service;
             $personal_member->quater_no = $request->quater_no;
             $personal_member->dop = $request->dop;
@@ -2889,7 +2902,7 @@ class MemberController extends Controller
             'variable_amount' => 0,
             'arrs_pay_alw' => 0,
             'tot_credits' => $basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay + $npsc,
-            'remarks' => 'Initial credit data created'
+            'remarks' => null,
         ];
 
         $member_credit_monthly = MemberMonthlyDataCredit::updateOrCreate(
@@ -2926,7 +2939,7 @@ class MemberController extends Controller
             'variable_amount' => 0,
             'arrs_pay_alw' => 0,
             'tot_credits' => $basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay,
-            'remarks' => 'Initial credit data created'
+            'remarks' => null
         ];
 
         $member_credit = MemberCredit::updateOrCreate(
@@ -3030,6 +3043,8 @@ class MemberController extends Controller
             'pli' => 0,
             'scooter' => 0,
             'tpt_rec' => 0,
+            'licence_fee' => 0,
+
             'tot_debits' => $deductionsTotal,
             'net_pay' => ($basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay + $npsc) - $deductionsTotal,
             'basic' => $basicPay,
@@ -3076,7 +3091,7 @@ class MemberController extends Controller
             'ltc_rec' => 0,
             'medical_rec' => 0,
             'tada_rec' => 0,
-            'remarks' => 'Initial debit data created'
+            'remarks' => null
         ];
 
         $member_debit_monthly = MemberMonthlyDataDebit::updateOrCreate(
@@ -3160,7 +3175,7 @@ class MemberController extends Controller
             'ltc_rec' => 0,
             'medical_rec' => 0,
             'tada_rec' => 0,
-            'remarks' => 'Initial debit data created'
+            'remarks' => null
         ];
 
         $member_debit = MemberDebit::updateOrCreate(
@@ -3255,7 +3270,7 @@ class MemberController extends Controller
             'ogpf' => 0,
             'ntp' => 0,
             'ptax' => 200,
-            'remarks' => 'Initial recovery data created'
+            'remarks' => null
         ];
 
         $member_org_recovery_monthly = MemberMonthlyDataRecovery::updateOrCreate(
@@ -3286,7 +3301,7 @@ class MemberController extends Controller
             'ogpf' => 0,
             'ntp' => 0,
             'ptax' => 200,
-            'remarks' => 'Initial recovery data created'
+            'remarks' => null
         ];
 
         $member_org_recovery = MemberOriginalRecovery::updateOrCreate(

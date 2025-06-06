@@ -56,6 +56,7 @@ class MemberMonthlyDataDebit extends Model
         'comp_adv',
         'comp_int',
         'tpt_rec',
+        'licence_fee',
         'net_pay',
         'basic',
         'leave_rec',

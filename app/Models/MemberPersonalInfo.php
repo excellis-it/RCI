@@ -9,4 +9,9 @@ class MemberPersonalInfo extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function quarter()
+    {
+        return $this->belongsTo(Quater::class, 'quater');
+    }
 }

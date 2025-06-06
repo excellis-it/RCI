@@ -458,6 +458,48 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Group</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="group" id="group">
+                                    <option value="">Select</option>
+                                    @foreach ($groups as $group)
+                                        <option value="{{ $group->id }}"
+                                            {{ (isset($member_personal->group) || isset($member->group)) && $group->id == ($member_personal->group ?? ($member->group ?? null)) ? 'selected' : '' }}>
+                                            {{ $group->value }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Division</label>
+                            </div>
+                            {{-- @dd($member_personal->division) --}}
+                            <div class="col-md-12">
+                                <select class="form-select" name="division" id="division">
+                                    <option value="">Select</option>
+                                    @foreach ($divisions as $division)
+                                        <option value="{{ $division->id }}"
+                                            {{ (isset($member_personal->division) || isset($member->division)) && $division->id == ($member_personal->division ?? ($member->division ?? null)) ? 'selected' : '' }}>
+                                            {{ $division->value }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="row">

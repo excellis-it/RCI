@@ -44,7 +44,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="tpt" id="tpt"
-                            value="{{ $member_credit->tpt ?? (old('tpt') ?? '') }}" placeholder="" readonly>
+                            value="{{ $member_credit->tpt ?? (old('tpt') ?? '') }}" placeholder="" >
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hra" id="hra"
-                            value="{{ $member_credit->hra ?? (old('hra') ?? '') }}" placeholder="" readonly>
+                            value="{{ $member_credit->hra ?? (old('hra') ?? '') }}" placeholder="" >
                         <span class="text-danger"></span>
                     </div>
                 </div>

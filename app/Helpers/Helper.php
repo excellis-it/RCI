@@ -922,6 +922,7 @@ class Helper
                 'comp_int_total_instl',
                 'comp_int',
                 'tpt_rec',
+                'licence_fee',
                 'leave_rec',
                 'ltc_rec',
                 'medical_rec',
