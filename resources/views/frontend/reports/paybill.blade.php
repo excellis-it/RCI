@@ -215,12 +215,15 @@
                 body: formData
             })
                 .then(async response => {
+                     const data = await response.json();
+                    //  console.log(response);
+
                     if (response.status === 422) {
-                        const data = await response.json();
+
                         showValidationErrors(data.errors);
                         throw new Error("Validation failed");
                     }
-                    if (!response.ok) throw new Error("Invalid PDF response");
+                    if (!response.ok) throw new Error(data.message || 'Failed to generate PDF');
 
                     return response.blob();
                 })

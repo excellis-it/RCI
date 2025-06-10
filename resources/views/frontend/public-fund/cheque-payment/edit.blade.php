@@ -239,7 +239,7 @@
                     <td>
                         <input type="hidden" id="main_pay_amount_{{ $chequePayment->id }}" class="form-control"
                             name="main_pay_amount[{{ $chequePayment->id }}][]" required
-                            value="{{ Helper::getCheqpaymentMemberRCamount($receipt_data2->id, $member->member_id, $member->serial_no) }}">
+                            value="{{ Helper::getCheqpaymentMemberRCamountNew($receipt_data2->id, $member->member_id, $member->id, $member->serial_no) }}">
                         <input type="number" step="any" id="balance_{{ $chequePayment->id }}" class="form-control"
                             name="balance[{{ $chequePayment->id }}][]"
                             value="{{ Helper::getCheqpaymentMemberBalance($receipt_data2->id, $member->member_id, $member->serial_no) }}"
@@ -350,7 +350,8 @@
                 $mainPayAmountInput.val()) || 0;
             let billAmount = parseFloat(
                 $billAmountInput.val()) || 0;
-
+            // alert(billAmount);
+            // alert(mainPayAmount);
             // Validation: Bill amount cannot exceed the main pay amount
             if (billAmount > mainPayAmount) {
                 // Show error message and reset bill amount

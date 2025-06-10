@@ -276,7 +276,7 @@
                                 </td>
                                 <td
                                     style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 0px !important; margin: 0px 0px !important;">
-                                    {{ $chequeSerialNumbers[$key] ?? '' }}
+                                    {{-- {{ $chequeSerialNumbers[$key] ?? '' }} --}}
                                 </td>
                                 <td
                                     style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
@@ -288,11 +288,11 @@
                                 </td>
                                 <td
                                     style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                    0
+
                                 </td>
                                 <td
                                     style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                    {{ $bank_amount }}
+                                    {{-- {{ $bank_amount }} --}}
                                 </td>
                                 @foreach ($category as $cat)
                                     <td
@@ -304,6 +304,10 @@
 
                                 </td>
                             </tr>
+                            @php
+                                $main_count_cvr = 0;
+                            @endphp
+                            {{-- @dd($groupedData) --}}
                             @foreach ($groupedData as $new_key => $check_payment)
                                 @php
                                     $vr_no_print = \App\Models\ChequePayment::with('reciepts')
@@ -315,8 +319,12 @@
 
                                     <td rowspan="{{ count($check_payment) + 1 }}"
                                         style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                        {{-- {{ $vr_no_print->vr_no }} --}}
-                                        {{-- {{ $chequeSerialNumbers[$key] ?? '' }} --}}
+
+
+                                        @if ( $main_count_cvr  == 0)
+                                            {{ $chequeSerialNumbers[$key] ?? '' }}
+                                        @endif
+
                                     </td>
                                     <td
                                         style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
@@ -328,9 +336,15 @@
                                     </td>
                                     <td
                                         style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                       @if ( $main_count_cvr  == 0)
+                                            0
+                                        @endif
                                     </td>
                                     <td
                                         style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                       @if ( $main_count_cvr  == 0)
+                                            {{ number_format($bank_amount) }}
+                                        @endif
                                     </td>
                                     @foreach ($category as $cat)
                                         <td
@@ -352,22 +366,25 @@
                                                 style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                 @php
 
-                                                $name = $member['member']['name'] ?? '';
-                                                $designation = $member['member']['desigs']['designation'] ?? '';
-                                                $vrNo = $vr_no_print->vr_no ?? '';
-                                                $vrDate = isset($vr_no_print->vr_date) && $vr_no_print->vr_date
-                                                            ? \Carbon\Carbon::parse($vr_no_print->vr_date)->format('d/m/Y')
+                                                    $name = $member['member']['name'] ?? '';
+                                                    $designation = $member['member']['desigs']['designation'] ?? '';
+                                                    $vrNo = $vr_no_print->vr_no ?? '';
+                                                    $vrDate =
+                                                        isset($vr_no_print->vr_date) && $vr_no_print->vr_date
+                                                            ? \Carbon\Carbon::parse($vr_no_print->vr_date)->format(
+                                                                'd/m/Y',
+                                                            )
                                                             : '';
-                                                $billRef = $member['bill_ref'] ?? '';
-                                                $main_cont = $count + 1;
+                                                    $billRef = $member['bill_ref'] ?? '';
+                                                    $main_cont = $main_count_cvr + 1;
 
-                                                $fullText = "({$main_cont}) {$name}, {$designation} (CBRE - {$vrNo}, {$vrDate})({$billRef})";
+                                                    $fullText = "($main_cont) {$name}, {$designation} (CBRE - {$vrNo}, {$vrDate})({$billRef})";
 
-                                                // Limit full text to 46 characters
-                                                $limitedText = Illuminate\Support\Str::limit($fullText, 60, '');
-                                            @endphp
+                                                    // Limit full text to 46 characters
+                                                    $limitedText = Illuminate\Support\Str::limit($fullText, 60, '');
+                                                @endphp
 
-                                            {{ $limitedText }}
+                                                {{ $limitedText }}
                                             </td>
                                             <td
                                                 style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
@@ -408,7 +425,7 @@
                                             </td>
                                         </tr>
                                         {{ $new_count_member++ }}
-
+                                        {{ $main_count_cvr++ }}
                                         {{-- @dd($data_member_group_by_with_cheque_number[$key], $payments->toArray(), $member['cheque_payment']) --}}
                                     @endforeach
                                 @endif
@@ -419,7 +436,7 @@
                     {{-- @dd(count($new_member)); --}}
                     @if (count($new_member) <= 24)
                         @php
-                            $pixel_table = 700 - 28 * count($new_member);
+                            $pixel_table = 730 - 30 * count($new_member);
                         @endphp
                         <tr>
                             <td height="{{ $pixel_table }}px"></td>
@@ -487,7 +504,7 @@
                     <tr>
                         <td colspan="4">Balance Carried Forward</td>
                         <td>0</td>
-                        <td>{{number_format($total_bank_balnace_forword)}}</td>
+                        <td>{{ number_format($total_bank_balnace_forword) }}</td>
                         @foreach ($category as $cat)
                             <td>
                                 @if ($start > 0)
@@ -495,7 +512,7 @@
                                         $total_previous_balance1[$cat->id] = $total_previous_balance[$cat->id];
                                         $total_previous_reciepts[$cat->id] = $total_previous_balance1[$cat->id];
                                     @endphp
-                                    {{ number_format(($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - $total_previous_balance[$cat->id])) }}
+                                    {{ number_format($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - $total_previous_balance[$cat->id]) }}
                                 @else
                                     {{-- @php
                                         $total_previous_balance[$cat->id] =
@@ -503,9 +520,9 @@
                                             Helper::get_openings_balance($cat->id, $pre_vr_date) -
                                             $categoryTotals[$cat->id];
                                     @endphp --}}
-                                    {{ number_format(($categoryAmounts[$cat->id] +
-                                        Helper::get_openings_balance($cat->id, $pre_vr_date) -
-                                        $categoryTotals[$cat->id])) }}
+                                    {{ number_format(
+                                        $categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - $categoryTotals[$cat->id],
+                                    ) }}
                                 @endif
 
                             </td>
@@ -527,7 +544,7 @@
                                             $categoryAmounts[$cat->id] +
                                             Helper::get_openings_balance($cat->id, $pre_vr_date);
                                     @endphp --}}
-                                {{ number_format(($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date))) }}
+                                {{ number_format($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                                 {{-- @endif --}}
 
                             </td>
@@ -717,7 +734,7 @@
                 @endforeach
 
                 <tr>
-                    <td height="600px"></td>
+                    <td height="730px"></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -775,7 +792,7 @@
                     {{ $balanceCarriedForward[$cat->id] }}
                 </td> --}}
                         <td>
-                            {{ number_format(($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - $categoryTotals[$cat->id])) }}
+                            {{ number_format($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - $categoryTotals[$cat->id]) }}
                         </td>
                     @endforeach
                     <td></td>

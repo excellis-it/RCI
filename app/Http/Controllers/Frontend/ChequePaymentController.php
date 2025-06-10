@@ -38,7 +38,7 @@ class ChequePaymentController extends Controller
 
         // dd( $lastPayme nt->cheq_date);
 
-        $initAllPayments = ChequePayment::with('chequePaymentMembers.member')->whereMonth('cheq_date', date('m',strtotime($lastPayment->cheq_date)))->orderBy('id', 'desc')->get();
+        $initAllPayments = ChequePayment::with('chequePaymentMembers.member')->whereMonth('cheq_date', date('m', strtotime($lastPayment->cheq_date)))->orderBy('id', 'desc')->get();
 
         // Fetch the data based on the limit; use paginate if it's not 'All'
         if ($limit === 'All') {
@@ -512,9 +512,11 @@ class ChequePaymentController extends Controller
             ->groupBy('cheq_no');
         $payment_members = ChequePaymentMember::with(['chequePayment', 'member.desigs', 'reciepts'])
             ->where('cheq_date', $chq_date)
+            ->where('amount', '>', 0) // Filter by amount > 0
             ->orderByRaw('CAST(cheq_no AS UNSIGNED) ASC') // Ensure numeric sorting
             ->get()
             ->chunk(25);
+
         // Chunk after fetching data
         // dd($payment_members->toArray());
         // dd($payments);
@@ -559,7 +561,7 @@ class ChequePaymentController extends Controller
 
         return $pdf->download('payment-report-' . $chq_date . '.pdf');
 
-        // return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'print_date', 'payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'));
+        return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'print_date', 'payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'));
     }
 
 

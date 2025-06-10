@@ -444,6 +444,19 @@ class Helper
         return $receipt_amount;
     }
 
+     public static function getCheqpaymentMemberRCamountNew($receipt_id, $member_id,$payment_id, $srno)
+    {
+        $balance = 0;
+        $payment_amount = ChequePaymentMember::where('id','!=', $payment_id)->where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
+          $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
+        if ($payment_amount > 0) {
+            $balance = $receipt_amount - $payment_amount;
+        } else {
+            $balance = $receipt_amount;
+        }
+        return $balance;
+    }
+
     public static function getTotalPaymentsByChqNo($cheqNo)
     {
         $totalamount = ChequePayment::where('cheq_no', $cheqNo)->sum('amount');

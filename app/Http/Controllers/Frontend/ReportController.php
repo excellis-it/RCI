@@ -99,7 +99,7 @@ class ReportController extends Controller
 
             $category_fund_type = Category::find($member->category)->fund_type ?? null;
             if (!$category_fund_type) {
-                return redirect()->back()->with('error', 'No fund type added for this category');
+                return response()->json(['message'=> 'No fund type added for this category'],400);
             }
 
             $member_datas = Member::whereIn('id', $monthly_members_data)
@@ -116,7 +116,7 @@ class ReportController extends Controller
 
             $category_fund_type = Category::find($request->category)->fund_type ?? null;
             if (!$category_fund_type) {
-                return redirect()->back()->with('error', 'No fund type added for this category');
+                return response()->json(['message'=> 'No fund type added for this category'], 400);
             }
 
             $member_datas = Member::whereIn('id', $monthly_members_data)
@@ -130,7 +130,8 @@ class ReportController extends Controller
         }
 
         if ($member_datas->count() === 0) {
-            return redirect()->back()->with('error', 'No data found for the selected criteria');
+             return response()->json(['message'=> 'No data found for the selected criteria'], 400);
+            // return redirect()->back()->with('error', 'No data found for the selected criteria');
         }
 
         foreach ($member_datas as $member_data) {
@@ -275,7 +276,7 @@ class ReportController extends Controller
             $category_fund_type = Category::where('id', $member->category)->first()['fund_type'];
             // dd()
             if (!$category_fund_type && empty($category_fund_type)) {
-                return redirect()->back()->with('error', 'No fund type add for this category');
+                 return response()->json(['message'=> 'No fund type added for this category'],400);
             }
 
             $member_datas = Member::whereIn('id', $monthly_members_data)
@@ -293,7 +294,7 @@ class ReportController extends Controller
             $category_fund_type = Category::where('id', $request->category)->first()['fund_type'];
             // dd()
             if (!$category_fund_type && empty($category_fund_type)) {
-                return redirect()->back()->with('error', 'No fund type add for this category');
+                 return response()->json(['message'=> 'No fund type added for this category'],400);
             }
 
             $member_datas = Member::whereIn('id', $monthly_members_data)
@@ -315,7 +316,7 @@ class ReportController extends Controller
         // dd($member_datas->toArray(), $monthly_members_data);
 
         if ($member_datas->count() == 0) {
-            return redirect()->back()->with('error', 'No data found for the selected criteria');
+             return response()->json(['message'=> 'No data found for the selected criteria'],400);
         }
 
         foreach ($member_datas as $member_data) {

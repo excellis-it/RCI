@@ -210,6 +210,7 @@
                         </tr>
                     @endif
                     @foreach ($receipts as $key => $receipt)
+                    {{-- @dd($receipt) --}}
                         @if (isset($data_member_group_by_with_reciept_id[$receipt->id]))
                             {{-- @dd($receipt, $data_member_group_by_with_reciept_id[$receipt->id]) --}}
                             @php
@@ -335,7 +336,7 @@
                                         style="{{ $loop->last ? 'border-bottom: 1px solid #000;' : 'border-bottom: 0;' }}">
                                         <td
                                             style="font-size: 15px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
-                                            {{ $member['serial_no'] }}. {{ $memberName }} - {{ $memberDesign }} (
+                                            {{ $index + 1 }}. {{ $memberName }} - {{ $memberDesign }} (
                                             {{ $member['bill_ref'] ?? '' }})
                                         </td>
                                         <td
@@ -370,10 +371,11 @@
                     @endforeach
                     @if (count($new_member) <= 22)
                         @php
-                            $pixel_table = 650 - 33.5 * count($new_member);
+                            $pixel_table = 730 - (19 * (count($new_member) + $new_count_cvr));
+                            // dd($pixel_table);
                         @endphp
                         <tr>
-                            <td height="{{ $pixel_table }}px"></td>
+                            <td height="{{ round($pixel_table) }}px"></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -662,7 +664,7 @@
                 @endforeach
 
                 <tr>
-                    <td height="700px"></td>
+                    <td height="730px"></td>
                     <td></td>
                     <td></td>
                     <td></td>
