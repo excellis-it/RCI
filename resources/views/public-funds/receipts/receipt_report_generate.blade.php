@@ -371,7 +371,7 @@
                     @endforeach
                     @if (count($new_member) <= 22)
                         @php
-                            $pixel_table = 730 - (19 * (count($new_member) + $new_count_cvr));
+                            $pixel_table = 730 - (22.12 * (count($new_member) + $new_count_cvr));
                             // dd($pixel_table);
                         @endphp
                         <tr>

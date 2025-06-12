@@ -316,7 +316,13 @@ class MemberController extends Controller
         $pgs = Pg::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $cgegises = Cgegis::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $banks = Bank::orderBy('id', 'desc')->get() ?? '';
-        $loans = Loan::orderBy('id', 'asc')->get() ?? '';
+       if ($member->memberCategory->fund_type === 'GPF') {
+            // Show all loans
+            $loans = Loan::orderBy('id', 'desc')->get();
+        } else {
+            // Exclude loan with ID 10
+            $loans = Loan::where('id', '!=', 10)->orderBy('id', 'desc')->get();
+        }
         $policies = Policy::orderBy('id', 'desc')->get() ?? '';
         $daPercentage = DearnessAllowancePercentage::where('is_active', 1)->get() ?? '';
         $memberGpf = MemberGpf::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
@@ -460,7 +466,13 @@ class MemberController extends Controller
         $pgs = Pg::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $cgegises = Cgegis::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $banks = Bank::orderBy('id', 'desc')->get() ?? '';
-        $loans = Loan::orderBy('id', 'asc')->get() ?? '';
+       if ($member->memberCategory->fund_type === 'GPF') {
+            // Show all loans
+            $loans = Loan::orderBy('id', 'desc')->get();
+        } else {
+            // Exclude loan with ID 10
+            $loans = Loan::where('id', '!=', 10)->orderBy('id', 'desc')->get();
+        }
         $policies = Policy::orderBy('id', 'desc')->get() ?? '';
         $daPercentage = DearnessAllowancePercentage::where('is_active', 1)->get() ?? '';
         $memberGpf = MemberGpf::where('member_id', $id)->orderBy('id', 'desc')->first() ?? '';
@@ -867,7 +879,7 @@ class MemberController extends Controller
         $check_debit_member_monthly->tpt_rec = $request->tpt_rec;
         $check_debit_member_monthly->net_pay = $request->net_pay;
         $check_debit_member_monthly->basic = $request->basic;
-        $check_debit_member_monthly->gpf_adv = $request->gpa_adv;
+        // $check_debit_member_monthly->gpf_adv = $request->gpa_adv;
         $check_debit_member_monthly->hba_int = $request->hba_interest;
         $check_debit_member_monthly->comp_adv = $request->comp_adv;
         $check_debit_member_monthly->comp_int = $request->comp_int;
@@ -955,7 +967,7 @@ class MemberController extends Controller
             $update_debit_member->tpt_rec = $request->tpt_rec;
             $update_debit_member->net_pay = $request->net_pay;
             $update_debit_member->basic = $request->basics;
-            $update_debit_member->gpf_adv = $request->gpa_adv;
+            // $update_debit_member->gpf_adv = $request->gpa_adv;
             $update_debit_member->hba_int = $request->hba_interest;
             $update_debit_member->comp_adv = $request->comp_adv;
             $update_debit_member->comp_int = $request->comp_int;
@@ -1043,7 +1055,7 @@ class MemberController extends Controller
             $debit_member->tpt_rec = $request->tpt_rec;
             $debit_member->net_pay = $request->net_pay;
             $debit_member->basic = $request->basic;
-            $debit_member->gpf_adv = $request->gpa_adv;
+            // $debit_member->gpf_adv = $request->gpa_adv;
             $debit_member->hba_int = $request->hba_interest;
             $debit_member->comp_adv = $request->comp_adv;
             $debit_member->comp_int = $request->comp_int;
@@ -1879,7 +1891,15 @@ class MemberController extends Controller
         $currentMonth = $member_loan->month;
         $currentYear = $member_loan->year;
         $edit = true;
-        $loans = Loan::orderBy('id', 'desc')->get();
+        $member = Member::findOrFail($member_loan->member_id);
+
+        if ($member->memberCategory->fund_type === 'GPF') {
+            $loans = Loan::orderBy('id', 'desc')->get();
+        } else {
+            // Exclude loan with ID 10
+            $loans = Loan::where('id', '!=', 10)->orderBy('id', 'desc')->get();
+        }
+
         return response()->json(['view' => view('frontend.members.loan.form', compact('edit', 'member_loan', 'loans', 'currentMonth', 'currentYear'))->render()]);
     }
 

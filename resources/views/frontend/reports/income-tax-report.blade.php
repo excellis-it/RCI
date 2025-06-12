@@ -34,7 +34,7 @@
                         <div id="form">
                             <form action="{{ route('reports.annual-income-tax-report-generate') }}" method="POST" >
                                 @csrf
-
+ 
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="row">

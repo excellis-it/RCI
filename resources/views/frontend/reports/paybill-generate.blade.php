@@ -56,7 +56,7 @@
 
     @php
         $main_count = 0;
-
+        $gpf_adv_arr = [];
         $hba_adv_arr = [];
         $car_adv_arr = [];
         $sco_adv_arr = [];
@@ -457,7 +457,7 @@
                                         $totalMiscCredit += $credit?->misc2 ?? 0;
 
                                         $totalGpfSub += $debit?->gpa_sub ?? 0;
-                                        $totalGpfAdv += $debit?->gpf_adv ?? 0;
+                                        $totalGpfAdv += $loans['gpf_adv']?? 0;
                                         $totalGpfArr += $debit?->gpf_arr ?? 0;
                                         $totalCgegis += $debit?->cgegis ?? 0;
                                         $totalCghs += $debit?->cghs ?? 0;
@@ -521,7 +521,7 @@
 
                                         $singleTotalDebit =
                                             ($debit?->gpa_sub ?? 0) +
-                                            ($debit?->gpf_adv ?? 0) +
+                                            ($loans['gpf_adv'] ?? 0) +
                                             ($debit?->gpf_arr ?? 0) +
                                             ($debit?->cgegis ?? 0) +
                                             ($debit?->cghs ?? 0) +
@@ -620,7 +620,7 @@
                                         $pageArrayGpfSub[$chunkKey] +=
                                             $member_info['details']['member_debit']->gpa_sub ?? 0;
                                         $pageArrayGpfAdv[$chunkKey] +=
-                                            $member_info['details']['member_debit']->gpf_adv ?? 0;
+                                           $member_info['details']['member_loans']['gpf_adv'] ?? 0;
                                         $pageArrayGpfArr[$chunkKey] +=
                                             $member_info['details']['member_debit']->gpf_arr ?? 0;
                                         $pageArrayCgegis[$chunkKey] +=
@@ -722,7 +722,7 @@
                                         // Calculate singlepageArrayDebit for the current member and add it to the chunk total
                                         $currentMemberDebit =
                                             ($member_info['details']['member_debit']->gpa_sub ?? 0) +
-                                            ($member_info['details']['member_debit']->gpf_adv ?? 0) +
+                                            ($member_info['details']['member_loans']['gpf_adv'] ?? 0) +
                                             ($member_info['details']['member_debit']->gpf_arr ?? 0) +
                                             ($member_info['details']['member_debit']->cgegis ?? 0) +
                                             ($member_info['details']['member_debit']->cghs ?? 0) +
@@ -839,7 +839,7 @@
                                             style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_debit']->gpa_sub ?? 0) }}<br>
-                                            {{ round($member_info['details']['member_debit']->gpf_adv ?? 0) }}<br>
+                                            {{ round($member_info['details']['member_loans']['gpf_adv'] ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->gpf_arr ?? 0) }} <br>
                                             {{ round($member_info['details']['member_debit']->cgegis ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->cghs ?? 0) }}<br>
@@ -961,6 +961,7 @@
                                             ($member_info['details']['member_loans']['comp_adv'] ?? 0) > 0 ||
                                             ($member_info['details']['member_loans']['comp_int'] ?? 0) > 0 ||
                                             ($member_info['details']['member_loans']['fest_adv'] ?? 0) > 0 ||
+                                           ( $member_info['details']['member_loans']['gpf_adv'] ?? 0) > 0 ||
                                             (isset($member_info['details']['member_credit']['remarks']) && $member_info['details']['member_credit']['remarks']) ||  (isset($member_info['details']['member_debit']['remarks']) && $member_info['details']['member_debit']['remarks']) ||  (isset($member_info['details']['member_recovery']['remarks']) && $member_info['details']['member_recovery']['remarks'])
 
 
@@ -992,6 +993,24 @@
                                         </td>
                                             <td colspan="7"
                                                 style=" font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; ">
+                                                 @if (($member_info['details']['member_loans']['gpf_adv'] ?? 0) > 0)
+                                                    GPF
+                                                    {{ $member_info['details']['member_loans']['gpf_adv_data']['present_inst_no'] ?? 0 }}
+                                                    /
+                                                    {{ $member_info['details']['member_loans']['gpf_adv_data']['tot_no_of_inst'] ?? 0 }}
+                                                    @ {{ $member_info['details']['member_loans']['gpf_adv'] ?? 0 }} TOT
+                                                    ADV:-
+                                                    {{ $member_info['details']['member_loans']['gpf_adv_data']['total_amount'] ?? 0 }}
+                                                    BAL:-
+                                                    {{ $member_info['details']['member_loans']['gpf_adv_data']['balance'] ?? 0 }}
+
+                                                    @php
+                                                        $gpf_adv_arr[$main_count] =
+                                                            $member_info['details']['member_loans']['gpf_adv_data'];
+                                                    @endphp
+                                                    <br>
+                                                @endif
+
                                                 @if (($member_info['details']['member_loans']['hba_adv'] ?? 0) > 0)
                                                     HBA
                                                     {{ $member_info['details']['member_loans']['hba_adv_data']['present_inst_no'] ?? 0 }}
@@ -1007,7 +1026,9 @@
                                                         $hba_adv_arr[$main_count] =
                                                             $member_info['details']['member_loans']['hba_adv_data'];
                                                     @endphp
+                                                      <br>
                                                 @endif
+                                              
                                                 @if (($member_info['details']['member_loans']['hba_int'] ?? 0) > 0)
                                                     HBA
                                                     {{ $member_info['details']['member_loans']['hba_int_data']['present_inst_no'] ?? 0 }}
@@ -1024,6 +1045,7 @@
                                                         $hba_int_arr[$main_count] =
                                                             $member_info['details']['member_loans']['hba_int_data'];
                                                     @endphp
+                                                    <br>
                                                 @endif
 
                                                 @if (($member_info['details']['member_loans']['car_adv'] ?? 0) > 0)
@@ -1043,7 +1065,9 @@
                                                             $member_info['details']['member_loans']['car_adv_data'];
 
                                                     @endphp
+                                                     <br>
                                                 @endif
+                                               
                                                 @if (($member_info['details']['member_loans']['car_int'] ?? 0) > 0)
                                                     CAR
                                                     {{ $member_info['details']['member_loans']['car_int_data']['present_inst_no'] ?? 0 }}
@@ -1059,6 +1083,7 @@
                                                         $car_int_arr[$main_count] =
                                                             $member_info['details']['member_loans']['car_int_data'];
                                                     @endphp
+                                                    <br>
                                                 @endif
 
                                                 @if (($member_info['details']['member_loans']['sco_adv'] ?? 0) > 0)
@@ -1077,7 +1102,9 @@
                                                             $member_info['details']['member_loans']['sco_adv_data'];
 
                                                     @endphp
+                                                    <br>
                                                 @endif
+                                                
                                                 @if (($member_info['details']['member_loans']['sco_int'] ?? 0) > 0)
                                                     SCO
                                                     {{ $member_info['details']['member_loans']['sco_int_data']['present_inst_no'] ?? 0 }}
@@ -1093,6 +1120,7 @@
                                                             $member_info['details']['member_loans']['sco_int_data'];
 
                                                     @endphp
+                                                    <br>
                                                 @endif
 
                                                 @if (($member_info['details']['member_loans']['comp_adv'] ?? 0) > 0)
@@ -1110,7 +1138,9 @@
                                                             $member_info['details']['member_loans']['comp_adv_data'];
 
                                                     @endphp
+                                                       <br>
                                                 @endif
+                                             
                                                 @if (($member_info['details']['member_loans']['comp_int'] ?? 0) > 0)
                                                     COMP
                                                     {{ $member_info['details']['member_loans']['comp_int_data']['present_inst_no'] ?? 0 }}
@@ -1126,6 +1156,7 @@
                                                         $comp_int_arr[$main_count] =
                                                             $member_info['details']['member_loans']['comp_int_data'];
                                                     @endphp
+                                                    <br>
                                                 @endif
 
                                                 @if (($member_info['details']['member_loans']['fest_adv'] ?? 0) > 0)
@@ -7595,7 +7626,7 @@ background: #cdcdcd;
 
                           @foreach ($cghs_data as $key => $all_member)
                               @php
-                                  $currentMonth = $number_month;
+                                  $currentMonth = $themonth;
                                   $currentYear = $year ?? now()->year;
 
                                   $currentDate = \Carbon\Carbon::createFromDate($currentYear, $currentMonth, 1);
@@ -7631,6 +7662,16 @@ background: #cdcdcd;
                                       ->orderBy('id', 'desc')
                                       ->sum('inst_amount');
 
+                                        $last_month_data_loan_gpf_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
+                                      'member_id',
+                                      $all_member['member_data']['id'],
+                                  )
+                                      ->where('month', $previousMonth)
+                                      ->where('year', $previousYear)
+                                      ->where('loan_id', 10)
+                                      ->orderBy('id', 'desc')
+                                      ->sum('inst_amount');
+
                                       $last_month_data_loan_hba_adv_int = \App\Models\MemberMonthlyDataLoanInfo::where(
                                       'member_id',
                                       $all_member['member_data']['id'],
@@ -7662,7 +7703,7 @@ background: #cdcdcd;
 
                                  // 2f) Add each “debit” field into running totals (if you need them)
                                 $last_month_totals[$cghs_key]['gpa_sub']    += $last_month_debit['gpa_sub'] ?? 0;
-                                $last_month_totals[$cghs_key]['gpa_adv']    += $last_month_debit['gpa_adv'] ?? 0;
+                                $last_month_totals[$cghs_key]['gpa_adv']    += $last_month_data_loan_gpf_adv_sum ?? 0;
                                 $last_month_totals[$cghs_key]['cgegis']     += $last_month_debit['cgegis'] ?? 0;
                                 $last_month_totals[$cghs_key]['cghs']       += $last_month_debit['cghs'] ?? 0;
                                 $last_month_totals[$cghs_key]['hba_adv']    += $last_month_data_loan_hba_adv_sum ?? 0;
@@ -10933,6 +10974,16 @@ background: #cdcdcd;
 
                     // dd($last_month_data_debit, $all_member['member_data']);
 
+                      $last_month_data_loan_gpf_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
+                    'member_id',
+                    $statement['member_data']['id'],
+                )
+                    ->where('month', $previousMonth)
+                    ->where('year', $previousYear)
+                    ->where('loan_id', 10)
+                    ->orderBy('id', 'desc')
+                    ->sum('inst_amount');
+
                     $last_month_data_loan_hba_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
                     'member_id',
                     $statement['member_data']['id'],
@@ -10958,9 +11009,19 @@ background: #cdcdcd;
                     'member_id',
                     $statement['member_data']['id'],
                 )
-                    ->where('month', $number_month)
+                    ->where('month', $themonth)
                     ->where('year', $year)
                     ->where('loan_id', 1)
+                    ->orderBy('id', 'desc')
+                    ->sum('inst_amount');
+
+                     $this_month_data_loan_gpf_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
+                    'member_id',
+                    $statement['member_data']['id'],
+                )
+                    ->where('month', $themonth)
+                    ->where('year', $year)
+                    ->where('loan_id', 10)
                     ->orderBy('id', 'desc')
                     ->sum('inst_amount');
 
@@ -10968,14 +11029,14 @@ background: #cdcdcd;
                     'member_id',
                     $statement['member_data']['id'],
                 )
-                    ->where('month', $number_month)
+                    ->where('month', $themonth)
                     ->where('year', $year)
                     ->where('loan_id', 2)
                     ->orderBy('id', 'desc')
                     ->sum('inst_amount');
 
                 $last_month_field['gpa_sub']    = $last_month_data_debit['gpa_sub'] ?? 0;
-                $last_month_field['gpa_adv']    = $last_month_data_debit['gpa_adv'] ?? 0;
+                $last_month_field['gpa_adv']    = $last_month_data_loan_gpf_adv_sum ?? 0;
                 $last_month_field['cgegis']     = $last_month_data_debit['cgegis'] ?? 0;
                 $last_month_field['cghs']       = $last_month_data_debit['cghs'] ?? 0;
                 $last_month_field['hba_adv']    = $last_month_data_loan_hba_adv_sum ?? 0;
@@ -10993,7 +11054,7 @@ background: #cdcdcd;
                 $last_month_field['furn']       = $last_month_data_debit['furn'] ?? 0;
 
                 $this_month_totals['gpa_sub']     += ($statement['details']['member_debit']->gpa_sub ?? 0) - $last_month_field['gpa_sub'];
-                $this_month_totals['gpa_adv']     += ($statement['details']['member_debit']->gpa_adv ?? 0) - $last_month_field['gpa_adv'];
+                $this_month_totals['gpa_adv']     += ($this_month_data_loan_gpf_adv_sum ?? 0) - $last_month_field['gpa_adv'];
                 $this_month_totals['cgegis']      += ($statement['details']['member_debit']->cgegis ?? 0) - $last_month_field['cgegis'];
                 $this_month_totals['cghs']        += ($statement['details']['member_debit']->cghs ?? 0) - $last_month_field['cghs'];
                 $this_month_totals['hba_adv']     += $this_month_data_loan_hba_adv_sum;
@@ -11068,7 +11129,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                     {{ (($statement['details']['member_debit']->gpa_adv ?? 0) - $last_month_field['gpa_adv']) }}
+                     {{ (($this_month_data_loan_gpf_adv_sum ?? 0) - $last_month_field['gpa_adv']) }}
                     </td>
 
                                     <td style="
@@ -11835,6 +11896,446 @@ background: #cdcdcd;
       <div class="page-break"></div>
       @endforeach
 
+        @if (count($gpf_adv_arr) > 0)
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+              font-size: 18px;
+              line-height: 14px;
+              font-weight: 500;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+
+                                        RECOVERY SCHEDULE OF GPF ADV IN R/O
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                                        {{ $pay_bill_no ?? 0 }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 10px 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 500;
+              color: #000;
+              text-align: left;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                        Page No: 1
+                                    </td>
+                                    <td
+                                        style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 400;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                        CHESS,CHESS
+                                    </td>
+                                    <td
+                                        style="
+              font-size: 15px;
+              line-height: 18px;
+              font-weight: 400;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              text-transform: uppercase;
+            ">
+                                        UNIT CODE: 330000110
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        SRNO
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        EMP NAME
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-top: 1px solid #000;
+              border-left: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        EMP CODE
+                                    </th>
+
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: center;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        DESIGNATION
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        PRAN
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        ADVANCE
+                                    </th>
+                                    <th
+                                        style="
+              font-size: 10px;
+              line-height: 14px;
+              font-weight: 600;
+              color: #000;
+              text-align: right;
+              padding: 0px 5px !important;
+              margin: 0px 0px !important;
+              border-left: 1px solid #000;
+              border-top: 1px solid #000;
+              border-right: 1px solid #000;
+              background: #cdcdcd;
+            ">
+                                        GPF ADV REC
+                                    </th>
+                                    <th
+                                        style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-left: 1px solid #000;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          background: #cdcdcd;
+        ">
+                                        INST NO/TO INT
+                                    </th>
+                                    <th
+                                        style="
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      color: #000;
+      text-align: right;
+      padding: 0px 5px !important;
+      margin: 0px 0px !important;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+      border-right: 1px solid #000;
+      background: #cdcdcd;
+    ">
+                                        APPR INT
+                                    </th>
+                                    <th
+                                        style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  background: #cdcdcd;
+">
+                                        BALANCE
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total_gpf_rec = 0;
+                                @endphp
+                                @foreach ($gpf_adv_arr as $key => $gpf)
+                                    @php
+                                        $gpf_rec = round($gpf['inst_amount'] ?? 0);
+                                        $total_gpf_rec += $gpf_rec;
+                                    @endphp <tr>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $key + 1 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $gpf['member']->name ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $gpf['member']->emp_id ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $gpf['member']['desigs']->designation ?? '0' }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $gpf['member']->pran_number ?? '0' }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $gpf['total_amount'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $gpf_rec }} </td>
+
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $gpf['present_inst_no'] ?? 0 }} /
+                                            {{ $gpf['tot_no_of_inst'] ?? 0 }}</td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $gpf['total_interest'] ?? 0 }} </td>
+                                        <td
+                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                            {{ $gpf['balance'] ?? 0 }} </td>
+                                    </tr>
+                                @endforeach
+
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td colspan="2"
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Total
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                                        {{ $total_gpf_rec }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+            style="border-radius: 0px; margin: 0 auto; text-align: center">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"
+                                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                                        GRAND SUMMARY OF GPF ADV SUBSCRIPTION
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0 0px">
+                        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        PAGE SUMMARY</th>
+                                    <th
+                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                                        TOTAL AMOUNT</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                        Page Summary-1
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                                        {{ $total_gpf_rec }}
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                        GRAND SUMMARY
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                                        {{ $total_gpf_rec }}
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                                        {{ ucwords(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_gpf_rec)) }}
+                                        Only)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="height: 50px;"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                                    </td>
+                                    <td style="font-size: 16px; text-align: left;">
+                                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                                        ACCOUNTS OFFICER<br>
+                                        For Director
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="page-break"></div>
+    @endif
 
 
       @if (count($hba_adv_arr) > 0)
@@ -16179,7 +16680,7 @@ background: #cdcdcd;
     </table>
     <div class="page-break"></div>
 @endforeach
-@endif
+
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto; text-align: center">
@@ -16365,7 +16866,7 @@ background: #cdcdcd;
     </table>
 
     <div class="page-break"></div>
-
+@endif
 
     @if (count($meber_chunk_data_income_tax) > 0)
 
@@ -18569,7 +19070,7 @@ background: #cdcdcd;
                     @foreach ($gpf_subscription_array as $new_details_key => $gpf_subscription_details)
                         @php
                             $sub_rec = round($gpf_subscription_details['details']['member_debit']->gpa_sub ?? 0);
-                            $refund_rec = round($gpf_subscription_details['details']['member_debit']->gpf_adv ?? 0);
+                            $refund_rec = round( $gpf_subscription_details['details']['member_loans']['gpf_adv'] ?? 0);
                             $arrs_rec = round($gpf_subscription_details['details']['member_debit']->gpf_arr ?? 0);
 
                             $gpf_subscription_page[$gpf_subscription_key]['total_subs'] += $sub_rec;
@@ -18835,8 +19336,9 @@ style="border-radius: 0px; margin: 0 auto; text-align: center">
     </tr>
 </tbody>
 </table>
-<div class="page-break"></div>
+
 @if( count($meber_chunk_data_misc) > 0)
+<div class="page-break"></div>
 @php
     $misc_subscription_page = [];
     @endphp

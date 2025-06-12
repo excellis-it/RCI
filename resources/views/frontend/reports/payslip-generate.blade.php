@@ -76,7 +76,10 @@
                 ($member_credit_data->arrs_pay_alw ?? 0) +
                 ($member_credit_data->risk_alw ?? 0) +
                 ($member_credit_data->misc1 ?? 0) +
-                ($member_credit_data->misc2 ?? 0);
+                ($member_credit_data->misc2 ?? 0)+
+                ($member_credit_data->npsc ?? 0) +
+                ($member_credit_data->npg_arrs ?? 0) +
+                ($member_credit_data->npg_adj ?? 0);
 
             $member_quarter_charge =
                 ($member_debit_data->licence_fee ?? 0) +
@@ -87,10 +90,10 @@
 
             $tot_debits =
                 ($member_debit_data->gpa_sub ?? 0) +
-                ($member_debit_data->gpf_adv ?? 0) +
                 ($member_debit_data->gpf_arr ?? 0) +
                 ($member_debit_data->cgegis ?? 0) +
                 ($member_debit_data->cghs ?? 0) +
+                  ($member_loans['gpf_adv'] ?? 0) +
                 ($member_loans['hba_adv'] ?? 0) +
                 ($member_loans['hba_int'] ?? 0) +
                 ($member_loans['car_adv'] ?? 0) +
@@ -113,7 +116,13 @@
                 ($member_debit_data->cghs_arr ?? 0) +
                 ($member_debit_data->cgeis_arr ?? 0) +
                 ($member_debit_data->penal_intr ?? 0) +
-                $member_quarter_charge;
+                ($member_quarter_charge ?? 0) +
+                ($member_debit_data->nps_10_rec ?? 0) +
+                ($member_debit_data->npsg ?? 0) +
+                ($member_debit_data->nps_10_arr ?? 0) +
+                ($member_debit_data->npsg_arr ?? 0) +
+                ($member_debit_data->npsg_adj ?? 0) +
+                ($member_debit_data->nps_14_adj ?? 0);
 
             $secondDeduction =
                 ($member_debit_data->society ?? 0) +
@@ -264,7 +273,7 @@
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                        {{ $member_debit_data->gpf_adv ?? 0 }}
+                                        {{ $member_loans['gpf_adv']  ?? 0 }}
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
@@ -598,6 +607,8 @@
 
                                     </td>
                                 </tr>
+
+
                                 <tr>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
@@ -666,10 +677,17 @@
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
+                                     @if ($member_data->memberCategory->fund_type == 'NPS')
+                                     NPSC 14%
+                                      @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
+
+                                      @if ($member_data->memberCategory->fund_type == 'NPS')
+                                       {{ $member_credit_data->npsc ?? 0 }}
+                                      @endif
 
                                     </td>
                                     <td
@@ -697,11 +715,16 @@
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
+                                     @if ($member_data->memberCategory->fund_type == 'NPS')
+                                     NPSG ARRS 14%
+                                      @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+ @if ($member_data->memberCategory->fund_type == 'NPS')
+  {{ $member_credit_data->npg_arrs ?? 0 }}
+                                      @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
@@ -728,10 +751,16 @@
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
+                                     @if ($member_data->memberCategory->fund_type == 'NPS')
+                                     NPS ADJ14%
+                                      @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
+                                     @if ($member_data->memberCategory->fund_type == 'NPS')
+                                     {{ $member_credit_data->npg_adj ?? 0 }}
+                                      @endif
 
                                     </td>
                                     <td
@@ -1003,6 +1032,198 @@
 
                                     </td>
                                 </tr>
+
+                                <!-- nps employee -->
+                                  @if ($member_data->memberCategory->fund_type == 'NPS')
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        NPS 10% REC
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        {{ $member_debit_data->nps_10_rec ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        NPSG 14%
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        {{ $member_debit_data->npsg ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        NPS ARR10%
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        {{ $member_debit_data->nps_10_arr ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        NPSG ARR14%
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        {{ $member_debit_data->npsg_arr ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        NPSADJ 10%
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        {{ $member_debit_data->npsg_adj ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                </tr>
+
+                                 <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        NPSADJ 14%
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        {{ $member_debit_data->nps_14_adj ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                </tr>
+                                @endif
+                                <!-- end nps employee -->
                                 <tr>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; height: 20px; padding: 0px 5px !important;
@@ -1225,11 +1446,13 @@
                                     margin: 0px 0px !important; width: 50px;">
                                         0
                                     </td>
+                                       @if ($member_data->memberCategory->fund_type == 'GPF')
                                     <td colspan="2"
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
                                         भ. िन. िन. / GPF DETAILS
                                     </td>
+                                    @endif
 
                                 </tr>
                                 <tr>
@@ -1241,17 +1464,23 @@
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                        {{ $member_debit_data->gpf_adv ?? 0 }}
+                 @if(isset($member_loans['gpf_adv_data']) && $member_loans['gpf_adv'] > 0)
+                                        {{ $member_loans['gpf_adv'] ?? 0 }}
+                                         @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                    @if(isset($member_loans['gpf_adv_data']) && $member_loans['gpf_adv'] > 0)
+                                     {{ $member_loans['gpf_adv_data']['balance'] ?? 0 }}
+                                      @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important; ">
-
+                                    @if(isset($member_loans['gpf_adv_data']) && $member_loans['gpf_adv'] > 0)
+                                       {{ $member_loans['gpf_adv_data']['present_inst_no'] ?? 0 }} / {{ $member_loans['gpf_adv_data']['tot_no_of_inst'] ?? 0 }}
+                                        @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
@@ -1263,6 +1492,7 @@
                                     margin: 0px 0px !important;">
                                         {{ $member_debit_data->elec ?? 0 }}
                                     </td>
+                                      @if ($member_data->memberCategory->fund_type == 'GPF')
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -1273,6 +1503,7 @@
                                     margin: 0px 0px !important;">
                                         0
                                     </td>
+                                    @endif
 
                                 </tr>
                                 <tr>
@@ -1284,17 +1515,23 @@
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                      @if(isset($member_loans['car_adv_data']) && $member_loans['car_adv'] > 0)
+                                    {{$member_loans['car_adv'] ?? 0}}
+                                       @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                     @if(isset($member_loans['car_adv_data']) && $member_loans['car_adv'] > 0)
+                                {{ $member_loans['car_adv_data']['balance'] ?? 0 }}
+                                  @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                       @if(isset($member_loans['car_adv_data']) && $member_loans['car_adv'] > 0)
+                                        {{ $member_loans['car_adv_data']['present_inst_no'] ?? 0 }} / {{ $member_loans['car_adv_data']['tot_no_of_inst'] ?? 0 }}
+                                            @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
@@ -1306,6 +1543,7 @@
                                     margin: 0px 0px !important;">
                                         {{ $member_debit_data->water ?? 0 }}
                                     </td>
+                                      @if ($member_data->memberCategory->fund_type == 'GPF')
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -1316,28 +1554,36 @@
                                     margin: 0px 0px !important;">
                                         0
                                     </td>
-
+                                            @endif
                                 </tr>
+                                  @if(isset($member_loans['hba_adv_data']) && $member_loans['hba_adv'] > 0)
                                 <tr>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                        गृह िनर्माण भत्ता / HBA
+                                        गृह िनर्माण भत्ता / HBA ADV / INT
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                    @if(isset($member_loans['hba_adv_data']) && $member_loans['hba_adv'] > 0)
+                                    {{$member_loans['hba_adv'] ?? 0}}
+ 
+                                    @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                      @if(isset($member_loans['hba_adv_data']) && $member_loans['hba_adv'] > 0)
+                                        {{ $member_loans['hba_adv_data']['balance'] ?? 0 }}
+                                        @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                     @if(isset($member_loans['hba_adv_data']) && $member_loans['hba_adv'] > 0)
+                                    {{ $member_loans['hba_adv_data']['present_inst_no'] ?? 0 }} / {{ $member_loans['hba_adv_data']['tot_no_of_inst'] ?? 0 }}
+                                    @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
@@ -1349,6 +1595,7 @@
                                     margin: 0px 0px !important;">
                                         {{ $member_debit_data->furn ?? 0 }}
                                     </td>
+                                      @if ($member_data->memberCategory->fund_type == 'GPF')
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -1359,8 +1606,62 @@
                                     margin: 0px 0px !important;">
 
                                     </td>
-
+                                    @endif
                                 </tr>
+                                @else
+                                 <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        गृह िनर्माण भत्ता / HBA ADV / INT
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                    @if(isset($member_loans['hba_int_data']) && $member_loans['hba_int'] > 0)
+                                    {{$member_loans['hba_int'] ?? 0}}
+ 
+                                    @endif
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                      @if(isset($member_loans['hba_int_data']) && $member_loans['hba_int'] > 0)
+                                        {{ $member_loans['hba_int_data']['balance'] ?? 0 }}
+                                        @endif
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                     @if(isset($member_loans['hba_int_data']) && $member_loans['hba_int'] > 0)
+                                    {{ $member_loans['hba_int_data']['present_inst_no'] ?? 0 }} / {{ $member_loans['hba_int_data']['tot_no_of_inst'] ?? 0 }}
+                                    @endif
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        फर्नीचर / FURNITURE
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        {{ $member_debit_data->furn ?? 0 }}
+                                    </td>
+                                      @if ($member_data->memberCategory->fund_type == 'GPF')
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    @endif
+                                </tr>
+                                @endif
+                                 @if(isset($member_loans['comp_adv_data']) && $member_loans['comp_adv'] > 0 )
                                 <tr>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000; padding: 0px 5px !important;
@@ -1370,17 +1671,25 @@
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                    @if(isset($member_loans['comp_adv_data']) && $member_loans['comp_adv'] > 0 )
+                                    {{$member_loans['comp_adv'] ?? 0}}
+                                      @endif
+ 
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
 
                                     </td>
+                                      @if(isset($member_loans['comp_adv_data']) && $member_loans['comp_adv'] > 0 )
+                                     {{ $member_loans['comp_adv_data']['balance'] ?? 0 }}
+                                       @endif
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
+                                      @if(isset($member_loans['comp_adv_data']) && $member_loans['comp_adv'] > 0 )
+                                {{ $member_loans['comp_adv_data']['present_inst_no'] ?? 0 }} / {{ $member_loans['comp_adv_data']['tot_no_of_inst'] ?? 0 }}
+                                  @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
@@ -1390,8 +1699,9 @@
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                        {{ $member_debit_data->misc1 ?? 0 }}
+                                        {{ $member_debit_data->misc3 ?? 0 }}
                                     </td>
+                                      @if ($member_data->memberCategory->fund_type == 'GPF')
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -1402,28 +1712,88 @@
                                     margin: 0px 0px !important;">
 
                                     </td>
-
+                                            @endif
                                 </tr>
+                                @else
                                 <tr>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                        त्यौहार अिग्रम / FEST ADV/INT
+                                        संगणक / COMP ADV/INT
                                     </td>
                                     <td
-                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px;  padding: 0px 5px !important;
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-
-                                    </td>
-                                    <td
-                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px;  padding: 0px 5px !important;
-                                    margin: 0px 0px !important;">
-
+                                    @if(isset($member_loans['comp_int_data']) && $member_loans['comp_int'] > 0 )
+                                    {{$member_loans['comp_int'] ?? 0}}
+                                      @endif
+ 
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
 
+                                    </td>
+                                      @if(isset($member_loans['comp_int_data']) && $member_loans['comp_int'] > 0 )
+                                     {{ $member_loans['comp_int_data']['balance'] ?? 0 }}
+                                       @endif
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                      @if(isset($member_loans['comp_int_data']) && $member_loans['comp_int'] > 0 )
+                                {{ $member_loans['comp_int_data']['present_inst_no'] ?? 0 }} / {{ $member_loans['comp_int_data']['tot_no_of_inst'] ?? 0 }}
+                                  @endif
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        िबिबध मकान बकाया / MISC RENT
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        {{ $member_debit_data->misc3 ?? 0 }}
+                                    </td>
+                                      @if ($member_data->memberCategory->fund_type == 'GPF')
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+
+                                    </td>
+                                            @endif
+                                </tr>
+                                @endif
+                                <tr>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; height: 20px; border: 1px solid #000; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                        त्यौहार अिग्रम / FEST ADV
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                      @if(isset($member_loans['fest_adv_data']) && $member_loans['fest_adv'] > 0 )
+                                    {{$member_loans['fest_adv'] ?? 0}}
+ @endif
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px;  padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                      @if(isset($member_loans['fest_adv_data']) && $member_loans['fest_adv'] > 0 )
+                                {{ $member_loans['fest_adv_data']['balance'] ?? 0 }}
+                                 @endif
+                                    </td>
+                                    <td
+                                        style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
+                                    margin: 0px 0px !important;">
+                                      @if(isset($member_loans['fest_adv_data']) && $member_loans['fest_adv'] > 0 )
+                            {{ $member_loans['fest_adv_data']['present_inst_no'] ?? 0 }} / {{ $member_loans['fest_adv_data']['tot_no_of_inst'] ?? 0 }}
+                             @endif
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
@@ -1435,6 +1805,7 @@
                                     margin: 0px 0px !important;">
 
                                     </td>
+                                      @if ($member_data->memberCategory->fund_type == 'GPF')
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
@@ -1445,7 +1816,7 @@
                                     margin: 0px 0px !important;">
 
                                     </td>
-
+                                            @endif
                                 </tr>
                             </tbody>
                         </table>

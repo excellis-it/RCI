@@ -83,11 +83,7 @@
                                                 <label for="member_id">Member</label>
                                                 <select class="form-select select2" name="member_id" id="member_id">
                                                     <option value="">Select Member</option>
-                                                    @foreach ($members as $member)
-                                                        <option value="{{ $member->id }}" {{ old('member_id') == $member->id ? 'selected' : '' }}>
-                                                            {{ $member->name }} ({{ $member->pers_no }})
-                                                        </option>
-                                                    @endforeach
+                                                 
                                                 </select>
                                                 @error('member_id')
                                                     <div class="text-danger">{{ $message }}</div>
@@ -192,74 +188,82 @@
 @endsection
 
 @push('scripts')
- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('paybillForm');
-        const loader = document.getElementById('loaderOverlay');
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('paybillForm');
+    const loader = document.getElementById('loaderOverlay');
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            loader.style.display = 'flex';
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        loader.style.display = 'flex';
 
-            // Clear previous errors
-            document.querySelectorAll('.text-danger').forEach(el => el.remove());
+        // Clear previous errors
+        document.querySelectorAll('.text-danger').forEach(el => el.remove());
 
-            const formData = new FormData(form);
+        const formData = new FormData(form);
 
-            fetch("{{ route('reports.paybill-generate') }}", {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json', // Accept JSON to get validation errors
-                },
-                body: formData
-            })
-                .then(async response => {
-                     const data = await response.json();
-                    //  console.log(response);
+        fetch("{{ route('reports.paybill-generate') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+            },
+            body: formData
+        })
+        .then(async response => {
+            if (response.status === 422) {
+                const data = await response.json();
+                showValidationErrors(data.errors);
+                throw new Error("Validation failed");
+            }
 
-                    if (response.status === 422) {
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || 'Failed to generate PDF');
+            }
 
-                        showValidationErrors(data.errors);
-                        throw new Error("Validation failed");
-                    }
-                    if (!response.ok) throw new Error(data.message || 'Failed to generate PDF');
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            // Generate filename in JS to avoid Blade syntax inside <script>
+            const now = new Date();
+            const fileName = `Paybill-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}.pdf`;
 
-                    return response.blob();
-                })
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'Paybill-{{ now()->format('Y-m') }}.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch(error => {
-                    if (error.message !== "Validation failed") {
-                        alert("Failed to generate PDF: " + error.message);
-                    }
-                })
-                .finally(() => {
-                    loader.style.display = 'none';
-                });
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            if (error.message !== "Validation failed") {
+                alert("Failed to generate PDF: " + error.message);
+            }
+        })
+        .finally(() => {
+            loader.style.display = 'none';
         });
+    });
 
-        function showValidationErrors(errors) {
-            for (const [field, messages] of Object.entries(errors)) {
-                const input = document.querySelector(`[name="${field}"]`);
-                if (input) {
-                    const errorDiv = document.createElement('div');
-                    errorDiv.classList.add('text-danger');
-                    errorDiv.innerText = messages[0];
-                    input.closest('.form-group').appendChild(errorDiv);
-                }
+    function showValidationErrors(errors) {
+        for (const [field, messages] of Object.entries(errors)) {
+            const input = document.querySelector(`[name="${field}"]`);
+            if (input) {
+                const errorDiv = document.createElement('div');
+                errorDiv.classList.add('text-danger');
+                errorDiv.innerText = messages[0];
+                const formGroup = input.closest('.form-group') || input.parentElement;
+                formGroup.appendChild(errorDiv);
             }
         }
-    });
+    }
+});
 </script>
+
     <script>
         $(document).ready(function() {
             $('.select2').select2({
@@ -332,6 +336,37 @@
                     }
                 }
 
+            });
+        });
+    </script>
+     <script>
+        $(document).ready(function() {
+            $('#e_status').change(function() {
+                var e_status = $(this).val();
+
+                $.ajax({
+                url: "{{ route('reports.get-all-members') }}",
+                type: 'POST',
+                data: { e_status, _token: '{{ csrf_token() }}' },
+                
+                
+                success: ({ members }) => {
+                    // Reference the existing select element
+                    const memberDropdown = $('#member_id');
+                    memberDropdown.empty();
+                    memberDropdown.append('<option value="">Select Member</option>');
+                    members.forEach(({ id, name, emp_id }) => {
+                        memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`);
+                    });
+
+                    var select_box_element = document.querySelector('.search-select-box');
+                    dselect(select_box_element, {
+                        search: true
+                    });
+                },
+
+                error: (xhr) => console.log(xhr)
+            });
             });
         });
     </script>

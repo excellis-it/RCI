@@ -168,7 +168,8 @@ class ReportController extends Controller
                 6 => 'sco_int',
                 7 => 'comp_adv',
                 8 => 'comp_int',
-                9 => 'fest_adv'
+                9 => 'fest_adv',
+                10 => 'gpf_adv',
             ];
 
             $member_loans = [];
@@ -208,7 +209,7 @@ class ReportController extends Controller
             'monthName' => $monthName,
             'year' => $the_year,
         ])
-            ->setPaper('a3', $paperType)
+            ->setPaper('a3', $paperType)->setPaper('a3', 'potrait')
             ->setOption('enable-local-file-access', true)
             ->setOption('encoding', 'UTF-8')
             ->setOption('isHtml5ParserEnabled', true)
@@ -245,8 +246,8 @@ class ReportController extends Controller
             'category' => $request->generate_by === 'category' ? 'required' : 'nullable',
         ]);
 
-
-        $the_month = (int) $request->month; // Assume month is numeric (1-12)
+        // try {
+              $the_month = (int) $request->month; // Assume month is numeric (1-12)
         $the_year = (int) $request->year;
 
         if ($the_month >= 4) {
@@ -369,6 +370,12 @@ class ReportController extends Controller
                         ->where('loan_id', 9)
                         ->first()['inst_amount'] ?? 0,
 
+                          'gpf_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 10)
+                        ->first()['inst_amount'] ?? 0,
+
 
                     'hba_int' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
@@ -418,6 +425,12 @@ class ReportController extends Controller
                         ->where('loan_id', 9)
                         ->first() ?? 0,
 
+                           'gpf_adv_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                        ->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->where('loan_id', 10)
+                        ->first() ?? 0,
+
 
                     'hba_int_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
@@ -451,7 +464,10 @@ class ReportController extends Controller
             $all_members_info[] = $combined_member_info;
         }
 
-        $meber_chunk_data_quater = Member::whereIn('id', $monthly_members_data)->with([
+        $meber_chunk_data_quater = Member::whereIn('id', $monthly_members_data)->where('e_status', $request->e_status)
+                ->where('category', $request->category)
+                ->where('member_status', 1)
+                ->where('pay_stop', 'No')->with([
             'memberOneDebit' => function ($query) use ($request, $themonth) {
                 $query->where('year', $request->year)
                     ->where('month', $themonth)
@@ -467,7 +483,10 @@ class ReportController extends Controller
             ->chunk(40)->toArray();
 
 
-        $meber_chunk_data_income_tax = Member::whereIn('id', $monthly_members_data)->with([
+        $meber_chunk_data_income_tax = Member::whereIn('id', $monthly_members_data)->where('e_status', $request->e_status)
+                ->where('category', $request->category)
+                ->where('member_status', 1)
+                ->where('pay_stop', 'No')->with([
             'memberOneDebit' => function ($query) use ($request, $themonth) {
                 $query->where('year', $request->year)
                     ->where('month', $themonth)
@@ -482,7 +501,10 @@ class ReportController extends Controller
             })->get()
             ->chunk(40)->toArray();
 
-        $meber_chunk_data_misc = Member::whereIn('id', $monthly_members_data)->with([
+        $meber_chunk_data_misc = Member::whereIn('id', $monthly_members_data)->where('e_status', $request->e_status)
+                ->where('category', $request->category)
+                ->where('member_status', 1)
+                ->where('pay_stop', 'No')->with([
             'memberOneDebit' => function ($query) use ($request, $themonth) {
                 $query->where('year', $request->year)
                     ->where('month', $themonth)
@@ -526,7 +548,8 @@ class ReportController extends Controller
             'meber_chunk_data_quater',
             'meber_chunk_data_income_tax',
             'financialYear',
-            'meber_chunk_data_misc'
+            'meber_chunk_data_misc',
+            'themonth'
         ))->setPaper('a3', 'landscape');
         // return view('frontend.reports.paybill-generate')->with(compact(
         //     'pay_bill_no',
@@ -540,10 +563,15 @@ class ReportController extends Controller
         //     'allMember40Data',
         //     'accountant'
         // ));
+return response($pdf->output(), 200)
+    ->header('Content-Type', 'application/pdf')
+    ->header('Content-Disposition', 'attachment; filename="paybill.pdf"');
+        // } catch (\Throwable $th) {
+        //   return response()->json(['message'=> $th->getMessage()],400);
+        // }
 
-        return $pdf->download('paybill-' . $month . '-' . $year . '.pdf');
 
-        return redirect()->back()->with('error', 'Invalid report type selected.');
+      
     }
 
     private function downloadCreditSummary(Request $request)

@@ -25,6 +25,7 @@ class LoanSeeder extends Seeder
             'COMP ADV',
             'COMP INT',
             'FEST ADV',
+            'GPF ADV'
         ];
 
         // Insert each loan type into the table

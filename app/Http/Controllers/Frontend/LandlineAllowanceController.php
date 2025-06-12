@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Designation;
 use App\Models\LandlineAllowance;
+use Illuminate\Validation\Rule;
 
 class LandlineAllowanceController extends Controller
 {
@@ -14,10 +15,10 @@ class LandlineAllowanceController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('status',1)->get();
+         $designations = Designation::orderBy('id', 'desc')->get();
         $landline_allowances = LandlineAllowance::paginate(10);
 
-        return view('frontend.landline-allowance.list',compact('categories','landline_allowances'));
+        return view('frontend.landline-allowance.list',compact('designations','landline_allowances'));
     }
 
     public function fetchData(Request $request)
@@ -30,9 +31,9 @@ class LandlineAllowanceController extends Controller
             $query = str_replace(" ", "%", $query);
             $landline_allowances = LandlineAllowance::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
-                    ->orWhere('mobile_max_allo', 'like', '%' . $query . '%')
-                    ->orWhere('landline_max_allo', 'like', '%' . $query . '%')
-                    ->orWhere('broad_band_max_allo', 'like', '%' . $query . '%')
+                    // ->orWhere('mobile_max_allo', 'like', '%' . $query . '%')
+                    // ->orWhere('landline_max_allo', 'like', '%' . $query . '%')
+                    // ->orWhere('broad_band_max_allo', 'like', '%' . $query . '%')
                     ->orWhere('total_amount_allo', 'like', '%' . $query . '%');
             })
                 ->orderBy($sort_by, $sort_type)
@@ -56,18 +57,18 @@ class LandlineAllowanceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_id' => 'required|unique:landline_allowances',
-            'mobile_max_allo' => 'required|numeric',
-            'landline_max_allo' => 'required|numeric',
-            'broad_band_max_allo' => 'required|numeric',
+            'designation_id' => 'required|unique:landline_allowances',
+            // 'mobile_max_allo' => 'required|numeric',
+            // 'landline_max_allo' => 'required|numeric',
+            // 'broad_band_max_allo' => 'required|numeric',
             'total_amount_allo' => 'required|numeric',
         ]);
 
         $landline_allow = new LandlineAllowance();
-        $landline_allow->category_id = $request->category_id;
-        $landline_allow->mobile_max_allo = $request->mobile_max_allo;
-        $landline_allow->landline_max_allo = $request->landline_max_allo;
-        $landline_allow->broad_band_max_allo = $request->broad_band_max_allo;
+        $landline_allow->designation_id = $request->designation_id;
+        // $landline_allow->mobile_max_allo = $request->mobile_max_allo;
+        // $landline_allow->landline_max_allo = $request->landline_max_allo;
+        // $landline_allow->broad_band_max_allo = $request->broad_band_max_allo;
         $landline_allow->total_amount_allo = $request->total_amount_allo;
         $landline_allow->save();
 
@@ -89,10 +90,10 @@ class LandlineAllowanceController extends Controller
     public function edit(string $id)
     {
         $landline_allowance = LandlineAllowance::findOrFail($id);
-        $categories = Category::where('status',1)->get();
+        $designations = Designation::orderBy('id', 'desc')->get();
         $edit = true;
 
-        return response()->json(['view' => view('frontend.landline-allowance.form', compact('landline_allowance', 'categories', 'edit'))->render()]);
+        return response()->json(['view' => view('frontend.landline-allowance.form', compact('landline_allowance', 'designations', 'edit'))->render()]);
     }
 
     /**
@@ -100,19 +101,18 @@ class LandlineAllowanceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'category_id' => 'required|unique:newspaper_allowances',
-            'mobile_max_allo' => 'required|numeric',
-            'landline_max_allo' => 'required|numeric',
-            'broad_band_max_allo' => 'required|numeric',
+       $request->validate([
+            'designation_id' => 'required|unique:landline_allowances,designation_id,' . $id,
             'total_amount_allo' => 'required|numeric',
         ]);
 
+
         $landline_allow =  LandlineAllowance::where('id',$id)->first();
-        $landline_allow->category_id = $request->category_id;
-        $landline_allow->mobile_max_allo = $request->mobile_max_allo;
-        $landline_allow->landline_max_allo = $request->landline_max_allo;
-        $landline_allow->broad_band_max_allo = $request->broad_band_max_allo;
+        // dd($landline_allow);
+        $landline_allow->designation_id = $request->designation_id;
+        // $landline_allow->mobile_max_allo = $request->mobile_max_allo;
+        // $landline_allow->landline_max_allo = $request->landline_max_allo;
+        // $landline_allow->broad_band_max_allo = $request->broad_band_max_allo;
         $landline_allow->total_amount_allo = $request->total_amount_allo;
         $landline_allow->update();
 

@@ -14,4 +14,9 @@ class LandlineAllowance extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class);
+    }
 }

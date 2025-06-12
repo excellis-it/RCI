@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Landline List
+    Landline/Mobile/Broad-Band Allowance
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Landline Listing</h3>
+                    <h3>Landline/Mobile/Broad-Band Allowance Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Landline Listing</span></li>
+                        <li><span class="bread-blod">Landline/Mobile/Broad-Band Allowance</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,13 +30,13 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.landline-allowance.form')
+                            @include('frontend.member-info.landline-allowance.form')
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
@@ -48,26 +48,32 @@
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
-                                                <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="percentage"
-                                                    style="cursor: pointer"> <span id="percentage_icon"><i
-                                                            class="fa fa-arrow-down">Designation</i></span> </th>
-                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                    style="cursor: pointer">Mobile max-allocation <span id="year_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                            style="cursor: pointer">Landline max-allocation <span id="year_icon"><i
-                                                                    class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                            style="cursor: pointer">Broad-band max-allocation <span id="year_icon"><i
-                                                                    class="fa fa-arrow-down"></i></span> </th> --}}
-                                                <th class="sorting" data-sorting_type="desc"
-                                                    style="cursor: pointer">Total allocation  </th>
-                                                <th></th>
+                                                <th class="sorting" data-sorting_type="asc" data-column_name="id"
+                                                    style="cursor: pointer">ID <span id="id_icon"></span></th>
+                                                <th class="sorting" data-sorting_type="asc" data-column_name="member_name"
+                                                    style="cursor: pointer">Member Name <span id="member_name_icon"></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="asc"
+                                                    data-column_name="landline_amount" style="cursor: pointer">Landline
+                                                    <span id="landline_amount_icon"></span></th>
+                                                <th class="sorting" data-sorting_type="asc" data-column_name="mobile_amount"
+                                                    style="cursor: pointer">Mobile <span id="mobile_amount_icon"></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="asc"
+                                                    data-column_name="broadband_amount" style="cursor: pointer">Broadband
+                                                    <span id="broadband_amount_icon"></span></th>
+                                                <th class="sorting" data-sorting_type="asc"
+                                                    data-column_name="entitle_amount" style="cursor: pointer">Entitled <span
+                                                        id="entitle_amount_icon"></span></th>
+                                                <th class="sorting" data-sorting_type="asc" data-column_name="month"
+                                                    style="cursor: pointer">Month <span id="month_icon"></span></th>
+                                                <th class="sorting" data-sorting_type="asc" data-column_name="year"
+                                                    style="cursor: pointer">Year <span id="year_icon"></span></th>
+                                                <th>Action</th> 
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.landline-allowance.table')
+                                            @include('frontend.member-info.landline-allowance.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -90,7 +96,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this Landline!",
+                    text: "To delete this family details!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -113,7 +119,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('landline-allowance.fetch-data') }}",
+                    url: "{{ route('member-mobile-allowance.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -178,7 +184,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#landline-allowance-create-form').submit(function(e) {
+            $('#member-landline-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
 
@@ -233,7 +239,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#landline-allowance-edit-form', function(e) {
+            $(document).on('submit', '#member-landline-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -257,6 +263,67 @@
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '#member_id', function() {
+                let memberId = $(this).val();
+
+                // Update hidden input value
+                $('input[name="member_id"]').val(memberId);
+
+                if (memberId) {
+                    $.ajax({
+                        url: "{{ route('get.entitle.amount') }}",
+                        type: "GET",
+                        data: {
+                            member_id: memberId
+                        },
+                        success: function(response) {
+                            $('#entitle_amount').val(response.entitle_amount);
+                        },
+                        error: function(xhr) {
+                            console.error("Error fetching entitle amount:", xhr);
+                        }
+                    });
+                } else {
+                    $('#entitle_amount').val('');
+                }
+            });
+        });
+    </script>
+    <script>
+        function parseAmount(val) {
+            return parseFloat(val) || 0;
+        }
+
+        function validateTotalAmount() {
+            let landline = parseAmount($('input[name="landline_amount"]').val());
+            let mobile = parseAmount($('input[name="mobile_amount"]').val());
+            let broadband = parseAmount($('input[name="broadband_amount"]').val());
+            let entitle = parseAmount($('#entitle_amount').val());
+
+            let total = landline + mobile + broadband;
+
+            if (total > entitle) {
+                alert("Total of Landline, Mobile, and Broadband amounts should not exceed the Entitle Amount.");
+                $('input[name="landline_amount"]').val(0)
+                $('input[name="mobile_amount"]').val(0)
+                $('input[name="broadband_amount"]').val(0)
+            }
+        }
+
+        $(document).ready(function() {
+            $(document).on('input',
+                'input[name="landline_amount"], input[name="mobile_amount"], input[name="broadband_amount"]',
+                validateTotalAmount);
+        });
+    </script>
+    <script>
+        var select_box_element = document.querySelector('.search-select-box');
+        dselect(select_box_element, {
+            search: true
         });
     </script>
 @endpush

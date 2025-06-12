@@ -51,6 +51,8 @@ use App\Http\Controllers\Frontend\BagPurseAllowanceController;
 use App\Http\Controllers\Frontend\PayMatrixRowController;
 use App\Http\Controllers\Frontend\PayMatrixBasicController;
 
+
+
 //manik's works
 use App\Http\Controllers\Frontend\TaDaController;
 
@@ -67,6 +69,7 @@ use App\Http\Controllers\Frontend\MemberInfo\PensionController;
 use App\Http\Controllers\Frontend\MemberInfo\PensionRateController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberFamilyController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberRetirementInfoController as MemberRetirementController;
+use App\Http\Controllers\Frontend\MemberInfo\MobileAllowanceController;
 use App\Http\Controllers\MemberInfo\ProfessionalUpdateAllowanceController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberNewspaperAllowanceController;
 use App\Http\Controllers\Frontend\MemberInfo\MemberBagAllowanceController;
@@ -241,7 +244,7 @@ Route::middleware('permssions')->group(function () {
         'newspaper-allowance' => NewspaperAllowanceController::class,
         'landline-allowance' => LandlineAllowanceController::class,
         'bag-allowance' => BagPurseAllowanceController::class,
-        'mobile-allowance' => LandlineAllowanceController::class,
+
         'child-allowance' => MemberChildAllowanceController::class,
         'pay-matrix-rows' => PayMatrixRowController::class,
         'pay-matrix-basics' => PayMatrixBasicController::class,
@@ -854,7 +857,11 @@ Route::middleware('permssions')->group(function () {
             'member-retirement' => MemberRetirementController::class,
             'member-newspaper-allowance' => MemberNewspaperAllowanceController::class,
             'member-bag-allowance' => MemberBagAllowanceController::class,
+            'member-mobile-allowance' => MobileAllowanceController::class,
         ]);
+
+         Route::post('/member-mobile-allowance-fetch', [MobileAllowanceController::class, 'fetchData'])->name('member-mobile-allowance.fetch-data');
+        Route::get('/get-entitle-amount', [MobileAllowanceController::class, 'getEntitleAmount'])->name('get.entitle.amount');
 
         Route::get('/member-newspaper-fetch', [MemberNewspaperAllowanceController::class, 'fetchData'])->name('member-newspaper-allowance.fetch-data');
         Route::get('/member-bag-fetch', [MemberBagAllowanceController::class, 'fetchData'])->name('member-bag-allowance.fetch-data');

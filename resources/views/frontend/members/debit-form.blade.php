@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
+           {{--<div class="col-md-2">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             {{-- <div class="col-md-2">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
@@ -831,7 +831,7 @@
                         <div class="form-group mb-2">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
-                                    <label>{{ $loan_info->loan_name }} Inst Amount</label>
+                                    <label>{{ $loan_info->loan_name }} </label>
                                 </div>
                                 <div class="col-md-12">
                                     <input type="text" class="form-control loan_inst_amounts" name="loan_amounts"
