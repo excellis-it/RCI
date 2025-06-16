@@ -243,7 +243,7 @@
     </script>
 
     <script>
-        $(document).on('click', '#advance-sttl-delete', function() {
+        $(document).on('click', '.advance-sttl-delete', function() {
             //swal alert then call ajax
             var route = $(this).data('route');
 

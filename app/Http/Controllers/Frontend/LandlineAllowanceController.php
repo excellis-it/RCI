@@ -16,7 +16,7 @@ class LandlineAllowanceController extends Controller
     public function index()
     {
          $designations = Designation::orderBy('id', 'desc')->get();
-        $landline_allowances = LandlineAllowance::paginate(10);
+        $landline_allowances = LandlineAllowance::orderBy('id','desc')->paginate(10);
 
         return view('frontend.landline-allowance.list',compact('designations','landline_allowances'));
     }

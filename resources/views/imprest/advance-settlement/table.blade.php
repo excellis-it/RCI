@@ -33,7 +33,7 @@
                     data-route="{{ route('advance-settlement.edit', $advance_settlement->id) }}">
                     <i class="ti ti-pencil"></i>
                 </a>
-                <a href="javascript:void(0);" class="delete-advance-settlement edit_pencil text-danger ms-2"
+                <a href="javascript:void(0);" class="delete-advance-settlement edit_pencil text-danger ms-2 advance-sttl-delete"
                     data-route="{{ route('advance-settlement.delete', $advance_settlement->id) }}">
                     <i class="ti ti-trash"></i>
                 </a>

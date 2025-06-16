@@ -7,7 +7,7 @@
 @endpush
 
 @section('content')
-        <div id="loaderOverlay"
+    <div id="loaderOverlay"
         style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(255, 255, 255, 0.7); z-index: 9999; justify-content: center; align-items: center;">
         <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
@@ -37,7 +37,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            <form id="paybillForm" >
+                            <form id="paybillForm">
                                 @csrf
 
                                 <div class="row">
@@ -46,13 +46,15 @@
                                             <div class="form-group col-md-12 mb-2">
                                                 <label>Generate Data By:</label>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="generate_by" id="by_member"
-                                                        value="member" {{ old('generate_by') == 'member' ? 'checked' : '' }}>
+                                                    <input class="form-check-input" type="radio" name="generate_by"
+                                                        id="by_member" value="member"
+                                                        {{ old('generate_by') == 'member' ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="by_member">Member</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="generate_by" id="by_category"
-                                                        value="category" {{ old('generate_by', 'category') == 'category' ? 'checked' : '' }}>
+                                                    <input class="form-check-input" type="radio" name="generate_by"
+                                                        id="by_category" value="category"
+                                                        {{ old('generate_by', 'category') == 'category' ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="by_category">Category</label>
                                                 </div>
 
@@ -68,8 +70,12 @@
                                                 <div class="col-md-12">
                                                     <select name="e_status" class="form-select" id="e_status">
                                                         <option value="">Select Employee Status</option>
-                                                        <option value="active" {{ old('e_status') == 'active' ? 'selected' : '' }}>Active</option>
-                                                        <option value="deputation" {{ old('e_status') == 'deputation' ? 'selected' : '' }}>On Deputation</option>
+                                                        <option value="active"
+                                                            {{ old('e_status') == 'active' ? 'selected' : '' }}>Active
+                                                        </option>
+                                                        <option value="deputation"
+                                                            {{ old('e_status') == 'deputation' ? 'selected' : '' }}>On
+                                                            Deputation</option>
                                                     </select>
                                                     @if ($errors->has('e_status'))
                                                         <div class="error" style="color:red;">
@@ -83,7 +89,7 @@
                                                 <label for="member_id">Member</label>
                                                 <select class="form-select select2" name="member_id" id="member_id">
                                                     <option value="">Select Member</option>
-                                                 
+
                                                 </select>
                                                 @error('member_id')
                                                     <div class="text-danger">{{ $message }}</div>
@@ -96,7 +102,8 @@
                                                 <select class="form-select select2" name="category" id="category">
                                                     <option value="">Select Category</option>
                                                     @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}" {{ old('category') == $category->id ? 'selected' : '' }}>
+                                                        <option value="{{ $category->id }}"
+                                                            {{ old('category') == $category->id ? 'selected' : '' }}>
                                                             {{ $category->category }}
                                                         </option>
                                                     @endforeach
@@ -115,7 +122,8 @@
                                                         <select name="year" class="form-select" id="report_year">
                                                             <option value="">Select Year</option>
                                                             @for ($i = date('Y'); $i >= 1958; $i--)
-                                                                <option value="{{ $i }}" {{ old('year') == $i ? 'selected' : '' }}>
+                                                                <option value="{{ $i }}"
+                                                                    {{ old('year') == $i ? 'selected' : '' }}>
                                                                     {{ $i }}</option>
                                                             @endfor
                                                         </select>
@@ -156,10 +164,12 @@
                                                     <label>A/c Off Sign</label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <select class="form-control" name="account_officer_sign" id="account_officer_sign">
+                                                    <select class="form-control" name="account_officer_sign"
+                                                        id="account_officer_sign">
                                                         <option value="">Select Accountant</option>
                                                         @foreach ($accountants as $accountant)
-                                                            <option value="{{ $accountant->id }}" {{ old('account_officer_sign') == $accountant->id ? 'selected' : '' }}>
+                                                            <option value="{{ $accountant->id }}"
+                                                                {{ old('account_officer_sign') == $accountant->id ? 'selected' : '' }}>
                                                                 {{ $accountant->user_name }}</option>
                                                         @endforeach
                                                     </select>
@@ -188,81 +198,82 @@
 @endsection
 
 @push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('paybillForm');
-    const loader = document.getElementById('loaderOverlay');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('paybillForm');
+            const loader = document.getElementById('loaderOverlay');
 
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        loader.style.display = 'flex';
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                loader.style.display = 'flex';
 
-        // Clear previous errors
-        document.querySelectorAll('.text-danger').forEach(el => el.remove());
+                // Clear previous errors
+                document.querySelectorAll('.text-danger').forEach(el => el.remove());
 
-        const formData = new FormData(form);
+                const formData = new FormData(form);
 
-        fetch("{{ route('reports.paybill-generate') }}", {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Accept': 'application/json',
-            },
-            body: formData
-        })
-        .then(async response => {
-            if (response.status === 422) {
-                const data = await response.json();
-                showValidationErrors(data.errors);
-                throw new Error("Validation failed");
+                fetch("{{ route('reports.paybill-generate') }}", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json',
+                        },
+                        body: formData
+                    })
+                    .then(async response => {
+                        if (response.status === 422) {
+                            const data = await response.json();
+                            showValidationErrors(data.errors);
+                            throw new Error("Validation failed");
+                        }
+
+                        if (!response.ok) {
+                            const data = await response.json();
+                            throw new Error(data.message || 'Failed to generate PDF');
+                        }
+
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+
+                        // Generate filename in JS to avoid Blade syntax inside <script>
+                        const now = new Date();
+                        const fileName =
+                            `Paybill-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}.pdf`;
+
+                        a.href = url;
+                        a.download = fileName;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        window.URL.revokeObjectURL(url);
+                    })
+                    .catch(error => {
+                        if (error.message !== "Validation failed") {
+                            alert("Failed to generate PDF: " + error.message);
+                        }
+                    })
+                    .finally(() => {
+                        loader.style.display = 'none';
+                    });
+            });
+
+            function showValidationErrors(errors) {
+                for (const [field, messages] of Object.entries(errors)) {
+                    const input = document.querySelector(`[name="${field}"]`);
+                    if (input) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.classList.add('text-danger');
+                        errorDiv.innerText = messages[0];
+                        const formGroup = input.closest('.form-group') || input.parentElement;
+                        formGroup.appendChild(errorDiv);
+                    }
+                }
             }
-
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message || 'Failed to generate PDF');
-            }
-
-            return response.blob();
-        })
-        .then(blob => {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            
-            // Generate filename in JS to avoid Blade syntax inside <script>
-            const now = new Date();
-            const fileName = `Paybill-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}.pdf`;
-
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
-        })
-        .catch(error => {
-            if (error.message !== "Validation failed") {
-                alert("Failed to generate PDF: " + error.message);
-            }
-        })
-        .finally(() => {
-            loader.style.display = 'none';
         });
-    });
-
-    function showValidationErrors(errors) {
-        for (const [field, messages] of Object.entries(errors)) {
-            const input = document.querySelector(`[name="${field}"]`);
-            if (input) {
-                const errorDiv = document.createElement('div');
-                errorDiv.classList.add('text-danger');
-                errorDiv.innerText = messages[0];
-                const formGroup = input.closest('.form-group') || input.parentElement;
-                formGroup.appendChild(errorDiv);
-            }
-        }
-    }
-});
-</script>
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -274,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const byMember = document.getElementById('by_member');
             const byCategory = document.getElementById('by_category');
             const memberSection = document.getElementById('member_section');
@@ -339,34 +350,45 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     </script>
-     <script>
+    <script>
         $(document).ready(function() {
             $('#e_status').change(function() {
                 var e_status = $(this).val();
 
                 $.ajax({
-                url: "{{ route('reports.get-all-members') }}",
-                type: 'POST',
-                data: { e_status, _token: '{{ csrf_token() }}' },
-                
-                
-                success: ({ members }) => {
-                    // Reference the existing select element
-                    const memberDropdown = $('#member_id');
-                    memberDropdown.empty();
-                    memberDropdown.append('<option value="">Select Member</option>');
-                    members.forEach(({ id, name, emp_id }) => {
-                        memberDropdown.append(`<option value="${id}">${name} (${emp_id})</option>`);
-                    });
+                    url: "{{ route('reports.get-all-members') }}",
+                    type: 'POST',
+                    data: {
+                        e_status,
+                        _token: '{{ csrf_token() }}'
+                    },
 
-                    var select_box_element = document.querySelector('.search-select-box');
-                    dselect(select_box_element, {
-                        search: true
-                    });
-                },
 
-                error: (xhr) => console.log(xhr)
-            });
+                    success: ({
+                        members
+                    }) => {
+                        // Reference the existing select element
+                        const memberDropdown = $('#member_id');
+                        memberDropdown.empty();
+                        memberDropdown.append('<option value="">Select Member</option>');
+                        members.forEach(({
+                            id,
+                            name,
+                            emp_id
+                        }) => {
+                            memberDropdown.append(
+                                `<option value="${id}">${name} (${emp_id})</option>`
+                                );
+                        });
+
+                        var select_box_element = document.querySelector('.search-select-box');
+                        dselect(select_box_element, {
+                            search: true
+                        });
+                    },
+
+                    error: (xhr) => console.log(xhr)
+                });
             });
         });
     </script>

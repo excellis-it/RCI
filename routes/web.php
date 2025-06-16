@@ -860,7 +860,10 @@ Route::middleware('permssions')->group(function () {
             'member-mobile-allowance' => MobileAllowanceController::class,
         ]);
 
-         Route::post('/member-mobile-allowance-fetch', [MobileAllowanceController::class, 'fetchData'])->name('member-mobile-allowance.fetch-data');
+        Route::get('/delete-member-newspaper-allowance/{id}', [MemberNewspaperAllowanceController::class, 'delete'])->name('member-newspaper-allowance.delete');
+
+
+         Route::get('/member-mobile-allowance-fetch', [MobileAllowanceController::class, 'fetchData'])->name('member-mobile-allowance.fetch-data');
         Route::get('/get-entitle-amount', [MobileAllowanceController::class, 'getEntitleAmount'])->name('get.entitle.amount');
 
         Route::get('/member-newspaper-fetch', [MemberNewspaperAllowanceController::class, 'fetchData'])->name('member-newspaper-allowance.fetch-data');

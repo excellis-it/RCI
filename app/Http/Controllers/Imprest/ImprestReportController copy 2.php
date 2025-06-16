@@ -49,7 +49,7 @@ class ImprestReportController extends Controller
 
     //
     public function imprestReport()
-    { 
+    {
         $accountants  = User::role('ACCOUNTANT')->get();
         return view('imprest.reports.form', compact('accountants'));
     }
@@ -186,6 +186,7 @@ class ImprestReportController extends Controller
                 $bills_on_hand_init_query->whereDate('var_date', '<=', $request_date);
             }
             $bills_on_hand_init = $bills_on_hand_init_query->sum('bill_amount');
+
 
             $bills_on_hand = $bills_on_hand_init - $bills_submitted_to_cda_init;
 

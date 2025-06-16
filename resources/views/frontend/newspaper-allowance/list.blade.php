@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Newspaper Allowance List
+    Newspaper Allowance List
 @endsection
 
 @push('styles')
@@ -53,7 +53,7 @@
                                                     style="cursor: pointer">Duration <span id="duration_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="loan_name"
-                                                    style="cursor: pointer">Category <span id="loan_name_icon"><i
+                                                    style="cursor: pointer">Designation <span id="loan_name_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
                                                 <th>Amount </th>
                                                 <th></th>
@@ -174,19 +174,19 @@
             $('#newspaper-allowance-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -254,7 +254,7 @@
     <script>
         $('#group_id').change(function() {
             var group_id = $(this).val();
-            
+
             $.ajax({
                 url: "{{ route('newspaper-allowance.get-designation') }}",
                 type: 'GET',
@@ -262,7 +262,7 @@
                     group_id: group_id
                 },
                 success: function(response) {
-                var $desigSelect = $('#designation_id');
+                    var $desigSelect = $('#designation_id');
                     $desigSelect.empty(); // Clear existing options
                     $desigSelect.append('<option value="">Select</option>');
                     $.each(response.designations, function(index, designation) {
@@ -283,9 +283,42 @@
                 $('.news-amount').show();
             } else {
                 $('.news-year').show();
-                $('.news-month').hide();
+                $('.news-month').show();
                 $('.news-amount').show();
             }
         });
-        </script>
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#duration').on('change', function() {
+                var selected = $(this).val();
+
+                if (selected === 'quarterly') {
+                    $('.news-year').show();
+                    $('.news-month').show();
+                    $('#month').html(`
+                    <option value="">Select Quarter</option>
+                    <option value="01-03">Jan - Mar</option>
+                    <option value="04-06">Apr - Jun</option>
+                    <option value="07-09">Jul - Sep</option>
+                    <option value="10-12">Oct - Dec</option>
+                `);
+                } else if (selected === 'half_yearly') {
+                    $('.news-year').show();
+                    $('.news-month').show();
+                    $('#month').html(`
+                    <option value="">Select Half-Year</option>
+                    <option value="01-06">Jan - Jun</option>
+                    <option value="07-12">Jul - Dec</option>
+                `);
+                } else {
+                    $('.news-year').hide();
+                    $('.news-month').hide();
+                }
+            });
+
+            // Trigger change if old value is present on page load
+            $('#duration').trigger('change');
+        });
+    </script>
 @endpush

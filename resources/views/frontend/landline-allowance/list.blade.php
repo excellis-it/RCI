@@ -50,8 +50,7 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="percentage"
-                                                    style="cursor: pointer"> <span id="percentage_icon"><i
-                                                            class="fa fa-arrow-down">Designation</i></span> </th>
+                                                    style="cursor: pointer"> Designation </th>
                                                 {{-- <th class="sorting" data-sorting_type="desc" data-column_name="year"
                                                     style="cursor: pointer">Mobile max-allocation <span id="year_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>

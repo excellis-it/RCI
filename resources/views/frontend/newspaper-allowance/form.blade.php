@@ -9,15 +9,15 @@
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Category </label>
+                                <label>Designation </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="category_id" id="category_id" disabled>
-                                    <option value="">Select Category</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ $newspaper_allowance->category_id == $category->id ? 'selected' : '' }}>
-                                            {{ $category->category }}</option>
+                                <select class="form-select" name="designation_id" id="designation_id" >
+                                    <option value="">Select Designation</option>
+                                    @foreach ($designations as $designation)
+                                        <option value="{{ $designation->id }}"
+                                            {{ $newspaper_allowance->designation_id == $designation->id ? 'selected' : '' }}>
+                                            {{ $designation->designation }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -31,20 +31,19 @@
                                 <label>Duration </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="duration" id="duration" disabled>
+                                <select class="form-select" name="duration" id="duration" >
                                     <option value="half_yearly"
                                         {{ $newspaper_allowance->duration == 'half_yearly' ? 'selected' : '' }}>Half
                                         Yearly</option>
-                                    <option value="yearly"
-                                        {{ $newspaper_allowance->duration == 'yearly' ? 'selected' : '' }}>Yearly
-                                    </option>
+                                    <option value="quarterly" {{ $newspaper_allowance->duration == 'quarterly' ? 'selected' : '' }}>Quarterly</option>
+
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 mb-2 news-year">
+                    {{-- <div class="form-group col-md-4 mb-2 news-year">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Year </label>
@@ -82,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    @endif --}}
 
 
                     <div class="form-group col-md-4 mb-2 news-amount">
@@ -138,13 +137,13 @@
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label>Category </label>
+                                <label>Designation </label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="category_id" id="category_id">
-                                    <option value="">Select Category</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->category }}</option>
+                                <select class="form-select" name="designation_id" id="designation_id">
+                                    <option value="">Select Designation</option>
+                                    @foreach ($designations as $designation)
+                                        <option value="{{ $designation->id }}">{{ $designation->designation }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -161,13 +160,13 @@
                                 <select class="form-select" name="duration" id="duration">
                                     <option value="">Select Duration</option>
                                     <option value="half_yearly">Half Yearly</option>
-                                    <option value="yearly">Yearly</option>
+                                    <option value="quarterly">Quarterly</option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-
+{{--
                     <div class="form-group col-md-4 mb-2 news-year" style="display:none;">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -201,7 +200,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
 
                     <div class="form-group col-md-4 mb-2 news-amount" style="display:none;">

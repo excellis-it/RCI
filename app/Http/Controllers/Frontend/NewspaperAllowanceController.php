@@ -18,16 +18,16 @@ class NewspaperAllowanceController extends Controller
      */
     public function index()
     {
-        $groups = Group::where('status',1)->get();
-        $categories = Category::where('status',1)->get();
-        $newspaper_allows = NewspaperAllowance::paginate(10);
-        return view('frontend.newspaper-allowance.list',compact('categories','newspaper_allows','groups'));
+        $groups = Group::where('status', 1)->get();
+        $designations = Designation::orderBy('id', 'desc')->get();
+        $newspaper_allows = NewspaperAllowance::orderBy('id','desc')->paginate(10);
+        return view('frontend.newspaper-allowance.list', compact('designations', 'newspaper_allows', 'groups'));
     }
 
     public function newspaperGroupDesignation(Request $request)
     {
         $group_id = $request->group_id;
-        $designations = Designation::where('group_id',$group_id)->get();
+        $designations = Designation::where('group_id', $group_id)->get();
         return response()->json(['designations' => $designations]);
     }
 
@@ -43,8 +43,8 @@ class NewspaperAllowanceController extends Controller
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('max_allocation_amount', 'like', '%' . $query . '%')
                     ->orWhere('remarks', 'like', '%' . $query . '%')
-                    ->orWhereHas('category', function ($queryBuilder) use ($query) {
-                        $queryBuilder->where('name', 'like', '%' . $query . '%');
+                    ->orWhereHas('designation', function ($queryBuilder) use ($query) {
+                        $queryBuilder->where('designation', 'like', '%' . $query . '%');
                     });
             })
                 ->orderBy($sort_by, $sort_type)
@@ -66,50 +66,36 @@ class NewspaperAllowanceController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate input
         $request->validate([
-            'category_id' => 'required',
-            'max_allocation_amount' => 'required|numeric',
+            'designation_id' => 'required|exists:designations,id',
+            'duration' => 'required|string', // or required|in:monthly,quarterly,... depending on your options
+             'max_allocation_amount' => 'required|numeric|min:1',
+            'remarks' => 'nullable|string',
         ]);
 
-        //checking if already category_id, duration and year exists
-        $newspaper_allow = NewspaperAllowance::where('category_id', $request->category_id)
+        // Check if a similar record already exists
+        $exists = NewspaperAllowance::where('designation_id', $request->designation_id)
             ->where('duration', $request->duration)
-            ->where('year', $request->year)
             ->first();
 
-        if ($newspaper_allow) {
-            session()->flash('error', 'A newspaper allowance for the specified category, duration, and year already exists.');
-            return response()->json(['error' => 'A newspaper allowance for the specified category, duration, and year already exists.']);
+        if ($exists) {
+            session()->flash('error', 'A newspaper allowance for the specified category and duration already exists.');
+            return response()->json(['error' => 'A newspaper allowance for the specified category and duration already exists.']);
         }
-       
+
+        // Save new record
         $newspaper_allow = new NewspaperAllowance();
-        $newspaper_allow->category_id = $request->category_id;
+        $newspaper_allow->designation_id = $request->designation_id;
         $newspaper_allow->duration = $request->duration;
-        $newspaper_allow->year = $request->year;
-        $newspaper_allow->month_duration = $request->month_duration;
         $newspaper_allow->max_allocation_amount = $request->max_allocation_amount;
         $newspaper_allow->remarks = $request->remarks;
         $newspaper_allow->save();
 
-        // get all members respect to category
-        // $members = Member::where('category', $request->category_id)->get();
-        // foreach ($members as $member) {
-        //     $del_news_allowance = MemberNewspaperAllowance::where('member_id', $member->id)->first();
-        //     if($del_news_allowance){
-        //         $del_news_allowance->delete();
-        //     }
-
-        //     $member_newspaper_allow = new MemberNewspaperAllowance();
-        //     $member_newspaper_allow->member_id = $member->id;
-        //     $member_newspaper_allow->amount = $request->max_allocation_amount;
-        //     $member_newspaper_allow->year = date('Y');
-        //     $member_newspaper_allow->remarks = $request->remarks;
-        //     $member_newspaper_allow->save();
-        // }
-
         session()->flash('message', 'Newspaper allowance added successfully');
         return response()->json(['success' => 'Newspaper allowance added successfully']);
     }
+
 
     /**
      * Display the specified resource.
@@ -125,50 +111,50 @@ class NewspaperAllowanceController extends Controller
     public function edit(string $id)
     {
         $newspaper_allowance = NewspaperAllowance::findOrFail($id);
-        $categories = Category::where('status',1)->get();
+        $designations = Designation::orderBy('id', 'desc')->get();
         $edit = true;
 
-        return response()->json(['view' => view('frontend.newspaper-allowance.form', compact('newspaper_allowance', 'categories', 'edit'))->render()]);
+        return response()->json(['view' => view('frontend.newspaper-allowance.form', compact('newspaper_allowance', 'designations', 'edit'))->render()]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
+        // Validate incoming request
         $request->validate([
-            'max_allocation_amount' => 'required|numeric',
+            'designation_id' => 'required|exists:designations,id',
+            'duration' => 'required|string', // You can specify valid options using in:monthly,yearly, etc.
+            'max_allocation_amount' => 'required|numeric|min:1',
+            'remarks' => 'nullable|string',
         ]);
 
-        $newspaper_allow = NewspaperAllowance::where('id', $id)->first();
-        // $newspaper_allow->category_id = $request->category_id;
-        // $newspaper_allow->duration = $request->duration;
-        // $newspaper_allow->year = $request->year;
-        // $newspaper_allow->month_duration = $request->month_duration;
+        // Find the record by ID
+        $newspaper_allow = NewspaperAllowance::findOrFail($id);
+
+        // Check for duplicate designation_id + duration (excluding current record)
+        $exists = NewspaperAllowance::where('designation_id', $request->designation_id)
+            ->where('duration', $request->duration)
+            ->where('id', '!=', $id)
+            ->first();
+
+        if ($exists) {
+            session()->flash('error', 'A newspaper allowance for the specified category and duration already exists.');
+            return response()->json(['error' => 'A newspaper allowance for the specified category and duration already exists.']);
+        }
+
+        // Update the record
+        $newspaper_allow->designation_id = $request->designation_id;
+        $newspaper_allow->duration = $request->duration;
         $newspaper_allow->max_allocation_amount = $request->max_allocation_amount;
         $newspaper_allow->remarks = $request->remarks;
-        $newspaper_allow->update();
-
-        // get all members respect to category
-        // $members = Member::where('category', $request->category_id)->get();
-        // foreach ($members as $member) {
-        //     $del_news_allowance = MemberNewspaperAllowance::where('member_id', $member->id)->first();
-        //     if($del_news_allowance){
-        //         $del_news_allowance->delete();
-        //     }
-
-
-        //     $member_newspaper_allow = new MemberNewspaperAllowance();
-        //     $member_newspaper_allow->member_id = $member->id;
-        //     $member_newspaper_allow->amount = $request->max_allocation_amount;
-        //     $member_newspaper_allow->year = date('Y');
-        //     $member_newspaper_allow->remarks = $request->remarks;
-        //     $member_newspaper_allow->save();
-        // }
+        $newspaper_allow->save();
 
         session()->flash('message', 'Newspaper allowance updated successfully');
         return response()->json(['success' => 'Newspaper allowance updated successfully']);
     }
+
 
     /**
      * Remove the specified resource from storage.

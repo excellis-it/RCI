@@ -58,6 +58,8 @@ use App\Models\MemberMonthlyDataDebit;
 use App\Models\MemberMonthlyDataLoanInfo;
 use App\Models\MemberMonthlyDataRecovery;
 use App\Models\Setting;
+use App\Models\Designation;
+use App\Models\MemberLandline;
 
 class ReportController extends Controller
 {
@@ -66,7 +68,7 @@ class ReportController extends Controller
     public function payslip()
     {
         $members = Member::where('e_status', '!=', 'retired')->where('e_status', '!=', 'transferred')->orderBy('id', 'asc')->get();
-            $categories = Category::orderBy('id', 'desc')->get();
+        $categories = Category::orderBy('id', 'desc')->get();
         return view('frontend.reports.payslip', compact('members', 'categories'));
     }
 
@@ -99,7 +101,7 @@ class ReportController extends Controller
 
             $category_fund_type = Category::find($member->category)->fund_type ?? null;
             if (!$category_fund_type) {
-                return response()->json(['message'=> 'No fund type added for this category'],400);
+                return response()->json(['message' => 'No fund type added for this category'], 400);
             }
 
             $member_datas = Member::whereIn('id', $monthly_members_data)
@@ -116,7 +118,7 @@ class ReportController extends Controller
 
             $category_fund_type = Category::find($request->category)->fund_type ?? null;
             if (!$category_fund_type) {
-                return response()->json(['message'=> 'No fund type added for this category'], 400);
+                return response()->json(['message' => 'No fund type added for this category'], 400);
             }
 
             $member_datas = Member::whereIn('id', $monthly_members_data)
@@ -130,7 +132,7 @@ class ReportController extends Controller
         }
 
         if ($member_datas->count() === 0) {
-             return response()->json(['message'=> 'No data found for the selected criteria'], 400);
+            return response()->json(['message' => 'No data found for the selected criteria'], 400);
             // return redirect()->back()->with('error', 'No data found for the selected criteria');
         }
 
@@ -217,8 +219,8 @@ class ReportController extends Controller
             ->setOption('isRemoteEnabled', true);
 
         return response($pdf->output(), 200)
-    ->header('Content-Type', 'application/pdf')
-    ->header('Content-Disposition', 'attachment; filename="payslip.pdf"');
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="payslip.pdf"');
     }
 
 
@@ -247,7 +249,7 @@ class ReportController extends Controller
         ]);
 
         // try {
-              $the_month = (int) $request->month; // Assume month is numeric (1-12)
+        $the_month = (int) $request->month; // Assume month is numeric (1-12)
         $the_year = (int) $request->year;
 
         if ($the_month >= 4) {
@@ -277,7 +279,7 @@ class ReportController extends Controller
             $category_fund_type = Category::where('id', $member->category)->first()['fund_type'];
             // dd()
             if (!$category_fund_type && empty($category_fund_type)) {
-                 return response()->json(['message'=> 'No fund type added for this category'],400);
+                return response()->json(['message' => 'No fund type added for this category'], 400);
             }
 
             $member_datas = Member::whereIn('id', $monthly_members_data)
@@ -295,7 +297,7 @@ class ReportController extends Controller
             $category_fund_type = Category::where('id', $request->category)->first()['fund_type'];
             // dd()
             if (!$category_fund_type && empty($category_fund_type)) {
-                 return response()->json(['message'=> 'No fund type added for this category'],400);
+                return response()->json(['message' => 'No fund type added for this category'], 400);
             }
 
             $member_datas = Member::whereIn('id', $monthly_members_data)
@@ -317,7 +319,7 @@ class ReportController extends Controller
         // dd($member_datas->toArray(), $monthly_members_data);
 
         if ($member_datas->count() == 0) {
-             return response()->json(['message'=> 'No data found for the selected criteria'],400);
+            return response()->json(['message' => 'No data found for the selected criteria'], 400);
         }
 
         foreach ($member_datas as $member_data) {
@@ -370,7 +372,7 @@ class ReportController extends Controller
                         ->where('loan_id', 9)
                         ->first()['inst_amount'] ?? 0,
 
-                          'gpf_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                    'gpf_adv' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
                         ->where('month', $themonth)
                         ->where('loan_id', 10)
@@ -425,7 +427,7 @@ class ReportController extends Controller
                         ->where('loan_id', 9)
                         ->first() ?? 0,
 
-                           'gpf_adv_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
+                    'gpf_adv_data' => MemberMonthlyDataLoanInfo::where('member_id', $member_data->id)
                         ->where('year', $request->year)
                         ->where('month', $themonth)
                         ->where('loan_id', 10)
@@ -465,18 +467,18 @@ class ReportController extends Controller
         }
 
         $meber_chunk_data_quater = Member::whereIn('id', $monthly_members_data)->where('e_status', $request->e_status)
-                ->where('category', $request->category)
-                ->where('member_status', 1)
-                ->where('pay_stop', 'No')->with([
-            'memberOneDebit' => function ($query) use ($request, $themonth) {
-                $query->where('year', $request->year)
-                    ->where('month', $themonth)
-                    ->latest(); // optional: for ordering, not limiting
-            },
-            'memberPersonalInfo',
-            'memberPersonalInfo.quarter',
-            'desigs'
-        ])
+            ->where('category', $request->category)
+            ->where('member_status', 1)
+            ->where('pay_stop', 'No')->with([
+                'memberOneDebit' => function ($query) use ($request, $themonth) {
+                    $query->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->latest(); // optional: for ordering, not limiting
+                },
+                'memberPersonalInfo',
+                'memberPersonalInfo.quarter',
+                'desigs'
+            ])
             ->whereHas('memberPersonalInfo', function ($query) {
                 $query->whereNotNull('quater_no');
             })->get()
@@ -484,17 +486,17 @@ class ReportController extends Controller
 
 
         $meber_chunk_data_income_tax = Member::whereIn('id', $monthly_members_data)->where('e_status', $request->e_status)
-                ->where('category', $request->category)
-                ->where('member_status', 1)
-                ->where('pay_stop', 'No')->with([
-            'memberOneDebit' => function ($query) use ($request, $themonth) {
-                $query->where('year', $request->year)
-                    ->where('month', $themonth)
-                    ->latest(); // optional: for ordering, not limiting
-            },
-            'memberPersonalInfo',
-            'desigs'
-        ])
+            ->where('category', $request->category)
+            ->where('member_status', 1)
+            ->where('pay_stop', 'No')->with([
+                'memberOneDebit' => function ($query) use ($request, $themonth) {
+                    $query->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->latest(); // optional: for ordering, not limiting
+                },
+                'memberPersonalInfo',
+                'desigs'
+            ])
             ->whereHas('memberOneDebit', function ($query) {
                 $query->whereNotNull('i_tax')
                     ->where('i_tax', '!=', 0);
@@ -502,17 +504,17 @@ class ReportController extends Controller
             ->chunk(40)->toArray();
 
         $meber_chunk_data_misc = Member::whereIn('id', $monthly_members_data)->where('e_status', $request->e_status)
-                ->where('category', $request->category)
-                ->where('member_status', 1)
-                ->where('pay_stop', 'No')->with([
-            'memberOneDebit' => function ($query) use ($request, $themonth) {
-                $query->where('year', $request->year)
-                    ->where('month', $themonth)
-                    ->latest(); // optional: for ordering, not limiting
-            },
-            'memberPersonalInfo',
-            'desigs'
-        ])
+            ->where('category', $request->category)
+            ->where('member_status', 1)
+            ->where('pay_stop', 'No')->with([
+                'memberOneDebit' => function ($query) use ($request, $themonth) {
+                    $query->where('year', $request->year)
+                        ->where('month', $themonth)
+                        ->latest(); // optional: for ordering, not limiting
+                },
+                'memberPersonalInfo',
+                'desigs'
+            ])
             ->whereHas('memberOneDebit', function ($query) {
                 $query->whereNotNull('misc1')
                     ->where('misc1', '!=', 0);
@@ -563,15 +565,15 @@ class ReportController extends Controller
         //     'allMember40Data',
         //     'accountant'
         // ));
-return response($pdf->output(), 200)
-    ->header('Content-Type', 'application/pdf')
-    ->header('Content-Disposition', 'attachment; filename="paybill.pdf"');
+        return response($pdf->output(), 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="paybill.pdf"');
         // } catch (\Throwable $th) {
         //   return response()->json(['message'=> $th->getMessage()],400);
         // }
 
 
-      
+
     }
 
     private function downloadCreditSummary(Request $request)
@@ -1630,8 +1632,8 @@ return response($pdf->output(), 200)
 
     public function newspaperAllowance(Request $request)
     {
-        $categories = Category::orderBy('id', 'desc')->get();
-        return view('frontend.reports.newspaper-allowance', compact('categories'));
+        $designations = Designation::orderBy('id', 'desc')->get();
+        return view('frontend.reports.newspaper-allowance', compact('designations'));
     }
 
     public function getMemberNewspaperAllocation(Request $request)
@@ -1698,36 +1700,126 @@ return response($pdf->output(), 200)
 
     public function landlineAllocation()
     {
-        $categories = Category::orderBy('id', 'desc')->get();
-        return view('frontend.reports.landline-allowance', compact('categories'));
+        $designations = Designation::orderBy('id', 'desc')->get();
+        $the_month = (int) date('m');
+        $the_year = (int) date('Y');
+
+        $financialYear = $the_month >= 4
+            ? $the_year . '-' . ($the_year + 1)
+            : ($the_year - 1) . '-' . $the_year;
+        return view('frontend.reports.landline-allowance', compact('designations', 'financialYear'));
     }
+
+
 
     public function landlineReportGenerate(Request $request)
     {
-        $request->validate([
-            'member_id' => 'required_if:report_type,individual',
-            'e_status' => 'required_if:report_type,individual',
-            //if $request->report_type == 'group'
-            'category' => 'required_if:report_type,group',
+        // Validation
+        $rules = [
+            'generate_by'   => 'required|in:member,designation,all',
+            'e_status'      => 'required|in:active,deputation',
+            'financial_year' => 'required',
+        ];
 
-        ]);
-
-        $data = $request->all();
-
-        $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
-        $member_detail = Member::where('id', $request->member_id)->first();
-        if ($member_detail == null) {
-            return redirect()->back()->with('error', 'Member not found!');
+        if ($request->generate_by === 'member') {
+            $rules['member_id'] = 'required|exists:members,id';
         }
-        $member_personal_detail = MemberPersonalInfo::where('member_id', $request->member_id)->first();
-        $landline_allowance = LandlineAllowance::where('category_id', $member_detail->category)->orderBy('id', 'desc')->first() ?? 0;
-        $member_all_allowance = MemberCredit::where('member_id', $request->member_id)->whereMonth('created_at', $request->month)->first() ?? 0;
-        $total = ($member_all_allowance->landline_allow ?? 0) + ($member_all_allowance->mobile_allow ?? 0) + ($member_all_allowance->broad_band_allow ?? 0);
+
+        if ($request->generate_by === 'designation') {
+            $rules['designation'] = 'required|exists:designations,id';
+        }
+
+        $this->validate($request, $rules);
+
+        $financial_year = $request->financial_year;
+
+        // Query
+        [$startYear, $endYear] = explode('-', $financial_year);
+
+        $query = MemberLandline::with(['member', 'member.memberPersonalInfo'])
+
+            ->orderBy('date', 'asc')
+            ->where(function ($q) use ($startYear, $endYear) {
+                $q->where(function ($sub) use ($startYear) {
+                    $sub->where('year', $startYear)
+                        ->whereBetween('month', [4, 12]);
+                })
+                    ->orWhere(function ($sub) use ($endYear) {
+                        $sub->where('year', $endYear)
+                            ->whereBetween('month', [1, 3]);
+                    });
+            })
+            ->whereHas('member', function ($q) use ($request) {
+                $q->where('e_status', $request->e_status);
+            });
+
+        if ($request->generate_by === 'member') {
+            $query->where('member_id', $request->member_id);
+        }
+
+        if ($request->generate_by === 'designation') {
+            $query->whereHas('member', function ($q) use ($request) {
+                $q->where('desig', $request->designation);
+            });
+        }
+
+        $landlineData = $query->get()
+            ->groupBy('member_id')
+            ->values()
+            ->chunk(24);
+
+        if ($landlineData->isEmpty()) {
+            return redirect()
+                ->back()
+                ->with('error', 'No data found!');
+        }
+
         $setting = Setting::first();
+        $logo = Helper::logo() ?? '';
         $paperType = $request->paper_type ?? $setting->pdf_page_type;
-        $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate', compact('member_detail', 'member_all_allowance', 'data', 'total', 'landline_allowance', 'month_name'))->setPaper('a4', $paperType);
-        return $pdf->download('landline-allowance-report-' . $member_detail->name . '.pdf');
+
+        if ($request->doc_type == 'pdf') {
+            $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate', compact('landlineData', 'startYear', 'endYear', 'financial_year', 'logo'))
+                ->setPaper('a4', 'portrait');
+
+            return $pdf->download("landline-allowance-report-{$startYear}-{$endYear}.pdf");
+        } else if ($request->doc_type == 'docx') {
+
+           // Generate the full HTML content
+$html = view('frontend.reports.landline-allow-report-generate', compact('landlineData', 'startYear', 'endYear', 'financial_year', 'logo'))->render();
+
+// Optional: Save $html to a file for debugging
+// file_put_contents('debug.html', $html);
+
+// Create PHPWord document
+$phpWord = new \PhpOffice\PhpWord\PhpWord();
+$section = $phpWord->addSection();
+
+// Convert HTML to Word
+\PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
+
+// Save to a temporary file
+$fileName = "landline-allowance-report-{$startYear}-{$endYear}.docx";
+$tempFile = storage_path("app/public/{$fileName}");
+$phpWord->save($tempFile, 'Word2007');
+
+// Download response
+return response()
+    ->download($tempFile)
+    ->deleteFileAfterSend(true);
+        }
+
+        return redirect()
+            ->back()
+            ->with('error', 'Invalid document format');
     }
+
+
+
+
+
+
+
 
     public function bagPurseAllowanceReport()
     {

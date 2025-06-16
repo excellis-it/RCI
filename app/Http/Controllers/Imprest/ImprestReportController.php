@@ -181,7 +181,7 @@ class ImprestReportController extends Controller
             $amount_receipt = $amount_receipt_query->sum('rct_vr_amount');
 
             $bills_submitted_to_cda = $bills_submitted_to_cda_init - $amount_receipt;
-
+            // dd($bills_submitted_to_cda_init , $amount_receipt);
             $bills_on_hand_init_query = AdvanceSettlement::query();
             if ($request_date) {
                 $bills_on_hand_init_query->whereDate('var_date', '<=', $request_date);
@@ -189,6 +189,7 @@ class ImprestReportController extends Controller
             $bills_on_hand_init = $bills_on_hand_init_query->sum('bill_amount');
 
             $bills_on_hand = $bills_on_hand_init - $bills_submitted_to_cda_init;
+            //  dd( $bills_submitted_to_cda_init, $amount_receipt, $bills_on_hand_init);
 
             $all_adv_settles_af = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->pluck('af_id');
 

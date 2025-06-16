@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Newspaper Allowance
+    Newspaper Allowance
 @endsection
 
 @push('styles')
@@ -52,12 +52,18 @@
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="leave_type"
                                                     style="cursor: pointer">Member Name <span id="leave_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Amount<span id="leave_type_abbr_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Year<span id="leave_type_abbr_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="amount" style="cursor: pointer">Amount<span
+                                                        id="amount_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                  <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="year" style="cursor: pointer">Year<span
+                                                        id="year_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc"
+                                                    data-column_name="month_duration" style="cursor: pointer">Duration Month<span
+                                                        id="month_duration_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -85,7 +91,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this family details!",
+                    text: "To delete this newpaper details!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -176,19 +182,23 @@
             $('#member-newspaper-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+                        if (response.status == false) {
+                            toastr.error(response.message)
+                        } else {
+                            window.location.reload();
+                        }
                         //windows load with toastr message
-                        window.location.reload();
+
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -196,6 +206,9 @@
                         $.each(errors, function(key, value) {
                             // Assuming you have a div with class "text-danger" next to each input
                             $('[name="' + key + '"]').next('.text-danger').html(value[
+                                0]);
+
+                            $('.' + key + '_error').html(value[
                                 0]);
                         });
                     }
@@ -255,10 +268,36 @@
         });
     </script>
 
-<script>
-    var select_box_element = document.querySelector('.search-select-box');
-    dselect(select_box_element, {
-        search: true
-    });
+    <script>
+        var select_box_element = document.querySelector('.search-select-box');
+        dselect(select_box_element, {
+            search: true
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#duration').on('change', function() {
+                var selected = $(this).val();
+
+                if (selected === 'quarterly') {
+                    $('#month').html(`
+                    <option value="">Select Quarter</option>
+                    <option value="01-03">Jan - Mar</option>
+                    <option value="04-06">Apr - Jun</option>
+                    <option value="07-09">Jul - Sep</option>
+                    <option value="10-12">Oct - Dec</option>
+                `);
+                } else if (selected === 'half_yearly') {
+                    $('#month').html(`
+                    <option value="">Select Half-Year</option>
+                    <option value="01-06">Jan - Jun</option>
+                    <option value="07-12">Jul - Dec</option>
+                `);
+                }
+            });
+
+            // Trigger change if old value is present on page load
+            $('#duration').trigger('change');
+        });
     </script>
 @endpush

@@ -13,4 +13,9 @@ class NewspaperAllowance extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
+     public function designation()
+    {
+        return $this->belongsTo(Designation::class, 'designation_id');
+    }
 }

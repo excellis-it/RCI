@@ -226,10 +226,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.paybill') }}">Paybill</a>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.payroll') }}">Payroll</a>
-                            </li>
+                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.children-allowance') }}">Children Allowance</a>
@@ -339,7 +339,7 @@
                                     href="{{ route('reports.ltc-advance-settlement')}}">Ltc Advance Settlement</a>
                             </li> --}}
 
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('ltc-advance') }}">Ltc Advance</a>
                             </li>
@@ -371,7 +371,7 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.misc') }}">Misc 1</a>
-                            </li>
+                            </li> --}}
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -422,7 +422,7 @@
                              --}}
 
 
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.recovery-gpf') }}">RECOVERY SCHEDULE GPF</a>
                             </li>
@@ -433,7 +433,7 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.annual-income-tax-report') }}">Income Tax Calculation</a>
-                            </li>
+                            </li> --}}
 
 
                         </ul>

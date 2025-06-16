@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\MemberNewspaperAllowance;
 use App\Models\Category;
+use App\Models\NewspaperAllowance;
 
 class MemberNewspaperAllowanceController extends Controller
 {
@@ -16,10 +17,10 @@ class MemberNewspaperAllowanceController extends Controller
     public function index()
     {
         //
-        $members = Member::where('member_status', 1)->get();
+        $members = Member::where('member_status', 1)->whereHas('desigs')->get();
         $categories = Category::orderBy('id', 'desc')->get();
-        $member_newspapers = MemberNewspaperAllowance::paginate(10);
-        return view('frontend.member-info.newspaper-allowance.list', compact('members','member_newspapers','categories'));
+        $member_newspapers = MemberNewspaperAllowance::orderBy('id', 'desc')->paginate(10);
+        return view('frontend.member-info.newspaper-allowance.list', compact('members', 'member_newspapers', 'categories'));
     }
 
     public function fetchData(Request $request)
@@ -29,17 +30,15 @@ class MemberNewspaperAllowanceController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $member_newspapers = MemberNewspaperAllowance::where(function($queryBuilder) use ($query) {
+            $member_newspapers = MemberNewspaperAllowance::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('amount', 'like', '%' . $query . '%')
                     ->orWhere('year', 'like', '%' . $query . '%')
-                    ->orWhereHas('member', function($queryBuilder) use ($query) {
+                    ->orWhereHas('member', function ($queryBuilder) use ($query) {
                         $queryBuilder->where('name', 'like', '%' . $query . '%');
-
                     });
-
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             return response()->json(['data' => view('frontend.member-info.newspaper-allowance.table', compact('member_newspapers'))->render()]);
         }
@@ -58,32 +57,48 @@ class MemberNewspaperAllowanceController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate incoming request
         $request->validate([
-            'member_id' => 'required',
-            'amount' => 'required',
-            'year' => 'required',
-            'remarks' =>'required',
+            'member_id' => 'required|exists:members,id',
+            'duration' => 'required|in:half_yearly,quarterly',
+            'year' => 'required|digits:4|integer|min:1950|max:' . date('Y'),
+            'month_duration' => 'required|string',
+            'remarks' => 'nullable|string',
         ]);
 
-        //check member newspaper allowance in same year already exists
-        $member_newspaper = MemberNewspaperAllowance::where('member_id', $request->member_id)
+        // Check for duplicate entry: same member + year + month_duration
+        $exists = MemberNewspaperAllowance::where('member_id', $request->member_id)
             ->where('year', $request->year)
-            ->first() ?? null;
-        if ($member_newspaper) {
+            ->where('month_duration', $request->month_duration)
+            ->first();
 
-            return response()->json(['error' => 'Member Newspaper Amount already exists for this year']);
+        if ($exists) {
+            session()->flash('error', 'An allowance for this member, year, and duration already exists.');
+            return response()->json(['message' => 'An allowance for this member, year, and duration already exists.', 'status' => false]);
+        }
+        $member = Member::findOrFail($request->member_id);
+
+        $newspaper_max_allocation_amount = NewspaperAllowance::where('designation_id', $member->desig)->where('duration', $request->duration)->first()['max_allocation_amount'] ?? 0;
+        // dd(NewspaperAllowance::where('designation_id', $member->desig)->where('duration', $request->duration)->first());
+        if ($newspaper_max_allocation_amount == 0) {
+            session()->flash('error', 'Please add first the monthly duration amount from member management.');
+            return response()->json(['message' => 'Please add first the monthly duration amount from member management.', 'status' => false]);
         }
 
-        $member_newspaper = new MemberNewspaperAllowance();
-        $member_newspaper->member_id = $request->member_id;
-        $member_newspaper->amount = $request->amount;
-        $member_newspaper->year = $request->year;
-        $member_newspaper->remarks = $request->remarks;
-        $member_newspaper->save();
+        // Save new record
+        $allowance = new MemberNewspaperAllowance();
+        $allowance->member_id = $request->member_id;
+        $allowance->duration = $request->duration;
+        $allowance->year = $request->year;
+        $allowance->amount = $newspaper_max_allocation_amount;
+        $allowance->month_duration = $request->month_duration;
+        $allowance->remarks = $request->remarks;
+        $allowance->save();
 
-        session()->flash('message', 'Member Newspaper Amount added successfully');
-        return response()->json(['success' => 'Member Newspaper Amount added successfully']);
+        session()->flash('message', 'Member newspaper allowance added successfully.');
+        return response()->json(['success' => 'Member newspaper allowance added successfully.']);
     }
+
 
     /**
      * Display the specified resource.
@@ -99,34 +114,53 @@ class MemberNewspaperAllowanceController extends Controller
     public function edit(string $id)
     {
         $member_newspaper = MemberNewspaperAllowance::findOrFail($id);
-        $members = Member::orderBy('id','asc')->get();
+        $members = Member::where('member_status', 1)->whereHas('desigs')->get();
         $edit = true;
 
-        return response()->json(['view' => view('frontend.member-info.newspaper-allowance.form', compact('member_newspaper', 'edit','members'))->render()]);
+        return response()->json(['view' => view('frontend.member-info.newspaper-allowance.form', compact('member_newspaper', 'edit', 'members'))->render()]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
+        // Validate incoming request
         $request->validate([
-            'member_id' => 'required',
-            'amount' => 'required',
-            'year' => 'required',
-            'remarks' =>'required',
+            'member_id' => 'required|exists:members,id',
+            'duration' => 'required|in:half_yearly,quarterly',
+            'year' => 'required|digits:4|integer|min:1950|max:' . date('Y'),
+            'month_duration' => 'required|string',
+            'remarks' => 'nullable|string',
         ]);
 
-        $member_newspaper = MemberNewspaperAllowance::findOrFail($id);
-        $member_newspaper->member_id = $request->member_id;
-        $member_newspaper->amount = $request->amount;
-        $member_newspaper->year = $request->year;
-        $member_newspaper->remarks = $request->remarks;
-        $member_newspaper->update();
+        // Find the record
+        $allowance = MemberNewspaperAllowance::findOrFail($id);
 
-        session()->flash('message', 'Member Newspaper Allowance updated successfully!');
-        return redirect()->route('member-newspaper-allowance.index')->with('message', 'Member Newspaper Allowance updated successfully!');
+        // Check for duplicate entry (excluding current ID)
+        $exists = MemberNewspaperAllowance::where('member_id', $request->member_id)
+            ->where('year', $request->year)
+            ->where('month_duration', $request->month_duration)
+            ->where('id', '!=', $id)
+            ->first();
+
+        if ($exists) {
+            session()->flash('error', 'An allowance for this member, year, and duration already exists.');
+            return response()->json(['error' => 'An allowance for this member, year, and duration already exists.']);
+        }
+
+        // Update record
+        $allowance->member_id = $request->member_id;
+        $allowance->duration = $request->duration;
+        $allowance->year = $request->year;
+        $allowance->month_duration = $request->month_duration;
+        $allowance->remarks = $request->remarks;
+        $allowance->save();
+
+        session()->flash('message', 'Member newspaper allowance updated successfully.');
+        return response()->json(['success' => 'Member newspaper allowance updated successfully.']);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -134,5 +168,13 @@ class MemberNewspaperAllowanceController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function delete($id)
+    {
+        $allowance = MemberNewspaperAllowance::findOrFail($id);
+        $allowance->delete();
+
+        return redirect()->back()->with('message',  'Member newspaper allowance deleted successfully.');
     }
 }

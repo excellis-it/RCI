@@ -17,6 +17,8 @@ class MemberLandline extends Model
         'entitle_amount',
         'month',
         'year',
+        'date',
+        'total_amount'
     ];
 
 

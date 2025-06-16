@@ -34,99 +34,122 @@ Landline Allowance
                         <form action="{{ route('reports.landline-allowance-generate') }}" method="POST">
                             @csrf
 
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div class="row">
-                                        <div class="form-group col-md-4 mb-2" >
-                                            <div class="col-md-12">
-                                                <label>Category</label>
+                             <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <div class="form-group col-md-12 mb-2">
+                                                <label>Generate Data By:</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="generate_by" id="by_member"
+                                                        value="member" {{ old('generate_by') == 'member' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="by_member">Member</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="generate_by" id="by_designation"
+                                                        value="designation" {{ old('generate_by', 'designation') == 'designation' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="by_designation">designation</label>
+                                                </div>
+
+                                                 <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="generate_by" id="by_all"
+                                                        value="all" {{ old('generate_by', 'all') == 'all' ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="by_all">All</label>
+                                                </div>
+
+                                                @error('generate_by')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            <div class="col-md-12">
-                                                <select name="category" class="form-select" id="category">
-                                                    <option value="">Select Category</option>
-                                                    @foreach($categories as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->category }}</option>
+
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="col-md-12">
+                                                    <label>Employee Status</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <select name="e_status" class="form-select" id="e_status">
+                                                        <option value="">Select Employee Status</option>
+                                                        <option value="active" {{ old('e_status') == 'active' ? 'selected' : '' }}>Active</option>
+                                                        <option value="deputation" {{ old('e_status') == 'deputation' ? 'selected' : '' }}>On Deputation</option>
+                                                    </select>
+                                                    @if ($errors->has('e_status'))
+                                                        <div class="error" style="color:red;">
+                                                            {{ $errors->first('e_status') }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6 mb-2" id="member_section"
+                                                style="display: {{ old('generate_by') == 'member' ? 'block' : 'none' }};">
+                                                <label for="member_id">Member</label>
+                                                <select class="form-select select2" name="member_id" id="member_id">
+                                                    <option value="">Select Member</option>
+
+                                                </select>
+                                                @error('member_id')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group col-md-6 mb-2" id="designation_section"
+                                                style="display: {{ old('generate_by', 'designation') == 'designation' ? 'block' : 'none' }};">
+                                                <label for="designation">Designation</label>
+                                                <select class="form-select select2" name="designation" id="designation">
+                                                    <option value="">Select Designation</option>
+                                                    @foreach ($designations as $designation)
+                                                        <option value="{{ $designation->id }}" {{ old('designation') == $designation->id ? 'selected' : '' }}>
+                                                            {{ $designation->designation }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
-                                                @if ($errors->has('category'))
-                                                    <div class="error" style="color:red;">
-                                                        {{ $errors->first('category') }}</div>
-                                                @endif
-                                                
+                                                @error('designation')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                        </div>
 
-                                        <div class="form-group col-md-4 mb-2 emp_status">
-                                            <div class="col-md-12">
-                                                <label>Employee Status</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <select name="e_status" class="form-select" id="e_status">
-                                                    <option value="">Select Employee Status</option>
-                                                    <option value="active">Active</option>
-                                                    <option value="deputation">On Deputation</option>
-                                                </select>
+                                            <div class="col-md-4">
+                                                 <label for="designation">Financial Year</label>
+                                                    <select class="form-select" name="financial_year"
+                                                        id="financial_year">
+                                                        <option value="">Select Financial Year</option>
+                                                        @foreach (\App\Helpers\Helper::getNewFinancialYears(20) as $year)
+                                                            <option value="{{ $year }}"
+                                                                {{ $year == $financialYear ? 'selected' : '' }}>
+                                                                {{ $year }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <span class="text-danger"></span>
+                                                </div>
+                                                  <div class="form-group col-md-3 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Document Type</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select class="form-control" name="doc_type" id="doc_type">
+                                                                    <option value="">Select Document Type</option>
+                                                                    <option selected value="pdf"
+                                                                        {{ old('doc_type') == 'pdf' ? 'selected' : '' }}>PDF
+                                                                    </option>
+                                                                    <option value="docx"
+                                                                        {{ old('doc_type') == 'docx' ? 'selected' : '' }}>
+                                                                        DOCX</option>
+                                                                </select>
+                                                            </div>
+                                                            {{-- validation  --}}
+                                                            @error('report_date')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
 
-                                                @if ($errors->has('e_status'))
-                                                    <div class="error" style="color:red;">
-                                                        {{ $errors->first('e_status') }}</div>
-                                                @endif
-
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-md-4 mb-2 member">
-                                            <div class="col-md-12">
-                                                <label>Employee</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <select name="member_id" class="form-select search-select-box" id="member_id">
-                                                </select>
-
-                                                @if ($errors->has('member_id'))
-                                                    <div class="error" style="color:red;">
-                                                        {{ $errors->first('member_id') }}</div>
-                                                @endif
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-md-4 mb-2 month_drop" style="display:none;">
-                                            <div class="col-md-12">
-                                                <label>Month</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <select name="month" class="form-select" id="month">
-                                                    <option value="">Select Month</option>
-                                                    <option value="01">January</option>
-                                                    <option value="02">February</option>
-                                                    <option value="03">March</option>
-                                                    <option value="04">April</option>
-                                                    <option value="05">May</option>
-                                                    <option value="06">June</option>
-                                                    <option value="07">July</option>
-                                                    <option value="08">August</option>
-                                                    <option value="09">September</option>
-                                                    <option value="10">October</option>
-                                                    <option value="11">November</option>
-                                                    <option value="12">December</option>
-                                                </select>
-                                                @if ($errors->has('month'))
-                                                    <div class="error" style="color:red;">
-                                                        {{ $errors->first('month') }}</div>
-                                                @endif
-                                            </div>
+                                                        </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="row justify-content-end">
-                                        <div class="form-group col-md-12 mb-2">
+                                    <div class="col-md-3">
+                                        <label></label>
+                                        <div class="form-group mb-2">
                                             <button type="submit" class="listing_add">Generate</button>
                                         </div>
                                     </div>
-                                </div>          
-                            </div>
+                                </div>
                         </form>
                     </div>
                 </div>
@@ -137,6 +160,36 @@ Landline Allowance
 @endsection
 
 @push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const memberSection = document.getElementById('member_section');
+        const designationsection = document.getElementById('designation_section');
+        const radios = document.querySelectorAll('input[name="generate_by"]');
+
+        function toggleSections() {
+            const selected = document.querySelector('input[name="generate_by"]:checked').value;
+
+            if (selected === 'member') {
+                memberSection.style.display = 'block';
+                designationsection.style.display = 'none';
+            } else if (selected === 'designation') {
+                memberSection.style.display = 'none';
+                designationsection.style.display = 'block';
+            } else {
+                memberSection.style.display = 'none';
+                designationsection.style.display = 'none';
+            }
+        }
+
+        // Initial toggle on page load
+        toggleSections();
+
+        // Add event listeners
+        radios.forEach(radio => {
+            radio.addEventListener('change', toggleSections);
+        });
+    });
+</script>
 
 <script>
     $(document).ready(function() {
@@ -147,8 +200,8 @@ Landline Allowance
                 url: "{{ route('reports.get-all-members') }}",
                 type: 'POST',
                 data: { e_status, _token: '{{ csrf_token() }}' },
-                
-                
+
+
                 success: ({ members }) => {
                     // Reference the existing select element
                     const memberDropdown = $('#member_id');
@@ -199,16 +252,57 @@ Landline Allowance
 <script>
     $(document).ready(function() {
         $('#member_id').change(function() {
-            
+
                 $('.cat_drop').hide();
                 $('.month_drop').show();
                 $('.emp_status').show();
                 $('.member').show();
                 $('.total_allo').show();
-            
+
         });
     });
 </script>
+<script>
+        $(document).ready(function() {
+            $('#e_status').change(function() {
+                var e_status = $(this).val();
 
+                $.ajax({
+                    url: "{{ route('reports.get-all-members') }}",
+                    type: 'POST',
+                    data: {
+                        e_status,
+                        _token: '{{ csrf_token() }}'
+                    },
+
+
+                    success: ({
+                        members
+                    }) => {
+                        // Reference the existing select element
+                        const memberDropdown = $('#member_id');
+                        memberDropdown.empty();
+                        memberDropdown.append('<option value="">Select Member</option>');
+                        members.forEach(({
+                            id,
+                            name,
+                            emp_id
+                        }) => {
+                            memberDropdown.append(
+                                `<option value="${id}">${name} (${emp_id})</option>`
+                                );
+                        });
+
+                        var select_box_element = document.querySelector('.search-select-box');
+                        dselect(select_box_element, {
+                            search: true
+                        });
+                    },
+
+                    error: (xhr) => console.log(xhr)
+                });
+            });
+        });
+    </script>
 
 @endpush
