@@ -44,20 +44,22 @@
 
                                                         <div class="form-group col-md-4 mb-2">
                                                             <div class="col-md-12">
-                                                                <label>Year</label>
+                                                                <label>Academic Year</label>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <select name="year" class="form-select" id="year">
-                                                                    <option value="">Select Year</option>
-                                                                    @foreach(range(date('Y'), 1958) as $year)
-                                                                        <option value="{{ $year }}" >{{ $year }}</option>
+                                                                      <option value="">Academic Year</option>
+                                                                    @foreach ($academicYears as $academicYear)
+                                                                        <option value="{{ $academicYear }}"
+                                                                            >
+                                                                            {{ $academicYear }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 @if ($errors->has('year'))
                                                                     <div class="error" style="color:red;">
                                                                         {{ $errors->first('year') }}</div>
                                                                 @endif
-                                                                
+
                                                             </div>
                                                         </div>
 
@@ -75,7 +77,7 @@
                                                                     <div class="error" style="color:red;">
                                                                         {{ $errors->first('report_type') }}</div>
                                                                 @endif
-                                                                
+
                                                             </div>
                                                         </div>
 
@@ -93,11 +95,11 @@
                                                                     <div class="error" style="color:red;">
                                                                         {{ $errors->first('category') }}</div>
                                                                 @endif
-                                                                
+
                                                             </div>
                                                         </div>
-                                                        
-                                                        <div class="form-group col-md-4 mb-2 emp_status">
+
+                                                        <div class="form-group col-md-4 mb-2 ">
                                                             <div class="col-md-12">
                                                                 <label>Employee Status</label>
                                                             </div>
@@ -118,7 +120,7 @@
                                                                 <select name="member_id" class="form-select search-select-box" id="member_id">
                                                                 </select>
                                                                 <span id="member_id-error" class="text-danger"></span>
-                                                                
+
                                                             </div>
                                                         </div>
 
@@ -135,6 +137,26 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                         <div class="form-group col-md-3 mb-2">
+                                                            <div class="col-md-12">
+                                                                <label>Director Sign</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <select class="form-control" name="director"
+                                                                    id="director">
+                                                                    <option value="">Select Director</option>
+                                                                    @foreach ($directors as $director)
+                                                                        <option value="{{ $director->id }}"
+                                                                            {{ old('director') == $director->id ? 'selected' : '' }}>
+                                                                            {{ $director->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            {{-- validation  --}}
+                                                            @error('director')
+                                                                <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
                                                         {{-- <div class="form-group col-md-3 mb-2 type-select" >
                                                             <div class="col-md-12">
                                                                 <label>Type</label>
@@ -149,7 +171,7 @@
                                                                     <div class="error" style="color:red;">
                                                                         {{ $errors->first('type') }}</div>
                                                                 @endif
-                                                                
+
                                                             </div>
                                                         </div> --}}
                                                     </div>
@@ -158,11 +180,11 @@
                                                             @include('frontend.reports.children-allowance-children-list')
                                                         </div>
                                                     </div>
-                                                   
+
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -177,7 +199,7 @@
                                                     <div class="form-group col-md-12 mb-2">
                                                         <button type="submit" class="listing_add">Generate</button>
                                                     </div>
-                                                    
+
                                                     {{-- <div class="form-group col-md-12 mb-2">
                                                         <button type="submit" class="listing_exit">Cancel</button>
                                                     </div> --}}
@@ -196,7 +218,7 @@
 @endsection
 
 @push('scripts')
-   
+
     <script>
         $(document).ready(function() {
             $('#report_year').change(function() {
@@ -225,7 +247,7 @@
                         monthDropdown.append(option);
                     }
                 }
-                
+
             });
         });
     </script>
@@ -239,8 +261,8 @@
                 url: "{{ route('reports.get-all-members') }}",
                 type: 'POST',
                 data: { e_status, _token: '{{ csrf_token() }}' },
-                
-                
+
+
                 success: ({ members }) => {
                     // Reference the existing select element
                     const memberDropdown = $('#member_id');
@@ -276,13 +298,13 @@
 
                     if(response.status == 'success'){
                         $('#children_list').html(response.view);
-                        
+
                     }else{
                         $('#children_allowance').html('');
                     }
                 },
             });
-            
+
         });
     });
     </script>

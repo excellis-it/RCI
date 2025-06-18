@@ -134,6 +134,7 @@ use App\Http\Controllers\Settings\CsvController;
 use App\Http\Controllers\LinkScannerController;
 use App\Http\Controllers\AutoRun\MemberPayGenerate;
 use App\Http\Controllers\Frontend\BackupController;
+use App\Http\Controllers\Frontend\ChildrenAllowanceController;
 use App\Http\Controllers\Frontend\ComputeController;
 use App\Http\Controllers\IncomeTax\MemberController as IncomeTaxMemberController;
 use App\Models\InventorySir;
@@ -237,6 +238,7 @@ Route::middleware('permssions')->group(function () {
         'tptas' => TptaController::class,
         'income-taxes' => IncomeTaxController::class,
         'gpfs' => GpfController::class,
+        'childrens' => ChildrenAllowanceController::class,
         'member-income-taxes' => MemberIncomeTaxController::class,
         'cghs' => CghsController::class,
         //    'rules' => RuleController::class,
@@ -677,6 +679,8 @@ Route::middleware('permssions')->group(function () {
 
     Route::get('/gpfs-fetch-data', [GpfController::class, 'fetchData'])->name('gpfs.fetch-data');
 
+    Route::get('/childrens-fetch-data', [ChildrenAllowanceController::class, 'fetchData'])->name('childrens.fetch-data');
+
     // memeber route
     Route::get('/members-delete/{id}', [MemberController::class, 'deleteMember'])->name('members.delete');
     Route::get('/members-fetch-data', [MemberController::class, 'fetchData'])->name('members.fetch-data');
@@ -863,7 +867,7 @@ Route::middleware('permssions')->group(function () {
         Route::get('/delete-member-newspaper-allowance/{id}', [MemberNewspaperAllowanceController::class, 'delete'])->name('member-newspaper-allowance.delete');
 
 
-         Route::get('/member-mobile-allowance-fetch', [MobileAllowanceController::class, 'fetchData'])->name('member-mobile-allowance.fetch-data');
+        Route::get('/member-mobile-allowance-fetch', [MobileAllowanceController::class, 'fetchData'])->name('member-mobile-allowance.fetch-data');
         Route::get('/get-entitle-amount', [MobileAllowanceController::class, 'getEntitleAmount'])->name('get.entitle.amount');
 
         Route::get('/member-newspaper-fetch', [MemberNewspaperAllowanceController::class, 'fetchData'])->name('member-newspaper-allowance.fetch-data');

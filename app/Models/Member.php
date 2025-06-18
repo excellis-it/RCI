@@ -187,6 +187,11 @@ class Member extends Model
         return $this->hasMany(ReceiptMember::class);
     }
 
+    public function childrenAllowance()
+    {
+        return $this->hasMany(MemberChildAllowance::class);
+    }
+
     public function memberCategory()
     {
         return $this->hasOneThrough(Category::class, MemberPersonalInfo::class, 'member_id', 'id', 'id', 'category');

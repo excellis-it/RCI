@@ -1244,35 +1244,45 @@ class ReportController extends Controller
 
     public function cildrenAllowance()
     {
+        $academicYears = Helper::getFinancialYears();
         $categories = Category::orderBy('id', 'desc')->get();
         $accountants = User::role('ACCOUNTANT')->get();
-        return view('frontend.reports.children-allowance', compact('categories', 'accountants'));
+          $directors = Member::whereHas('desigs', function ($query) {
+            $query->where('designation', 'DIR');
+        })->with('desigs')->get();
+        return view('frontend.reports.children-allowance', compact('categories', 'accountants', 'academicYears', 'directors'));
     }
 
     public function cildrenAllowanceGenerate(Request $request)
     {
+        //  dd($request->all());
         $request->validate([
             'report_type' => 'required',
             'year' => 'required',
-            'e_status' => 'required'
+            'e_status' => 'required',
+             'director'  => 'required',
         ]);
 
-
-
         $data = $request->all();
+        // dd($request->all());
         $timestamp = now()->format('YmdHis');
         $bill_no = date('Y') . '-PGB' . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT) . $timestamp;
-        $today =  Carbon::now()->format('d-M-Y');
+        $today = Carbon::now()->format('d-M-Y');
         $accountant = $request->accountant;
-
+        $total = 0;
+        $children = [];
+        $member_detail = null; // Initialize to null for individual report
 
         if ($request->report_type == 'individual') {
-
             $request->validate([
                 'member_id' => 'required',
             ]);
 
             $member_detail = Member::where('id', $request->member_id)->first();
+            if (!$member_detail) {
+                return redirect()->back()->with('error', 'Member not found.');
+            }
+
             $child_datas = [
                 'child_name' => $request->input('child_name'),
                 'child_dob' => $request->input('child_dob'),
@@ -1282,10 +1292,7 @@ class ReportController extends Controller
                 'child_amount' => $request->input('child_amount')
             ];
 
-            $children = [];
-            $total = 0;
-
-            // Check if 'child_name' exists and is an array, otherwise set $num_of_children to 0
+            // Ensure child_name is an array before counting
             $num_of_children = isset($child_datas['child_name']) && is_array($child_datas['child_name'])
                 ? count($child_datas['child_name'])
                 : 0;
@@ -1299,48 +1306,87 @@ class ReportController extends Controller
                     'child_academic' => $child_datas['child_academic'][$i],
                     'child_amount' => $child_datas['child_amount'][$i]
                 ];
-
                 $total += $child_datas['child_amount'][$i];
             }
 
-            // Check if $children has no value
             if (empty($children)) {
-                return redirect()->back()->with('error', 'No children data found.');
+                return redirect()->back()->with('error', 'No children data found for the selected member.');
             }
-            $setting = Setting::first();
-            $paperType = $request->paper_type ?? $setting->pdf_page_type;
-            $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('data', 'total', 'bill_no', 'today', 'children', 'member_detail', 'accountant'))->setPaper('a4', $paperType);
-            return $pdf->download('children-allowance-report-' . $member_detail->name . '.pdf');
-        } else {
-            // call this function groupChildrenAllowanceGenerate()
-            $members = Member::where('category', $request->category)->where('pay_stop', 'No')->get();
-            $total = 0;
-            $accountant = $request->accountant;
 
-            // Prepare data to pass to the view
-            $members_data = [];
+            $pdf_filename = 'children-allowance-report-' . $member_detail->name . '.pdf';
+        } elseif ($request->report_type == 'group') {
+            $request->validate([
+                'category' => 'required',
+            ]);
 
+            $categoryId = $request->category;
+            $academicYear = $request->year;
+            $employeeStatus = $request->e_status;
+
+            // Fetch members based on category and status
+            $members = Member::where('category', $categoryId)
+                ->where('e_status', $employeeStatus) // Assuming 'status' is the column for employee status
+                ->with(['childrenAllowance' => function ($query) use ($academicYear) {
+                    $query->where('year', $academicYear);
+                }])->whereHas('childrenAllowance', function ($query) use ($academicYear) {
+                    $query->where('year', $academicYear);
+                })
+                ->get();
+
+            // dd( $members->toArray());
+
+            $groupedChildrenData = [];
             foreach ($members as $member) {
-                $member_childrens = MemberChildAllowance::where('member_id', $member->id)->where('year', $request->year)->get();
+                $memberTotal = 0;
+                $memberChildren = [];
+                foreach ($member->childrenAllowance as $childAllowance) {
+                    // dd($childAllowance);
+                    $memberChildren[] = [
+                        'child_name' => $childAllowance->child_name,
+                        'child_dob' => $childAllowance->child_dob,
+                        'child_scll_name' => $childAllowance->child_school, // Assuming column name is school_name
+                        'child_class' => $childAllowance->child_class, // Assuming column name is class_name
+                        'child_academic' => $childAllowance->academic_year,
+                        'child_amount' => $childAllowance->allowance_amount
+                    ];
+                    $memberTotal += $childAllowance->allowance_amount;
+                }
 
-                // Collecting member and their children's data
-                $members_data[] = [
-                    'member' => $member,
-                    'children' => $member_childrens,
-                ];
-
-                // Calculating the total allowance
-                foreach ($member_childrens as $child) {
-                    $total += ($child->allowance_amount ?? 0);
+                if (!empty($memberChildren)) {
+                    $groupedChildrenData[] = [
+                        'member_detail' => $member,
+                        'children' => $memberChildren,
+                        'member_total' => $memberTotal
+                    ];
+                    $total += $memberTotal;
                 }
             }
-            $setting = Setting::first();
-            $paperType = $request->paper_type ?? $setting->pdf_page_type;
-            $pdf = PDF::loadView('frontend.reports.group-children-allowance-report', compact('members_data', 'data', 'total', 'bill_no', 'today', 'accountant'))->setPaper('a4', $paperType);
-            return $pdf->download('group-children-allowance-report-' . 'all members' . '.pdf');
-        }
-    }
 
+            // dd($groupedChildrenData);
+
+            if (empty($groupedChildrenData)) {
+                return redirect()->back()->with('error', 'No children allowance data found for the selected category and academic year.');
+            }
+
+            // Pass grouped data to the view.
+            // You might want to rename 'children' to something more descriptive like 'groupedChildrenData'
+            // and pass individual member details inside that structure.
+            $children = $groupedChildrenData; // Overriding $children for consistent variable name in view, or use a new variable for clarity
+            $pdf_filename = 'children-allowance-report-category-' . $categoryId . '-' . $academicYear . '.pdf';
+        } else {
+            return redirect()->back()->with('error', 'Invalid report type selected.');
+        }
+
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? ($setting->pdf_page_type ?? 'portrait'); // Default to portrait if not set in settings
+        $year = $request->year;
+         $director_name = Member::findOrFail($request->director)->name ?? '-';
+        // The blade view will need to handle the structure of $children depending on report_type
+        // If 'group', $children will be an array of arrays, each containing member_detail and their children
+        // If 'individual', $children will be a flat array of children, and $member_detail will be direct.
+        $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('director_name','data', 'total', 'bill_no', 'today', 'children', 'member_detail', 'accountant', 'request', 'year'))->setPaper('a4', 'potrait');
+        return $pdf->download($pdf_filename);
+    }
     public function getMemberChildren(Request $request)
     {
 
@@ -1643,40 +1689,110 @@ class ReportController extends Controller
         return response()->json(['get_news_allow' => $get_news_allow]);
     }
 
+    // public function newspaperReportGenerate(Request $request)
+    // {
+
+    //     $request->validate([
+    //         'report_type' => 'required',
+    //         //if $request->report_type == 'individual'
+    //         'member_id' => 'required_if:report_type,individual',
+    //         'e_status' => 'required_if:report_type,individual',
+    //         //if $request->report_type == 'group'
+    //         'category' => 'required_if:report_type,group',
+
+    //     ]);
+    //     $data = $request->all();
+
+    //     if ($request->report_type == 'individual') {
+    //         $member_detail = Member::where('id', $request->member_id)->first();
+    //         $setting = Setting::first();
+    //         $paperType = $request->paper_type ?? $setting->pdf_page_type;
+    //         $pdf = PDF::loadView('frontend.reports.newspaper-allowance-report-generate', compact('member_detail', 'data'))->setPaper('a4', $paperType);
+    //         return $pdf->download('newspaper-allowance-report-' . $member_detail->name . '.pdf');
+    //     } else {
+
+    //         $members = Member::where('category', $request->category)->get();
+    //         $total = 0;
+    //         foreach ($members as $member) {
+    //             $amount = MemberNewspaperAllowance::where('member_id', $member->id)->first();
+    //             $total += $amount->amount ?? 0;
+    //         }
+    //         $setting = Setting::first();
+    //         $paperType = $request->paper_type ?? $setting->pdf_page_type;
+    //         $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', compact('members', 'total'))->setPaper('a4', $paperType);
+    //         return $pdf->download('newspaper-allowance-report-' . 'all-members' . '.pdf');
+    //     }
+    // }
+
     public function newspaperReportGenerate(Request $request)
     {
-
         $request->validate([
-            'report_type' => 'required',
-            //if $request->report_type == 'individual'
-            'member_id' => 'required_if:report_type,individual',
-            'e_status' => 'required_if:report_type,individual',
-            //if $request->report_type == 'group'
-            'category' => 'required_if:report_type,group',
-
+            'generate_by'   => 'required|in:member,designation,all',
+            'e_status'      => 'required|in:active,deputation',
+            'duration'      => 'required|in:half_yearly,quarterly',
+            'year'          => 'required|integer|min:1950|max:' . date('Y'),
+            'month_duration' => 'required|regex:/^\d{2}-\d{2}$/',
+            'member_id'     => 'required_if:generate_by,member|nullable|exists:members,id',
+            'designation'   => 'required_if:generate_by,designation|nullable|exists:designations,id',
+        ], [
+            'member_id.required_if' => 'Please select a member when "Member" is selected.',
+            'designation.required_if' => 'Please select a designation when "Designation" is selected.',
         ]);
-        $data = $request->all();
 
-        if ($request->report_type == 'individual') {
-            $member_detail = Member::where('id', $request->member_id)->first();
-            $setting = Setting::first();
-            $paperType = $request->paper_type ?? $setting->pdf_page_type;
-            $pdf = PDF::loadView('frontend.reports.newspaper-allowance-report-generate', compact('member_detail', 'data'))->setPaper('a4', $paperType);
-            return $pdf->download('newspaper-allowance-report-' . $member_detail->name . '.pdf');
-        } else {
+        // Parse month range and determine year boundaries
+        list($startMonth, $endMonth) = explode('-', $request->month_duration);
+        $year = $request->year;
+        // Convert numeric month to month name
+        $startMonthName = date('M', mktime(0, 0, 0, (int)$startMonth, 1));
+        $endMonthName = date('M', mktime(0, 0, 0, (int)$endMonth, 1));
 
-            $members = Member::where('category', $request->category)->get();
-            $total = 0;
-            foreach ($members as $member) {
-                $amount = MemberNewspaperAllowance::where('member_id', $member->id)->first();
-                $total += $amount->amount ?? 0;
-            }
-            $setting = Setting::first();
-            $paperType = $request->paper_type ?? $setting->pdf_page_type;
-            $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', compact('members', 'total'))->setPaper('a4', $paperType);
-            return $pdf->download('newspaper-allowance-report-' . 'all-members' . '.pdf');
+        // dd($startMonthName, $endMonthName); // outputs: "Jan", "Jun"
+
+
+
+        // Main query
+        $query = MemberNewspaperAllowance::with(['member', 'member.memberPersonalInfo'])
+            ->orderBy('id')
+            ->where('duration', $request->duration)
+            ->where('month_duration', $request->month_duration)
+            ->whereHas('member', function ($q) use ($request) {
+                $q->where('e_status', $request->e_status);
+            });
+
+        if ($request->generate_by === 'member') {
+            $query->where('member_id', $request->member_id);
         }
+
+        if ($request->generate_by === 'designation') {
+            $query->whereHas('member', function ($q) use ($request) {
+                $q->where('desig', $request->designation);
+            });
+        }
+
+        $newspaperData = $query->get()->chunk(39);
+
+        // dd($landlineData->toArray());
+
+        if ($newspaperData->isEmpty()) {
+            return redirect()->back()->with('error', 'No data found!');
+        }
+
+        $paperType = 'portrait';
+        $pdf = PDF::loadView('frontend.reports.group-newspaper-report-generate', [
+            'newspaperData' => $newspaperData,
+            'startMonthName' => $startMonthName,
+            'endMonthName' => $endMonthName,
+            'year' => $year
+        ])->setPaper('a4', $paperType);
+
+        return $pdf->download('newspaper-report-' . now()->format('YmdHis') . '.pdf');
+
+
+
+        return back()->with('error', 'Invalid document type selected.');
     }
+
+
 
     public function groupNewspaperAllocation()
     {
@@ -1703,11 +1819,14 @@ class ReportController extends Controller
         $designations = Designation::orderBy('id', 'desc')->get();
         $the_month = (int) date('m');
         $the_year = (int) date('Y');
+        $directors = Member::whereHas('desigs', function ($query) {
+            $query->where('designation', 'DIR');
+        })->with('desigs')->get();
 
         $financialYear = $the_month >= 4
             ? $the_year . '-' . ($the_year + 1)
             : ($the_year - 1) . '-' . $the_year;
-        return view('frontend.reports.landline-allowance', compact('designations', 'financialYear'));
+        return view('frontend.reports.landline-allowance', compact('designations', 'financialYear', 'directors'));
     }
 
 
@@ -1719,6 +1838,7 @@ class ReportController extends Controller
             'generate_by'   => 'required|in:member,designation,all',
             'e_status'      => 'required|in:active,deputation',
             'financial_year' => 'required',
+            'director'  => 'required',
         ];
 
         if ($request->generate_by === 'member') {
@@ -1777,41 +1897,12 @@ class ReportController extends Controller
         $setting = Setting::first();
         $logo = Helper::logo() ?? '';
         $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $director_name = Member::findOrFail($request->director)->name ?? '-';
 
-        if ($request->doc_type == 'pdf') {
-            $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate', compact('landlineData', 'startYear', 'endYear', 'financial_year', 'logo'))
-                ->setPaper('a4', 'portrait');
+        $pdf = PDF::loadView('frontend.reports.landline-allow-report-generate', compact('landlineData', 'startYear', 'endYear', 'financial_year', 'logo', 'director_name'))
+            ->setPaper('a4', 'portrait');
 
-            return $pdf->download("landline-allowance-report-{$startYear}-{$endYear}.pdf");
-        } else if ($request->doc_type == 'docx') {
-
-           // Generate the full HTML content
-$html = view('frontend.reports.landline-allow-report-generate', compact('landlineData', 'startYear', 'endYear', 'financial_year', 'logo'))->render();
-
-// Optional: Save $html to a file for debugging
-// file_put_contents('debug.html', $html);
-
-// Create PHPWord document
-$phpWord = new \PhpOffice\PhpWord\PhpWord();
-$section = $phpWord->addSection();
-
-// Convert HTML to Word
-\PhpOffice\PhpWord\Shared\Html::addHtml($section, $html, false, false);
-
-// Save to a temporary file
-$fileName = "landline-allowance-report-{$startYear}-{$endYear}.docx";
-$tempFile = storage_path("app/public/{$fileName}");
-$phpWord->save($tempFile, 'Word2007');
-
-// Download response
-return response()
-    ->download($tempFile)
-    ->deleteFileAfterSend(true);
-        }
-
-        return redirect()
-            ->back()
-            ->with('error', 'Invalid document format');
+        return $pdf->download("landline-allowance-report-{$startYear}-{$endYear}.pdf");
     }
 
 

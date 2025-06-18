@@ -120,7 +120,27 @@ Landline Allowance
                                                     </select>
                                                     <span class="text-danger"></span>
                                                 </div>
-                                                  <div class="form-group col-md-3 mb-2">
+                                                 <div class="form-group col-md-3 mb-2">
+                                                <div class="col-md-12">
+                                                    <label>Director Sign</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <select class="form-control" name="director"
+                                                        id="director">
+                                                        <option value="">Select Director</option>
+                                                        @foreach ($directors as $director)
+                                                            <option value="{{ $director->id }}"
+                                                                {{ old('director') == $director->id ? 'selected' : '' }}>
+                                                                {{ $director->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                {{-- validation  --}}
+                                                @error('director')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                                  {{-- <div class="form-group col-md-3 mb-2">
                                                             <div class="col-md-12">
                                                                 <label>Document Type</label>
                                                             </div>
@@ -135,12 +155,11 @@ Landline Allowance
                                                                         DOCX</option>
                                                                 </select>
                                                             </div>
-                                                            {{-- validation  --}}
                                                             @error('report_date')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
 
-                                                        </div>
+                                                        </div> --}}
                                         </div>
                                     </div>
                                     <div class="col-md-3">

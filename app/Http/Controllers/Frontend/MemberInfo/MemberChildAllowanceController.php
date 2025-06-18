@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Frontend\MemberInfo;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\ChildrenAllowanceAmount;
 use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\MemberChildrenDetail;
@@ -16,15 +18,22 @@ class MemberChildAllowanceController extends Controller
      */
     public function index()
     {
-        $members = Member::orderBy('id','asc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         $member_allowances = MemberChildAllowance::select(
-            'member_id'  // Count of records
+            'member_id',
+            'year'
         )
-        ->where('year', date('Y'))
-        ->groupBy('member_id')
-        ->paginate(10);
+            // ->where('year', date('Y'))
+            ->groupBy('member_id', 'year')
+            ->paginate(10);
+        $children_allowance_amount = ChildrenAllowanceAmount::where('status', 1)->orderBy('id', 'desc')->first();
+        if (!$children_allowance_amount) {
+            return redirect()->back()->with('error', 'Please add amount of given allowance');
+        }
+        // dd( $children_allowance_amount);
+        $academicYears = Helper::getFinancialYears();
 
-        return view('frontend.member-info.child-allowance.list', compact('members','member_allowances'));
+        return view('frontend.member-info.child-allowance.list', compact('members', 'member_allowances', 'academicYears', 'children_allowance_amount'));
     }
 
     public function childallowancefetch(Request $request)
@@ -35,8 +44,8 @@ class MemberChildAllowanceController extends Controller
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
             $member_allowances = MemberChildAllowance::selectRaw('member_id, MAX(id) as id')
-                ->where(function($queryBuilder) use ($query) {
-                    $queryBuilder->whereHas('member', function($queryBuilder) use ($query) {
+                ->where(function ($queryBuilder) use ($query) {
+                    $queryBuilder->whereHas('member', function ($queryBuilder) use ($query) {
                         $queryBuilder->where('name', 'like', '%' . $query . '%');
                     });
                 })
@@ -52,8 +61,9 @@ class MemberChildAllowanceController extends Controller
     public function memberChildDataFetch(Request $request)
     {
         $member_childs = MemberChildrenDetail::where('member_id', $request->member_id)->get();
+         $children_allowance_amount = ChildrenAllowanceAmount::where('status', 1)->orderBy('id', 'desc')->first();
         $childs = true;
-        return response()->json(['view' => view('frontend.member-info.child-allowance.child-form', compact('member_childs','childs'))->render()]);
+        return response()->json(['view' => view('frontend.member-info.child-allowance.child-form', compact('member_childs', 'childs', 'children_allowance_amount'))->render()]);
     }
 
     /**
@@ -91,7 +101,7 @@ class MemberChildAllowanceController extends Controller
                 $member_child_allowance->child_dob = $request->child_dob[$key];
                 $member_child_allowance->child_school = $request->child_school[$key];
                 $member_child_allowance->child_class = $request->child_class[$key];
-                $member_child_allowance->academic_year = $request->academic_year[$key];
+                $member_child_allowance->academic_year = $request->year;
                 $member_child_allowance->allowance_amount = $request->allowance_amount[$key];
                 $member_child_allowance->save();
             }
@@ -99,7 +109,6 @@ class MemberChildAllowanceController extends Controller
 
         session()->flash('message', 'Member child allowance added successfully');
         return response()->json(['success' => 'Member child allowance added successfully']);
-
     }
 
     /**
@@ -115,13 +124,14 @@ class MemberChildAllowanceController extends Controller
      */
     public function edit(string $id, Request $request)
     {
-        $members = Member::orderBy('id','asc')->get();
+        $members = Member::orderBy('id', 'asc')->get();
         $member_id = $id;
         $edit_year = $request->year;
         $member_childs = MemberChildAllowance::where('member_id', $id)->where('year', $request->year)->get();
+        $academicYears = Helper::getFinancialYears();
         $childs = true;
         $edit = true;
-        return response()->json(['view' => view('frontend.member-info.child-allowance.form', compact('member_childs','childs','members','edit','member_id','edit_year'))->render()]);
+        return response()->json(['view' => view('frontend.member-info.child-allowance.form', compact('academicYears', 'member_childs', 'childs', 'members', 'edit', 'member_id', 'edit_year'))->render()]);
     }
 
     /**
@@ -141,7 +151,7 @@ class MemberChildAllowanceController extends Controller
                 $member_child_allowance->child_dob = $request->child_dob[$key];
                 $member_child_allowance->child_school = $request->child_school[$key];
                 $member_child_allowance->child_class = $request->child_class[$key];
-                $member_child_allowance->academic_year = $request->academic_year[$key];
+                $member_child_allowance->academic_year = $request->year;
                 $member_child_allowance->allowance_amount = $request->allowance_amount[$key];
                 $member_child_allowance->save();
             }

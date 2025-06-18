@@ -9,6 +9,16 @@ class MemberNewspaperAllowance extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+    'duration',
+    'month_duration',
+    'member_id',
+    'amount',
+    'year',
+    'remarks',
+];
+
+
     //member relation
     public function member()
     {

@@ -65,8 +65,10 @@
                                                                     <label>Print Date</label>
                                                                 </div>
                                                                 <div class="col-md-12">
-                                                                    <input type="datetime-local" class="form-control" name="print_date"
-                                                                        id="print_date">
+                                                                   <input type="datetime-local" class="form-control" name="print_date"
+                                                                    id="print_date"
+                                                                    value="{{ old('print_date', now()->format('Y-m-d\TH:i')) }}">
+
                                                                     @error('print_date')
                                                                         <span class="text-danger">{{ $message }}</span>
                                                                     @enderror

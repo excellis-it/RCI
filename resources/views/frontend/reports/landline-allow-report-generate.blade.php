@@ -812,7 +812,7 @@ the officers as per Annexure -1
                 margin: 0px 0px !important;
                 height: 20px;
               ">
-                (Dr. JAGANNATH NAYAK)<br />DS & Director
+                ({{$director_name ?? '-'}})<br />DS & Director
                 </td>
               </tr>
 

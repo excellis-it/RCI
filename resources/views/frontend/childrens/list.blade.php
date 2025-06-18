@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-   Child Allowance List
+   Children List
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>Child Allowance Detail Listing</h3>
+                    <h3>Children Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">Child Allowance Listing</span></li>
+                        <li><span class="bread-blod">Children Listing</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.member-info.child-allowance.form')
+                            @include('frontend.childrens.form')
                         </div>
 
                         <div class="row">
@@ -43,32 +43,24 @@
                                             <span class="table_search_icon"><i class="fa fa-search"></i></span>
                                         </div>
                                     </div>
-                                    {{-- <div class="col-md-2 col-lg-2 mb-2 mt-4">
-                                        <div class="position-relative">
-                                            <select class="form-select" id="search-year" name="year">
-                                                <option value="">Select Year</option>
-                                                @foreach (range(date('Y'), 1958) as $year)
-                                                    <option value="{{ $year }}" {{ $year == date('Y') ? 'selected' : '' }}>{{ $year }}</option>
-                                                @endforeach
-                                            </select>
-
-                                        </div>
-                                    </div> --}}
                                 </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type"
-                                                    style="cursor: pointer">Member Name <span id="leave_type_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount"
+                                                    style="cursor: pointer">Current Allowance Amount<span id="amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                            <th>Academic Year</th>
+                                                        <th>
+                                                            Created Date
+                                                        </th>
+                                                <th>Status </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.member-info.child-allowance.table')
+                                            @include('frontend.childrens.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -87,13 +79,34 @@
 @endsection
 
 @push('scripts')
-
+    <script>
+        $(document).on('click', '#delete', function(e) {
+            swal({
+                    title: "Are you sure?",
+                    text: "To delete this Children!",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true
+                })
+                .then((result) => {
+                    if (result.value) {
+                        window.location = $(this).data('route');
+                    } else if (result.dismiss === 'cancel') {
+                        swal(
+                            'Cancelled',
+                            'Your stay here :)',
+                            'error'
+                        )
+                    }
+                })
+        });
+    </script>
     <script>
         $(document).ready(function() {
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('child-allowance.fetch-data') }}",
+                    url: "{{ route('childrens.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -158,7 +171,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#member-child-allowance-create-form').submit(function(e) {
+            $('#children-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
 
@@ -192,15 +205,11 @@
         $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
                 var route = $(this).data('route');
-                var year = $('#search-year').val();
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
                     url: route,
                     type: 'GET',
-                    data: {
-                        year: year
-                    },
                     success: function(response) {
                         $('#form').html(response.view);
                         $('#loading').removeClass('loading');
@@ -217,7 +226,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#member-child-allowance-edit-form', function(e) {
+            $(document).on('submit', '#children-edit-form', function(e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -227,55 +236,18 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                         window.location.reload();
+                        window.location.reload();
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
-                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '-error').html(value[0]);
                         });
                     }
                 });
             });
         });
     </script>
-
-    <script>
-        //member_id change event for fetching children loop details
-        $(document).ready(function() {
-            $('#member_id').change(function() {
-                var member_id = $(this).val();
-                $.ajax({
-                    url: "{{ route('child-allowance.member-children') }}",
-                    type: 'GET',
-                    data: {
-                        member_id: member_id
-                    },
-                    success: function(response) {
-                        $('#children-form').html(response.view);
-                    },
-                    error: function(xhr) {
-                        // Handle errors
-                        console.log(xhr);
-                    }
-                });
-            });
-        });
-        </script>
-
-<script>
-    var select_box_element = document.querySelector('.search-select-box');
-    dselect(select_box_element, {
-        search: true
-    });
-</script>
-
-
-
-
-
 @endpush

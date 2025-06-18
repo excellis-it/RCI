@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group col-md-3 mb-2">
+        {{-- <div class="form-group col-md-3 mb-2">
             <div class="row align-items-center">
                 <div class="col-md-12">
                     <label> Academic year</label>
@@ -65,14 +65,17 @@
                     <span class="text-danger"></span>
                 </div>
             </div>
-        </div>
+        </div> --}}
+        {{-- @dd($children_allowance_amount->amount) --}}
         <div class="form-group col-md-3 mb-2">
             <div class="row align-items-center">
                 <div class="col-md-12">
                     <label>Allowance Amount</label>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control" name="allowance_amount[]"  value="{{ $member_child->allowance_amount ?? ''}}" >
+                    <input type="text" class="form-control" name="allowance_amount[]"  @if (isset($edit))
+value="{{ $member_child->allowance_amount ?? ''}}" @else value="{{ $children_allowance_amount->amount ?? ''}}"
+                    @endif  >
                     <span class="text-danger"></span>
                 </div>
             </div>

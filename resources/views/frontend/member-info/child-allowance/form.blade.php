@@ -27,14 +27,17 @@
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label> Year</label>
+                                <label>Academic Year</label>
                             </div>
                             <div class="col-md-12">
+
                                 <select class="form-select" name="year" id="year">
+
                                     <option value="">Select Year</option>
-                                    @foreach (range(date('Y'), 1958) as $year)
-                                        <option value="{{ $year }}" {{ $edit_year == $year ? 'selected' : '' }}>
-                                            {{ $year }}</option>
+                                 @foreach ($academicYears as $academicYear)
+                                        <option value="{{ $academicYear }}"
+                                            {{ $edit_year == $academicYear ? 'selected' : '' }}>
+                                            {{ $academicYear }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -90,13 +93,15 @@
                     <div class="form-group col-md-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <label> Year</label>
+                                <label> Academic Year</label>
                             </div>
                             <div class="col-md-12">
                                 <select class="form-select" name="year" id="year">
-                                    <option value="">Select Year</option>
-                                    @foreach (range(date('Y'), 1958) as $year)
-                                        <option value="{{ $year }}">{{ $year }}</option>
+                                    <option value="">Academic Year</option>
+                                    @foreach ($academicYears as $academicYear)
+                                        <option value="{{ $academicYear }}"
+                                            >
+                                            {{ $academicYear }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -105,7 +110,6 @@
                     </div>
 
                 </div>
-
                 <div class="row" id="children-form">
                     @include('frontend.member-info.child-allowance.child-form')
                 </div>

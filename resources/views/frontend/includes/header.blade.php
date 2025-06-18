@@ -571,6 +571,11 @@
                                     href="{{ route('gpfs.index') }}">GPF</a>
                             </li>
 
+                              <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('childrens.index') }}">Children Allowance</a>
+                            </li>
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('newspaper-allowance.index') }}">Newspaper Allowance</a>
