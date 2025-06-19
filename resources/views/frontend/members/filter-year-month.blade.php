@@ -1835,12 +1835,13 @@
             let noOfInst = parseFloat($('#tot_no_of_inst').val()) || 0;
             let presentInst = parseFloat($('#present_inst_no').val()) || 0;
             let instAmount = parseFloat($('#inst_amount').val()) || 0;
-            let remainingInst = noOfInst - presentInst;
-            let balance = Math.round(remainingInst * instAmount);
+              let totalAmount = parseFloat($('#total_amount').val()) || 0;
+            let remainingInst = instAmount * presentInst;
+            let balance = Math.round(totalAmount - remainingInst);
             $('#balance').val(balance);
         }
         $(document).on('input', '#total_amount, #tot_no_of_inst', calculateInstallment);
-        $(document).on('input', '#tot_no_of_inst, #present_inst_no, #inst_amount', calculateBalance);
+        $(document).on('input', '#total_amount,#tot_no_of_inst, #present_inst_no, #inst_amount', calculateBalance);
 
         function calculateInterst() {
             let totalAmount = parseFloat($('#total_amount').val()) || 0;

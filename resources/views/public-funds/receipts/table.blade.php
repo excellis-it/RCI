@@ -21,7 +21,7 @@
                     <span>{{ $rcMember->amount ?? 'N/A' }}</span><br>
                 @endforeach
                 <span>-------------</span><br>
-                <span>Total : {{ number_format($receipt->amount, 2) ?? 'N/A' }}</span>
+                <span>Total : {{ formatIndianCurrency($receipt->amount, 2) ?? 'N/A' }}</span>
 
             </td>
             <td class="sepharate"><a data-route="{{ route('receipts.edit', $receipt->id) }}" href="#"

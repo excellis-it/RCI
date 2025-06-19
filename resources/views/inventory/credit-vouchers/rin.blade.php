@@ -149,7 +149,7 @@
                         <div class="col-md-12">
                             <input type="text" class="form-control disc_percent" name="disc_percent[]"
                                 id="disc_percent" placeholder=""
-                                value="{{ $rin->discount_amount && $rin->unit_cost && $rin->received_quantity ? number_format(($rin->discount_amount / ($rin->unit_cost * $rin->received_quantity)) * 100, 2) : '0' }}">
+                                value="{{ $rin->discount_amount && $rin->unit_cost && $rin->received_quantity ? formatIndianCurrency(($rin->discount_amount / ($rin->unit_cost * $rin->received_quantity)) * 100, 2) : '0' }}">
                             <span class="text-danger"></span>
                         </div>
                     </div>

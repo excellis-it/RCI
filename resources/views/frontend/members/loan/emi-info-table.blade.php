@@ -7,8 +7,8 @@
             <td>{{ $emi_list->member->name ?? 'N/A' }}</td>
             <td>{{ $emi_list->loan->loan_name ?? 'N/A' }}</td>
             <td>{{ $emi_list->interest_rate ?? 'N/A' }}</td>
-            <td>{{ isset($emi_list->emi_amount) ? number_format($emi_list->emi_amount, 2) : 'N/A' }}</td>
-            <td>{{ isset($emi_list->interest_amount) ? number_format($emi_list->interest_amount, 2) : 'N/A' }}</td>
+            <td>{{ isset($emi_list->emi_amount) ? formatIndianCurrency($emi_list->emi_amount, 2) : 'N/A' }}</td>
+            <td>{{ isset($emi_list->interest_amount) ? formatIndianCurrency($emi_list->interest_amount, 2) : 'N/A' }}</td>
             <td>{{ $emi_list->penal_interest ?? 'N/A'}}</td>
             <td>{{ $emi_list->emi_date ?? 'N/A' }}</td>
             <td><span style="color: {{ $emi_list->status == 0 ? 'red' : 'green' }}">

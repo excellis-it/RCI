@@ -543,7 +543,7 @@ class Helper
             return 'zero';
         }
 
-        $number = number_format((float)$number, 2, '.', '');
+        $number = formatIndianCurrency((float)$number, 2, '.', '');
         list($integerPart, $fractionalPart) = explode('.', $number);
 
         $integerWords = self::convertToWords($integerPart);
@@ -741,7 +741,7 @@ class Helper
         }
     }
 
-    // format to decimal 2 number (number_format(floor($original_total_amount * 100) / 100, 2, '.', ''))
+    // format to decimal 2 number (formatIndianCurrency(floor($original_total_amount * 100) / 100, 2, '.', ''))
     public static function formatDecimal($number)
     {
         return floor($number * 100) / 100;
@@ -758,7 +758,7 @@ class Helper
             ->first();
 
         if ($loan) {
-            return number_format($loan->emi_amount, 2, '.', '');
+            return formatIndianCurrency($loan->emi_amount, 2, '.', '');
         } else {
             return 0;
         }
@@ -1018,7 +1018,7 @@ class Helper
         }
     }
 
-  
+
 
 }
 

@@ -19,7 +19,7 @@
                                         <td>{{ \Carbon\Carbon::createFromFormat('m', $rent->month)->format('F') }}
                                         </td>
                                         <td>{{ $rent->year }}</td>
-                                        <td>{{ number_format($rent->rent, 2) }}</td>
+                                        <td>{{ formatIndianCurrency($rent->rent, 2) }}</td>
                                         <td class="sepharate">
                                             <button class="edit_pencil edit-rent border-0"
                                                 data-id="{{ $rent->id }}" data-month="{{ $rent->month }}"

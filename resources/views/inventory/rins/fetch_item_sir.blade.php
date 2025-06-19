@@ -107,7 +107,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control disc_percent" name="disc_percent[]"
-                                id="disc_percent" value="{{ number_format($sir->discount, 2) ?? 0.0 }}">
+                                id="disc_percent" value="{{ formatIndianCurrency($sir->discount, 2) ?? 0.0 }}">
                             <input type="hidden" class="form-control discount_amount" name="discount_amount[]"
                                 id="discount_amount" value="{{ $sir->discount_amount ?? 0 }}" hidden>
                             <span class="text-danger"></span>

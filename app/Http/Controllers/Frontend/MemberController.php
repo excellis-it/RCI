@@ -2669,7 +2669,7 @@ class MemberController extends Controller
                     $basic = $member->basic;
                     $da = $member->da;
 
-                    $result[$leave->leave_type_id]['eolHplDeduction'] = number_format((float)((($basic + $da) * $result[$leave->leave_type_id]['no_of_days']) / $result[$leave->leave_type_id]['daysInMonth']), 2);
+                    $result[$leave->leave_type_id]['eolHplDeduction'] = formatIndianCurrency((float)((($basic + $da) * $result[$leave->leave_type_id]['no_of_days']) / $result[$leave->leave_type_id]['daysInMonth']), 2);
 
                     if ($nps != null) {
                         $npsDeductionown = round(($result[$leave->leave_type_id]['eolHplDeduction'] * 10) / 100);
@@ -2696,7 +2696,7 @@ class MemberController extends Controller
                     $startmonthDeduction = (($basic + $da) * $result[$leave->leave_type_id]['leaveDaysInStartMonth']) / $result[$leave->leave_type_id]['daysInStartMonth'];
                     $endmonthDeduction = (($basic + $da) * $result[$leave->leave_type_id]['leaveDaysInEndMonth']) / $result[$leave->leave_type_id]['daysInEndMonth'];
 
-                    $result[$leave->leave_type_id]['eolHplDeduction'] = number_format((float)($startmonthDeduction + $endmonthDeduction), 2);
+                    $result[$leave->leave_type_id]['eolHplDeduction'] = formatIndianCurrency((float)($startmonthDeduction + $endmonthDeduction), 2);
                 }
                 $total_deduction += floatval(str_replace(',', '', $result[$leave->leave_type_id]['eolHplDeduction']));
             } elseif ($hasCCL) {
@@ -2707,7 +2707,7 @@ class MemberController extends Controller
                 if ($totalDaysCCL > 365) {
                     // Apply 20% deduction if CCL days exceed 365
                     // $salary = $basic + $da;
-                    $cclDeduction = number_format((float)($basic * 0.20), 2);
+                    $cclDeduction = formatIndianCurrency((float)($basic * 0.20), 2);
                     // $total_deduction += floatval(str_replace(',', '', $cclDeduction));
                 }
             }

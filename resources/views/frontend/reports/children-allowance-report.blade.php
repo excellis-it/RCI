@@ -1224,7 +1224,7 @@
                     margin: 0px 0px !important;
                     text-indent: 50px;
                   ">
-                   Sanction of the competent authority for Rs.{{ $total ? number_format($total) : 0 }}/- (Rupees {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total)))) }} Only) is hereby accorded in accordance with the provisions contained in Ministry of Defence, Deparment of Defence Research & Development Organisation, New Delhi letter No.DRDO/RD/Pers-10/1161/92/109/D(R&D) dated 07/01/1993 &  DOPT, Ministry of Personnel, Public Grievances & Pesions OM No A-27012/02/20217 - Estt(AL) dated 17/01/2018 for payment of Children Education Allowance to the following individuals of CHESS shown below:
+                   Sanction of the competent authority for Rs.{{ $total ? formatIndianCurrency($total) : 0 }}/- (Rupees {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total)))) }} Only) is hereby accorded in accordance with the provisions contained in Ministry of Defence, Deparment of Defence Research & Development Organisation, New Delhi letter No.DRDO/RD/Pers-10/1161/92/109/D(R&D) dated 07/01/1993 &  DOPT, Ministry of Personnel, Public Grievances & Pesions OM No A-27012/02/20217 - Estt(AL) dated 17/01/2018 for payment of Children Education Allowance to the following individuals of CHESS shown below:
                   </td>
                 </tr>
                 <tr>
@@ -1359,7 +1359,7 @@
               border-right: 1px solid #000;
               border-bottom: 1px solid #000;
             ">
-                {{ number_format($group['member_total'], 2) }}
+                {{ formatIndianCurrency($group['member_total'], 2) }}
             </td>
         </tr>
         @endforeach
@@ -1391,7 +1391,7 @@
               border-right: 1px solid #000;
               border-bottom: 1px solid #000;
             ">
-                {{ $total ? number_format($total, 2) : 0.00 }}
+                {{ $total ? formatIndianCurrency($total, 2) : 0.00 }}
             </td>
         </tr>
     </tbody>
@@ -1503,7 +1503,7 @@
                     margin: 0px 0px !important;
                     vertical-align: top;
                   ">
-                    Net Ammount payment of Rs.{{ $total ? number_format($total) : 0 }}/- (Rupees {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total)))) }} Only)
+                    Net Ammount payment of Rs.{{ $total ? formatIndianCurrency($total) : 0 }}/- (Rupees {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total)))) }} Only)
                   </td>
                 </tr>
 

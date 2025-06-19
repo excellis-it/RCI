@@ -157,7 +157,7 @@
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: right;  font-weight: 600; ">
-                                                {{ number_format($vouchers->strike_rate, 2) }}
+                                                {{ formatIndianCurrency($vouchers->strike_rate, 2) }}
                                             </td>
                                             <td
                                                 style="border: 1px solid #000; padding: 5px; text-align: left;  font-weight: 600; ">

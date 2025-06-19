@@ -323,7 +323,7 @@
                       height: 50px;
                       font-size: 12px;
                     ">
-                                                {{ number_format($external_issue_voucher_detail->total_cost, 2) ?? '' }}
+                                                {{ formatIndianCurrency($external_issue_voucher_detail->total_cost, 2) ?? '' }}
                                             </td>
                                             <td
                                                 style="
@@ -381,7 +381,7 @@
                       text-align: left;
                       padding-left: 10px;
                     ">
-                                            Total Cost of Issue: {{ number_format($total_cost, 2) ?? '' }}
+                                            Total Cost of Issue: {{ formatIndianCurrency($total_cost, 2) ?? '' }}
                                         </td>
                                     </tr>
                                 </tbody>

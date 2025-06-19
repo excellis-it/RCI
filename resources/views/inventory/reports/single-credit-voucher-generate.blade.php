@@ -610,7 +610,7 @@ border-right:1px solid #000;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                    {{ number_format($creditDetail['rate'], 2) ?? '-' }}
+                                                    {{ formatIndianCurrency($creditDetail['rate'], 2) ?? '-' }}
                                                 </td>
                                                 <td
                                                     style="
@@ -638,7 +638,7 @@ border-right:1px solid #000;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                    {{ number_format($creditDetail['disc_percent'], 2) . '%' ?? '-' }}
+                                                    {{ formatIndianCurrency($creditDetail['disc_percent'], 2) . '%' ?? '-' }}
                                                 </td>
                                                 <td
                                                     style="
@@ -673,7 +673,7 @@ border-right:1px solid #000;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                    {{ number_format($creditDetail['total_price'], 2) ?? '-' }}
+                                                    {{ formatIndianCurrency($creditDetail['total_price'], 2) ?? '-' }}
                                                 </td>
                                                 <td
                                                     style="
@@ -758,7 +758,7 @@ border-right:1px solid #000;
                                                 Total Basic Cost (Rs)</td>
                                             <td colspan="4"
                                                 style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; font-size: 10px;">
-                                                {{ number_format($total_basic_cost, 2) ?? '' }}
+                                                {{ formatIndianCurrency($total_basic_cost, 2) ?? '' }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -795,7 +795,7 @@ border-right:1px solid #000;
                                             <td colspan="4"
                                                 style="border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; text-align: right; font-size: 10px;">
 
-                                                {{ number_format($taxes_amount, 2) ?? '' }}
+                                                {{ formatIndianCurrency($taxes_amount, 2) ?? '' }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -832,7 +832,7 @@ border-right:1px solid #000;
                                             @endphp
                                             <td colspan="4"
                                                 style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600; font-size: 12px;">
-                                                {{ number_format($total_amount, 2) ?? '' }} <br>({{ $words ?? '' }})
+                                                {{ formatIndianCurrency($total_amount, 2) ?? '' }} <br>({{ $words ?? '' }})
                                             </td>
                                         </tr>
 

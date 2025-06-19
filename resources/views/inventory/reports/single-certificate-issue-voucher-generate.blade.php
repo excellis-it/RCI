@@ -148,7 +148,7 @@
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px; text-align:right">
-                                                {{ number_format($certificateIssuevoucherDetail->total_price, 2) ?? '' }}
+                                                {{ formatIndianCurrency($certificateIssuevoucherDetail->total_price, 2) ?? '' }}
                                             </td>
                                             <td valign="top"
                                                 style="border: 1px solid black; padding: 10px 5px 10px 5px; font-size: 10px;">

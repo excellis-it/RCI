@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="inst_amount" id="inst_amount"
-                            value="{{ $member_loan->inst_amount }}" placeholder="" readonly>
+                            value="{{ $member_loan->inst_amount }}" placeholder="" >
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -289,7 +289,7 @@
                         <label>Installment Amount</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="inst_amount" id="inst_amount" readonly
+                        <input type="text" class="form-control" name="inst_amount" id="inst_amount" 
                             value="" placeholder="">
                         <span class="text-danger"></span>
                     </div>

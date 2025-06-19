@@ -5,7 +5,7 @@
     {{$arrear->name ? $arrear->name : 'N/A'}}
   </td>
     <td>
-        {{$arrear->amt ? number_format($arrear->amt, 2) : 'N/A'}}
+        {{$arrear->amt ? formatIndianCurrency($arrear->amt, 2) : 'N/A'}}
     </td>
     <td>
         {{$arrear->cps ? $arrear->cps : 'N/A'}}

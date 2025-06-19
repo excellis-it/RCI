@@ -251,10 +251,10 @@
                                             </td>
                                             <td
                                                 style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                                {{ number_format($item->unit_cost, 2) ?? '' }}</td>
+                                                {{ formatIndianCurrency($item->unit_cost, 2) ?? '' }}</td>
                                             <td
                                                 style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                                {{ number_format($item->total_cost, 2) ?? '' }}</td>
+                                                {{ formatIndianCurrency($item->total_cost, 2) ?? '' }}</td>
                                             <td
                                                 style=" border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-right: 0;font-size: 10px;">
                                                 {{ $item->itemCode->item_type ?? '' }}</td>
@@ -339,7 +339,7 @@
                                             Total Basic Cost (Rs)</td>
                                         <td
                                             style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                            {{ number_format($total_basic_cost, 2) ?? '' }}
+                                            {{ formatIndianCurrency($total_basic_cost, 2) ?? '' }}
                                         </td>
 
                                     </tr>
@@ -359,7 +359,7 @@
                                             Applicable Taxes (Tax Type & Percentage):</td>
                                         <td
                                             style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px;font-size: 10px;">
-                                            <span>GST & <br>{{ number_format($rin->gst, 2) ?? '' }} % </span>
+                                            <span>GST & <br>{{ formatIndianCurrency($rin->gst, 2) ?? '' }} % </span>
 
                                         </td>
                                         <td colspan="2"
@@ -367,7 +367,7 @@
                                             Taxes (Amount):</td>
                                         <td
                                             style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; font-size: 10px;">
-                                            {{ number_format($taxes_amount, 2) ?? '' }}
+                                            {{ formatIndianCurrency($taxes_amount, 2) ?? '' }}
                                         </td>
 
                                     </tr>
@@ -407,7 +407,7 @@
                                         @endphp
                                         <td colspan="1"
                                             style="text-align:right; border-top: 1px solid #000; border-right: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000; padding: 5px; border-left: 0; font-weight: 600;font-size: 10px;">
-                                            {{ number_format($total_amount, 2) ?? '' }} <br>({{ $words ?? '' }})
+                                            {{ formatIndianCurrency($total_amount, 2) ?? '' }} <br>({{ $words ?? '' }})
                                         </td>
 
 

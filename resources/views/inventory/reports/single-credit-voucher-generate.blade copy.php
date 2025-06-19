@@ -594,7 +594,7 @@ border-right:1px solid #000;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                {{ number_format($creditDetail['rate'], 2) ?? '-' }}
+                                                {{ formatIndianCurrency($creditDetail['rate'], 2) ?? '-' }}
                                             </td>
                                             <td
                                                 style="
@@ -622,7 +622,7 @@ border-right:1px solid #000;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                {{ number_format($creditDetail['disc_percent'], 2) . '%' ?? '-' }}
+                                                {{ formatIndianCurrency($creditDetail['disc_percent'], 2) . '%' ?? '-' }}
                                             </td>
                                             <td
                                                 style="
@@ -657,7 +657,7 @@ border-right:1px solid #000;
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                     ">
-                                                {{ number_format($creditDetail['total_price'], 2) ?? '-' }}
+                                                {{ formatIndianCurrency($creditDetail['total_price'], 2) ?? '-' }}
                                             </td>
                                             <td
                                                 style="
@@ -746,7 +746,7 @@ border-right:1px solid #000;
                     ">
                                             Total Item Cost (Rs.)
                                             <span
-                                                style="text-align: right">{{ number_format($total_rate, 2) ?? '-' }}/-</span>
+                                                style="text-align: right">{{ formatIndianCurrency($total_rate, 2) ?? '-' }}/-</span>
                                         </td>
 
                                         <td colspan="4"
@@ -760,7 +760,7 @@ border-right:1px solid #000;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                            {{ number_format($total_amount, 2) ?? 0 }}/-
+                                            {{ formatIndianCurrency($total_amount, 2) ?? 0 }}/-
                                         </td>
                                     </tr>
                                     <tr>
@@ -811,7 +811,7 @@ border-right:1px solid #000;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                            {{ number_format($total_amount, 2) ?? '-' }}/-
+                                            {{ formatIndianCurrency($total_amount, 2) ?? '-' }}/-
                                         </td>
                                         <td
                                             style="

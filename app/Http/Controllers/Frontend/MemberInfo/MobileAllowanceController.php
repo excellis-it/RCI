@@ -180,7 +180,7 @@ class MobileAllowanceController extends Controller
         session()->flash('message', 'Member Mobile Allowance updated successfully!');
         return response()->json([
             'message' => 'Member Mobile Allowance updated successfully.',
-            'total_amount' => number_format($totalAmount, 2),
+            'total_amount' => formatIndianCurrency($totalAmount, 2),
         ]);
     }
 

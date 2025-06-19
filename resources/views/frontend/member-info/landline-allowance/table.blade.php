@@ -3,10 +3,10 @@
                 <tr>
                     <td>{{ ($landline_allowances->currentPage() - 1) * $landline_allowances->perPage() + $loop->index + 1 }}</td>
                     <td>{{ $landline_allowance->member->name ?? 'N/A' }}</td>
-                    <td>{{ number_format($landline_allowance->landline_amount, 2) }}</td>
-                    <td>{{ number_format($landline_allowance->mobile_amount, 2) }}</td>
-                    <td>{{ number_format($landline_allowance->broadband_amount, 2) }}</td>
-                    <td>{{ number_format($landline_allowance->entitle_amount, 2) }}</td>
+                    <td>{{ formatIndianCurrency($landline_allowance->landline_amount, 2) }}</td>
+                    <td>{{ formatIndianCurrency($landline_allowance->mobile_amount, 2) }}</td>
+                    <td>{{ formatIndianCurrency($landline_allowance->broadband_amount, 2) }}</td>
+                    <td>{{ formatIndianCurrency($landline_allowance->entitle_amount, 2) }}</td>
                     <td>{{ $landline_allowance->month }}</td>
                     <td>{{ $landline_allowance->year }}</td>
                     <td>

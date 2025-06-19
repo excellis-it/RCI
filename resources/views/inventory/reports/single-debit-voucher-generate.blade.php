@@ -172,7 +172,7 @@
                                             </td>
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                {{ number_format($item['price'] / $item['quantity'], 2) }}
+                                                {{ formatIndianCurrency($item['price'] / $item['quantity'], 2) }}
                                             </td>
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
@@ -184,7 +184,7 @@
                                             </td>
                                             <td
                                                 style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; text-transform: uppercase; border: 1px solid #000;">
-                                                {{ number_format(is_numeric($item['price']) ? (float) $item['price'] : 0, 2) }}
+                                                {{ formatIndianCurrency(is_numeric($item['price']) ? (float) $item['price'] : 0, 2) }}
 
                                             </td>
                                             <td

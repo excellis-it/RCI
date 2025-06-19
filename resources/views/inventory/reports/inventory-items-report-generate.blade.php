@@ -426,7 +426,7 @@
                 height: 20px;
                 border-left: 1px solid #000;
               ">
-                                            {{ number_format($item['rate'], 2) }}
+                                            {{ formatIndianCurrency($item['rate'], 2) }}
                                         </td>
                                         <td
                                             style="
@@ -486,7 +486,7 @@
                 height: 20px;
                 border-left: 1px solid #000;
               ">
-                                            {{ number_format($item['value'], 2) }}
+                                            {{ formatIndianCurrency($item['value'], 2) }}
                                         </td>
                                         <td
                                             style="
@@ -562,7 +562,7 @@
                 border-left: 1px solid #000;
                 border-top: 1px solid #000;
               ">
-                                        {{ number_format($totalValue, 2) }}
+                                        {{ formatIndianCurrency($totalValue, 2) }}
                                     </td>
                                     <td colspan="2"
                                         style="

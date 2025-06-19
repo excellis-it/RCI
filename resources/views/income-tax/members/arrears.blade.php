@@ -26,11 +26,11 @@
                                         <td>{{ $arrear->date ? \Carbon\Carbon::parse($arrear->date)->format('d/m/Y') : 'N/A' }}
                                         </td>
                                         <td>{{ $arrear->name ?? 'N/A' }}</td>
-                                        <td>{{ number_format($arrear->amt ?? 0, 2) }}</td>
-                                        <td>{{ number_format($arrear->cps ?? 0, 2) }}</td>
-                                        <td>{{ number_format($arrear->i_tax ?? 0, 2) }}</td>
-                                        <td>{{ number_format($arrear->cghs ?? 0, 2) }}</td>
-                                        <td>{{ number_format($arrear->gmc ?? 0, 2) }}</td>
+                                        <td>{{ formatIndianCurrency($arrear->amt ?? 0, 2) }}</td>
+                                        <td>{{ formatIndianCurrency($arrear->cps ?? 0, 2) }}</td>
+                                        <td>{{ formatIndianCurrency($arrear->i_tax ?? 0, 2) }}</td>
+                                        <td>{{ formatIndianCurrency($arrear->cghs ?? 0, 2) }}</td>
+                                        <td>{{ formatIndianCurrency($arrear->gmc ?? 0, 2) }}</td>
                                         <td class="sepharate">
                                             <a href="{{ route('income-tax.members-income-tax.arrears.edit', $arrear->id) }}"
                                                 class="edit_pencil edit-route-arrear-form"><i

@@ -33,7 +33,7 @@
                     <tr>
                         <td colspan="9" class="table-group-title">
                             <strong>Cheque No: {{ $cheqNo ?? 'N/A' }}, &nbsp;&nbsp;&nbsp; Total Amount:
-                                {{ number_format(Helper::getTotalPaymentsByChqNo($cheqNo), 2) }}</strong>
+                                {{ formatIndianCurrency(Helper::getTotalPaymentsByChqNo($cheqNo), 2) }}</strong>
                         </td>
                     </tr>
                     @foreach ($groupedPayments as $payments)
@@ -57,7 +57,7 @@
                                     <span>{{ $chqMember->amount ?? 'N/A' }}</span><br>
                                 @endforeach
                                 <span>-------------</span><br>
-                                <span>Total : {{ number_format($payments->amount, 2) ?? 'N/A' }}</span>
+                                <span>Total : {{ formatIndianCurrency($payments->amount, 2) ?? 'N/A' }}</span>
 
                             </td>
                             {{-- <td>{{ $payments->bill_ref ?? 'N/A' }}</td> --}}

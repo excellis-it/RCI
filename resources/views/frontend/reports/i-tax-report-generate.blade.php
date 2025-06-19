@@ -75,7 +75,7 @@ use App\Helpers\Helper;
             <tr>
                 <td>
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="start">
-                       
+
                         <tbody>
                             <tr style=" ">
                                 <th
@@ -102,12 +102,12 @@ use App\Helpers\Helper;
                                     style="  text-align: right; border-bottom: 0; border: 1px solid black; border-left: 0px; border-right: 0;font-size: 16px;">
                                     E.Cess</th>
                             </tr>
-                           
+
 
                             @foreach($chunk as $key => $member)
                             @php
-                               
-                                
+
+
                                 $memberCoreInfo = Helper::getMemberCoreInfo($member->id, $month, $year);
                                 $itax = $memberCoreInfo ? $memberCoreInfo->i_tax : 0;
                                 $ecess = $memberCoreInfo ? $memberCoreInfo->ecess : 0;
@@ -146,7 +146,7 @@ use App\Helpers\Helper;
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                             <tr>
                                 <td colspan="5"
                                     style=" border: 1px solid black; border-bottom: 0; border-left: 0px; padding: 0px 5px 0px 5px; border-right: 0; text-align: left;">
@@ -154,14 +154,14 @@ use App\Helpers\Helper;
                                 </td>
                                 <td
                                     style="text-align: right; border-right: 0; border: 1px solid black; border-bottom: 0; border-right: 0; border-left: 0px;">
-                                    {{ number_format($total_itax, 2) }}</td>
+                                    {{ formatIndianCurrency($total_itax, 2) }}</td>
                                 <td
                                     style="text-align: right; border-right: 0; border: 1px solid black; border-bottom: 0; border-right: 0; border-left: 0px;">
-                                    {{ number_format($total_ecess, 2) }}</td>
+                                    {{ formatIndianCurrency($total_ecess, 2) }}</td>
 
                             </tr>
 
-                            
+
                             <tr>
                                 <td colspan="5"
                                     style=" border: 1px solid black; padding: 0px 5px 0px 5px; border-left: 0px;  border-right: 0; ">
@@ -169,16 +169,16 @@ use App\Helpers\Helper;
                                 </td>
                                 <td
                                     style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px;">
-                                    {{ number_format($total_itax, 2) }}</td>
+                                    {{ formatIndianCurrency($total_itax, 2) }}</td>
                                 <td
                                     style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px;">
-                                    {{ number_format($total_ecess, 2) }}</td>
+                                    {{ formatIndianCurrency($total_ecess, 2) }}</td>
 
                             </tr>
 
-                            
+
                         </tbody>
-                       
+
                     </table>
                 </td>
             </tr>
@@ -198,7 +198,7 @@ use App\Helpers\Helper;
                                 line-height: 18px;
                                 font-weight: 600;
                                 color: #000;
-                                text-align: right; padding-left: 10px;">{{  $accountant ?? '' }}<br> Accounts Officer 
+                                text-align: right; padding-left: 10px;">{{  $accountant ?? '' }}<br> Accounts Officer
                                 </td>
                             </tr>
                         </tbody>

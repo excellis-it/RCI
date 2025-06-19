@@ -580,7 +580,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ number_format($cash_withdraw->amount, 2) }}
+                                                {{ formatIndianCurrency($cash_withdraw->amount, 2) }}
                                             </td>
                                             <td
                                                 style="
@@ -729,7 +729,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ number_format($cash_receipt->rct_vr_amount, 2) }}
+                                                {{ formatIndianCurrency($cash_receipt->rct_vr_amount, 2) }}
                                             </td>
                                             <td
                                                 style="
@@ -777,7 +777,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book1_data['totalCashInHandBalance'], 2) }}
+                                        {{ formatIndianCurrency($book1_data['totalCashInHandBalance'], 2) }}
                                     </td>
                                     <td
                                         style="
@@ -791,7 +791,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book1_data['totalCashInBankBalance'], 2) }}
+                                        {{ formatIndianCurrency($book1_data['totalCashInBankBalance'], 2) }}
                                     </td>
                                     <td
                                         style="
@@ -1247,7 +1247,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ number_format($cda_bill->bill_amount, 2) }}
+                                                {{ formatIndianCurrency($cda_bill->bill_amount, 2) }}
                                             </td>
                                             <td
                                                 style="
@@ -1308,7 +1308,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book2_data['totalPaymentsForTheDay'], 2) ?? 0 }}
+                                        {{ formatIndianCurrency($book2_data['totalPaymentsForTheDay'], 2) ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -1368,7 +1368,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book2_data['closing_balance_cash_in_hand'], 2) ?? 0 }}
+                                        {{ formatIndianCurrency($book2_data['closing_balance_cash_in_hand'], 2) ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -1382,7 +1382,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book2_data['closing_balance_cash_in_bank'], 2) ?? 0 }}
+                                        {{ formatIndianCurrency($book2_data['closing_balance_cash_in_bank'], 2) ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -1434,8 +1434,8 @@
                                                 ($book2_data['totalPaymentsForTheDay'] ?? 0);
                                         @endphp
                                         {{-- @dd($book2_data['closing_balance_cash_in_hand'], $book2_data['totalPaymentsForTheDay'], $grand_total_cash) --}}
-                                        {{-- {{ number_format($book2_data['grand_total_cash_in_hand'], 2) ?? 0 }} --}}
-                                        {{ number_format($grand_total_cash, 2) ?? 0 }}
+                                        {{-- {{ formatIndianCurrency($book2_data['grand_total_cash_in_hand'], 2) ?? 0 }} --}}
+                                        {{ formatIndianCurrency($grand_total_cash, 2) ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -1449,8 +1449,8 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{-- {{ number_format($book2_data['grand_total_cash_in_bank'], 2) ?? 0 }} --}}
-                                        {{ number_format($book2_data['closing_balance_cash_in_bank'], 2) ?? 0 }}
+                                        {{-- {{ formatIndianCurrency($book2_data['grand_total_cash_in_bank'], 2) ?? 0 }} --}}
+                                        {{ formatIndianCurrency($book2_data['closing_balance_cash_in_bank'], 2) ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -1657,7 +1657,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book3_data['cash_in_hand'], 2) ?? 0 }}
+                                        {{ formatIndianCurrency($book3_data['cash_in_hand'], 2) ?? 0 }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -1702,7 +1702,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book3_data['cash_in_bank'], 2) ?? 0 }}
+                                        {{ formatIndianCurrency($book3_data['cash_in_bank'], 2) ?? 0 }}
                                     </td>
                                 </tr>
 
@@ -1751,7 +1751,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book3_data['bills_submitted_to_cda'], 2) ?? 0 }}
+                                        {{ formatIndianCurrency($book3_data['bills_submitted_to_cda'], 2) ?? 0 }}
                                     </td>
                                 </tr>
 
@@ -1797,7 +1797,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book3_data['bills_on_hand'], 2) ?? 0 }}
+                                        {{ formatIndianCurrency($book3_data['bills_on_hand'], 2) ?? 0 }}
                                     </td>
                                 </tr>
 
@@ -1843,7 +1843,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book3_data['advance_slips'], 2) ?? 0 }}
+                                        {{ formatIndianCurrency($book3_data['advance_slips'], 2) ?? 0 }}
                                     </td>
                                 </tr>
 
@@ -1890,7 +1890,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ number_format($book3_data['all_totals'], 2) ?? 0 }}
+                                        {{ formatIndianCurrency($book3_data['all_totals'], 2) ?? 0 }}
 
                                     </td>
                                 </tr>

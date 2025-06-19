@@ -451,7 +451,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                                {{ number_format(
+                                                {{ formatIndianCurrency(
                                                     floatval($record->landline_amount ?? 0) +
                                                         floatval($record->mobile_amount ?? 0) +
                                                         floatval($record->broadband_amount ?? 0),
@@ -483,7 +483,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                     ">
-                                                {{ number_format(
+                                                {{ formatIndianCurrency(
                                                     floatval($record->landline_amount ?? 0) +
                                                         floatval($record->mobile_amount ?? 0) +
                                                         floatval($record->broadband_amount ?? 0),
@@ -707,7 +707,7 @@
                   ">
                    In exercise of the powers vested vide Si.no.5.1 of schedule of Financial Powers delegated to Director's of Laboratories Issued under Government
  of India, Ministry of Defence Lr. No. <strong>DRDO/DFMM/PL/83226/M/01/1976/D(R&D)dATED:18/12/2019,</strong>
-sanction is hereby conveyed for Rs.<strong>{{$all_grand_total ? number_format($all_grand_total) : 0}}/-</strong>  (Rupees {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($all_grand_total)))) }} Only) towards reimbursement of Telephone
+sanction is hereby conveyed for Rs.<strong>{{$all_grand_total ? formatIndianCurrency($all_grand_total) : 0}}/-</strong>  (Rupees {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($all_grand_total)))) }} Only) towards reimbursement of Telephone
 call charges of Residential Telephone/ Mobile Phone/ Broad band/ Mobile Date / Data card in respect of
 the officers as per Annexure -1
                   </td>

@@ -66,7 +66,7 @@
             </tr>
 
 
-            
+
 
             <tr>
                 <td>
@@ -134,7 +134,7 @@
 
                             </tr>
                             @endforeach
-                           
+
 
 
                             <tr>
@@ -161,7 +161,7 @@
                                 </td>
                                 <td
                                     style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-bottom: 0; border-left: 0px;">
-                                    {{ number_format($pageTotal, 2) }}
+                                    {{ formatIndianCurrency($pageTotal, 2) }}
                                 </td>
                             </tr>
                             <tr>
@@ -188,7 +188,7 @@
                                 </td>
                                 <td
                                     style="text-align: right; border-right: 0; border: 1px solid black; border-right: 0; border-left: 0px;">
-                                    {{ number_format($grandTotal, 2) }}
+                                    {{ formatIndianCurrency($grandTotal, 2) }}
                                 </td>
                             </tr>
                         </tbody>

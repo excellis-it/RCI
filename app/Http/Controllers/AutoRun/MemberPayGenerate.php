@@ -718,9 +718,17 @@ class MemberPayGenerate extends Controller
                         foreach ($LoanInfoCommonColumns as $column) {
                             $member_loan_info_monthly_data->$column = $member_loan_info->$column;
                         }
-
+                        $tot_no_of_inst = (int)$member_loan_info->tot_no_of_inst;
+                        $present_inst_no = (int)$member_loan_info->present_inst_no;
+                        $remaining_inst = $tot_no_of_inst - $present_inst_no;
                         $member_loan_info_monthly_data->present_inst_no = $member_loan_info->present_inst_no + 1;
-                        $member_loan_info_monthly_data->balance = $member_loan_info->balance - $member_loan_info->inst_amount;
+                        if ($remaining_inst <= 1) {
+                            $member_loan_info_monthly_data->balance = 0; // Set balance to 0 if it's the last installment
+                            $member_loan_info_monthly_data->inst_amount = $member_loan_info->balance;
+                        } else {
+                            $member_loan_info_monthly_data->balance = $member_loan_info->balance - $member_loan_info->inst_amount;
+                        }
+
                         $member_loan_info_monthly_data->month = $month;
                         $member_loan_info_monthly_data->year = $year;
                         $member_loan_info_monthly_data->apply_date = date('Y-m-d');
@@ -1338,9 +1346,17 @@ class MemberPayGenerate extends Controller
                                 foreach ($LoanInfoCommonColumns as $column) {
                                     $member_loan_info_monthly_data->$column = $member_loan_info->$column;
                                 }
-
+                                $tot_no_of_inst = (int)$member_loan_info->tot_no_of_inst;
+                                $present_inst_no = (int)$member_loan_info->present_inst_no;
+                                $remaining_inst = $tot_no_of_inst - $present_inst_no;
                                 $member_loan_info_monthly_data->present_inst_no = $member_loan_info->present_inst_no + 1;
-                                $member_loan_info_monthly_data->balance = $member_loan_info->balance - $member_loan_info->inst_amount;
+                                if ($remaining_inst <= 1) {
+                                    $member_loan_info_monthly_data->balance = 0; // Set balance to 0 if it's the last installment
+                                    $member_loan_info_monthly_data->inst_amount = $member_loan_info->balance;
+                                } else {
+                                    $member_loan_info_monthly_data->balance = $member_loan_info->balance - $member_loan_info->inst_amount;
+                                }
+
                                 $member_loan_info_monthly_data->month = $month;
                                 $member_loan_info_monthly_data->year = $year;
                                 $member_loan_info_monthly_data->apply_date = date('Y-m-d');

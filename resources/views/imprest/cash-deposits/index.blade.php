@@ -131,7 +131,7 @@
                                     <td>{{ $deposit->vr_date->format('d-m-Y') }}</td>
                                     <td>{{ $deposit->rct_no }}</td>
                                     <td>{{ $deposit->rct_date->format('d-m-Y') }}</td>
-                                    <td>{{ number_format($deposit->amount, 2) }}</td>
+                                    <td>{{ formatIndianCurrency($deposit->amount, 2) }}</td>
                                     <td>{{ $deposit->created_at->format('d-m-Y H:i') }}</td>
                                     <td>
                                         <a href="javascript:void(0);" class="editBtn edit_pencil ms-2"

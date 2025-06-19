@@ -567,8 +567,8 @@ class ImprestReportController extends Controller
         $table->addCell(2000)->addText('Opening Balance');
         $table->addCell(1000)->addText('');
         $table->addCell(1000)->addText('');
-        $table->addCell(1200)->addText(number_format($opening_balance_cash_in_hand, 2));
-        $table->addCell(1200)->addText(number_format($opening_balance_cash_in_bank, 2));
+        $table->addCell(1200)->addText(formatIndianCurrency($opening_balance_cash_in_hand, 2));
+        $table->addCell(1200)->addText(formatIndianCurrency($opening_balance_cash_in_bank, 2));
 
         // Add cash withdrawals
         foreach ($cash_withdraws as $index => $cash_withdraw) {
@@ -579,7 +579,7 @@ class ImprestReportController extends Controller
             $table->addCell(2000)->addText('');
             $table->addCell(1000)->addText($cash_withdraw->chq_no);
             $table->addCell(1000)->addText($cash_withdraw->vr_no ?? '');
-            $table->addCell(1200)->addText(number_format($cash_withdraw->amount, 2));
+            $table->addCell(1200)->addText(formatIndianCurrency($cash_withdraw->amount, 2));
             $table->addCell(1200)->addText('');
         }
 
@@ -593,15 +593,15 @@ class ImprestReportController extends Controller
             $table->addCell(1000)->addText('');
             $table->addCell(1000)->addText('');
             $table->addCell(1200)->addText('');
-            $table->addCell(1200)->addText(number_format($cash_receipt->rct_vr_amount, 2));
+            $table->addCell(1200)->addText(formatIndianCurrency($cash_receipt->rct_vr_amount, 2));
         }
 
         // Add total row
         $table->addRow();
         $cellColSpan = $table->addCell(7800, ['gridSpan' => 6]);
         $cellColSpan->addText('Total Amount', ['bold' => true], ['alignment' => 'right']);
-        $table->addCell(1200)->addText(number_format($totalCashInHandBalance, 2), ['bold' => true]);
-        $table->addCell(1200)->addText(number_format($totalCashInBankBalance, 2), ['bold' => true]);
+        $table->addCell(1200)->addText(formatIndianCurrency($totalCashInHandBalance, 2), ['bold' => true]);
+        $table->addCell(1200)->addText(formatIndianCurrency($totalCashInBankBalance, 2), ['bold' => true]);
 
         // Add a separator
         $section->addTextBreak(1);
@@ -631,7 +631,7 @@ class ImprestReportController extends Controller
             $table->addCell(2000)->addText($cda_bill->variableType->name ?? '');
             $table->addCell(1000)->addText($cda_bill->chq_no ?? '');
             $table->addCell(1000)->addText($cda_bill->variableType->var_no ?? '');
-            $table->addCell(1200)->addText(number_format($cda_bill->bill_amount, 2));
+            $table->addCell(1200)->addText(formatIndianCurrency($cda_bill->bill_amount, 2));
             $table->addCell(1200)->addText('');
         }
 
@@ -639,22 +639,22 @@ class ImprestReportController extends Controller
         $table->addRow();
         $cellColSpan = $table->addCell(7800, ['gridSpan' => 6]);
         $cellColSpan->addText('Total Payments', ['bold' => true], ['alignment' => 'right']);
-        $table->addCell(1200)->addText(number_format($totalPaymentsForTheDay, 2), ['bold' => true]);
+        $table->addCell(1200)->addText(formatIndianCurrency($totalPaymentsForTheDay, 2), ['bold' => true]);
         $table->addCell(1200)->addText('0', ['bold' => true]);
 
         // Add closing balance row
         $table->addRow();
         $cellColSpan = $table->addCell(7800, ['gridSpan' => 6]);
         $cellColSpan->addText('Closing Balance', ['bold' => true], ['alignment' => 'right']);
-        $table->addCell(1200)->addText(number_format($closing_balance_cash_in_hand, 2), ['bold' => true]);
-        $table->addCell(1200)->addText(number_format($closing_balance_cash_in_bank, 2), ['bold' => true]);
+        $table->addCell(1200)->addText(formatIndianCurrency($closing_balance_cash_in_hand, 2), ['bold' => true]);
+        $table->addCell(1200)->addText(formatIndianCurrency($closing_balance_cash_in_bank, 2), ['bold' => true]);
 
         // Add grand total row
         $table->addRow();
         $cellColSpan = $table->addCell(7800, ['gridSpan' => 6]);
         $cellColSpan->addText('Grand Total', ['bold' => true], ['alignment' => 'right']);
-        $table->addCell(1200)->addText(number_format($closing_balance_cash_in_hand, 2), ['bold' => true]);
-        $table->addCell(1200)->addText(number_format($closing_balance_cash_in_bank, 2), ['bold' => true]);
+        $table->addCell(1200)->addText(formatIndianCurrency($closing_balance_cash_in_hand, 2), ['bold' => true]);
+        $table->addCell(1200)->addText(formatIndianCurrency($closing_balance_cash_in_bank, 2), ['bold' => true]);
 
         // Add a separator
         $section->addTextBreak(1);
@@ -674,33 +674,33 @@ class ImprestReportController extends Controller
         $table->addRow();
         $table->addCell(1000)->addText('1');
         $table->addCell(4000)->addText('CASH IN HAND', ['bold' => true]);
-        $table->addCell(1500)->addText(number_format($cash_in_hand, 2), ['bold' => true]);
+        $table->addCell(1500)->addText(formatIndianCurrency($cash_in_hand, 2), ['bold' => true]);
 
         $table->addRow();
         $table->addCell(1000)->addText('2');
         $table->addCell(4000)->addText('CASH IN BANK', ['bold' => true]);
-        $table->addCell(1500)->addText(number_format($cash_in_bank, 2), ['bold' => true]);
+        $table->addCell(1500)->addText(formatIndianCurrency($cash_in_bank, 2), ['bold' => true]);
 
         $table->addRow();
         $table->addCell(1000)->addText('3');
         $table->addCell(4000)->addText('BILLS SUBMITTED TO CDA', ['bold' => true]);
-        $table->addCell(1500)->addText(number_format($bills_submitted_to_cda, 2), ['bold' => true]);
+        $table->addCell(1500)->addText(formatIndianCurrency($bills_submitted_to_cda, 2), ['bold' => true]);
 
         $table->addRow();
         $table->addCell(1000)->addText('4');
         $table->addCell(4000)->addText('BILLS ON HAND', ['bold' => true]);
-        $table->addCell(1500)->addText(number_format($bills_on_hand, 2), ['bold' => true]);
+        $table->addCell(1500)->addText(formatIndianCurrency($bills_on_hand, 2), ['bold' => true]);
 
         $table->addRow();
         $table->addCell(1000)->addText('5');
         $table->addCell(4000)->addText('ADVANCE SLIPS', ['bold' => true]);
-        $table->addCell(1500)->addText(number_format($advance_slips, 2), ['bold' => true]);
+        $table->addCell(1500)->addText(formatIndianCurrency($advance_slips, 2), ['bold' => true]);
 
         // Add total row
         $table->addRow();
         $table->addCell(1000)->addText('');
         $table->addCell(4000)->addText('TOTAL', ['bold' => true], ['alignment' => 'right']);
-        $table->addCell(1500)->addText(number_format($all_totals, 2), ['bold' => true]);
+        $table->addCell(1500)->addText(formatIndianCurrency($all_totals, 2), ['bold' => true]);
     }
 
     /**
@@ -761,8 +761,8 @@ class ImprestReportController extends Controller
                 $table->addCell(2000)->addText($advanceFund->project ? $advanceFund->project->name : 'N/A');
                 $table->addCell(1200)->addText($advanceFund->adv_no ?? 'N/A');
                 $table->addCell(1200)->addText($adv_date);
-                $table->addCell(1200)->addText(number_format($advanceFund->adv_amount, 2));
-                $table->addCell(1200)->addText(number_format($advanceFund->adv_amount, 2));
+                $table->addCell(1200)->addText(formatIndianCurrency($advanceFund->adv_amount, 2));
+                $table->addCell(1200)->addText(formatIndianCurrency($advanceFund->adv_amount, 2));
             }
 
             // Add total row
@@ -772,8 +772,8 @@ class ImprestReportController extends Controller
             $table->addCell(2000)->addText('');
             $table->addCell(1200)->addText('');
             $table->addCell(1200)->addText('TOTAL', ['bold' => true]);
-            $table->addCell(1200)->addText(number_format($totalAmount, 2), ['bold' => true]);
-            $table->addCell(1200)->addText(number_format($totalOutStandAmount, 2), ['bold' => true]);
+            $table->addCell(1200)->addText(formatIndianCurrency($totalAmount, 2), ['bold' => true]);
+            $table->addCell(1200)->addText(formatIndianCurrency($totalOutStandAmount, 2), ['bold' => true]);
         } catch (\Exception $e) {
             \Log::error("Error in addOutstandingContent: " . $e->getMessage());
             \Log::error("Stack trace: " . $e->getTraceAsString());
@@ -831,10 +831,10 @@ class ImprestReportController extends Controller
                 $table->addCell(1200)->addText($settleBill->advanceFund ? $settleBill->advanceFund->pc_no : 'N/A');
                 $table->addCell(1200)->addText($settleBill->adv_no ?? 'N/A');
                 $table->addCell(1200)->addText($adv_date);
-                $table->addCell(1200)->addText(number_format($settleBill->adv_amount ?? 0, 2));
+                $table->addCell(1200)->addText(formatIndianCurrency($settleBill->adv_amount ?? 0, 2));
                 $table->addCell(1200)->addText($settleBill->var_no ?? 'N/A');
                 $table->addCell(1200)->addText($var_date);
-                $table->addCell(1200)->addText(number_format($settleBill->bill_amount ?? 0, 2));
+                $table->addCell(1200)->addText(formatIndianCurrency($settleBill->bill_amount ?? 0, 2));
             }
         } catch (\Exception $e) {
             \Log::error("Error in addBillsInHandContent: " . $e->getMessage());
@@ -931,22 +931,22 @@ class ImprestReportController extends Controller
                 $table->addCell(1200)->addText($cdaReceipt->project_name ?? 'N/A');
                 $table->addCell(800)->addText($cdaReceipt->adv_no ?? 'N/A');
                 $table->addCell(800)->addText($adv_date);
-                $table->addCell(800)->addText($cdaReceipt->adv_amount ? number_format($cdaReceipt->adv_amount, 2) : '0.00');
+                $table->addCell(800)->addText($cdaReceipt->adv_amount ? formatIndianCurrency($cdaReceipt->adv_amount, 2) : '0.00');
                 $table->addCell(800)->addText($cdaReceipt->settle_vr_no ?? 'N/A');
                 $table->addCell(800)->addText($settle_date);
-                $table->addCell(800)->addText($cdaReceipt->settle_amount ? number_format($cdaReceipt->settle_amount, 2) : '0.00');
+                $table->addCell(800)->addText($cdaReceipt->settle_amount ? formatIndianCurrency($cdaReceipt->settle_amount, 2) : '0.00');
                 $table->addCell(800)->addText($cdaReceipt->settle_vr_no ?? 'N/A'); // Using settle_vr_no for CRV No
                 $table->addCell(1000)->addText($cdaReceipt->settle_firm ?? 'N/A');
                 $table->addCell(800)->addText($cdaReceipt->cda_bill_no ?? 'N/A');
                 $table->addCell(800)->addText($cda_bill_date);
-                $table->addCell(800)->addText(number_format($cdaReceipt->bill_amount ?? 0, 2));
+                $table->addCell(800)->addText(formatIndianCurrency($cdaReceipt->bill_amount ?? 0, 2));
             }
 
             // Add total row
             $table->addRow();
             $cellColSpan = $table->addCell(11800, ['gridSpan' => 13]);
             $cellColSpan->addText('Total', ['bold' => true], ['alignment' => 'right']);
-            $table->addCell(800)->addText(number_format($totalAmount, 2), ['bold' => true]);
+            $table->addCell(800)->addText(formatIndianCurrency($totalAmount, 2), ['bold' => true]);
         } catch (\Exception $e) {
             \Log::error("Error in addCdaBillsContent: " . $e->getMessage());
             \Log::error("Stack trace: " . $e->getTraceAsString());
