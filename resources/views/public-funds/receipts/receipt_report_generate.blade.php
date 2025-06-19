@@ -184,10 +184,10 @@
                             <td></td>
                             <td>Brought Forward</td>
                             <td>0</td>
-                            <td>{{ (number_format($total_opening_bank_balance)) }}</td>
+                            <td>{{ (formatIndianCurrency($total_opening_bank_balance)) }}</td>
                             @foreach ($category as $cat)
                                 <td>
-                                    {{ number_format($total_previous_balance[$cat->id]) }}
+                                    {{ formatIndianCurrency($total_previous_balance[$cat->id]) }}
                                 </td>
                             @endforeach
                             <td></td>
@@ -199,10 +199,10 @@
                             <td></td>
                             <td>Opening Balance</td>
                             <td>0</td>
-                            <td>{{ number_format($total_opening_bank_balance) }}</td>
+                            <td>{{ formatIndianCurrency($total_opening_bank_balance) }}</td>
                             @foreach ($category as $cat)
                                 <td>
-                                    {{ number_format(Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
+                                    {{ formatIndianCurrency(Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                                 </td>
                             @endforeach
                             <td></td>
@@ -308,7 +308,7 @@
                                 </td>
                                 <td
                                     style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
-                                    {{ $bank_amount }}
+                                   {{ (formatIndianCurrency($bank_amount)) }}
                                 </td>
                                 @foreach ($category as $cat)
                                     <td
@@ -353,7 +353,7 @@
                                                 style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                 @if ($receipt->category_id == $cat->id)
                                                     @if (isset($categoryMemberAmounts[$cat->id]))
-                                                        {{ number_format($member['amount']) }}
+                                                        {{ formatIndianCurrency($member['amount']) }}
                                                     @endif
                                                 @endif
                                             </td>
@@ -419,18 +419,18 @@
                         <td colspan="3">Total Receipts</td>
                         <td>0</td>
                         <td>
-                            {{ number_format($total_bank_amount) }}
+                            {{ formatIndianCurrency($total_bank_amount) }}
                         </td>
                         @foreach ($category as $cat)
                             <td>
                                 @if ($count_new_member > 0)
-                                    {{ number_format($categoryAmounts[$cat->id] + $total_previous_balance[$cat->id]) }}
+                                    {{ formatIndianCurrency($categoryAmounts[$cat->id] + $total_previous_balance[$cat->id]) }}
                                     @php
                                         $total_previous_balance[$cat->id] =
                                         $categoryAmounts[$cat->id] + $total_previous_balance[$cat->id];
                                     @endphp
                                 @else
-                                    {{ number_format($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
+                                    {{ formatIndianCurrency($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                                     @php
                                         $total_previous_balance[$cat->id] =
                                             $categoryAmounts[$cat->id] +
@@ -524,10 +524,10 @@
                     <td></td>
                     <td>Opening Balance</td>
                     <td>0</td>
-                    <td>{{ number_format($total_opening_bank_amount )}}</td>
+                    <td>{{ formatIndianCurrency($total_opening_bank_amount )}}</td>
                     @foreach ($category as $cat)
                         <td>
-                            {{ number_format(Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
+                            {{ formatIndianCurrency(Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                         </td>
                     @endforeach
                     <td></td>
@@ -647,7 +647,7 @@
                                         style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
                                         @if ($receipt->category_id == $cat->id)
                                             @if (isset($categoryMemberAmounts[$cat->id]))
-                                                {{ number_format($member->amount) }}
+                                                {{ formatIndianCurrency($member->amount) }}
                                             @endif
                                         @endif
                                     </td>
@@ -710,9 +710,9 @@
                 <tr>
                     <td colspan="3">Total Receipts</td>
                     <td>0</td>
-                    <td>{{ number_format($total_bank_amount) }} </td>
+                    <td>{{ formatIndianCurrency($total_bank_amount) }} </td>
                     @foreach ($category as $cat)
-                        <td>{{ number_format($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
+                        <td>{{ formatIndianCurrency($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                         </td>
                     @endforeach
                     <td></td>

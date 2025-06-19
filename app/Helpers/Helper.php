@@ -444,11 +444,11 @@ class Helper
         return $receipt_amount;
     }
 
-     public static function getCheqpaymentMemberRCamountNew($receipt_id, $member_id,$payment_id, $srno)
+    public static function getCheqpaymentMemberRCamountNew($receipt_id, $member_id, $payment_id, $srno)
     {
         $balance = 0;
-        $payment_amount = ChequePaymentMember::where('id','!=', $payment_id)->where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
-          $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
+        $payment_amount = ChequePaymentMember::where('id', '!=', $payment_id)->where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
+        $receipt_amount = ReceiptMember::where('receipt_id', $receipt_id)->where('member_id', $member_id)->where('serial_no', $srno)->sum('amount');
         if ($payment_amount > 0) {
             $balance = $receipt_amount - $payment_amount;
         } else {
@@ -1016,5 +1016,17 @@ class Helper
             $record_member_recovery->tot_rec = $totalRecoveries;
             $record_member_recovery->save();
         }
+    }
+
+  
+
+}
+
+
+if (!function_exists('formatIndianCurrency')) {
+    function formatIndianCurrency($amount)
+    {
+        $fmt = new \NumberFormatter('en_IN', \NumberFormatter::DECIMAL);
+        return $fmt->format($amount);
     }
 }

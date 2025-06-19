@@ -587,7 +587,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('bag-allowance.index') }}">Bag/Ladies-Purse Allowance</a>
+                                    href="{{ route('bag-allowance.index') }}">Office Bag Allowance</a>
                             </li>
 
                             <li class="mb-2">
@@ -637,7 +637,7 @@
                             </li>
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('member-bag-allowance.index') }}">Member Purse
+                                    href="{{ route('member-bag-allowance.index') }}">Office Bag
                                     Allowance</a>
                             </li>
 

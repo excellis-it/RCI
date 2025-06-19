@@ -59,8 +59,8 @@ class DearnessAllowancePercentageController extends Controller
             $tpts = Tpta::where('status', true)->get();
 
             $percentage = $request->percentage;
-            $current_month = date('m');
-            $current_year = date('Y');
+            $current_month = date('m', mktime(0, 0, 0, $request->month, 10));
+            $current_year = $request->year;
             // $records_array = [];
             foreach ($tpts as $tpt) {
                 // Calculate and update TPT DA
@@ -164,8 +164,8 @@ class DearnessAllowancePercentageController extends Controller
             $tpts = Tpta::where('status', true)->get();
 
             $percentage = $request->percentage;
-            $current_month = date('m');
-            $current_year = date('Y');
+            $current_month = date('m', mktime(0, 0, 0, $request->month, 10));
+            $current_year = $request->year;
             // $records_array = [];
             foreach ($tpts as $tpt) {
                 // Calculate and update TPT DA

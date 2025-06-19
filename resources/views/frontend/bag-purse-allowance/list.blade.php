@@ -50,11 +50,11 @@
                                             <tr>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="percentage"
                                                     style="cursor: pointer"> <span id="percentage_icon"><i
-                                                            class="fa fa-arrow-down">Category</i></span> </th>
+                                                            class="fa fa-arrow-down">Designation</i></span> </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="year"
                                                     style="cursor: pointer">Entitle Amount<span id="year_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                            <th>Year</th>
+                                                            {{-- <th>Year</th> --}}
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -173,19 +173,19 @@
             $('#bag-purse-allowance-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');

@@ -577,7 +577,7 @@
 
                                         $totalPayslipPay += $totalNetPay - $totalTableRec;
 
-                                        $singlePayslipPay = $singleNetPay + $totalSingleTableRec;
+                                        $singlePayslipPay = $singleNetPay - $totalSingleTableRec;
                                     @endphp
 
                                     @php
@@ -1028,7 +1028,7 @@
                                                     @endphp
                                                       <br>
                                                 @endif
-                                              
+
                                                 @if (($member_info['details']['member_loans']['hba_int'] ?? 0) > 0)
                                                     HBA
                                                     {{ $member_info['details']['member_loans']['hba_int_data']['present_inst_no'] ?? 0 }}
@@ -1067,7 +1067,7 @@
                                                     @endphp
                                                      <br>
                                                 @endif
-                                               
+
                                                 @if (($member_info['details']['member_loans']['car_int'] ?? 0) > 0)
                                                     CAR
                                                     {{ $member_info['details']['member_loans']['car_int_data']['present_inst_no'] ?? 0 }}
@@ -1104,7 +1104,7 @@
                                                     @endphp
                                                     <br>
                                                 @endif
-                                                
+
                                                 @if (($member_info['details']['member_loans']['sco_int'] ?? 0) > 0)
                                                     SCO
                                                     {{ $member_info['details']['member_loans']['sco_int_data']['present_inst_no'] ?? 0 }}
@@ -1140,7 +1140,7 @@
                                                     @endphp
                                                        <br>
                                                 @endif
-                                             
+
                                                 @if (($member_info['details']['member_loans']['comp_int'] ?? 0) > 0)
                                                     COMP
                                                     {{ $member_info['details']['member_loans']['comp_int_data']['present_inst_no'] ?? 0 }}

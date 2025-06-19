@@ -50,23 +50,23 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="leave_type"
-                                                    style="cursor: pointer">Member Name <span id="leave_type_icon"><i
+                                                    style="cursor: pointer">  Member Name</th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
+                                                    style="cursor: pointer">Year<span id="year_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Year<span id="leave_type_abbr_icon"><i
+                                                              <th class="sorting" data-sorting_type="desc" data-column_name="month"
+                                                    style="cursor: pointer">Month<span id="month_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                    style="cursor: pointer">Entitle Amount<span id="leave_type_abbr_icon"><i
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="entitle_amount"
+                                                    style="cursor: pointer">Entitle Amount<span id="entitle_amount_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                            style="cursor: pointer">Bill Amount<span id="leave_type_abbr_icon"><i
-                                                                    class="fa fa-arrow-down"></i></span> </th>       
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                                    style="cursor: pointer">Net Amount<span id="leave_type_abbr_icon"><i
-                                                                            class="fa fa-arrow-down"></i></span> </th>                                     
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="leave_type_abbr"
-                                                                            style="cursor: pointer">Remarks<span id="leave_type_abbr_icon"><i
-                                                                                    class="fa fa-arrow-down"></i></span> </th>   
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="bill_amount"
+                                                            style="cursor: pointer">Bill Amount<span id="bill_amount_icon"><i
+                                                                    class="fa fa-arrow-down"></i></span> </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="net_amount"
+                                                                    style="cursor: pointer">Net Amount<span id="net_amount_icon"><i
+                                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                <th >Remarks </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -185,19 +185,19 @@
             $('#member-bag-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -265,7 +265,7 @@
     </script>
 
     <script>
-       
+
         $(document).ready(function() {
             $('#member_id').change(function() {
                 var member_id = $(this).val();
@@ -278,10 +278,10 @@
                     headers:{
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    
+
                     success: function(response) {
-                        $('#entitle_amount').val(response.data.entitle_amount);
-                    
+                        $('#entitle_amount').val(response.data);
+
                     },
                     error: function(xhr) {
                         console.log(xhr);

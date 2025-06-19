@@ -4,6 +4,7 @@
             <td> {{ ($member_bag_purses->currentPage()-1) * $member_bag_purses->perPage() + $loop->index + 1 }}</td>
             <td>{{ $member_bag_purse->member->name ?? 'N/A'}}</td>
             <td>{{ $member_bag_purse->year ?? 'N/A'}}</td>
+            <td>{{ $member_bag_purse->month ?? 'N/A'}}</td>
             <td>{{ $member_bag_purse->entitle_amount ?? 'N/A'}}</td>
             <td>{{ $member_bag_purse->bill_amount ?? 'N/A'}}</td>
             <td>{{ $member_bag_purse->net_amount ?? 'N/A'}}</td>
@@ -14,7 +15,7 @@
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="8" class="text-left">
+        <td colspan="9" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                      (Showing {{ $member_bag_purses->firstItem() }} – {{ $member_bag_purses->lastItem() }} Member Newspaper of
@@ -26,6 +27,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="8" class="text-center">No Member Newspaper Amount Found</td>
+        <td colspan="9" class="text-center">No Member Newspaper Amount Found</td>
     </tr>
 @endif

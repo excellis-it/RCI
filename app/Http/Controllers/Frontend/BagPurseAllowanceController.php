@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\BagPurse;
+use App\Models\Designation;
 
 class BagPurseAllowanceController extends Controller
 {
@@ -15,10 +16,10 @@ class BagPurseAllowanceController extends Controller
     public function index()
     {
         //
-        $categories = Category::where('status',1)->get();
-        $bag_purse_allowances = BagPurse::paginate(10);
+        $designations = Designation::orderBy('id', 'desc')->get();
+        $bag_purse_allowances = BagPurse::orderBy('id', 'desc')->paginate(10);
 
-        return view('frontend.bag-purse-allowance.list',compact('categories','bag_purse_allowances'));
+        return view('frontend.bag-purse-allowance.list', compact('designations', 'bag_purse_allowances'));
     }
 
     public function fetchData(Request $request)
@@ -53,15 +54,15 @@ class BagPurseAllowanceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_id' => 'required',
+            'designation_id' => 'required|unique:bag_purses,designation_id',
             'entitle_amount' => 'required|numeric',
-            'year' => 'required',
+            // 'year' => 'required',
         ]);
 
         $bag_purse_allow = new BagPurse();
-        $bag_purse_allow->category_id = $request->category_id;
+        $bag_purse_allow->designation_id = $request->designation_id;
         $bag_purse_allow->entitle_amount = $request->entitle_amount;
-        $bag_purse_allow->year = $request->year;
+        // $bag_purse_allow->year = $request->year;
         $bag_purse_allow->save();
 
         session()->flash('message', 'Bag Purse allowance added successfully');
@@ -82,10 +83,10 @@ class BagPurseAllowanceController extends Controller
     public function edit(string $id)
     {
         $bag_purse_allowance = BagPurse::findOrFail($id);
-        $categories = Category::where('status',1)->get();
+        $designations = Designation::orderBy('id', 'desc')->get();
         $edit = true;
 
-        return response()->json(['view' => view('frontend.bag-purse-allowance.form', compact('bag_purse_allowance', 'categories', 'edit'))->render()]);
+        return response()->json(['view' => view('frontend.bag-purse-allowance.form', compact('bag_purse_allowance', 'designations', 'edit'))->render()]);
     }
 
     /**
@@ -94,15 +95,15 @@ class BagPurseAllowanceController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'category_id' => 'required',
+            'designation_id' => 'required|unique:bag_purses,designation_id,' . $id,
             'entitle_amount' => 'required|numeric',
-            'year' => 'required',
+            // 'year' => 'required',
         ]);
 
         $bag_purse_allow = BagPurse::where('id', $id)->first();
-        $bag_purse_allow->category_id = $request->category_id;
+        $bag_purse_allow->designation_id = $request->designation_id;
         $bag_purse_allow->entitle_amount = $request->entitle_amount;
-        $bag_purse_allow->year = $request->year;
+        // $bag_purse_allow->year = $request->year;
         $bag_purse_allow->save();
 
         session()->flash('message', 'Bag Purse allowance updated successfully');

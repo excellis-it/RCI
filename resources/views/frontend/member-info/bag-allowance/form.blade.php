@@ -17,7 +17,7 @@
                                     @foreach ($members as $member)
                                         <option value="{{ $member->id }}"
                                             {{ $member_bag_purse->member_id == $member->id ? 'selected' : '' }}>
-                                            {{ $member->name }}</option>
+                                            {{ $member->name }} ( {{ $member->desigs->desig ?? ''}})</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -38,24 +38,35 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-3 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Year</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="year" id="year">
-                                    <option value="">Select Year</option>
-                                    @foreach (range(date('Y'), 1958) as $year)
-                                        <option value="{{ $year }}"
-                                            {{ $member_bag_purse->year == $year ? 'selected' : '' }}>{{ $year }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                    <!-- Year -->
+                    <div class="form-group col-md-4 mb-2">
+                        <label>Year</label>
+                        <select class="form-select" name="year">
+                            <option value="">Select Year</option>
+                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                <option value="{{ $i }}"
+                                    {{ $member_bag_purse->year == $i ? 'selected' : '' }}>{{ $i }}</option>
+                            @endfor
+                        </select>
+                        <span class="text-danger"></span>
+                    </div>
 
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
+                    <!-- Month -->
+                    <div class="form-group col-md-4 mb-2">
+                        <label>Month</label>
+                        <select class="form-select" name="month" id="month">
+                            @foreach (range(1, 12) as $m)
+                                @php
+                                    $monthVal = str_pad($m, 2, '0', STR_PAD_LEFT);
+                                    $current_month = date('m');
+                                @endphp
+                                <option value="{{ $monthVal }}"
+                                    {{ $monthVal == $member_bag_purse->month ? 'selected' : '' }}>
+                                    {{ date('F', mktime(0, 0, 0, $m, 1)) }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <span class="text-danger"></span>
                     </div>
 
                     <div class="form-group col-md-3 mb-2">
@@ -129,7 +140,7 @@
                                 <select class="form-select search-select-box" name="member_id" id="member_id">
                                     <option value="">Select Member</option>
                                     @foreach ($members as $member)
-                                        <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                        <option value="{{ $member->id }}">{{ $member->name }} ( {{ $member->desigs->designation ?? ''}})</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>
@@ -149,22 +160,33 @@
                         </div>
                     </div>
 
+                      <div class="form-group col-md-4 mb-2">
+                        <label>Year</label>
+                        <select class="form-select" name="year">
+                            <option value="">Select Year</option>
+                            @for ($i = date('Y'); $i >= 2000; $i--)
+                                <option value="{{ $i }}" {{ old('year') == $i ? 'selected' : '' }}>
+                                    {{ $i }}</option>
+                            @endfor
+                        </select>
+                        <span class="text-danger"></span>
+                    </div>
+                    <!-- Month -->
                     <div class="form-group col-md-4 mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Year</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="year" id="year">
-                                    <option value="">Select Year</option>
-                                    @foreach (range(date('Y'), 1958) as $year)
-                                        <option value="{{ $year }}">{{ $year }}</option>
-                                    @endforeach
-                                </select>
-
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
+                        <label>Month</label>
+                        <select class="form-select" name="month" id="month">
+                            <option value="">Select Month</option>
+                            @foreach (range(1, 12) as $m)
+                                @php
+                                    $monthVal = str_pad($m, 2, '0', STR_PAD_LEFT);
+                                @endphp
+                                <option value="{{ $monthVal }}"
+                                    {{ old('month') == $monthVal ? 'selected' : '' }}>
+                                    {{ date('F', mktime(0, 0, 0, $m, 1)) }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <span class="text-danger"></span>
                     </div>
 
                     <div class="form-group col-md-4 mb-2">
