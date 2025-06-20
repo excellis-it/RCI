@@ -154,7 +154,7 @@ class BackupController extends Controller
                 $pay_detail->gpf = $debit->gpf_rec ?? 0;
                 $pay_detail->hdfc = $debit->rent ?? 0;
                 $pay_detail->hba = $debit->hba ?? 0;
-                $pay_detail->gmc = $debit->cmg ?? 0;
+                // $pay_detail->gmc = $debit->cmg ?? 0;
                 $pay_detail->cgeis = $debit->cgegis ?? 0;
                 $pay_detail->pli = $debit->pli ?? 0;
                 $pay_detail->cghs = $debit->cghs ?? 0;

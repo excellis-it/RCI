@@ -3,8 +3,8 @@
         <tr>
             <td> {{ ($cgeGis->currentPage()-1) * $cgeGis->perPage() + $loop->index + 1 }}</td>
             {{-- <td>{{ $cge->payLevel->value ?? 'N/A'}}</td> --}}
-            <td>{{ $cge->designation->designation ?? 'N/A'}}</td>
-            <td>{{ $cge->group->value ?? 'N/A'}}</td>
+            {{-- <td>{{ $cge->designation->designation ?? 'N/A'}}</td> --}}
+            <td>{{ $cge->group_name ?? 'N/A'}}</td>
             <td>{{ formatIndianCurrency($cge->value ?? 0, 0) }}</td>
             <td><span class="{{ ($cge->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($cge->status == 1) ? 'Active' : 'Inactive' }}</span></td>
             <td class="sepharate"><a data-route="{{route('cgegis.edit', $cge->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>

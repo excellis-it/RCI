@@ -194,31 +194,56 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Status</label>
-                            </div>
-                            <div class="col-md-12">
-                                <select class="form-select" name="status" id="status">
-                                    <option value="">Select</option>
-                                    <option value="Yes"
-                                        {{ (isset($member_personal->status) || isset($member->status)) &&
-                                        (($member_personal->status ?? null) == 'Yes' || ($member->status ?? null) == 'Yes')
-                                            ? 'selected'
-                                            : '' }}>
-                                        Yes</option>
-                                    <option value="No"
-                                        {{ (isset($member_personal->status) || isset($member->status)) &&
-                                        (($member_personal->status ?? null) == 'No' || ($member->status ?? null) == 'No')
-                                            ? 'selected'
-                                            : '' }}>
-                                        No</option>
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                  <div class="form-group  mb-2">
+    <div class="row align-items-center">
+        <div class="col-md-12">
+            <label for="e_status">Employment Status</label>
+        </div>
+        <div class="col-md-12">
+            <select class="form-select" name="e_status" id="e_status">
+                <option value="">Select</option>
+                <option value="active"
+                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                        (($member_personal->e_status ?? null) == 'active' || ($member->e_status ?? null) == 'active')
+                        ? 'selected' : '' }}>
+                    Active
+                </option>
+                <option value="deputation"
+                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                        (($member_personal->e_status ?? null) == 'deputation' || ($member->e_status ?? null) == 'deputation')
+                        ? 'selected' : '' }}>
+                    On Deputation
+                </option>
+                <option value="contractual"
+                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                        (($member_personal->e_status ?? null) == 'contractual' || ($member->e_status ?? null) == 'contractual')
+                        ? 'selected' : '' }}>
+                    Contractual
+                </option>
+                <option value="retired"
+                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                        (($member_personal->e_status ?? null) == 'retired' || ($member->e_status ?? null) == 'retired')
+                        ? 'selected' : '' }}>
+                    Retired
+                </option>
+                <option value="suspended"
+                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                        (($member_personal->e_status ?? null) == 'suspended' || ($member->e_status ?? null) == 'suspended')
+                        ? 'selected' : '' }}>
+                    Suspended
+                </option>
+                <option value="transferred"
+                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                        (($member_personal->e_status ?? null) == 'transferred' || ($member->e_status ?? null) == 'transferred')
+                        ? 'selected' : '' }}>
+                    Transferred
+                </option>
+            </select>
+            <span class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -349,7 +374,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -381,9 +406,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -414,7 +439,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="row">
                 <div class="col-md-6">
@@ -605,7 +630,7 @@
                                 <label>Fund Type</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="fund_type" id="fund_type">
+                                <select class="form-select" name="fund_type" id="fund_type" readonly>
                                     <option value="">Select</option>
                                     <option value="GPF"
                                         {{ (isset($member_personal->fund_type) || isset($member->fund_type)) &&
@@ -627,6 +652,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6"></div>
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -647,7 +673,23 @@
                         </div>
                     </div>
                 </div>
+ <div class="form-group col-md-6 mb-2">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-12">
+                                                                <label>CGEIS</label>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div type="text" class="form-control  " name=""
+                                                                    placeholder="">
+                                                                    @foreach ($cgegises as $cgegis)
+                                                                        {{ $cgegis->group_name . '-' . $cgegis->value }},
+                                                                    @endforeach
+                                                                </div>
 
+                                                                <span class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
 
             </div>

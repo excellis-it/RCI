@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Designation;
 use App\Models\Member;
+use App\Models\Rule;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -33,5 +34,7 @@ class SolveDesignationSeeder extends Seeder
                 echo "Designation not found for key: $key or value: $value\n";
             }
         }
+
+        Rule::where('rule_name', 'GMC')->update(['rule_name' => 'NPSG']);
     }
 }

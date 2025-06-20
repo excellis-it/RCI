@@ -681,10 +681,16 @@
                                                                 <label>CGEGIS</label>
                                                             </div>
                                                             <div class="col-md-12">
-                                                                <input type="text" class="form-control"
-                                                                    id="cgegis_value" readonly>
-                                                                <input type="hidden" class="form-control" name="cgegis"
+                                                                <select class="form-select" name="cgegis"
                                                                     id="cgegis">
+                                                                    <option value="">Select</option>
+                                                                  @foreach ($cgegises as $cgegis)
+                                                                   <option value="{{ $cgegis->id }}">
+                                                                            {{ $cgegis->group_name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                               
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -699,7 +705,7 @@
                                                                 <div type="text" class="form-control  " name=""
                                                                     placeholder="">
                                                                     @foreach ($cgegises as $cgegis)
-                                                                        {{ $cgegis->group->value . '-' . $cgegis->value }},
+                                                                        {{ $cgegis->group_name . '-' . $cgegis->value }},
                                                                     @endforeach
                                                                 </div>
 

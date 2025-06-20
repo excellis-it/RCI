@@ -11,19 +11,14 @@
                                 <label>Group</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="group_id" id="group_id">
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}"
-                                            {{ $cgegis->group_id == $group->id ? 'selected' : '' }}>
-                                            {{ $group->value }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="group_name" id="group_name"
+                                    value="{{ $cgegis->group_name ?? '' }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    {{-- <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Designation</label>
@@ -40,7 +35,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
@@ -95,23 +90,19 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                      <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Group</label>
                             </div>
                             <div class="col-md-12">
-                                <select class="form-select" name="group_id" id="group_id">
-                                    <option value="">Select Group</option>
-                                    @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}">{{ $group->value }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="group_name" id="group_name"
+                                    value="{{ old('group_name') }}" placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-5 mb-2">
+                    {{-- <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Designation</label>
@@ -127,7 +118,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">

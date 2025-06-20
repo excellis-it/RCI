@@ -66,21 +66,21 @@
             </div>
         @endif
         {{-- @dd($member->memberCategory->fund_type) --}}
-        @if ($member->memberCategory->fund_type == 'NPS')
-            <div class="col-md-2">
-                <div class="form-group mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <label>NPS Sub</label>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" name="nps_sub" id="nps_sub"
-                                value="{{ $member_debit->nps_sub ?? ($nps_sub_val ?? '') }}" placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
+         @if ($member->memberCategory->fund_type == 'NPS')
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>NPS Rec(10%)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="nps_10_rec" id="nps_10_rec"
+                            value="{{ $member_debit->nps_10_rec ?? '' }}" placeholder="">
+                        <span class="text-danger"></span>
                     </div>
                 </div>
             </div>
+        </div>
         @endif
 
 
@@ -172,22 +172,22 @@
             </div>
         </div>
         @if ($member->memberCategory->fund_type == 'NPS')
-        <div class="col-md-2">
+         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>NPS Rec(10%)</label>
+                        <label>NPSG (14%)</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="nps_10_rec" id="nps_10_rec"
-                            value="{{ $member_debit->nps_10_rec ?? '' }}" placeholder="">
+                        <input type="text" class="form-control" name="npsg" id="npsg"
+                            value="{{ $member_debit->npsg ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
             </div>
         </div>
         @endif
- <div class="col-md-2">
+        <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -475,7 +475,7 @@
                 </div>
             </div>
         </div> --}}
-        <div class="col-md-2">
+        {{-- <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -488,7 +488,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="col-md-2">
             <div class="form-group mb-2">
@@ -596,20 +596,7 @@
         <!-- NPS 10 Rec -->
         @if ($member->memberCategory->fund_type == 'NPS')
 
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>NPSG (14%)</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="npsg" id="npsg"
-                            value="{{ $member_debit->npsg ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <!-- NPS 10 Arr -->
 
         <div class="col-md-2">
@@ -661,7 +648,7 @@
 
         @endif
 
-        <div class="col-md-2">
+        {{-- <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -674,8 +661,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2">
+        </div> --}}
+        {{-- <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -688,9 +675,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="col-md-2">
+        {{-- <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -703,7 +690,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
 
 
@@ -785,7 +772,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        {{-- <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -798,7 +785,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-12">
             <div class="form-group mb-2">
                 <div class="row align-items-center">

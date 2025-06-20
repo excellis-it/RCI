@@ -50,8 +50,8 @@
                                             <tr>
                                                 <th>ID</th>
                                                 {{-- <th >Pay Lavel </th> --}}
-                                                <th >Designation </th>
-                                                <th >Group </th>
+                                                {{-- <th >Designation </th> --}}
+                                                <th >Group Name </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
                                                     style="cursor: pointer">CGEGIS Value <span id="value_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>

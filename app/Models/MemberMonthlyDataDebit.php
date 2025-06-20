@@ -64,7 +64,7 @@ class MemberMonthlyDataDebit extends Model
         'quarter_charges',
         'cgeis_arr',
         'penal_intr',
-        'society',
+        // 'society',
         'remarks',
         'month',
         'year',

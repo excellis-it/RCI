@@ -174,6 +174,7 @@ class MemberPayGenerate extends Controller
                     'status' => false,
                 ], 200);
             }
+
             $member = Member::findOrFail($member_id); // Updated to use $member_id
             $member_id = $member->id;
 
@@ -197,7 +198,7 @@ class MemberPayGenerate extends Controller
             }
             // dd('var_noi'.$count_var_noi );
             // $member->var_inc_amount = $var_inc_amount;
-            $exception_this_month = MemberMonthlyDataExpectation::where('member_id', $member->id)->where('amount_month', $month)->where('amount_year', $year)->first();
+
 
             // $check_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->get();
             // if (count($check_recovery_member) > 0) {
@@ -251,18 +252,28 @@ class MemberPayGenerate extends Controller
             $member_credit_monthly_data->da_on_tpt = $tptDa;
             $member_credit_monthly_data->hra = $hraAmount;
 
-            if ($exception_this_month) {
-                if ($exception_this_month->rule_name == 'TPT') {
-                    $member_credit_monthly_data->tpt = $exception_this_month->amount ?? 0;
+            $exceptions_this_month = MemberMonthlyDataExpectation::where('member_id', $member->id)
+                ->where(function ($query) use ($year, $month) {
+                    $query->where('amount_year', '<', $year)
+                        ->orWhere(function ($q) use ($year, $month) {
+                            $q->where('amount_year', $year)
+                                ->where('amount_month', '<=', $month);
+                        });
+                })
+                ->get();
+
+            foreach ($exceptions_this_month as $exception) {
+                if ($exception->rule_name == 'TPT') {
+                    $member_credit_monthly_data->tpt = $exception->amount ?? 0;
                     $member_credit_monthly_data->da_on_tpt = $member_credit_monthly_data->tpt / 2;
                 }
 
-                if ($exception_this_month->rule_name == 'DA') {
-                    $member_credit_monthly_data->da = $exception_this_month->amount ?? 0;
+                if ($exception->rule_name == 'DA') {
+                    $member_credit_monthly_data->da = $exception->amount ?? 0;
                 }
 
-                if ($exception_this_month->rule_name == 'HRA') {
-                    $member_credit_monthly_data->hra = $exception_this_month->amount ?? 0;
+                if ($exception->rule_name == 'HRA') {
+                    $member_credit_monthly_data->hra = $exception->amount ?? 0;
                 }
             }
 
@@ -273,12 +284,12 @@ class MemberPayGenerate extends Controller
                 $npsc = 0;
             }
 
-            $npg_arrs = 0;
-            $npg_adj = 0;
+            // $npg_arrs = 0;
+            // $npg_adj = 0;
             $member_credit_monthly_data->member_id = $member_id;
             $member_credit_monthly_data->npsc = round($npsc);
-            $member_credit_monthly_data->npg_arrs = round($npg_arrs);
-            $member_credit_monthly_data->npg_adj = round($npg_adj);
+            // $member_credit_monthly_data->npg_arrs = round($npg_arrs);
+            // $member_credit_monthly_data->npg_adj = round($npg_adj);
 
             $member_credit_monthly_data->var_incr = $var_inc_amount;
 
@@ -323,7 +334,7 @@ class MemberPayGenerate extends Controller
                 'mobile_allow',
                 'broad_band_allow',
                 'gpa_sub',
-                'cmg',
+                // 'cmg',
                 'cghs',
                 'cgegis',
             ];
@@ -362,30 +373,29 @@ class MemberPayGenerate extends Controller
                 }
             }
 
-            if ($member && $member->memberCategory && $member->memberCategory->fund_type == 'NPS') {
-                if (
-                    isset($member_debit) &&
-                    isset($member_debit->nps_sub) &&
-                    $member_debit->nps_sub == 0 &&
-                    isset($member_credit_monthly_data)
-                ) {
-                    $npsDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
-                    $member_debit_monthly_data->nps_sub = $npsDeduction;
-                    $deduction += $npsDeduction;
-                }
+            // if ($member && $member->memberCategory && $member->memberCategory->fund_type == 'NPS') {
+            //     // if (
+            //     //     isset($member_debit) &&
+            //     //     isset($member_debit->nps_sub) &&
+            //     //     $member_debit->nps_sub == 0 &&
+            //     // ) {
+            //     //     $npsDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
+            //     //     $member_debit_monthly_data->nps_sub = $npsDeduction;
+            //     //     $deduction += $npsDeduction;
+            //     // }
 
-                if (
-                    isset($member_debit) &&
-                    isset($member_debit->cmg) &&
-                    $member_debit->cmg == 0 &&
-                    isset($member_credit_monthly_data)
-                ) {
-                    $gmcDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100);
-                    $npsGMCTotal = $gmcDeduction;
-                    $member_debit_monthly_data->cmg = $npsGMCTotal;
-                    $deduction += $npsGMCTotal;
-                }
-            }
+            //     if (
+            //         isset($member_debit) &&
+            //         isset($member_debit->cmg) &&
+            //         $member_debit->cmg == 0 &&
+            //         isset($member_credit_monthly_data)
+            //     ) {
+            //         $gmcDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100);
+            //         $npsGMCTotal = $gmcDeduction;
+            //         $member_debit_monthly_data->cmg = $npsGMCTotal;
+            //         $deduction += $npsGMCTotal;
+            //     }
+            // }
 
 
 
@@ -412,23 +422,9 @@ class MemberPayGenerate extends Controller
             }
 
 
-            if ($exception_this_month) {
-                if ($exception_this_month->rule_name == 'GPF') {
-                    $member_debit_monthly_data->gpa_sub = $exception_this_month->amount ?? 0;
-                }
 
-                if ($exception_this_month->rule_name == 'GMC') {
-                    $member_debit_monthly_data->cmg = $exception_this_month->amount ?? 0;
-                }
 
-                if ($exception_this_month->rule_name == 'CGHS') {
-                    $member_debit_monthly_data->cghs = $exception_this_month->amount ?? 0;
-                }
 
-                if ($exception_this_month->rule_name == 'CGEGIS') {
-                    $member_debit_monthly_data->cgegis = $exception_this_month->amount ?? 0;
-                }
-            }
             $member_debit_monthly_data->eol = 0;
             $member_debit_monthly_data->ccl = 0;
 
@@ -444,12 +440,32 @@ class MemberPayGenerate extends Controller
 
             $member_debit_monthly_data->member_id = $member_id;
             $member_debit_monthly_data->npsg = round($npsg);
-            $member_debit_monthly_data->npsg_arr = round($npsg_arr);
-            $member_debit_monthly_data->npsg_adj = round($npsg_adj);
+            // $member_debit_monthly_data->npsg_arr = round($npsg_arr);
+            // $member_debit_monthly_data->npsg_adj = round($npsg_adj);
 
             $member_debit_monthly_data->nps_10_rec = round($nps_10_rec);
-            $member_debit_monthly_data->nps_10_arr = 0;
-            $member_debit_monthly_data->nps_14_adj = 0;
+            // $member_debit_monthly_data->nps_10_arr = 0;
+            // $member_debit_monthly_data->nps_14_adj = 0;
+
+            if ($exceptions_this_month) {
+                foreach ($exceptions_this_month as $exception) {
+                    if ($exception->rule_name == 'GPF') {
+                        $member_debit_monthly_data->gpa_sub = $exception->amount ?? 0;
+                    }
+
+                    if ($exception->rule_name == 'NPSG') {
+                        $member_debit_monthly_data->npsg = $exception->amount ?? 0;
+                    }
+
+                    if ($exception->rule_name == 'CGHS') {
+                        $member_debit_monthly_data->cghs = $exception->amount ?? 0;
+                    }
+
+                    if ($exception->rule_name == 'CGEGIS') {
+                        $member_debit_monthly_data->cgegis = $exception->amount ?? 0;
+                    }
+                }
+            }
 
 
             $member_debit_monthly_data->month = $month;
@@ -462,7 +478,7 @@ class MemberPayGenerate extends Controller
             $debitFields = [
                 'gpa_sub',
                 'gpf_adv',
-                'nps_sub',
+                // 'nps_sub',
                 'eol',
                 'ccl',
                 'rent',
@@ -504,7 +520,7 @@ class MemberPayGenerate extends Controller
                 'hra_rec',
                 'cghs',
                 'ptax',
-                'cmg',
+                // 'cmg',
                 'pli',
                 'scooter',
                 'sco_adv',
@@ -523,9 +539,9 @@ class MemberPayGenerate extends Controller
                 'tpt_rec',
                 'licence_fee',
                 'leave_rec',
-                'ltc_rec',
-                'medical_rec',
-                'tada_rec',
+                // 'ltc_rec',
+                // 'medical_rec',
+                // 'tada_rec',
                 'pension_rec',
                 'quarter_charges',
                 'cgeis_arr',
@@ -538,7 +554,7 @@ class MemberPayGenerate extends Controller
                 'nps_10_rec',
                 'nps_10_arr',
                 'nps_14_adj',
-                'society'
+                // 'society'
             ];
 
             $totalDebits = 0;
@@ -582,6 +598,7 @@ class MemberPayGenerate extends Controller
                 }
                 // $member_monthly_data->policy_info_ids = json_encode($policy_info_ids);
             }
+
 
             // insert member recovery data to member monthly data recovery
             $member_recovery = MemberMonthlyDataRecovery::where('member_id', $member_id)->orderBy('id', 'desc')->first();
@@ -630,19 +647,22 @@ class MemberPayGenerate extends Controller
                 }
             }
 
-            if (isset($exception_this_month) && isset($member_recovery_monthly_data)) {
-                switch ($exception_this_month->rule_name ?? '') {
-                    case 'Wellfare':
-                        $member_recovery_monthly_data->wel_sub = $exception_this_month->amount ?? 0;
-                        break;
-                    case 'MESS':
-                        $member_recovery_monthly_data->mess = $exception_this_month->amount ?? 0;
-                        break;
-                    case 'Prof TAX':
-                        $member_recovery_monthly_data->ptax = $exception_this_month->amount ?? 0;
-                        break;
+            if ($exceptions_this_month) {
+                foreach ($exceptions_this_month as $exception) {
+                    switch ($exception->rule_name ?? '') {
+                        case 'Wellfare':
+                            $member_recovery_monthly_data->wel_sub = $exception->amount ?? 0;
+                            break;
+                        case 'MESS':
+                            $member_recovery_monthly_data->mess = $exception->amount ?? 0;
+                            break;
+                        case 'Prof TAX':
+                            $member_recovery_monthly_data->ptax = $exception->amount ?? 0;
+                            break;
+                    }
                 }
             }
+
 
             $member_recovery_monthly_data->lic = $lic ?? 0;
             $member_recovery_monthly_data->member_id = $member_id;
@@ -695,11 +715,15 @@ class MemberPayGenerate extends Controller
                     $member_core_info_monthly_data->$column = $member_core_info->$column;
                 }
 
-                if ($exception_this_month) {
-                    if ($exception_this_month->rule_name == 'GPF') {
-                        $member_core_info_monthly_data->gpf_sub = $exception_this_month->amount ?? 0;
+                if ($exceptions_this_month) {
+                    foreach ($exceptions_this_month as $exception) {
+                        if ($exception->rule_name == 'GPF') {
+                            $member_core_info_monthly_data->gpa_sub = $exception->amount ?? 0;
+                        }
                     }
                 }
+
+
 
                 $member_core_info_monthly_data->month = $month;
                 $member_core_info_monthly_data->year = $year;
@@ -750,17 +774,17 @@ class MemberPayGenerate extends Controller
                     $selectedYear = (int)$year;
                     $selectedMonth = (int)$month;
 
-                    if ($expYear > $selectedYear || ($expYear === $selectedYear && $expMonth >= $selectedMonth)) {
-                        $member_expectation_monthly_data = new MemberMonthlyDataExpectation();
-                        foreach ($ExpectationCommonColumns as $column) {
-                            $member_expectation_monthly_data->$column = $member_expectation->$column;
-                        }
-                        $member_expectation_monthly_data->month = $month;
-                        $member_expectation_monthly_data->year = $year;
-                        $member_expectation_monthly_data->apply_date = date('Y-m-d');
-                        $member_expectation_monthly_data->save();
-                        $expectation_ids[] = $member_expectation_monthly_data->id;
+                    // if ($expYear > $selectedYear || ($expYear === $selectedYear && $expMonth >= $selectedMonth)) {
+                    $member_expectation_monthly_data = new MemberMonthlyDataExpectation();
+                    foreach ($ExpectationCommonColumns as $column) {
+                        $member_expectation_monthly_data->$column = $member_expectation->$column;
                     }
+                    $member_expectation_monthly_data->month = $month;
+                    $member_expectation_monthly_data->year = $year;
+                    $member_expectation_monthly_data->apply_date = date('Y-m-d');
+                    $member_expectation_monthly_data->save();
+                    $expectation_ids[] = $member_expectation_monthly_data->id;
+                    // }
                 }
                 // $member_monthly_data->expectation_ids = json_encode($expectation_ids);
             }
@@ -825,7 +849,7 @@ class MemberPayGenerate extends Controller
                     }
                     // dd('var_noi'.$count_var_noi );
                     // $member->var_inc_amount = $var_inc_amount;
-                    $exception_this_month = MemberMonthlyDataExpectation::where('member_id', $member->id)->where('amount_month', $month)->where('amount_year', $year)->first();
+
 
                     // $check_recovery_member = MemberMonthlyDataVarInfo::where('member_id', $member->id)->get();
                     // if (count($check_recovery_member) > 0) {
@@ -879,18 +903,28 @@ class MemberPayGenerate extends Controller
                     $member_credit_monthly_data->da_on_tpt = $tptDa;
                     $member_credit_monthly_data->hra = $hraAmount;
 
-                    if ($exception_this_month) {
-                        if ($exception_this_month->rule_name == 'TPT') {
-                            $member_credit_monthly_data->tpt = $exception_this_month->amount ?? 0;
+                    $exceptions_this_month = MemberMonthlyDataExpectation::where('member_id', $member->id)
+                        ->where(function ($query) use ($year, $month) {
+                            $query->where('amount_year', '<', $year)
+                                ->orWhere(function ($q) use ($year, $month) {
+                                    $q->where('amount_year', $year)
+                                        ->where('amount_month', '<=', $month);
+                                });
+                        })
+                        ->get();
+
+                    foreach ($exceptions_this_month as $exception) {
+                        if ($exception->rule_name == 'TPT') {
+                            $member_credit_monthly_data->tpt = $exception->amount ?? 0;
                             $member_credit_monthly_data->da_on_tpt = $member_credit_monthly_data->tpt / 2;
                         }
 
-                        if ($exception_this_month->rule_name == 'DA') {
-                            $member_credit_monthly_data->da = $exception_this_month->amount ?? 0;
+                        if ($exception->rule_name == 'DA') {
+                            $member_credit_monthly_data->da = $exception->amount ?? 0;
                         }
 
-                        if ($exception_this_month->rule_name == 'HRA') {
-                            $member_credit_monthly_data->hra = $exception_this_month->amount ?? 0;
+                        if ($exception->rule_name == 'HRA') {
+                            $member_credit_monthly_data->hra = $exception->amount ?? 0;
                         }
                     }
 
@@ -901,12 +935,12 @@ class MemberPayGenerate extends Controller
                         $npsc = 0;
                     }
 
-                    $npg_arrs = 0;
-                    $npg_adj = 0;
+                    // $npg_arrs = 0;
+                    // $npg_adj = 0;
                     $member_credit_monthly_data->member_id = $member_id;
                     $member_credit_monthly_data->npsc = round($npsc);
-                    $member_credit_monthly_data->npg_arrs = round($npg_arrs);
-                    $member_credit_monthly_data->npg_adj = round($npg_adj);
+                    // $member_credit_monthly_data->npg_arrs = round($npg_arrs);
+                    // $member_credit_monthly_data->npg_adj = round($npg_adj);
 
                     $member_credit_monthly_data->var_incr = $var_inc_amount;
 
@@ -951,7 +985,7 @@ class MemberPayGenerate extends Controller
                         'mobile_allow',
                         'broad_band_allow',
                         'gpa_sub',
-                        'cmg',
+                        // 'cmg',
                         'cghs',
                         'cgegis',
                     ];
@@ -990,30 +1024,29 @@ class MemberPayGenerate extends Controller
                         }
                     }
 
-                    if ($member && $member->memberCategory && $member->memberCategory->fund_type == 'NPS') {
-                        if (
-                            isset($member_debit) &&
-                            isset($member_debit->nps_sub) &&
-                            $member_debit->nps_sub == 0 &&
-                            isset($member_credit_monthly_data)
-                        ) {
-                            $npsDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
-                            $member_debit_monthly_data->nps_sub = $npsDeduction;
-                            $deduction += $npsDeduction;
-                        }
+                    // if ($member && $member->memberCategory && $member->memberCategory->fund_type == 'NPS') {
+                    //     // if (
+                    //     //     isset($member_debit) &&
+                    //     //     isset($member_debit->nps_sub) &&
+                    //     //     $member_debit->nps_sub == 0 &&
+                    //     // ) {
+                    //     //     $npsDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 10 / 100);
+                    //     //     $member_debit_monthly_data->nps_sub = $npsDeduction;
+                    //     //     $deduction += $npsDeduction;
+                    //     // }
 
-                        if (
-                            isset($member_debit) &&
-                            isset($member_debit->cmg) &&
-                            $member_debit->cmg == 0 &&
-                            isset($member_credit_monthly_data)
-                        ) {
-                            $gmcDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100);
-                            $npsGMCTotal = $gmcDeduction;
-                            $member_debit_monthly_data->cmg = $npsGMCTotal;
-                            $deduction += $npsGMCTotal;
-                        }
-                    }
+                    //     if (
+                    //         isset($member_debit) &&
+                    //         isset($member_debit->cmg) &&
+                    //         $member_debit->cmg == 0 &&
+                    //         isset($member_credit_monthly_data)
+                    //     ) {
+                    //         $gmcDeduction = round(($member_credit_monthly_data->pay + $member_credit_monthly_data->da) * 14 / 100);
+                    //         $npsGMCTotal = $gmcDeduction;
+                    //         $member_debit_monthly_data->cmg = $npsGMCTotal;
+                    //         $deduction += $npsGMCTotal;
+                    //     }
+                    // }
 
 
 
@@ -1040,23 +1073,9 @@ class MemberPayGenerate extends Controller
                     }
 
 
-                    if ($exception_this_month) {
-                        if ($exception_this_month->rule_name == 'GPF') {
-                            $member_debit_monthly_data->gpa_sub = $exception_this_month->amount ?? 0;
-                        }
 
-                        if ($exception_this_month->rule_name == 'GMC') {
-                            $member_debit_monthly_data->cmg = $exception_this_month->amount ?? 0;
-                        }
 
-                        if ($exception_this_month->rule_name == 'CGHS') {
-                            $member_debit_monthly_data->cghs = $exception_this_month->amount ?? 0;
-                        }
 
-                        if ($exception_this_month->rule_name == 'CGEGIS') {
-                            $member_debit_monthly_data->cgegis = $exception_this_month->amount ?? 0;
-                        }
-                    }
                     $member_debit_monthly_data->eol = 0;
                     $member_debit_monthly_data->ccl = 0;
 
@@ -1072,12 +1091,32 @@ class MemberPayGenerate extends Controller
 
                     $member_debit_monthly_data->member_id = $member_id;
                     $member_debit_monthly_data->npsg = round($npsg);
-                    $member_debit_monthly_data->npsg_arr = round($npsg_arr);
-                    $member_debit_monthly_data->npsg_adj = round($npsg_adj);
+                    // $member_debit_monthly_data->npsg_arr = round($npsg_arr);
+                    // $member_debit_monthly_data->npsg_adj = round($npsg_adj);
 
                     $member_debit_monthly_data->nps_10_rec = round($nps_10_rec);
-                    $member_debit_monthly_data->nps_10_arr = 0;
-                    $member_debit_monthly_data->nps_14_adj = 0;
+                    // $member_debit_monthly_data->nps_10_arr = 0;
+                    // $member_debit_monthly_data->nps_14_adj = 0;
+
+                    if ($exceptions_this_month) {
+                        foreach ($exceptions_this_month as $exception) {
+                            if ($exception->rule_name == 'GPF') {
+                                $member_debit_monthly_data->gpa_sub = $exception->amount ?? 0;
+                            }
+
+                            if ($exception->rule_name == 'NPSG') {
+                                $member_debit_monthly_data->npsg = $exception->amount ?? 0;
+                            }
+
+                            if ($exception->rule_name == 'CGHS') {
+                                $member_debit_monthly_data->cghs = $exception->amount ?? 0;
+                            }
+
+                            if ($exception->rule_name == 'CGEGIS') {
+                                $member_debit_monthly_data->cgegis = $exception->amount ?? 0;
+                            }
+                        }
+                    }
 
 
                     $member_debit_monthly_data->month = $month;
@@ -1090,7 +1129,7 @@ class MemberPayGenerate extends Controller
                     $debitFields = [
                         'gpa_sub',
                         'gpf_adv',
-                        'nps_sub',
+                        // 'nps_sub',
                         'eol',
                         'ccl',
                         'rent',
@@ -1132,7 +1171,7 @@ class MemberPayGenerate extends Controller
                         'hra_rec',
                         'cghs',
                         'ptax',
-                        'cmg',
+                        // 'cmg',
                         'pli',
                         'scooter',
                         'sco_adv',
@@ -1151,11 +1190,11 @@ class MemberPayGenerate extends Controller
                         'tpt_rec',
                         'licence_fee',
                         'leave_rec',
-                        'ltc_rec',
-                        'medical_rec',
-                        'tada_rec',
+                        // 'ltc_rec',
+                        // 'medical_rec',
+                        // 'tada_rec',
                         'pension_rec',
-                        'quarter_charges',
+                        // 'quarter_charges',
                         'cgeis_arr',
                         'cghs_arr',
                         'penal_intr',
@@ -1166,7 +1205,7 @@ class MemberPayGenerate extends Controller
                         'nps_10_rec',
                         'nps_10_arr',
                         'nps_14_adj',
-                        'society'
+                        // 'society'
                     ];
 
                     $totalDebits = 0;
@@ -1210,6 +1249,7 @@ class MemberPayGenerate extends Controller
                         }
                         // $member_monthly_data->policy_info_ids = json_encode($policy_info_ids);
                     }
+
 
                     // insert member recovery data to member monthly data recovery
                     $member_recovery = MemberMonthlyDataRecovery::where('member_id', $member_id)->orderBy('id', 'desc')->first();
@@ -1258,19 +1298,22 @@ class MemberPayGenerate extends Controller
                         }
                     }
 
-                    if (isset($exception_this_month) && isset($member_recovery_monthly_data)) {
-                        switch ($exception_this_month->rule_name ?? '') {
-                            case 'Wellfare':
-                                $member_recovery_monthly_data->wel_sub = $exception_this_month->amount ?? 0;
-                                break;
-                            case 'MESS':
-                                $member_recovery_monthly_data->mess = $exception_this_month->amount ?? 0;
-                                break;
-                            case 'Prof TAX':
-                                $member_recovery_monthly_data->ptax = $exception_this_month->amount ?? 0;
-                                break;
+                    if ($exceptions_this_month) {
+                        foreach ($exceptions_this_month as $exception) {
+                            switch ($exception->rule_name ?? '') {
+                                case 'Wellfare':
+                                    $member_recovery_monthly_data->wel_sub = $exception->amount ?? 0;
+                                    break;
+                                case 'MESS':
+                                    $member_recovery_monthly_data->mess = $exception->amount ?? 0;
+                                    break;
+                                case 'Prof TAX':
+                                    $member_recovery_monthly_data->ptax = $exception->amount ?? 0;
+                                    break;
+                            }
                         }
                     }
+
 
                     $member_recovery_monthly_data->lic = $lic ?? 0;
                     $member_recovery_monthly_data->member_id = $member_id;
@@ -1323,11 +1366,15 @@ class MemberPayGenerate extends Controller
                             $member_core_info_monthly_data->$column = $member_core_info->$column;
                         }
 
-                        if ($exception_this_month) {
-                            if ($exception_this_month->rule_name == 'GPF') {
-                                $member_core_info_monthly_data->gpf_sub = $exception_this_month->amount ?? 0;
+                        if ($exceptions_this_month) {
+                            foreach ($exceptions_this_month as $exception) {
+                                if ($exception->rule_name == 'GPF') {
+                                    $member_core_info_monthly_data->gpa_sub = $exception->amount ?? 0;
+                                }
                             }
                         }
+
+
 
                         $member_core_info_monthly_data->month = $month;
                         $member_core_info_monthly_data->year = $year;
@@ -1378,17 +1425,17 @@ class MemberPayGenerate extends Controller
                             $selectedYear = (int)$year;
                             $selectedMonth = (int)$month;
 
-                            if ($expYear > $selectedYear || ($expYear === $selectedYear && $expMonth >= $selectedMonth)) {
-                                $member_expectation_monthly_data = new MemberMonthlyDataExpectation();
-                                foreach ($ExpectationCommonColumns as $column) {
-                                    $member_expectation_monthly_data->$column = $member_expectation->$column;
-                                }
-                                $member_expectation_monthly_data->month = $month;
-                                $member_expectation_monthly_data->year = $year;
-                                $member_expectation_monthly_data->apply_date = date('Y-m-d');
-                                $member_expectation_monthly_data->save();
-                                $expectation_ids[] = $member_expectation_monthly_data->id;
+                            // if ($expYear > $selectedYear || ($expYear === $selectedYear && $expMonth >= $selectedMonth)) {
+                            $member_expectation_monthly_data = new MemberMonthlyDataExpectation();
+                            foreach ($ExpectationCommonColumns as $column) {
+                                $member_expectation_monthly_data->$column = $member_expectation->$column;
                             }
+                            $member_expectation_monthly_data->month = $month;
+                            $member_expectation_monthly_data->year = $year;
+                            $member_expectation_monthly_data->apply_date = date('Y-m-d');
+                            $member_expectation_monthly_data->save();
+                            $expectation_ids[] = $member_expectation_monthly_data->id;
+                            // }
                         }
                         // $member_monthly_data->expectation_ids = json_encode($expectation_ids);
                     }

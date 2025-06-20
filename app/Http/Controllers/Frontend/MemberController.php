@@ -153,7 +153,7 @@ class MemberController extends Controller
         $quaters = Quater::orderBy('id', 'desc')->where('status', 1)->get();
         $exServices = ExService::orderBy('id', 'desc')->where('status', 1)->get();
         $pgs = Pg::orderBy('id', 'asc')->where('status', 1)->get();
-        $cgegises = Cgegis::orderBy('id', 'asc')->where('status', 1)->get();
+        $cgegises = Cgegis::orderBy('group_name', 'asc')->where('status', 1)->get();
         $cities = City::orderBy('id', 'desc')->get();
 
         return view('frontend.members.form', compact('paybands', 'cities', 'categories', 'pmLevels', 'pmIndexes', 'divisions', 'groups', 'cadres', 'designations', 'fundTypes', 'quaters', 'exServices', 'pgs', 'cgegises'));
@@ -314,9 +314,9 @@ class MemberController extends Controller
         $quaters = Quater::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $exServices = ExService::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $pgs = Pg::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
-        $cgegises = Cgegis::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $cgegises = Cgegis::orderBy('group_name', 'asc')->where('status', 1)->get() ?? '';
         $banks = Bank::orderBy('id', 'desc')->get() ?? '';
-       if ($member->memberCategory->fund_type === 'GPF') {
+        if ($member->memberCategory->fund_type === 'GPF') {
             // Show all loans
             $loans = Loan::orderBy('id', 'desc')->get();
         } else {
@@ -464,9 +464,9 @@ class MemberController extends Controller
         $quaters = Quater::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $exServices = ExService::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
         $pgs = Pg::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
-        $cgegises = Cgegis::orderBy('id', 'desc')->where('status', 1)->get() ?? '';
+        $cgegises = Cgegis::orderBy('group_name', 'asc')->where('status', 1)->get() ?? '';
         $banks = Bank::orderBy('id', 'desc')->get() ?? '';
-       if ($member->memberCategory->fund_type === 'GPF') {
+        if ($member->memberCategory->fund_type === 'GPF') {
             // Show all loans
             $loans = Loan::orderBy('id', 'desc')->get();
         } else {
@@ -839,7 +839,7 @@ class MemberController extends Controller
 
         $check_debit_member_monthly->member_id = $request->member_id;
         $check_debit_member_monthly->gpa_sub = $request->gpa_sub ?? 0;
-        $check_debit_member_monthly->nps_sub = $request->nps_sub ?? 0;
+        // $check_debit_member_monthly->nps_sub = $request->nps_sub ?? 0;
 
         $check_debit_member_monthly->eol = $request->eol;
         $check_debit_member_monthly->ccl = $request->ccl;
@@ -871,7 +871,7 @@ class MemberController extends Controller
         $check_debit_member_monthly->tot_debits = $request->tot_debits;
         $check_debit_member_monthly->cghs = $request->cghs;
         $check_debit_member_monthly->ptax = $request->ptax;
-        $check_debit_member_monthly->cmg = $request->cmg ?? 0;
+        // $check_debit_member_monthly->cmg = $request->cmg ?? 0;
         $check_debit_member_monthly->pli = $request->pli;
         $check_debit_member_monthly->scooter = $request->scooter;
 
@@ -891,7 +891,7 @@ class MemberController extends Controller
         $check_debit_member_monthly->cgeis_arr = $request->cgeis_arr;
         $check_debit_member_monthly->cghs_arr = $request->cghs_arr;
         $check_debit_member_monthly->penal_intr = $request->penal_interest;
-        $check_debit_member_monthly->society = $request->society;
+        // $check_debit_member_monthly->society = $request->society;
         $check_debit_member_monthly->arrear_pay = $request->arrear_pay;
         $check_debit_member_monthly->npsg = $request->npsg;
         $check_debit_member_monthly->npsg_arr = $request->npsg_arr;
@@ -918,19 +918,25 @@ class MemberController extends Controller
         $check_debit_member_monthly->comp_int_total_instl = $request->comp_int_total_instl;
         $check_debit_member_monthly->fest_adv_prin_cur = $request->fest_adv_prin_cur;
         $check_debit_member_monthly->fest_adv_total_cur = $request->fest_adv_total_cur;
-        $check_debit_member_monthly->ltc_rec = $request->ltc_rec;
-        $check_debit_member_monthly->medical_rec = $request->medical_rec;
-        $check_debit_member_monthly->tada_rec = $request->tada_rec;
+        // $check_debit_member_monthly->ltc_rec = $request->ltc_rec;
+        // $check_debit_member_monthly->medical_rec = $request->medical_rec;
+        // $check_debit_member_monthly->tada_rec = $request->tada_rec;
         $check_debit_member_monthly->remarks = $request->remarks;
 
         $check_debit_member_monthly->save();
+
+        $credit_member_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->where('month', $request->current_month)->where('year', $request->current_year)->orderBy('id', 'desc')->first();
+        if ($request->nps_14_adj && $request->nps_14_adj > 0 && $credit_member_monthly) {
+            $credit_member_monthly->npg_adj = $request->nps_14_adj;
+        }
+        Helper::updateTotalCredit($request->member_id, $request->current_month, $request->current_year);
 
         if (count($check_debit_member) > 0) {
 
             $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', $request->current_month)->whereYear('created_at', $request->current_year)->first();
 
             $update_debit_member->gpa_sub = $request->gpa_sub ?? 0;
-            $update_debit_member->nps_sub = $request->nps_sub ?? 0;
+            // $update_debit_member->nps_sub = $request->nps_sub ?? 0;
             $update_debit_member->eol = $request->eol;
             $update_debit_member->ccl = $request->ccl;
             $update_debit_member->rent = $request->rent;
@@ -961,7 +967,7 @@ class MemberController extends Controller
             $update_debit_member->tot_debits = $request->tot_debits;
             $update_debit_member->cghs = $request->cghs;
             $update_debit_member->ptax = $request->ptax;
-            $update_debit_member->cmg = $request->cmg ?? 0;
+            // $update_debit_member->cmg = $request->cmg ?? 0;
             $update_debit_member->pli = $request->pli;
             $update_debit_member->scooter = $request->scooter;
             $update_debit_member->tpt_rec = $request->tpt_rec;
@@ -979,7 +985,7 @@ class MemberController extends Controller
             $update_debit_member->cgeis_arr = $request->cgeis_arr;
             $update_debit_member->cghs_arr = $request->cghs_arr;
             $update_debit_member->penal_intr = $request->penal_interest;
-            $update_debit_member->society = $request->society;
+            // $update_debit_member->society = $request->society;
             $update_debit_member->arrear_pay = $request->arrear_pay;
 
             $update_debit_member->npsg = $request->npsg;
@@ -1006,9 +1012,9 @@ class MemberController extends Controller
             $update_debit_member->comp_int_total_instl = $request->comp_int_total_instl;
             $update_debit_member->fest_adv_prin_cur = $request->fest_adv_prin_cur;
             $update_debit_member->fest_adv_total_cur = $request->fest_adv_total_cur;
-            $update_debit_member->ltc_rec = $request->ltc_rec;
+            // $update_debit_member->ltc_rec = $request->ltc_rec;
             $update_debit_member->medical_rec = $request->medical_rec;
-            $update_debit_member->tada_rec = $request->tada_rec;
+            // $update_debit_member->tada_rec = $request->tada_rec;
             $update_debit_member->remarks = $request->remarks;
             $update_debit_member->update();
 
@@ -1018,7 +1024,7 @@ class MemberController extends Controller
             $debit_member = new MemberDebit();
             $debit_member->member_id = $request->member_id;
             $debit_member->gpa_sub = $request->gpa_sub ?? 0;
-            $debit_member->nps_sub = $request->nps_sub ?? 0;
+            // $debit_member->nps_sub = $request->nps_sub ?? 0;
             $debit_member->eol = $request->eol;
             $debit_member->ccl = $request->ccl;
             $debit_member->rent = $request->rent;
@@ -1049,7 +1055,7 @@ class MemberController extends Controller
             $debit_member->tot_debits = $request->tot_debits;
             $debit_member->cghs = $request->cghs;
             $debit_member->ptax = $request->ptax;
-            $debit_member->cmg = $request->cmg ?? 0;
+            // $debit_member->cmg = $request->cmg ?? 0;
             $debit_member->pli = $request->pli;
             $debit_member->scooter = $request->scooter;
             $debit_member->tpt_rec = $request->tpt_rec;
@@ -1067,7 +1073,7 @@ class MemberController extends Controller
             $debit_member->cgeis_arr = $request->cgeis_arr;
             $debit_member->cghs_arr = $request->cghs_arr;
             $debit_member->penal_intr = $request->penal_interest;
-            $debit_member->society = $request->society;
+            // $debit_member->society = $request->society;
             $debit_member->arrear_pay = $request->arrear_pay;
             $debit_member->npsg = $request->npsg;
             $debit_member->npsg_arr = $request->npsg_arr;
@@ -1088,9 +1094,9 @@ class MemberController extends Controller
             $debit_member->comp_int_total_instl = $request->comp_int_total_instl;
             $debit_member->fest_adv_prin_cur = $request->fest_adv_prin_cur;
             $debit_member->fest_adv_total_cur = $request->fest_adv_total_cur;
-            $debit_member->ltc_rec = $request->ltc_rec;
+            // $debit_member->ltc_rec = $request->ltc_rec;
             $debit_member->medical_rec = $request->medical_rec;
-            $debit_member->tada_rec = $request->tada_rec;
+            // $debit_member->tada_rec = $request->tada_rec;
             $debit_member->remarks = $request->remarks;
 
             $debit_member->save();
@@ -1456,6 +1462,7 @@ class MemberController extends Controller
         $current_year = $request->current_year ?? date('Y');
         //memebers details update
         $member_details = Member::where('id', $request->member_id)->first();
+        $member_category = Category::findOrFail($request->category);
         $member_details->emp_id = $request->emp_id;
         $member_details->gender = $request->gender;
         $member_details->name = $request->name;
@@ -1471,7 +1478,7 @@ class MemberController extends Controller
 
         $member_details->status = $request->status;
         $member_details->g_pay = $request->g_pay;
-        $member_details->fund_type = $request->fund_type;
+        $member_details->fund_type = $member_category->fund_type;
         $member_details->dob = $request->dob;
         $member_details->doj_lab = $request->doj_lab;
         $member_details->dop = $request->dop;
@@ -1551,20 +1558,20 @@ class MemberController extends Controller
 
 
                 // NPS calculations if applicable
-                $npsDeduction = 0;
-                $npsDeductionGovt = 0;
-                $gmcDeduction = 0;
-                $npsSubTotal = 0;
-                $npsGMCTotal = 0;
-                if ($member->memberCategory->fund_type == 'NPS') {
-                    $npsDeduction = round(($basicPay + $daAmount) * 10 / 100);
-                    //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
-                    $npsSubTotal = $npsDeduction + $npsDeductionGovt;
-                }
-                if ($member->memberCategory->fund_type == 'NPS') {
-                    $gmcDeduction = round(($basicPay + $daAmount) * 14 / 100);
-                    $npsGMCTotal = $gmcDeduction;
-                }
+                // $npsDeduction = 0;
+                // $npsDeductionGovt = 0;
+                // $gmcDeduction = 0;
+                // // $npsSubTotal = 0;
+                // // $npsGMCTotal = 0;
+                // if ($member->memberCategory->fund_type == 'NPS') {
+                //     $npsDeduction = round(($basicPay + $daAmount) * 10 / 100);
+                //     //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
+                //     $npsSubTotal = $npsDeduction + $npsDeductionGovt;
+                // }
+                // if ($member->memberCategory->fund_type == 'NPS') {
+                //     $gmcDeduction = round(($basicPay + $daAmount) * 14 / 100);
+                //     $npsGMCTotal = $gmcDeduction;
+                // }
 
                 // GPF calculations if applicable
                 $gpfDeduction = 0;
@@ -1582,8 +1589,8 @@ class MemberController extends Controller
                 if ($member_debit_monthly) {
 
                     $member_debit_monthly->gpa_sub = $gpfDeduction;
-                    $member_debit_monthly->nps_sub = $npsSubTotal;
-                    $member_debit_monthly->cmg = $npsGMCTotal;
+                    // $member_debit_monthly->nps_sub = $npsSubTotal;
+                    // $member_debit_monthly->cmg = $npsGMCTotal;
                     $member_debit_monthly->basic = $basicPay;
                     $member_debit_monthly->npsg = $npsg;
                     $member_debit_monthly->nps_10_rec = $nps_10_rec;
@@ -2193,13 +2200,13 @@ class MemberController extends Controller
                 }
                 break;
 
-            case 'GMC':
-                $member_debit = MemberMonthlyDataDebit::where('member_id', $memberId)->where('month', $amount_month)->where('year', $amount_year)->latest()->first();
-                if ($member_debit) {
-                    $member_debit->cmg = $amount;
-                    $member_debit->save();
-                }
-                break;
+            // case 'GMC':
+            //     $member_debit = MemberMonthlyDataDebit::where('member_id', $memberId)->where('month', $amount_month)->where('year', $amount_year)->latest()->first();
+            //     if ($member_debit) {
+            //         $member_debit->cmg = $amount;
+            //         $member_debit->save();
+            //     }
+            //     break;
 
             case 'TPT':
                 $member_credit = MemberMonthlyDataCredit::where('member_id', $memberId)->where('month', $amount_month)->where('year', $amount_year)->latest()->first();
@@ -2330,10 +2337,10 @@ class MemberController extends Controller
             }
         }
 
-        if ($rule_name == 'GMC') {
+        if ($rule_name == 'NPSG') {
             $member_debit = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_debit) {
-                $member_debit->cmg = $request->amount;
+                $member_debit->npsg = $request->amount;
                 $member_debit->update();
             }
         }
@@ -3045,17 +3052,17 @@ class MemberController extends Controller
         $gmcDeduction = 0;
         $npsSubTotal = 0;
         $npsGMCTotal = 0;
-        if ($member->memberCategory->fund_type == 'NPS') {
-            $npsDeduction = round(($basicPay + $daAmount) * 10 / 100);
-            //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
-            $npsSubTotal = $npsDeduction + $npsDeductionGovt;
-            $deductionsTotal += $npsSubTotal;
-        }
-        if ($member->memberCategory->fund_type == 'NPS') {
-            $gmcDeduction = round(($basicPay + $daAmount) * 14 / 100);
-            $npsGMCTotal = $gmcDeduction;
-            $deductionsTotal += $npsGMCTotal;
-        }
+        // if ($member->memberCategory->fund_type == 'NPS') {
+        //     $npsDeduction = round(($basicPay + $daAmount) * 10 / 100);
+        //     //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
+        //     $npsSubTotal = $npsDeduction + $npsDeductionGovt;
+        //     $deductionsTotal += $npsSubTotal;
+        // }
+        // if ($member->memberCategory->fund_type == 'NPS') {
+        //     $gmcDeduction = round(($basicPay + $daAmount) * 14 / 100);
+        //     $npsGMCTotal = $gmcDeduction;
+        //     $deductionsTotal += $npsGMCTotal;
+        // }
 
         // GPF calculations if applicable
         $gpfDeduction = 0;
@@ -3098,7 +3105,7 @@ class MemberController extends Controller
             'apply_date' => date('Y-m-d'),
             'member_id' => $member->id,
             'gpa_sub' => $gpfDeduction,
-            'nps_sub' => $npsSubTotal,
+            // 'nps_sub' => $npsSubTotal,
             'eol' => 0,
             'ccl' => 0,
             'rent' => 0,
@@ -3128,7 +3135,7 @@ class MemberController extends Controller
             'hra_rec' => 0,
             'cghs' => $cghsDeduction,
             'ptax' => 200,
-            'cmg' => $npsGMCTotal,
+            // 'cmg' => $npsGMCTotal,
             'pli' => 0,
             'scooter' => 0,
             'tpt_rec' => 0,
@@ -3149,7 +3156,7 @@ class MemberController extends Controller
             'cgeis_arr' => 0,
             'cghs_arr' => 0,
             'penal_intr' => 0,
-            'society' => 0,
+            // 'society' => 0,
             'arrear_pay' => 0,
 
             'npsg' => $npsg,
@@ -3177,9 +3184,9 @@ class MemberController extends Controller
             'comp_int_total_instl' => 0,
             'fest_adv_prin_cur' => 0,
             'fest_adv_total_cur' => 0,
-            'ltc_rec' => 0,
-            'medical_rec' => 0,
-            'tada_rec' => 0,
+            // 'ltc_rec' => 0,
+            // 'medical_rec' => 0,
+            // 'tada_rec' => 0,
             'remarks' => null
         ];
 
@@ -3191,7 +3198,7 @@ class MemberController extends Controller
         $member_debit_data = [
             'member_id' => $member->id,
             'gpa_sub' => round($gpfDeduction),
-            'nps_sub' => round($npsSubTotal),
+            // 'nps_sub' => round($npsSubTotal),
             'eol' => 0,
             'ccl' => 0,
             'rent' => 0,
@@ -3221,7 +3228,7 @@ class MemberController extends Controller
             'hra_rec' => 0,
             'cghs' => round($cghsDeduction),
             'ptax' => 200,
-            'cmg' => round($npsGMCTotal),
+            // 'cmg' => round($npsGMCTotal),
             'pli' => 0,
             'scooter' => 0,
             'tpt_rec' => 0,
@@ -3240,7 +3247,7 @@ class MemberController extends Controller
             'cgeis_arr' => 0,
             'cghs_arr' => 0,
             'penal_intr' => 0,
-            'society' => 0,
+            // 'society' => 0,
             'arrear_pay' => 0,
             'npsg' => 0,
             'npsg_arr' => 0,
@@ -3261,9 +3268,9 @@ class MemberController extends Controller
             'comp_int_total_instl' => 0,
             'fest_adv_prin_cur' => 0,
             'fest_adv_total_cur' => 0,
-            'ltc_rec' => 0,
-            'medical_rec' => 0,
-            'tada_rec' => 0,
+            // 'ltc_rec' => 0,
+            // 'medical_rec' => 0,
+            // 'tada_rec' => 0,
             'remarks' => null
         ];
 

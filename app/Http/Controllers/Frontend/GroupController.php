@@ -118,7 +118,10 @@ class GroupController extends Controller
             return redirect()->back()->with('error', 'Group is related to members.Please remove the relation first.');
         } else {
             $group = Group::find($id);
+
+
             $group->delete();
+            //  dd($group);
             return redirect()->back()->with('message', 'Group deleted successfully');
         }
     }

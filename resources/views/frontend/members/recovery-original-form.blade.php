@@ -10,7 +10,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>CCS Sub</label>
+                        <label>CCS Sub / Society</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="ccs_sub" id="ccs_sub"

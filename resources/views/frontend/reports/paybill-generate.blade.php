@@ -566,10 +566,7 @@
                                         $totalNetPay += $totalcredit + $totalDebit;
 
                                         $totalSingleTableRec =
-                                            ($recovery?->ccs_sub ?? 0) +
-                                            ($recovery?->wel_sub ?? 0) +
-                                            ($recovery?->ptax ?? 0) +
-                                            ($recovery?->mess ?? 0);
+                                            ($recovery?->tot_rec ?? 0);
 
                                         $totalTableRec += $totalSingleTableRec;
 

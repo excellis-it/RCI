@@ -35,6 +35,7 @@ class CgegisController extends Controller
             $cgeGis = Cgegis::where(function($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('value', 'like', '%' . $query . '%')
+                      ->orWhere('group_name', 'like', '%' . $query . '%')
                     ->orWhere('status', '=', $query == 'Active' ? 1 : ($query == 'Inactive' ? 0 : null));
             })
             ->orderBy($sort_by, $sort_type)
@@ -58,15 +59,15 @@ class CgegisController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'group_id' => 'required',
-            'designation_id' => 'required',
+            'group_name' => 'required',
+            // 'designation_id' => 'required',
             'value' => 'required|max:255',
             'status' => 'required',
         ]);
 
         $cgegis_value = new Cgegis();
-        $cgegis_value->designation_id = $request->designation_id;
-        $cgegis_value->group_id = $request->group_id;
+        // $cgegis_value->designation_id = $request->designation_id;
+        $cgegis_value->group_name = $request->group_name;
         $cgegis_value->value = $request->value;
         $cgegis_value->status = $request->status;
         $cgegis_value->save();
@@ -103,15 +104,15 @@ class CgegisController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'group_id' => 'required',
-            'designation_id' => 'required',
+            'group_name' => 'required',
+            // 'designation_id' => 'required',
             'value' => 'required|max:255',
             'status' => 'required',
         ]);
 
         $cgegis_update = Cgegis::find($id);
-        $cgegis_update->group_id = $request->group_id;
-        $cgegis_update->designation_id = $request->designation_id;
+        $cgegis_update->group_name = $request->group_name;
+        // $cgegis_update->designation_id = $request->designation_id;
         $cgegis_update->value = $request->value;
         $cgegis_update->status = $request->status;
         $cgegis_update->save();

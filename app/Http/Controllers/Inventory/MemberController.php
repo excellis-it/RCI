@@ -519,7 +519,7 @@ class MemberController extends Controller
         $member_debit_data = [
             'member_id' => $member->id,
             'gpa_sub' => $gpfDeduction,
-            'nps_sub' => $npsSubTotal,
+            // 'nps_sub' => $npsSubTotal,
             'eol' => 0,
             'ccl' => 0,
             'rent' => 0,
@@ -549,7 +549,7 @@ class MemberController extends Controller
             'hra_rec' => 0,
             'cghs' => 0,
             'ptax' => 0,
-            'cmg' => 0,
+            // 'cmg' => 0,
             'pli' => 0,
             'scooter' => 0,
             'tpt_rec' => 0,
@@ -568,7 +568,7 @@ class MemberController extends Controller
             'cgeis_arr' => 0,
             'cghs_arr' => 0,
             'penal_intr' => 0,
-            'society' => 0,
+            // 'society' => 0,
             'arrear_pay' => 0,
             'npsg' => $npsg,
             'npsg_arr' => $npsg_arr,
@@ -589,9 +589,9 @@ class MemberController extends Controller
             'comp_int_total_instl' => 0,
             'fest_adv_prin_cur' => 0,
             'fest_adv_total_cur' => 0,
-            'ltc_rec' => 0,
-            'medical_rec' => 0,
-            'tada_rec' => 0,
+            // 'ltc_rec' => 0,
+            // 'medical_rec' => 0,
+            // 'tada_rec' => 0,
             'remarks' => 'Initial debit data created'
         ];
 

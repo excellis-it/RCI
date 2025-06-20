@@ -9,7 +9,7 @@
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link debit-recv" id="recovery-tab" data-bs-toggle="tab" data-bs-target="#recovery-tab-pane"
-            type="button" role="tab" aria-controls="recovery-tab-pane" aria-selected="false">Recoveries</button>
+            type="button" role="tab" aria-controls="recovery-tab-pane" aria-selected="false">Recoveries Table</button>
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="core-tab" data-bs-toggle="tab" data-bs-target="#core-tab-pane" type="button"
@@ -1703,6 +1703,19 @@
                 });
             }
         });
+
+       $(document).on('keyup', '#misc1', function () {
+            let miscValue = parseFloat($(this).val()) || 0;
+
+            // Calculate 10% and 14% and round to nearest integer
+            let adj10 = Math.round(miscValue * 0.10);
+            let arr14 = Math.round(miscValue * 0.14);
+
+            // Set the values
+            $('#npsg_adj').val(adj10);
+            $('#npsg_arr').val(arr14);
+        });
+
 
         // === Calculate Total Loan Installment ===
         function calculateLoanTotal() {

@@ -125,7 +125,7 @@
                 ($member_debit_data->nps_14_adj ?? 0);
 
             $secondDeduction =
-                ($member_debit_data->society ?? 0) +
+                ($member_recoveries_data->ccs_sub ?? 0) +
                 ($member_recoveries_data->mess ?? 0) +
                 ($member_recoveries_data->wel_sub ?? 0) +
                 ($member_recoveries_data->ptax ?? 0) +
@@ -251,7 +251,7 @@
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000; padding: 0px 5px !important;
                                     margin: 0px 0px !important;">
-                                        {{ $member_debit_data->society ?? 0 }}
+                                        {{ $member_recoveries_data->ccs_sub ?? 0 }}
                                     </td>
                                 </tr>DA
                                 <tr>
@@ -1568,7 +1568,7 @@
                                     margin: 0px 0px !important;">
                                     @if(isset($member_loans['hba_adv_data']) && $member_loans['hba_adv'] > 0)
                                     {{$member_loans['hba_adv'] ?? 0}}
- 
+
                                     @endif
                                     </td>
                                     <td
@@ -1620,7 +1620,7 @@
                                     margin: 0px 0px !important;">
                                     @if(isset($member_loans['hba_int_data']) && $member_loans['hba_int'] > 0)
                                     {{$member_loans['hba_int'] ?? 0}}
- 
+
                                     @endif
                                     </td>
                                     <td
@@ -1674,7 +1674,7 @@
                                     @if(isset($member_loans['comp_adv_data']) && $member_loans['comp_adv'] > 0 )
                                     {{$member_loans['comp_adv'] ?? 0}}
                                       @endif
- 
+
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
@@ -1727,7 +1727,7 @@
                                     @if(isset($member_loans['comp_int_data']) && $member_loans['comp_int'] > 0 )
                                     {{$member_loans['comp_int'] ?? 0}}
                                       @endif
- 
+
                                     </td>
                                     <td
                                         style="font-size: 10px; line-height: 14px; font-weight: normal; color: #000; text-align: center;  text-transform: uppercase; border: 1px solid #000;  height: 20px; padding: 0px 5px !important;
