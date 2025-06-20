@@ -929,6 +929,8 @@ class MemberController extends Controller
         if ($request->nps_14_adj && $request->nps_14_adj > 0 && $credit_member_monthly) {
             $credit_member_monthly->npg_adj = $request->nps_14_adj;
         }
+
+        $credit_member_monthly->save();
         Helper::updateTotalCredit($request->member_id, $request->current_month, $request->current_year);
 
         if (count($check_debit_member) > 0) {

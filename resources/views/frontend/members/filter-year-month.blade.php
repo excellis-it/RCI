@@ -1713,7 +1713,7 @@
 
             // Set the values
             $('#npsg_adj').val(adj10);
-            $('#npsg_arr').val(arr14);
+            $('#nps_14_adj').val(arr14);
         });
 
 
