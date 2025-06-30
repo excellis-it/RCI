@@ -66,6 +66,7 @@ use App\Models\MemberMonthlyDataExpectation;
 use App\Models\MemberMonthlyDataLoanInfo;
 use App\Models\MemberMonthlyDataPolicyInfo;
 use App\Models\MemberMonthlyDataVarInfo;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 
 
@@ -1151,7 +1152,7 @@ class MemberController extends Controller
         $original_recovery_member_monthly->save();
 
 
-       return response()->json(['message' => 'Member recovery updated successfully']);
+        return response()->json(['message' => 'Member recovery updated successfully']);
     }
 
     public function memberRecoveryUpdate(Request $request)
@@ -1185,15 +1186,32 @@ class MemberController extends Controller
 
         $member_credit_monthly = MemberMonthlyDataCredit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $request->current_month)->where('year', $request->current_year)->first() ?? '';
 
+        // if ($member_credit_monthly) {
+        //     if ($request->stop == 'No') {
+        //         $member_credit_monthly->var_incr = $request->total;
+        //     } else {
+        //         $member_credit_monthly->var_incr = 0;
+        //     }
+
+        //     $member_credit_monthly->save();
+        // }
+
         if ($member_credit_monthly) {
-            if ($request->stop == 'No') {
-                $member_credit_monthly->var_incr = $request->v_incr;
-            } else {
-                $member_credit_monthly->var_incr = 0;
+            $shouldIncrement = true;
+
+            if ($request->stop) {
+                // Convert stop date and current month/year to comparable dates
+                $stopDate = Carbon::parse($request->stop)->startOfDay(); // e.g., 2025-07-01
+                $currentDate = Carbon::createFromDate($request->current_year, $request->current_month, 1)->startOfDay();
+
+                // If stopDate is less than current month, do not increment
+                $shouldIncrement = $stopDate->greaterThan($currentDate);
             }
 
+            $member_credit_monthly->var_incr = $shouldIncrement ? $request->total : 0;
             $member_credit_monthly->save();
         }
+
 
         Helper::updateTotalCredit($request->member_id, $request->current_month, $request->current_year);
         Helper::updateTotalDebit($request->member_id, $request->current_month, $request->current_year);
@@ -1234,7 +1252,7 @@ class MemberController extends Controller
     public function memberRecoveryDelete($id)
     {
 
-        $delete_recovery = MemberRecovery::where('id', $id)->first();
+        $delete_recovery = MemberMonthlyDataVarInfo::where('id', $id)->first();
         $delete_recovery->delete();
 
         return response()->json(['message' => 'Member recovery deleted successfully']);

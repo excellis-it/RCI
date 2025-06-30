@@ -4,7 +4,7 @@
     <input type="hidden" name="member_id" value="{{ $member->id }}">
     <input type="hidden" name="current_year" value="{{ $currentYear }}">
     <input type="hidden" name="current_month" value="{{ $currentMonth }}">
-    
+
     <div class="row">
         <div class="col-md-3">
             <div class="form-group mb-2">
@@ -22,6 +22,7 @@
             </div>
         </div>
     </div>
+    {{-- @dd( $member_var_info) --}}
     <div class="row">
         <div class="col-md-3">
             <div class="form-group mb-2">
@@ -64,23 +65,27 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Stop</label>
+                        <label>Stop Date</label>
                     </div>
                     <div class="col-md-12">
-                        <select class="form-select" name="stop" id="stop" required>
-                            <option value="" disabled>Select</option>
-                            <option value="Yes"
-                                {{ (isset($member_recovery->stop) && $member_recovery->stop == 'Yes') || old('stop') == 'Yes' ? 'selected' : '' }}>
-                                Yes</option>
-                            <option value="No"
-                                {{ (isset($member_recovery->stop) && $member_recovery->stop == 'No') || old('stop') == 'No' ? 'selected' : '' }}>
-                                No</option>
-                        </select>
+                        @php
+                            $stopValue = old('stop') ?? ($member_recovery->stop ?? '');
+                            $stopDate = null;
+
+                            if ($stopValue && preg_match('/^\d{4}-\d{2}-\d{2}$/', $stopValue)) {
+                                $stopDate = \Carbon\Carbon::parse($stopValue)->format('Y-m-d');
+                            }
+                        @endphp
+
+                        <input type="date" name="stop" id="stop" class="form-control"
+                            value="{{ $stopDate }}">
+
                         <span class="text-danger"></span>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
     <div class="row mt-3">
         <div class="col-md-12">

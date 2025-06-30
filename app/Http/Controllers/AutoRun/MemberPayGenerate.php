@@ -56,6 +56,7 @@ use App\Models\MemberMonthlyDataPolicyInfo;
 use App\Models\MemberMonthlyDataLoanInfo;
 use App\Models\MemberMonthlyDataExpectation;
 use App\Models\MemberMonthlyDataVarInfo;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use DateTime;
 
@@ -184,16 +185,22 @@ class MemberPayGenerate extends Controller
             $member_credit = MemberMonthlyDataCredit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
             // if ($member_credit) {
             $var_inc_amount = 0;
-            $var_noi = MemberMonthlyDataVarInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first();
-            // dd($var_noi->noi );
-            if ($var_noi) {
-                if ($var_noi->stop == 'No' && $var_noi->noi > 0) {
+            // $count_var_noi = 5;
 
-                    $var_inc_amount = $var_noi->v_incr;
-                    $count_var_noi = $var_noi->noi - 1;
+            $var_noi = MemberMonthlyDataVarInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first();
+
+            if ($var_noi) {
+                // Convert current month/year to a comparable Carbon date
+                $currentDate = Carbon::createFromDate($year, $month, 1)->startOfDay();
+
+                $stopDate = $var_noi->stop ? Carbon::parse($var_noi->stop)->startOfDay() : null;
+
+                if ((!$stopDate || $stopDate->greaterThan($currentDate))) {
+                    $var_inc_amount = $var_noi->total;
+                    // $count_var_noi = $var_noi->noi - 1;
                 } else {
                     $var_inc_amount = 0;
-                    $count_var_noi = 5;
+                    // $count_var_noi = 5;
                 }
             }
             // dd('var_noi'.$count_var_noi );
@@ -837,7 +844,7 @@ class MemberPayGenerate extends Controller
                 foreach ($VarInfoCommonColumns as $column) {
                     $member_var_info_monthly_data->$column = $member_var_info->$column;
                 }
-                $member_var_info_monthly_data->noi = $count_var_noi ?? 5;
+                // $member_var_info_monthly_data->noi = $count_var_noi ?? 5;
                 $member_var_info_monthly_data->month = $month;
                 $member_var_info_monthly_data->year = $year;
                 $member_var_info_monthly_data->apply_date = date('Y-m-d');
@@ -876,16 +883,22 @@ class MemberPayGenerate extends Controller
                     $member_credit = MemberMonthlyDataCredit::where('member_id', $member_id)->orderBy('id', 'desc')->first();
                     // if ($member_credit) {
                     $var_inc_amount = 0;
-                    $var_noi = MemberMonthlyDataVarInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first();
-                    // dd($var_noi->noi );
-                    if ($var_noi) {
-                        if ($var_noi->stop == 'No' && $var_noi->noi > 0) {
+                    // $count_var_noi = 5;
 
-                            $var_inc_amount = $var_noi->v_incr;
-                            $count_var_noi = $var_noi->noi - 1;
+                    $var_noi = MemberMonthlyDataVarInfo::where('member_id', $member->id)->orderBy('id', 'desc')->first();
+
+                    if ($var_noi) {
+                        // Convert current month/year to a comparable Carbon date
+                        $currentDate = Carbon::createFromDate($year, $month, 1)->startOfDay();
+
+                        $stopDate = $var_noi->stop ? Carbon::parse($var_noi->stop)->startOfDay() : null;
+
+                        if ((!$stopDate || $stopDate->greaterThan($currentDate))) {
+                            $var_inc_amount = $var_noi->total;
+                            // $count_var_noi = $var_noi->noi - 1;
                         } else {
                             $var_inc_amount = 0;
-                            $count_var_noi = 5;
+                            // $count_var_noi = 5;
                         }
                     }
                     // dd('var_noi'.$count_var_noi );
@@ -1531,7 +1544,7 @@ class MemberPayGenerate extends Controller
                         foreach ($VarInfoCommonColumns as $column) {
                             $member_var_info_monthly_data->$column = $member_var_info->$column;
                         }
-                        $member_var_info_monthly_data->noi = $count_var_noi ?? 5;
+                        // $member_var_info_monthly_data->noi = $count_var_noi ?? 5;
                         $member_var_info_monthly_data->month = $month;
                         $member_var_info_monthly_data->year = $year;
                         $member_var_info_monthly_data->apply_date = date('Y-m-d');
