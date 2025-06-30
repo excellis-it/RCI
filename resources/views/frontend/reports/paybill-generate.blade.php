@@ -226,7 +226,7 @@
         @endphp
 
 
-        <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center;">
             <tbody>
 
@@ -236,10 +236,8 @@
                             <thead>
                                 <tr>
                                     <td colspan="4"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px;  border-right: 0px;">
-                                        PAY BILL {{ $pay_bill_no ?? '0' }} FOR THE MONTH OF
-                                        {{ \Illuminate\Support\Str::upper($month ?? '0') }}
-                                        - {{ $year ?? '0' }} </br>{{ $category_fund_type }} STAFF
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px;  border-right: 0px;">
+                                        PAY BILL {{ $pay_bill_no ?? '0' }} FOR THE MONTH OF {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} </br>{{ $category_fund_type }} STAFF
                                     </td>
                                     <td colspan="4" style="text-align: center;border-left:0px;border-right:0px;">
                                         <img style="width: 50px; height: 50px; margin: 0 auto; padding: 0px 5px;border:1px solid #ffffff;border-right:0px;border-left:0px;"
@@ -249,7 +247,7 @@
                                     <td colspan="1" style="text-align: center;border-left:0px;border-right:0px;">
                                     </td>
                                     <td colspan="5"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-right: none !important;border-left:0px;">
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-right: none !important;border-left:0px;">
                                         Center For High Energy Systems and Science<br>
                                         Unit Code : 330000110 &nbsp; &nbsp; &nbsp; <span
                                             style="text-transform: uppercase; border-bottom: 1px solid #000;">Page
@@ -259,96 +257,96 @@
                                 </tr>
                                 <tr>
                                     <th colspan="2"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
                                         EMPLOYEE DETAILS
                                     </th>
                                     <th colspan="3"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
                                         CREDITS
                                     </th>
                                     <th colspan="6"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
                                         DEBITS
                                     </th>
                                     <th
-                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
                                         RENT
                                     </th>
                                     <th
-                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
                                         TOTAL
                                     </th>
                                     <th
-                                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px; border: 1px solid #000; text-transform: uppercase;">
                                         Sign
                                     </th>
                                 </tr>
                                 <tr>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: left; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         Sr.No.<br>NAME<br>CODE<br>RANK NAME<br>BANK A/C<br>IFSC
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: left; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         LEVEL<br>DATE OF BIRTH<br>GPF NO./PRAN NO<br>APPT DATE<br>VAR.INCR.NO,
                                         DNI<br>PAN NO
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         BASIC PAY<br>DA ({{ $da_percent->percentage ?? '0' }}%)<br>HRA<br>TPT
                                         ALLOW<br>TPTDA<br>SPL PAY
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         SPL INCENT<br>INCENTIVE<br>DRESS ALLWN<br>VARIABLE AMT<br>ARRS OF PAY &
                                         ALLOW<br>RISK ALLWN
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         NPSC 14%<br>NPSG ARRS 14%<br>NPS ADJ14%<br>MISC CREDIT (IT)<br>MISC CREDIT
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         GPF SUB<br>GPF ADV<br>GPF ARRS<br>CCEGIS<br>CGHS<br>HBA ADV
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         HBA INT<br>CAR ADV<br>CAR INT<br>EDU ADV<br>EDU INT<br>COMP ADV
                                     </td>
 
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400;border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         COMP INT<br>FEST ADV<br>LTC<br>MED DEBIT<br>TADA<br>LEAVE REC
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         PENSION REC<br>INCOME TAX<br>EDU CESS<br>PL INSUR<br>MISC DEBIT<br>MISC
                                         DEBIT (IT)
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         NPS 10% REC.<br>NPSG 14%<br>NPS ARR 10%<br>NPSG ARR 14%<br>NPS ADJ
                                         10%<br>NPS ADJ
                                         14%
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         CGHS ARR<br>CGEIS ARR<br>PENAL INTR
                                     </td>
                                     {{-- <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         HBA Inst<br>Comp Inst<br>Edu Inst<br>Car/Bike Inst
                                     </td> --}}
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         LICENCE FEE<br>ELECT<br>WATER<br>FURN<br>MISC RENT
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400;  border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
                                         CREDITS<br>DEBITS<br>NET PAY<br>TABLE REC<br>PAYSLIP PAY
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000;">
+                                        style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000;">
                                     </td>
                                 </tr>
                             </thead>
@@ -563,7 +561,7 @@
 
                                         $singleNetPay = $singleTotalCredit - $singleTotalDebit;
 
-                                        $totalNetPay += $totalcredit + $totalDebit;
+                                        $totalNetPay += $totalcredit - $totalDebit;
 
                                         $totalSingleTableRec =
                                             ($recovery?->tot_rec ?? 0);
@@ -775,31 +773,34 @@
 
                                     <tr>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
                                     margin: 0px 0px !important; text-transform: uppercase; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
                                             {{ $key + 1 }}<br>
                                             {{ $member_info['member_data']->name ?? '0' }}<br>
                                             {{ $member_info['member_data']->emp_id ?? '0' }}<br>
                                             {{ $member_info['member_data']['desigs']->designation ?? '0' }}<br>
                                             {{ $member_info['details']['member_core_info']->bank_acc_no ?? '0000-0000-0000-00' }}<br>
-                                            {{ $member_info['details']['member_core_info']['banks']->ifsc ?? '0' }}
+                                            {{ $member_info['details']['member_core_info']->ifsc ?? '0' }}
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
                                 margin: 0px 0px !important; text-transform: uppercase; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
-                                            {{ $member_info['member_data']->pm_level ?? '0' }}<br>
-                                            {{ $member_info['member_data']->dob ?? '' }} <br>
-                                            {{ !empty($member_info['details']['member_core_info']->gpf_acc_no) ? $member_info['details']['member_core_info']->gpf_acc_no . '/' : '' }}
-                                            {{ $member_info['member_data']->pran_number ?? '0' }}
+                                            {{ $member_info['member_data']->payLevels->value ?? '0' }}<br>
+                                            {{ isset($member_info['member_data']->dob) && $member_info['member_data']->dob ? date('d M Y', strtotime($member_info['member_data']->dob )) : '' }} <br>
+
+                                            {{ $member_info['details']['member_core_info']->gpf_acc_no ?? $member_info['member_data']->pran_number ?? '0' }}
                                             <br>
-                                            {{ $member_info['member_data']->doj_lab ?? '' }}<br>
-                                            {{ $member_info['details']['member_credit']->var_incr ?? '0' }}<br>
-                                            {{ $member_info['member_data']->next_inr ?? '0' }}<br>
+                                             {{ isset($member_info['member_data']->doj_lab) && $member_info['member_data']->doj_lab ? date('d M Y', strtotime($member_info['member_data']->doj_lab )) : '' }}<br>
+
+
+
+                                          {{ isset($member_info['member_data']->next_inr) && $member_info['member_data']->next_inr ? date('d M Y', strtotime($member_info['member_data']->next_inr )) : '' }} <br>
+
                                             {{ $member_info['details']['member_core_info']->pan_no ?? '0' }}
 
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-left: 1px solid #000; border-right: 1px solid #000;border-bottom: 1px solid #000; border-bottom: 1px solid #000;">
                                             {{ round($member_info['details']['member_credit']->pay ?? 0) }}<br>
                                             {{ round($member_info['details']['member_credit']->da ?? 0) }}<br>
@@ -811,7 +812,7 @@
 
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase;border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_credit']->spl_incentive ?? 0) }}<br>
                                             {{ round($member_info['details']['member_credit']->incentive ?? 0) }}<br>
@@ -823,7 +824,7 @@
 
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_credit']->npsc ?? 0) }} <br>
                                             {{ round($member_info['details']['member_credit']->npg_arrs ?? 0) }} <br>
@@ -833,18 +834,19 @@
 
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_debit']->gpa_sub ?? 0) }}<br>
                                             {{ round($member_info['details']['member_loans']['gpf_adv'] ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->gpf_arr ?? 0) }} <br>
                                             {{ round($member_info['details']['member_debit']->cgegis ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->cghs ?? 0) }}<br>
+                                             {{ round($member_info['details']['member_loans']['hba_adv'] ?? 0) }}
                                             <br>
 
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_loans']['hba_int'] ?? 0) }}<br>
                                             {{ round($member_info['details']['member_loans']['car_adv'] ?? 0) }}<br>
@@ -856,7 +858,7 @@
                                         </td>
 
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_loans']['comp_int'] ?? 0) }} <br>
                                             {{ round($member_info['details']['member_loans']['fest_adv'] ?? 0) }} <br>
@@ -870,7 +872,7 @@
 
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_debit']->pension_rec ?? 0) }}
                                             <br>
@@ -886,7 +888,7 @@
 
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_debit']->nps_10_rec ?? 0) }} <br>
                                             {{ round($member_info['details']['member_debit']->npsg ?? 0) }}<br>
@@ -896,7 +898,7 @@
                                             {{ round($member_info['details']['member_debit']->nps_14_adj ?? 0) }}<br>
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_debit']->cghs_arr ?? 0) }}
                                             <br>
@@ -907,7 +909,7 @@
 
                                         </td>
                                         {{-- <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($member_info['details']['member_loans']['hba_adv'] ?? 0) }}
                                             <br>
@@ -921,7 +923,7 @@
 
 
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                                  {{ round($member_info['details']['member_debit']->licence_fee ?? 0) }} <br>
                                             {{ round($member_info['details']['member_debit']->elec ?? 0) }}
@@ -934,7 +936,7 @@
 
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                             {{ round($singleTotalCredit ?? 0) }}<br>
                                             {{ round($singleTotalDebit) }}<br>
@@ -944,7 +946,7 @@
 
                                         </td>
                                         <td valign="top"
-                                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                            style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         </td>
                                     </tr>
@@ -966,7 +968,7 @@
 
                                         <tr>
                                             <td colspan="7"
-                                            style=" font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000; border-right:1px solid #fff; ">
+                                            style=" font-size: 12px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000; border-right:1px solid #fff; ">
                                             @if(!empty($member_info['details']['member_credit']['remarks']) ||
                                             !empty($member_info['details']['member_debit']['remarks']) ||
                                             !empty($member_info['details']['member_recovery']['remarks']))
@@ -989,7 +991,7 @@
 
                                         </td>
                                             <td colspan="7"
-                                                style=" font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; ">
+                                                style=" font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000; ">
                                                  @if (($member_info['details']['member_loans']['gpf_adv'] ?? 0) > 0)
                                                     GPF
                                                     {{ $member_info['details']['member_loans']['gpf_adv_data']['present_inst_no'] ?? 0 }}
@@ -1185,13 +1187,13 @@
 
                                 <tr>
                                     <td colspan="2" valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important;
                                     margin: 0px 0px !important; text-transform: uppercase; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
                                         Page {{ $chunkKey + 1 }} Total
                                     </td>
 
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-left: 1px solid #000; border-right: 1px solid #000;border-bottom: 1px solid #000; border-bottom: 1px solid #000;">
                                         {{ round($totalBasicPay ?? 0) }} <br>
                                         {{ round($totalDa ?? 0) }} <br>
@@ -1203,7 +1205,7 @@
 
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase;border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($totalSplIncent ?? 0) }} <br>
                                         {{ round($totalIncentive ?? 0) }} <br>
@@ -1215,7 +1217,7 @@
 
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($totalNpscCreditIt) }} <br>
                                         {{ round($totalNpgArrsCreditIt) }} <br>
@@ -1225,7 +1227,7 @@
 
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($totalGpfSub ?? 0) }} <br>
                                         {{ round($totalGpfAdv ?? 0) }} <br>
@@ -1236,7 +1238,7 @@
                                     </td>
 
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($totalHbaInt ?? 0) }}<br>
                                         {{ round($totalCarAdv ?? 0) }} <br>
@@ -1247,7 +1249,7 @@
 
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($totalCompInt ?? 0) }} <br>
                                         {{ round($totalfestAdv ?? 0) }} <br>
@@ -1258,7 +1260,7 @@
 
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($totalPensionRec ?? 0) }} <br>
                                         {{ round($totalIncomeTax ?? 0) }} <br>
@@ -1269,7 +1271,7 @@
 
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($total_nps_10_rec) }} <br>
                                         {{ round($totalNpsg ?? 0) }} <br>
@@ -1279,7 +1281,7 @@
                                         {{ round($totalNpsAdj) }}
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($totalCghsArr ?? 0) }}<br>
                                         {{ round($totalCgeisArr ?? 0) }}<br>
@@ -1288,7 +1290,7 @@
                                     </td>
 
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                           {{ round($totalLicenceFee ?? 0) }} <br>
                                         {{ round($totalElec ?? 0) }}<br>
@@ -1297,16 +1299,16 @@
                                         {{ round($totalMiscRent ?? 0) }}
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                         {{ round($totalcredit ?? 0) }}<br>
                                         {{ round($totalDebit) }}<br>
-                                        {{ round($totalNetPay) }}<br>
+                                       {{ round(($totalcredit ?? 0) - ($totalDebit ?? 0)) }}<br>
                                         {{ round($totalTableRec) }}<br>
                                         {{ round($totalPayslipPay) }} <br>
                                     </td>
                                     <td valign="top"
-                                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
+                                        style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                          margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
                                     </td>
                                 </tr>
@@ -1316,6 +1318,8 @@
                 </tr>
             </tbody>
         </table>
+
+
 
         {{-- @if (!$loop->last) --}}
         <div class="page-break"></div>
@@ -8962,6 +8966,7 @@ background: #cdcdcd;
 
                                     </td>
                                 </tr>
+                                @php
                                 $last_month_totals[$cghs_key] = [
                                     'pay' => 0,
                                     'da' => 0,
@@ -11890,10 +11895,11 @@ background: #cdcdcd;
 
         </tbody>
       </table>
-      <div class="page-break"></div>
+       <div class="page-break"></div>
       @endforeach
 
         @if (count($gpf_adv_arr) > 0)
+          <div class="page-break"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -12331,11 +12337,12 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
-        <div class="page-break"></div>
+
     @endif
 
 
       @if (count($hba_adv_arr) > 0)
+        <div class="page-break"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -12773,11 +12780,11 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
-        <div class="page-break"></div>
+
     @endif
 
     @if (count($car_adv_arr) > 0)
-
+  <div class="page-break"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -13216,10 +13223,11 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
-        <div class="page-break"></div>
+
     @endif
 
     @if (count($sco_adv_arr) > 0)
+     <div class="page-break"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -13658,9 +13666,10 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
-        <div class="page-break"></div>
+
     @endif
     @if (count($comp_adv_arr) > 0)
+       <div class="page-break"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -14099,9 +14108,10 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
-        <div class="page-break"></div>
+
     @endif
     @if (count($fest_adv_arr) > 0)
+         <div class="page-break"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -14540,9 +14550,10 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
-        <div class="page-break"></div>
+
     @endif
     @if (count($hba_int_arr) > 0)
+     <div class="page-break"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -14962,9 +14973,10 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
-        <div class="page-break"></div>
+
     @endif
     @if (count($car_int_arr) > 0)
+     <div class="page-break"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -15383,9 +15395,10 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
-        <div class="page-break"></div>
+
     @endif
     @if (count($sco_int_arr) > 0)
+     <div class="page-break"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -15805,9 +15818,10 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
-        <div class="page-break"></div>
+
     @endif
     @if (count($comp_int_arr) > 0)
+     <div class="page-break"></div>
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -16226,11 +16240,11 @@ background: #cdcdcd;
                 </tr>
             </tbody>
         </table>
-        <div class="page-break"></div>
+
     @endif
     @if (count($meber_chunk_data_quater) > 0)
 
-
+  <div class="page-break"></div>
 @php
     $page_cal_quater = [];
 @endphp
@@ -16862,11 +16876,11 @@ background: #cdcdcd;
         </tbody>
     </table>
 
-    <div class="page-break"></div>
+
 @endif
 
     @if (count($meber_chunk_data_income_tax) > 0)
-
+  <div class="page-break"></div>
 
     @php
     $page_cal_income_tax = [];
@@ -17339,10 +17353,11 @@ background: #cdcdcd;
         </tbody>
     </table>
 
-    <div class="page-break"></div>
+
     @endif
 
 @if ($category_fund_type == 'NPS')
+<div class="page-break"></div>
     @php
     $page_array = [];
     $eol_hpl_array = [];
@@ -18446,8 +18461,9 @@ style="border-radius: 0px; margin: 0 auto; text-align: center">
 </tbody>
 </table>
 
-<div class="page-break"></div>
+
 @if (count($eol_hpl_array) > 0)
+<div class="page-break"></div>
 @php
     $chunks = array_chunk($eol_hpl_array, 35);
     $eol_hpl_page = [];
@@ -18817,7 +18833,7 @@ style="border-radius: 0px; margin: 0 auto; text-align: center">
     </tr>
 </tbody>
 </table>
-<div class="page-break"></div>
+
 
 
 @endif
@@ -18825,6 +18841,7 @@ style="border-radius: 0px; margin: 0 auto; text-align: center">
 @endif
 
 @if ($category_fund_type == 'GPF')
+<div class="page-break"></div>
 @php
     $gpf_subscription_page = [];
     @endphp

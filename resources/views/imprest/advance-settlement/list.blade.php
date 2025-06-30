@@ -331,7 +331,7 @@
     {{-- edit-advance-settlement --}}
     <script>
         $(document).ready(function() {
-            $(".edit-advance-settlement").click(function() {
+            $(document).on('click',".edit-advance-settlement",function() {
 
                 var route = $(this).data('route');
 

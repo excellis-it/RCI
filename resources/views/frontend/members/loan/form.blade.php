@@ -116,7 +116,7 @@
                 }
             @endphp
             @if (!$hideFields)
-                <div class="form-group col-md-6 mb-2">
+                {{-- <div class="form-group col-md-6 mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <label>Interst Percentage (%)</label>
@@ -128,7 +128,7 @@
                             <span class="text-danger"></span>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group col-md-6 mb-2">
                     <div class="row align-items-center">
@@ -143,7 +143,7 @@
                     </div>
                 </div>
             @endif
-            <div class="form-group col-md-6 mb-2">
+            {{-- <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Recovery Type</label>
@@ -154,7 +154,7 @@
                         <span class="text-danger"></span>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="form-group col-md-6 mb-2" hidden>
                 <div class="row align-items-center">
@@ -289,7 +289,7 @@
                         <label>Installment Amount</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="inst_amount" id="inst_amount" 
+                        <input type="text" class="form-control" name="inst_amount" id="inst_amount"
                             value="" placeholder="">
                         <span class="text-danger"></span>
                     </div>
@@ -303,7 +303,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="present_inst_no" id="present_inst_no"
-                            value="1" placeholder="" readonly>
+                            value="1" placeholder="" >
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -341,7 +341,7 @@
             </div>
 
 
-            <div class="form-group col-md-6 mb-2">
+            {{-- <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Interst Percentage (%)</label>
@@ -352,7 +352,7 @@
                         <span class="text-danger"></span>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
@@ -367,7 +367,7 @@
                 </div>
             </div>
 
-            <div class="form-group col-md-6 mb-2">
+            {{-- <div class="form-group col-md-6 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Recovery Type</label>
@@ -378,7 +378,7 @@
                         <span class="text-danger"></span>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="form-group col-md-6 mb-2" hidden>
                 <div class="row align-items-center">

@@ -192,9 +192,14 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-
-                        //windows load with toastr message
+                    if(response.status == false) {
+                        toastr.error(response.message)
+                    } else {
+                         //windows load with toastr message
                         window.location.reload();
+                    }
+
+
                     },
                     error: function(xhr) {
 
@@ -247,7 +252,13 @@
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
+                        if(response.status == false) {
+                        toastr.error(response.message)
+                    } else {
+                         //windows load with toastr message
                         window.location.reload();
+                    }
+
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)

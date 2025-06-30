@@ -59,6 +59,7 @@ use App\Models\MemberMonthlyDataLoanInfo;
 use App\Models\MemberMonthlyDataRecovery;
 use App\Models\Setting;
 use App\Models\Designation;
+use App\Models\MedicalAllowance;
 use App\Models\MemberLandline;
 
 class ReportController extends Controller
@@ -523,7 +524,7 @@ class ReportController extends Controller
 
         // dd($meber_chunk_data_misc);
 
-        $groupedData = collect($all_members_info)->chunk(5);
+        $groupedData = collect($all_members_info)->chunk(4);
         $allMember40Data = collect($all_members_info)->chunk(40);
 
         // dd($allMember40Data);
@@ -532,7 +533,7 @@ class ReportController extends Controller
         $number_month = $request->month;
         $year = $request->year;
         $logo = Helper::logo() ?? '';
-        $da_percent = DearnessAllowancePercentage::where('year', $year)->first();
+        $da_percent = DearnessAllowancePercentage::where('year', $year)->where('is_active', 1)->first();
         $accountant = User::where('id', $request->account_officer_sign)->first();
 
         $pdf = PDF::loadView('frontend.reports.paybill-generate', compact(
@@ -1247,7 +1248,7 @@ class ReportController extends Controller
         $academicYears = Helper::getFinancialYears();
         $categories = Category::orderBy('id', 'desc')->get();
         $accountants = User::role('ACCOUNTANT')->get();
-          $directors = Member::whereHas('desigs', function ($query) {
+        $directors = Member::whereHas('desigs', function ($query) {
             $query->where('designation', 'DIR');
         })->with('desigs')->get();
         return view('frontend.reports.children-allowance', compact('categories', 'accountants', 'academicYears', 'directors'));
@@ -1260,7 +1261,7 @@ class ReportController extends Controller
             'report_type' => 'required',
             'year' => 'required',
             'e_status' => 'required',
-             'director'  => 'required',
+            'director'  => 'required',
         ]);
 
         $data = $request->all();
@@ -1380,11 +1381,11 @@ class ReportController extends Controller
         $setting = Setting::first();
         $paperType = $request->paper_type ?? ($setting->pdf_page_type ?? 'portrait'); // Default to portrait if not set in settings
         $year = $request->year;
-         $director_name = Member::findOrFail($request->director)->name ?? '-';
+        $director_name = Member::findOrFail($request->director)->name ?? '-';
         // The blade view will need to handle the structure of $children depending on report_type
         // If 'group', $children will be an array of arrays, each containing member_detail and their children
         // If 'individual', $children will be a flat array of children, and $member_detail will be direct.
-        $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('director_name','data', 'total', 'bill_no', 'today', 'children', 'member_detail', 'accountant', 'request', 'year'))->setPaper('a4', 'potrait');
+        $pdf = PDF::loadView('frontend.reports.children-allowance-report', compact('director_name', 'data', 'total', 'bill_no', 'today', 'children', 'member_detail', 'accountant', 'request', 'year'))->setPaper('a4', 'potrait');
         return $pdf->download($pdf_filename);
     }
     public function getMemberChildren(Request $request)
@@ -1914,64 +1915,195 @@ class ReportController extends Controller
 
     public function bagPurseAllowanceReport()
     {
-        $categories = Category::orderBy('id', 'desc')->get();
-        return view('frontend.reports.bag-purse-allowance', compact('categories'));
+        $designations = Designation::orderBy('id', 'desc')->get();
+        $the_month = (int) date('m');
+        $the_year = (int) date('Y');
+        $directors = Member::whereHas('desigs', function ($query) {
+            $query->where('designation', 'DIR');
+        })->with('desigs')->get();
+
+        $financialYear = $the_month >= 4
+            ? $the_year . '-' . ($the_year + 1)
+            : ($the_year - 1) . '-' . $the_year;
+
+        $accountants = User::role('ACCOUNTANT')->get();
+        $senior_account_officers = Member::whereHas('desigs', function ($query) {
+            $query->where('designation', 'SAO-I');
+        })->with('desigs')->get();
+
+        return view('frontend.reports.bag-purse-allowance', compact('designations', 'financialYear', 'directors', 'accountants', 'senior_account_officers'));
     }
 
     public function bagPurseAllowanceReportGenerate(Request $request)
     {
-        $request->validate([
-            'report_type' => 'required',
-            'year' => 'required',
-            //if $request->report_type == 'individual'
-            'member_id' => 'required_if:report_type,individual',
-            'e_status' => 'required_if:report_type,individual',
-            //if $request->report_type == 'group'
-            'category' => 'required_if:report_type,group',
 
-        ]);
-        $data = $request->all();
+        // Validation
+        $rules = [
+            'generate_by'   => 'required|in:member,designation,all',
+            'e_status'      => 'required|in:active,deputation',
+            'financial_year' => 'required',
+            'director'  => 'required',
+            'accountant'  => 'required',
+            'senior_account_officer'  => 'required',
+        ];
 
-        if ($request->report_type == 'individual') {
-            $member_detail = Member::where('id', $request->member_id)->first();
-            $member_purse_allowances = MemberBagPurse::where('member_id', $request->member_id)->where('year', $request->year)->get();
-            $setting = Setting::first();
-            $paperType = $request->paper_type ?? $setting->pdf_page_type;
-            $pdf = PDF::loadView('frontend.reports.bag-purse-allowance-report-generate', compact('member_purse_allowances', 'member_detail', 'data'))->setPaper('a4', $paperType);
-            return $pdf->download('bag-purse-allowance-report-' . '.pdf');
-        } else {
-
-            $members = Member::where('category', $request->category)->where('pay_stop', 'No')->get();
-            $total = 0;
-            $member_purse_allowances = [];
-
-            foreach ($members as $member) {
-                $amount = MemberBagPurse::where('member_id', $member->id)
-                    ->where('year', $request->year)
-                    ->first();
-
-                if ($amount) {
-                    $total += $amount->amount ?? 0;
-
-                    $member_details = [
-                        'name' => $member->name,
-                        'gpf_pran' => $member->gpf_number ?? $member->pran_number ?? 'N/A',
-                        'designation' => $member->desigs->designation ?? 'N/A',
-                        'pay_level' => $member->payLevels->value ?? 'N/A',
-                        'entitle_amount' => $amount->entitle_amount ?? 0,
-                        'bill_amount' => $amount->bill_amount ?? 0,
-                        'net_amount' => $amount->net_amount ?? 0,
-                        'remarks' => $amount->remarks ?? 'N/A'
-                    ];
-
-                    $member_purse_allowances[] = $member_details;
-                }
-            }
-            $setting = Setting::first();
-            $paperType = $request->paper_type ?? $setting->pdf_page_type;
-            $pdf = PDF::loadView('frontend.reports.group-bag-purse-report-generate', compact('member_purse_allowances', 'total'))->setPaper('a4', $paperType);
-            return $pdf->download('bag-purse-allowance-report-' . 'all-members' . '.pdf');
+        if ($request->generate_by === 'member') {
+            $rules['member_id'] = 'required|exists:members,id';
         }
+
+        if ($request->generate_by === 'designation') {
+            $rules['designation'] = 'required|exists:designations,id';
+        }
+
+        $this->validate($request, $rules);
+
+        $financial_year = $request->financial_year;
+
+        // Query
+        [$startYear, $endYear] = explode('-', $financial_year);
+
+        $query = MemberBagPurse::with(['member', 'member.memberPersonalInfo'])
+            ->where(function ($q) use ($startYear, $endYear) {
+                $q->where(function ($sub) use ($startYear) {
+                    $sub->where('year', $startYear)
+                        ->whereBetween('month', [4, 12]);
+                })
+                    ->orWhere(function ($sub) use ($endYear) {
+                        $sub->where('year', $endYear)
+                            ->whereBetween('month', [1, 3]);
+                    });
+            })
+            ->whereHas('member', function ($q) use ($request) {
+                $q->where('e_status', $request->e_status);
+            });
+
+        if ($request->generate_by === 'member') {
+            $query->where('member_id', $request->member_id);
+        }
+
+        // if ($request->generate_by === 'designation') {
+        //     $query->whereHas('member', function ($q) use ($request) {
+        //         $q->where('desig', $request->designation);
+        //     });
+        // }
+
+        $bagPurseData = $query->get()
+            ->groupBy('member_id')
+            ->values()
+            ->chunk(24);
+
+        //  dd($bagPurseData->toArray(), $request->designation);
+
+        if ($bagPurseData->isEmpty()) {
+            return redirect()
+                ->back()
+                ->with('error', 'No data found!');
+        }
+
+
+
+        $setting = Setting::first();
+        $logo = Helper::logo() ?? '';
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $director_name = Member::findOrFail($request->director)->name ?? '-';
+        $senior_account_manager_name = Member::findOrFail($request->senior_account_officer)->name ?? '-';
+        $accountant = $request->accountant;
+        // return view('frontend.reports.bag-purse-allowance-report-generate')->with(compact('bagPurseData', 'startYear', 'endYear', 'financial_year', 'logo', 'director_name', 'senior_account_manager_name', 'accountant'));
+        $pdf = PDF::loadView('frontend.reports.bag-purse-allowance-report-generate', compact('bagPurseData', 'startYear', 'endYear', 'financial_year', 'logo', 'director_name', 'senior_account_manager_name', 'accountant'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download("bag-purse-allowance-report-{$startYear}-{$endYear}.pdf");
+    }
+
+
+    public function medicalAllowanceReport()
+    {
+        $members = Member::where('pay_stop', 'No')->orderBy('id', 'asc')
+            ->get();
+
+        $senior_account_officers = Member::whereHas('desigs', function ($query) {
+            $query->where('designation', 'SAO-I');
+        })->with('desigs')->get();
+
+        return view('frontend.reports.medical-allowance', compact('members', 'senior_account_officers'));
+    }
+
+    public function medicalAllowanceReportGenerate(Request $request)
+    {
+
+        $rules = [
+            'generate_by'   => 'required|in:member,designation,all',
+            'e_status'      => 'required|in:active,deputation',
+            'report_date' => 'required|date',
+            'senior_account_officer' => 'required',
+        ];
+
+        if ($request->generate_by === 'member') {
+            $rules['member_id'] = 'required|exists:members,id';
+        }
+
+        if ($request->generate_by === 'designation') {
+            $rules['designation'] = 'required|exists:designations,id';
+        }
+
+        $this->validate($request, $rules);
+
+        $reported_date = $request->report_date ? date('d-m-Y', strtotime($request->report_date)) : '';
+        $date = Carbon::parse($request->report_date); // or use any date input
+
+        $year = $date->year;
+        $month = $date->month;
+
+        if ($month < 4) {
+            // January, February, March → Previous year – Current year
+            $financial_year = ($year - 1) . '-' . $year;
+        } else {
+            // April to December → Current year – Next year
+            $financial_year = $year . '-' . ($year + 1);
+        }
+
+        // Query
+        [$startYear, $endYear] = explode('-', $financial_year);
+
+        $query = MedicalAllowance::with(['member', 'member.memberPersonalInfo'])
+            ->where('bill_date', $request->report_date)
+            ->whereHas('member', function ($q) use ($request) {
+                $q->where('e_status', $request->e_status);
+            });
+
+        if ($request->generate_by === 'member') {
+            $query->where('member_id', $request->member_id);
+        }
+
+        // if ($request->generate_by === 'designation') {
+        //     $query->whereHas('member', function ($q) use ($request) {
+        //         $q->where('desig', $request->designation);
+        //     });
+        // }
+
+        $medicalData = $query->get()
+            ->values()
+            ->chunk(6);
+
+        //  dd($bagPurseData->toArray(), $request->designation);
+
+        if ($medicalData->isEmpty()) {
+            return redirect()
+                ->back()
+                ->with('error', 'No data found!');
+        }
+
+
+
+        $setting = Setting::first();
+        $logo = Helper::logo() ?? '';
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $senior_account_manager_name = Member::findOrFail($request->senior_account_officer)->name ?? '-';
+        // return view('frontend.reports.medical-allowance-report-generate')->with(compact('medicalData', 'startYear', 'endYear', 'financial_year', 'logo','reported_date', 'senior_account_manager_name'));
+        $pdf = PDF::loadView('frontend.reports.medical-allowance-report-generate', compact('medicalData', 'startYear', 'endYear', 'financial_year', 'logo','reported_date', 'senior_account_manager_name'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download("medical-allowance-report-{$startYear}-{$endYear}.pdf");
     }
 
     public function terminalBenefits()

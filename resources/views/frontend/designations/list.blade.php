@@ -83,7 +83,7 @@
 @endsection
 
 @push('scripts')
-    
+
     <script>
         $(document).ready(function() {
 
@@ -260,7 +260,7 @@
         $('.pay_level_id').on('change', function() {
             var pay_level_id = $(this).val();
             // alert(pay_level_id);
-            
+
             if (pay_level_id < 7) {
                 $('#designation_type').val('Non-Gazetted Officer');
             } else if (pay_level_id >= 7) {
@@ -268,7 +268,7 @@
             } else{
                 $('#designation_type').val('');
             }
-        
+
         });
     </script>
 
@@ -282,7 +282,30 @@
             // } else{
             //     $('#edit_designation_type').val('');
             // }
-        
+
         });
         </script>
+
+         <script>
+        $(document).on('click', '#delete', function(e) {
+            swal({
+                    title: "Are you sure?",
+                    text: "To delete this Designation.",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true
+                })
+                .then((result) => {
+                    if (result.value) {
+                        window.location = $(this).data('route');
+                    } else if (result.dismiss === 'cancel') {
+                        swal(
+                            'Cancelled',
+                            'Your stay here :)',
+                            'error'
+                        )
+                    }
+                })
+        });
+    </script>
 @endpush

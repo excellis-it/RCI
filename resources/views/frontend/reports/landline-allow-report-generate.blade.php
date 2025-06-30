@@ -669,7 +669,7 @@
                 height: 100px;
 
               ">
-                  NO.CHESS/FIN/MISCC/Tele@/{{$financial_year ?? ''}},
+                  NO.CHESS/FIN/MISC/Tele@/{{$financial_year ?? ''}},
                 </td>
                 <td style="
                 font-size: 16px;

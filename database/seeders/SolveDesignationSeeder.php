@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Designation;
 use App\Models\Member;
+use App\Models\MemberPersonalInfo;
 use App\Models\Rule;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -29,6 +30,9 @@ class SolveDesignationSeeder extends Seeder
 
             if ($key_id && $value_id) {
                 Member::where('desig', $key_id->id)
+                    ->update(['desig' => $value_id->id]);
+
+                MemberPersonalInfo::where('desig', $key_id->id)
                     ->update(['desig' => $value_id->id]);
             } else {
                 echo "Designation not found for key: $key or value: $value\n";

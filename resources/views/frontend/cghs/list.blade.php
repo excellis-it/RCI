@@ -49,7 +49,7 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Designation </th>
+                                                {{-- <th>Designation </th> --}}
                                                 <th>Pay Level </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="value"
                                                     style="cursor: pointer">CGHS Contribution <span id="value_icon"><i

@@ -1126,7 +1126,7 @@ class MemberController extends Controller
         $original_recovery_member_monthly->apply_date = now();
 
         $original_recovery_member_monthly->member_id = $request->member_id;
-        $original_recovery_member_monthly->ccs_sub = $request->ccs_sub;
+        $original_recovery_member_monthly->ccs_sub = $request->ccs_sub ?? null;
         $original_recovery_member_monthly->mess = $request->mess;
         $original_recovery_member_monthly->security = $request->security;
         $original_recovery_member_monthly->misc1 = $request->misc1;
@@ -1151,66 +1151,7 @@ class MemberController extends Controller
         $original_recovery_member_monthly->save();
 
 
-        if (count($check_original_recovery_member) > 0) {
-
-            $update_recovery_org_member = MemberOriginalRecovery::where('member_id', $request->member_id)->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->first();
-            $update_recovery_org_member->ccs_sub = $request->ccs_sub;
-            $update_recovery_org_member->mess = $request->mess;
-            $update_recovery_org_member->security = $request->security;
-            $update_recovery_org_member->misc1 = $request->misc1;
-            $update_recovery_org_member->ccs_rec = $request->ccs_rec;
-            $update_recovery_org_member->asso_fee = $request->asso_fee;
-            $update_recovery_org_member->dbf = $request->dbf;
-            $update_recovery_org_member->misc2 = $request->misc2;
-            $update_recovery_org_member->wel_sub = $request->wel_sub;
-            $update_recovery_org_member->ben = $request->ben;
-            $update_recovery_org_member->med_ins = $request->med_ins;
-            $update_recovery_org_member->tot_rec = $request->tot_rec;
-            $update_recovery_org_member->wel_rec = $request->wel_rec;
-            $update_recovery_org_member->hdfc = $request->hdfc;
-            $update_recovery_org_member->maf = $request->maf;
-            $update_recovery_org_member->final_pay = $request->final_pay;
-            $update_recovery_org_member->lic = $request->lic;
-            $update_recovery_org_member->cort_atch = $request->cort_atch;
-            $update_recovery_org_member->ogpf = $request->ogpf;
-            $update_recovery_org_member->ntp = $request->ntp;
-            $update_recovery_org_member->ptax = $request->ptax;
-            $update_recovery_org_member->remarks = $request->remarks;
-            $update_recovery_org_member->update();
-
-            // session()->flash('message', 'Member debit updated successfully');
-            return response()->json(['message' => 'Member recovery updated successfully']);
-        } else {
-
-            $recovery_org_member = new MemberOriginalRecovery();
-            $recovery_org_member->member_id = $request->member_id;
-            $recovery_org_member->ccs_sub = $request->ccs_sub;
-            $recovery_org_member->mess = $request->mess;
-            $recovery_org_member->security = $request->security;
-            $recovery_org_member->misc1 = $request->misc1;
-            $recovery_org_member->ccs_rec = $request->ccs_rec;
-            $recovery_org_member->asso_fee = $request->asso_fee;
-            $recovery_org_member->dbf = $request->dbf;
-            $recovery_org_member->misc2 = $request->misc2;
-            $recovery_org_member->wel_sub = $request->wel_sub;
-            $recovery_org_member->ben = $request->ben;
-            $recovery_org_member->med_ins = $request->med_ins;
-            $recovery_org_member->tot_rec = $request->tot_rec;
-            $recovery_org_member->wel_rec = $request->wel_rec;
-            $recovery_org_member->hdfc = $request->hdfc;
-            $recovery_org_member->maf = $request->maf;
-            $recovery_org_member->final_pay = $request->final_pay;
-            $recovery_org_member->lic = $request->lic;
-            $recovery_org_member->cort_atch = $request->cort_atch;
-            $recovery_org_member->ogpf = $request->ogpf;
-            $recovery_org_member->ntp = $request->ntp;
-            $recovery_org_member->ptax = $request->ptax;
-            $recovery_org_member->remarks = $request->remarks;
-            $recovery_org_member->save();
-
-            // session()->flash('message', 'Member debit added successfully');
-            return response()->json(['message' => 'Member recovery added successfully']);
-        }
+       return response()->json(['message' => 'Member recovery updated successfully']);
     }
 
     public function memberRecoveryUpdate(Request $request)
@@ -1352,6 +1293,9 @@ class MemberController extends Controller
         $member_infos->pran_number = $request->pran_no;
         $member_infos->pan_no = $request->pan_no;
         $member_infos->gpf_number = $request->gpf_acc_no;
+        $member_infos->bank_name = $request->bank;
+        $member_infos->ifsc_code = $request->ifsc;
+        $member_infos->bank_account = $request->bank_acc_no;
         $member_infos->save();
 
 
@@ -1824,7 +1768,7 @@ class MemberController extends Controller
         $member_loan_monthly->present_inst_no = $request->present_inst_no;
         $member_loan_monthly->tot_no_of_inst = $request->tot_no_of_inst;
 
-        $member_loan_monthly->interst_percentage = $request->interst_percentage;
+        // $member_loan_monthly->interst_percentage = $request->interst_percentage;
         $member_loan_monthly->total_interest = $request->total_interest;
 
 
@@ -1832,7 +1776,7 @@ class MemberController extends Controller
         $member_loan_monthly->inst_rate = $request->inst_rate;
         $member_loan_monthly->total_amount = $request->total_amount;
         $member_loan_monthly->balance = $request->balance;
-        $member_loan_monthly->recovery_type = $request->recovery_type;
+        // $member_loan_monthly->recovery_type = $request->recovery_type;
         $member_loan_monthly->penal_inst_rate = $request->penal_inst_rate;
         $member_loan_monthly->start_date = $request->start_date ?? now()->format('Y-m-d');
         $member_loan_monthly->end_date = $request->end_date ?? null;
@@ -1947,12 +1891,12 @@ class MemberController extends Controller
         $loan_info->inst_rate = $request->inst_rate;
         $loan_info->total_amount = $request->total_amount;
 
-        $loan_info->interst_percentage = $request->interst_percentage;
+        // $loan_info->interst_percentage = $request->interst_percentage;
         $loan_info->total_interest = $request->total_interest;
 
 
         $loan_info->balance = $request->balance;
-        $loan_info->recovery_type = $request->recovery_type;
+        // $loan_info->recovery_type = $request->recovery_type;
         $loan_info->penal_inst_rate = $request->penal_inst_rate;
         $loan_info->start_date = $request->start_date ?? $loan_info->start_date;
         $loan_info->end_date = $request->end_date ?? $loan_info->end_date;
@@ -2214,7 +2158,15 @@ class MemberController extends Controller
                 $member_credit = MemberMonthlyDataCredit::where('member_id', $memberId)->where('month', $amount_month)->where('year', $amount_year)->latest()->first();
                 if ($member_credit) {
                     $member_credit->tpt = $amount;
-                    $member_credit->da_on_tpt = $amount / 2;
+                    if ($member_credit->tpt == 0) {
+                        $member_credit->da_on_tpt = 0;
+                    } else {
+                        $da_percentage_val = DearnessAllowancePercentage::where('is_active', 1)->first();
+                        $percentage = $da_percentage_val->percentage;
+                        $total = round($amount * $percentage / 100);
+                        $member_credit->da_on_tpt = $total;
+                    }
+
                     $member_credit->save();
                 }
                 break;

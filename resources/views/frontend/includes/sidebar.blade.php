@@ -16,14 +16,14 @@ use App\Helpers\Helper;
                     <img src="{{ Storage::url(Helper::logo()->logo) }}" class="dark-logo" alt="">
                 </a>
             @endif
-           
+
             <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8 text-muted"></i>
             </div>
         </div>
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-               
+
                 <ul id="sidebarnav">
                 <!-- =================== -->
                 <!-- Dashboard -->
@@ -35,7 +35,7 @@ use App\Helpers\Helper;
                     </span>
                     <span class="hide-menu">Dashboard</span>
                     </a>
-                </li> 
+                </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link {{Request::is('members*') ? 'active' : ''}}" href="{{route('members.index')}}" aria-expanded="false">
                         <span>
@@ -52,7 +52,7 @@ use App\Helpers\Helper;
                         <span class="hide-menu">Public fund</span>
                     </a>
                 </li> --}}
-                
+
                 <li class="sidebar-item">
                     <a class="sidebar-link {{Request::is('attendances*') ? 'active' : ''}}" href="{{ route('attendances.index') }}" aria-expanded="false">
                         <span>
@@ -62,14 +62,14 @@ use App\Helpers\Helper;
                     </a>
                 </li>
 
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a class="sidebar-link {{ Route::currentRouteNamed('members-loan.emi-info') ? 'active' : '' }}" href="{{ route('members-loan.emi-info') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-notebook"></i>
                         </span>
                         <span class="hide-menu">Member Loan Emi</span>
                     </a>
-                </li>
+                </li> --}}
 
                 {{-- <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
@@ -103,22 +103,22 @@ use App\Helpers\Helper;
                         <span class="hide-menu">OldReports</span>
                     </a>
                 </li> --}}
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
                         <span>
                             <i class="ti ti-list-numbers"></i>
                         </span>
                         <span class="hide-menu">Bill No</span>
                     </a>
-                </li>
-                <li class="sidebar-item">
+                </li> --}}
+                {{-- <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
                         <span>
                             <i class="ti ti-playlist"></i>
                         </span>
                         <span class="hide-menu">Assoc</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
                         <span>
@@ -145,7 +145,7 @@ use App\Helpers\Helper;
                     </a>
                 </li>
                 </ul>
-            
+
         </nav>
 
         <!-- End Sidebar navigation -->

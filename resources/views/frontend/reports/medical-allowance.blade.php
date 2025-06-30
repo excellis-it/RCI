@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-Bag/Ladies Purse Allowance
+Medical Allowance
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@ Bag/Ladies Purse Allowance
         <div class="d-flex">
             <div class="arrow_left"><a href="{{ route('members.index') }}" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
             <div class="">
-                <h3>Bag/Ladies Purse Allowance Generate</h3>
+                <h3>Medical Allowance Generate</h3>
                 <ul class="breadcome-menu mb-0">
                     <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                    <li><span class="bread-blod">Bag/Ladies Purse Allowance</span></li>
+                    <li><span class="bread-blod">Medical Allowance</span></li>
                 </ul>
             </div>
         </div>
@@ -31,7 +31,7 @@ Bag/Ladies Purse Allowance
             <div class="card w-100">
                 <div class="card-body">
                     <div id="form">
-                         <form action="{{ route('reports.bag-allowance-generate') }}" method="POST">
+                         <form action="{{ route('reports.medical-allowance-generate') }}" method="POST">
                             @csrf
 
                             <div class="row">
@@ -44,11 +44,6 @@ Bag/Ladies Purse Allowance
                                                 <input class="form-check-input" type="radio" name="generate_by" id="by_member"
                                                     value="member" {{ old('generate_by') == 'member' ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="by_member">Member</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="generate_by" id="by_designation"
-                                                    value="designation" {{ old('generate_by', 'designation') == 'designation' ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="by_designation">Designation</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="generate_by" id="by_all"
@@ -86,61 +81,15 @@ Bag/Ladies Purse Allowance
                                         </div>
 
                                         <!-- Designation Selection -->
-                                        <div class="form-group col-md-6 mb-2" id="designation_section" style="display: {{ old('generate_by', 'designation') == 'designation' ? 'block' : 'none' }};">
-                                            <label for="designation">Designation</label>
-                                            <select class="form-select select2" name="designation" id="designation">
-                                                <option value="">Select Designation</option>
-                                                @foreach ($designations as $designation)
-                                                    <option value="{{ $designation->id }}" {{ old('designation') == $designation->id ? 'selected' : '' }}>
-                                                        {{ $designation->designation }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('designation')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+
 
                                         <!-- Financial Year -->
                                         <div class="col-md-4">
-                                            <label for="financial_year">Financial Year</label>
-                                            <select class="form-select" name="financial_year" id="financial_year">
-                                                <option value="">Select Financial Year</option>
-                                                @foreach (\App\Helpers\Helper::getNewFinancialYears(20) as $year)
-                                                    <option value="{{ $year }}" {{ old('financial_year', $financialYear) == $year ? 'selected' : '' }}>
-                                                        {{ $year }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <!-- Director Sign -->
-                                        <div class="form-group col-md-3 mb-2">
-                                            <label>Director Sign</label>
-                                            <select class="form-control" name="director" id="director">
-                                                <option value="">Select Director</option>
-                                                @foreach ($directors as $director)
-                                                    <option value="{{ $director->id }}" {{ old('director') == $director->id ? 'selected' : '' }}>
-                                                        {{ $director->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('director')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <label for="report_date">Report Date</label>
+                                            <input type="date" name="report_date" class="form-control" id="report_date" value="{{old('report_date')}}">
+                                            @error('report_date')
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
-                                        </div>
-
-                                        <!-- A/c Officer Sign -->
-                                        <div class="form-group col-md-4 mb-2 type-select">
-                                            <label>A/c Officer Sign</label>
-                                            <select name="accountant" class="form-select" id="accountant">
-                                                <option value="">Select</option>
-                                                @foreach ($accountants as $accountant)
-                                                    <option value="{{ $accountant->user_name }}" {{ old('accountant') == $accountant->user_name ? 'selected' : '' }}>
-                                                        {{ $accountant->user_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
                                         </div>
 
                                         <!-- Senior A/c Officer Gde-I -->
@@ -154,6 +103,9 @@ Bag/Ladies Purse Allowance
                                                     </option>
                                                 @endforeach
                                             </select>
+                                              @error('senior_account_officer')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>

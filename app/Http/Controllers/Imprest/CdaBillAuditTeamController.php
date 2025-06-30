@@ -240,9 +240,9 @@ class CdaBillAuditTeamController extends Controller
         $variable_types = VariableType::orderBy('id', 'desc')->where('status', 1)->get();
 
         // Check if the bill is editable
-        if (!$cdaBill->isEditable()) {
-            return response()->json(['error' => 'This CDA bill cannot be edited because it has associated CDA receipts'], 403);
-        }
+        // if (!$cdaBill->isEditable()) {
+        //     return response()->json(['error' => 'This CDA bill cannot be edited because it has associated CDA receipts'], 403);
+        // }
 
         return response()->json([
             'view' => view('imprest.cda-bills.edit-form', compact('cdaBill', 'variable_types'))->render()

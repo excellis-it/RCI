@@ -69,7 +69,7 @@
                                                     style="cursor: pointer">Month <span id="month_icon"></span></th>
                                                 <th class="sorting" data-sorting_type="asc" data-column_name="year"
                                                     style="cursor: pointer">Year <span id="year_icon"></span></th>
-                                                <th>Action</th> 
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody class="tbody_height_scroll">
@@ -187,7 +187,8 @@
             $('#member-landline-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-
+  $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
 
                 $.ajax({
                     url: $(this).attr('action'),
@@ -199,7 +200,8 @@
                         window.location.reload();
                     },
                     error: function(xhr) {
-
+  $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');
@@ -243,7 +245,8 @@
                 e.preventDefault();
 
                 var formData = $(this).serialize();
-
+  $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
@@ -252,6 +255,8 @@
                         window.location.reload();
                     },
                     error: function(xhr) {
+                          $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
                         // Handle errors (e.g., display validation errors)
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;

@@ -692,7 +692,7 @@
             </div>
         </div> --}}
 
-
+{{-- @dd($member->memberCategory->fund_type) --}}
 
 
 

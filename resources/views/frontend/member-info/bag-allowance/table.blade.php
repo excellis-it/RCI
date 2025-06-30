@@ -10,7 +10,7 @@
             <td>{{ $member_bag_purse->net_amount ?? 'N/A'}}</td>
             <td>{{ $member_bag_purse->remarks ?? 'N/A'}}</td>
             <td class="sepharate"><a data-route="{{route('member-bag-allowance.edit', $member_bag_purse->id)}}" href="javascript:void(0);" class="edit_pencil edit-route"><i class="ti ti-pencil"></i></a>
-                {{-- <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('loans.delete', $loan->id)}}"><i class="ti ti-trash"></i></a> --}}
+                <a href="javascript:void(0);" id="delete" class="delete" data-route="{{route('member-bag-allowance.delete', $member_bag_purse->id)}}"><i class="ti ti-trash"></i></a>
             </td>
         </tr>
     @endforeach

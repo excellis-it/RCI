@@ -142,6 +142,7 @@ use App\Http\Controllers\Inventory\ItemCodeNameController;
 use App\Http\Controllers\Inventory\MemberController as InventoryMemberController;
 use App\Http\Controllers\WebSettingsController;
 use App\Http\Controllers\Frontend\CssSubController;
+use App\Http\Controllers\Frontend\MemberInfo\MedicalAllowanceController;
 use App\Http\Controllers\Imprest\CashDepositController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\IncomeTax\ArrearsNameController;
@@ -387,6 +388,10 @@ Route::middleware('permssions')->group(function () {
 
     Route::get('/bag-purse-allowance-report', [ReportController::class, 'bagPurseAllowanceReport'])->name('reports.bag-purse-allowance');
     Route::post('/bag-purse-allowance-report-generate', [ReportController::class, 'bagPurseAllowanceReportGenerate'])->name('reports.bag-allowance-generate');
+
+    Route::get('/medical-allowance-report', [ReportController::class, 'medicalAllowanceReport'])->name('reports.medical-allowance');
+    Route::post('/medical-allowance-report-generate', [ReportController::class, 'medicalAllowanceReportGenerate'])->name('reports.medical-allowance-generate');
+
     // paybill
     Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
     Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
@@ -862,7 +867,11 @@ Route::middleware('permssions')->group(function () {
             'member-newspaper-allowance' => MemberNewspaperAllowanceController::class,
             'member-bag-allowance' => MemberBagAllowanceController::class,
             'member-mobile-allowance' => MobileAllowanceController::class,
+            'member-medical-allowance' => MedicalAllowanceController::class,
         ]);
+
+        Route::get('/delete-member-medical-allowance/{id}', [MedicalAllowanceController::class, 'delete'])->name('member-medical-allowance.delete');
+        Route::get('/member-medical-fetch', [MedicalAllowanceController::class, 'fetchData'])->name('member-medical-allowance.fetch-data');
 
         Route::get('/delete-member-newspaper-allowance/{id}', [MemberNewspaperAllowanceController::class, 'delete'])->name('member-newspaper-allowance.delete');
 
@@ -873,6 +882,7 @@ Route::middleware('permssions')->group(function () {
         Route::get('/member-newspaper-fetch', [MemberNewspaperAllowanceController::class, 'fetchData'])->name('member-newspaper-allowance.fetch-data');
         Route::get('/member-bag-fetch', [MemberBagAllowanceController::class, 'fetchData'])->name('member-bag-allowance.fetch-data');
         Route::post('/member-bag-allotment-fetch', [MemberBagAllowanceController::class, 'fetchBagAllotment'])->name('get-member-bag-allowance');
+        Route::get('/delete-member-bag-allowance/{id}', [MemberBagAllowanceController::class, 'delete'])->name('member-bag-allowance.delete');
         // leave type
         Route::prefix('leave-type')->group(function () {
             Route::get('/leave-type-delete/{id}', [LeaveTypeController::class, 'delete'])->name('leave-type.delete');

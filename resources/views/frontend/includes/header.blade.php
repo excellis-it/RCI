@@ -254,6 +254,10 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.bag-purse-allowance') }}">Office Bag</a>
                             </li>
+                             <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.medical-allowance') }}">Medical Allowance</a>
+                            </li>
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                 href="{{ route('reports.group-newspaper-allowance')}}" >Group Newspaper Allowance</a>
@@ -650,6 +654,15 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('child-allowance.index') }}">Member Child Allowance</a>
                             </li>
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-mobile-allowance.index') }}">Mobile/Landline Allowance</a>
+                            </li>
+
+                            <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('member-medical-allowance.index') }}">Medical Allowance</a>
+                            </li>
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -664,10 +677,6 @@
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('member-retirement.index') }}">Retirement Info</a>
-                            </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('member-mobile-allowance.index') }}">Mobile/Landline Allowance</a>
                             </li>
 
                             <li class="mb-2">

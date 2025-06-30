@@ -74,8 +74,8 @@ class ImprestReportController extends Controller
 
         $request_date = $request->report_date;
         $print_date = ($request->print_date)
-        ? date('d/m/Y h:i A', strtotime($request->print_date))
-        : null;
+            ? date('d/m/Y h:i A', strtotime($request->print_date))
+            : null;
         $date = new DateTime($request_date);
         $request_pre_date = date('Y-m-d', strtotime('-1 day', strtotime($request->report_date)));
         $report_date = $date->format('d/m/y');
@@ -95,7 +95,7 @@ class ImprestReportController extends Controller
             foreach ($cash_withdraws as $cash_withdraw) {
                 $total_withdraw_balance += $cash_withdraw->amount;
             }
-            $totalCashInHandBalance =  $opening_blanace_cash_in_hand + $total_withdraw_balance;
+
 
             $cash_receipts = CDAReceipt::whereDate('rct_vr_date', $request_date)->get();
             $total_bank_balance = 0;
@@ -104,8 +104,36 @@ class ImprestReportController extends Controller
             }
             $totalCashInBankBalance =  $opening_blanace_cash_in_bank + $total_bank_balance;
 
+            $previous_bills_submitted_to_cda_init_query = CdaBillAuditTeam::query();
+            if ($request_date) {
+                $previous_bills_submitted_to_cda_init_query->whereDate('cda_bill_date', '<', $request_date);
+            }
+            $previous_bills_submitted_to_cda_init = $previous_bills_submitted_to_cda_init_query->sum('bill_amount');
+
+
+            $previous_bills_on_hand_init_query = AdvanceSettlement::query();
+            if ($request_date) {
+                $previous_bills_on_hand_init_query->whereDate('var_date', '<', $request_date);
+            }
+            $previous_bills_on_hand_init = $previous_bills_on_hand_init_query->sum('bill_amount');
+
+            $previous_bills_on_hand = $previous_bills_on_hand_init - $previous_bills_submitted_to_cda_init;
+
+            $prev_all_adv_settles_af = AdvanceSettlement::whereDate('var_date', '<', $request_date)->pluck('af_id');
+            $previous_advance_slips_init_query = AdvanceFundToEmployee::query();
+            if ($request_date) {
+                $previous_advance_slips_init_query->whereDate('adv_date', '<', $request_date);
+            }
+            $previous_advance_slips_init = $previous_advance_slips_init_query->whereNotIn('id', $prev_all_adv_settles_af)->sum('adv_amount');
+
+            $previous_advance_slips = $previous_advance_slips_init;
+
+            // dd($opening_blanace_cash_in_hand ,  $previous_bills_on_hand ,$previous_advance_slips_init);
+
+            $prev_cash_in_hand = $opening_blanace_cash_in_hand +  $previous_bills_on_hand + $previous_advance_slips_init;
+            $totalCashInHandBalance =  $prev_cash_in_hand + $total_withdraw_balance;
             $book1_data = [
-                'opening_blanace_cash_in_hand' => $opening_blanace_cash_in_hand,
+                'opening_blanace_cash_in_hand' => $prev_cash_in_hand,
                 'opening_blanace_cash_in_bank' => $opening_blanace_cash_in_bank,
                 'cash_withdraws' => $cash_withdraws,
                 'totalCashInHandBalance' => $totalCashInHandBalance,
@@ -134,8 +162,9 @@ class ImprestReportController extends Controller
 
             $cash_in_hand = Helper::getImprestCashInHand($request_date);
 
-            $closing_balance_cash_in_hand = $cash_in_hand;
-            $grand_total_cash_in_hand = $closing_balance_cash_in_hand + $totalPaymentsForTheDay;
+            $closing_balance_cash_in_hand =  $total_withdraw_balance  + ($prev_cash_in_hand - $totalPaymentsForTheDay);
+
+            $grand_total_cash_in_hand = $totalPaymentsForTheDay + $closing_balance_cash_in_hand;
 
             $closing_balance_cash_in_bank = $blanace_cash_in_bank;
             $grand_total_cash_in_bank = $closing_balance_cash_in_bank;
@@ -143,6 +172,7 @@ class ImprestReportController extends Controller
             $book2_data = [
                 'cda_bills' => $cda_bills,
                 'totalPaymentsForTheDay' => $totalPaymentsForTheDay,
+                'totalPaymentsForTheDayBank' => $total_withdraw_balance,
                 'closing_balance_cash_in_hand' => $closing_balance_cash_in_hand,
                 'grand_total_cash_in_hand' => $grand_total_cash_in_hand,
                 'closing_balance_cash_in_bank' => $closing_balance_cash_in_bank,
@@ -238,7 +268,7 @@ class ImprestReportController extends Controller
             $totalAmount = $advanceFunds->sum('adv_amount');
 
             // Generate PDF first (for both formats)
-            $pdf = PDF::loadView('imprest.reports.out-standing-report-generate', compact('print_date','logo', 'advanceFunds', 'totalAmount', 'totalOutStandAmount', 'report_date'))->setPaper('a4', $paperType);
+            $pdf = PDF::loadView('imprest.reports.out-standing-report-generate', compact('print_date', 'logo', 'advanceFunds', 'totalAmount', 'totalOutStandAmount', 'report_date'))->setPaper('a4', $paperType);
 
             if ($docType == 'pdf') {
                 return $pdf->download('out-standing-report-' . $report_date . '.pdf');
@@ -252,7 +282,7 @@ class ImprestReportController extends Controller
             $settleBills = AdvanceSettlement::whereDate('var_date', '<=', $request_date)->whereNotIn('id', $cda_bills_check)->get();
 
             // Generate PDF first (for both formats)
-            $pdf = PDF::loadView('imprest.reports.bill-hand-report-generate', compact('print_date','logo', 'report_date', 'settleBills'))->setPaper('a4', $paperType);
+            $pdf = PDF::loadView('imprest.reports.bill-hand-report-generate', compact('print_date', 'logo', 'report_date', 'settleBills'))->setPaper('a4', $paperType);
 
             if ($docType == 'pdf') {
                 return $pdf->download('bill-hand-report-' . $report_date . '.pdf');
@@ -287,7 +317,7 @@ class ImprestReportController extends Controller
             $totalAmount = $cdaReceipts->sum('bill_amount');
 
             // Generate PDF first (for both formats)
-            $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('print_date','report_date', 'logo', 'cdaReceipts', 'totalAmount'))->setPaper('a4', $paperType);
+            $pdf = PDF::loadView('imprest.reports.cda-bill-report-generate', compact('print_date', 'report_date', 'logo', 'cdaReceipts', 'totalAmount'))->setPaper('a4', $paperType);
 
             if ($docType == 'pdf') {
                 return $pdf->download('cda_bill-report-' . $report_date . '.pdf');

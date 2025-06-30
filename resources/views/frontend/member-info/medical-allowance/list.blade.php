@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')
-    DA Percentage List
+    Medical Allowance
 @endsection
 
 @push('styles')
@@ -15,10 +15,10 @@
             <div class="d-flex">
                 <div class="arrow_left"><a href="" class="text-white"><i class="ti ti-arrow-left"></i></a></div>
                 <div class="">
-                    <h3>DA Percentage Listing</h3>
+                    <h3>Medical Allowance Listing</h3>
                     <ul class="breadcome-menu mb-0">
                         <li><a href="#">Home</a> <span class="bread-slash">/</span></li>
-                        <li><span class="bread-blod">DA Percentage Listing</span></li>
+                        <li><span class="bread-blod">Medical Allowance</span></li>
                     </ul>
                 </div>
             </div>
@@ -30,13 +30,13 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div id="form">
-                            @include('frontend.dearness-allowance-percentages.form')
+                            @include('frontend.member-info.medical-allowance.form')
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-4 mt-4">
                                 <div class="row justify-content-end">
-                                    <div class="col-md-5 col-lg-3 mb-2">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
                                         <div class="position-relative">
                                             <input type="text" class="form-control search_table" value=""
                                                 id="search" placeholder="Search">
@@ -46,26 +46,45 @@
                                 </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
-                                        <thead class="text-white fs-4 bg_blue">
+                                      <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="percentage"
-                                                    style="cursor: pointer">Percentage <span id="percentage_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="year"
-                                                    style="cursor: pointer">Year <span id="year_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="month"
-                                                    style="cursor: pointer">Quarter <span id="month_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" style="cursor: pointer">Pay
-                                                    Commision </th>
-                                                <th>Status </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="bill_no" style="cursor: pointer">
+                                                    Bill No <span id="bill_no_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="bill_date" style="cursor: pointer">
+                                                    Bill Date <span id="bill_date_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="type" style="cursor: pointer">
+                                                    Type <span id="type_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="type_number" style="cursor: pointer">
+                                                    Type No <span id="type_number_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="member_id" style="cursor: pointer">
+                                                    Member Name <span id="member_id_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="treatment_for" style="cursor: pointer">
+                                                    Treatment For <span id="treatment_for_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount_claimed" style="cursor: pointer">
+                                                    Amount Claimed <span id="amount_claimed_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="total_adv_amount_given" style="cursor: pointer">
+                                                    Advance Given <span id="total_adv_amount_given_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount_passed" style="cursor: pointer">
+                                                    Amount Passed <span id="amount_passed_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
+                                                <th class="sorting" data-sorting_type="desc" data-column_name="amount_disallowed" style="cursor: pointer">
+                                                    Disallowed <span id="amount_disallowed_icon"><i class="fa fa-arrow-down"></i></span>
+                                                </th>
                                                 <th></th>
                                             </tr>
                                         </thead>
+
                                         <tbody class="tbody_height_scroll">
-                                            @include('frontend.dearness-allowance-percentages.table')
+                                            @include('frontend.member-info.medical-allowance.table')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -85,10 +104,19 @@
 
 @push('scripts')
     <script>
-        $(document).on('click', '#delete', function(e) {
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: 'Select an option',
+                allowClear: true,
+                theme: 'bootstrap4',
+            });
+        });
+    </script>
+    <script>
+        $(document).on('click', '.delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this DA Percentage!",
+                    text: "To delete this medical details!",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -111,7 +139,7 @@
 
             function fetch_data(page, sort_type, sort_by, query) {
                 $.ajax({
-                    url: "{{ route('dearness-allowance-percentages.fetch-data') }}",
+                    url: "{{ route('member-medical-allowance.fetch-data') }}",
                     data: {
                         page: page,
                         sortby: sort_by,
@@ -176,21 +204,26 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#da-percentage-create-form').submit(function(e) {
+            $('#member-medical-allowance-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
 
-     $('#loading').addClass('loading');
+  $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-  $('#loading').removeClass('loading');
+                        if (response.status == false) {
+                              $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
+                            toastr.error(response.message)
+                        } else {
+                            window.location.reload();
+                        }
                         //windows load with toastr message
-                        window.location.reload();
+
                     },
                     error: function(xhr) {
   $('#loading').removeClass('loading');
@@ -203,6 +236,9 @@
                             // Assuming you have a div with class "text-danger" next to each input
                             $('[name="' + key + '"]').next('.text-danger').html(value[
                                 0]);
+
+                            $('.' + key + '_error').html(value[
+                                0]);
                         });
                     }
                 });
@@ -211,108 +247,75 @@
     </script>
     <script>
         $(document).ready(function() {
-            $(document).on('click', '.edit-route', function() {
-                var route = $(this).data('route');
-                $('#loading').addClass('loading');
-                $('#loading-content').addClass('loading-content');
-                $.ajax({
-                    url: route,
-                    type: 'GET',
-                    success: function(response) {
-                        $('#form').html(response.view);
-                        $('#loading').removeClass('loading');
-                        $('#loading-content').removeClass('loading-content');
-                        $('#offcanvasEdit').offcanvas('show');
+             $('.select2').select2({
+            placeholder: 'Select an option',
+            allowClear: true,
+            theme: 'bootstrap4',
+        });
+  // Click handler for Edit button
+        $(document).on('click', '.edit-route', function () {
+            var route = $(this).data('route');
 
-                        var monthDropDownInit = $("#month-edit");
+            // Show loading animation
+            $('#loading').addClass('loading');
+            $('#loading-content').addClass('loading-content');
 
-                        var monthInitVal = $("#edit-month-val").val();
-                        var yearInitVal = $("#edit-year-val").val();
+            $.ajax({
+                url: route,
+                type: 'GET',
+                success: function (response) {
 
-                        for (var month = 1; month <= 12; month++) {
-                            var option = $('<option></option>');
-                            option.val(month);
-                            option.text(new Date(yearInitVal, month - 1)
-                                .toLocaleString('default', {
-                                    month: 'long'
-                                }));
-                            if (month == monthInitVal) {
-                                option.attr("selected", "selected");
-                            }
-                            monthDropDownInit.append(option);
-                        }
+                    // Inject the form HTML into the DOM
+                    $('#form').html(response.view);
 
+                    // Remove loading animation
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
 
-                        $('#year-edit').change(function() {
-                            var year = $(this).val();
-                            console.log(year);
-                            var currentDate = new Date();
-                            var monthDropdown = $('#month-edit');
+                    // Show the offcanvas edit form
+                    $('#offcanvasEdit').offcanvas('show');
 
-                            if (year == currentDate.getFullYear()) {
-                                var currentMonth = currentDate.getMonth() + 1;
-                                var endMonth = (year == currentDate.getFullYear()) ?
-                                    currentMonth : 12;
+                    // 🔁 Reinitialize Select2 inside the newly loaded content
+                    $('#form').find('.select2').select2({
+                        placeholder: 'Select an option',
+                        allowClear: true,
+                        theme: 'bootstrap4',
+                        dropdownParent: $('#offcanvasEdit') // important for modals
+                    });
 
-                                monthDropdown.empty();
-                                for (var month = 1; month <= endMonth; month++) {
-                                    var option = $('<option></option>');
-                                    option.val(month);
-                                    option.text(new Date(year, month - 1)
-                                        .toLocaleString('default', {
-                                            month: 'long'
-                                        }));
-                                    monthDropdown.append(option);
-                                }
-
-                            } else {
-                                monthDropdown.empty();
-                                for (var month = 1; month <= 12; month++) {
-                                    var option = $('<option></option>');
-                                    option.val(month);
-                                    option.text(new Date(year, month - 1)
-                                        .toLocaleString('default', {
-                                            month: 'long'
-                                        }));
-                                    monthDropdown.append(option);
-                                }
-                            }
-
-                        });
-
-
-
-                    },
-                    error: function(xhr) {
-                        // Handle errors
-                        $('#loading').removeClass('loading');
-                        $('#loading-content').removeClass('loading-content');
-                        console.log(xhr);
-                    }
-                });
+                    // Optionally: initialize other plugins if used (e.g., datepicker)
+                },
+                error: function (xhr) {
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+                    console.log(xhr);
+                }
             });
-
-
+        });
 
             // Handle the form submission
-            $(document).on('submit', '#da-percentage-edit-form', function(e) {
+            $(document).on('submit', '#member-medical-allowance-update-form', function(e) {
                 e.preventDefault();
-                     $('#loading').addClass('loading');
-                $('#loading-content').addClass('loading-content');
 
                 var formData = $(this).serialize();
-
+  $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                           $('#loading').removeClass('loading');
+                        if (response.status == false) {
+                              $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
-                        window.location.reload();
+                            toastr.error(response.message)
+                        } else {
+                            window.location.reload();
+                        }
+
                     },
                     error: function(xhr) {
-                           $('#loading').removeClass('loading');
+                          $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
                         // Handle errors (e.g., display validation errors)
                         $('.text-danger').html('');
@@ -327,40 +330,6 @@
             });
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $('#year').change(function() {
-                var year = $(this).val();
-                var currentDate = new Date();
-                var monthDropdown = $('#month');
 
-                if (year == currentDate.getFullYear()) {
-                    var currentMonth = currentDate.getMonth() + 1;
-                    var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
 
-                    monthDropdown.empty();
-                    for (var month = 1; month <= endMonth; month++) {
-                        var option = $('<option></option>');
-                        option.val(month);
-                        option.text(new Date(year, month - 1).toLocaleString('default', {
-                            month: 'long'
-                        }));
-                        monthDropdown.append(option);
-                    }
-
-                } else {
-                    monthDropdown.empty();
-                    for (var month = 1; month <= 12; month++) {
-                        var option = $('<option></option>');
-                        option.val(month);
-                        option.text(new Date(year, month - 1).toLocaleString('default', {
-                            month: 'long'
-                        }));
-                        monthDropdown.append(option);
-                    }
-                }
-
-            });
-        });
-    </script>
 @endpush

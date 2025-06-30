@@ -90,7 +90,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
                                         <thead class="text-white fs-4 bg_blue">
@@ -106,9 +106,9 @@
                                                     rate(%) </th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="tax_rate"
                                                     style="cursor: pointer">Emi Amount </th>
-                                                <th class="sorting" data-sorting_type="desc"
+                                                {{-- <th class="sorting" data-sorting_type="desc"
                                                     data-column_name="edu_cess_rate" style="cursor: pointer">Interest Amount
-                                                </th>
+                                                </th> --}}
                                                 <th class="sorting" data-sorting_type="desc"
                                                     data-column_name="financial_year" style="cursor: pointer">Penal Interest
                                                 </th>
@@ -174,7 +174,7 @@ $('#member-loan-emi-form').submit(function(e) {
         type: $(this).attr('method'),
         data: formData,
         success: function(response) {
-          
+
             $('#emi-table').html(response.view);
         },
         error: function(xhr) {
@@ -215,8 +215,8 @@ $('#member-loan-emi-form').submit(function(e) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-            
-                $('#emi-table').html(response.view); 
+
+                $('#emi-table').html(response.view);
                 // $('.loan-emi-list-container').html(data);
             },
             error: function(response) {
@@ -224,7 +224,7 @@ $('#member-loan-emi-form').submit(function(e) {
             }
         });
     }
-    
+
 
 </script>
 @endpush

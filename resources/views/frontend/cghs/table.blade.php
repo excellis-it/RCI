@@ -2,7 +2,7 @@
     @foreach ($cghs as $key => $cgh)
         <tr>
             <td> {{ ($cghs->currentPage()-1) * $cghs->perPage() + $loop->index + 1 }}</td>
-            <td>{{ $cgh->designation->designation ?? 'N/A'}}</td>
+            {{-- <td>{{ $cgh->designation->designation ?? 'N/A'}}</td> --}}
             <td>{{ $cgh->payLevel->value ?? 'N/A'}}</td>
             <td>{{ formatIndianCurrency($cgh->contribution ?? 0, 0) }}</td>
             <td><span class="{{ ($cgh->status == 1) ? 'active_ss' : 'inactive_ss' }}">{{ ($cgh->status == 1) ? 'Active' : 'Inactive' }}</span></td>

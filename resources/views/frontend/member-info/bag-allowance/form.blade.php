@@ -17,7 +17,7 @@
                                     @foreach ($members as $member)
                                         <option value="{{ $member->id }}"
                                             {{ $member_bag_purse->member_id == $member->id ? 'selected' : '' }}>
-                                            {{ $member->name }} ( {{ $member->desigs->desig ?? ''}})</option>
+                                            {{ $member->name }} ( {{ $member->desigs->designation ?? ''}})</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>

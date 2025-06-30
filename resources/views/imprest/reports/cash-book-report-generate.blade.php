@@ -66,7 +66,8 @@
                                     text-transform: uppercase;
 
                                   ">
-                                        {{ $print_date }}
+                                      {{ $print_date ?? '' }}
+
                                     </td>
                                 </tr>
                             </tbody>
@@ -91,7 +92,8 @@
                                         CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                         RCI CAMPUS, HYDERABAD - 500 069 <br />
                                         IMPREST (A/c No {{ $setting->public_bank_ac }}) Account as on
-                                        {{ $report_date }} <br />
+                                        {{ $report_date ?? '' }}
+ <br />
                                         <br>
 
                                     </td>
@@ -354,18 +356,20 @@
                       height: 5px;
                     ">
 
-                                        @php
-                                            // Check if $report_date is in dd/mm/yy format and convert it
-                                            if (preg_match('/^\d{2}\/\d{2}\/\d{2}$/', $report_date)) {
-                                                $date_parts = explode('/', $report_date);
-                                                $day = $date_parts[0];
-                                                $month = $date_parts[1];
-                                                $year = '20' . $date_parts[2]; // Assuming 20xx for the year
-                                                echo $year . '-' . $month . '-' . $day;
-                                            } else {
-                                                echo $report_date;
-                                            }
-                                        @endphp
+                                       @php
+    // Check if $report_date is in dd/mm/yy format
+    if (preg_match('/^\d{2}\/\d{2}\/\d{2}$/', $report_date)) {
+        $date_parts = explode('/', $report_date);
+        $day = $date_parts[0];
+        $month = $date_parts[1];
+        $year = '20' . $date_parts[2]; // Assuming year is 20xx
+        echo $day . '-' . $month . '-' . $year; // Indian format: dd-mm-yyyy
+    } else {
+        // Try to convert any valid date string to dd-mm-yyyy
+        echo $report_date ? date('d-m-Y', strtotime($report_date)) : '';
+    }
+@endphp
+
                                     </td>
 
                                     <td
@@ -448,7 +452,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ $book1_data['opening_blanace_cash_in_hand'] ?? 0 }}
+                                        {{ isset($book1_data['opening_blanace_cash_in_hand']) && $book1_data['opening_blanace_cash_in_hand'] ? formatIndianCurrency($book1_data['opening_blanace_cash_in_hand']) : 0 }}
                                     </td>
                                     <td
                                         style="
@@ -462,7 +466,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ $book1_data['opening_blanace_cash_in_bank'] ?? 0 }}
+                                        {{ isset($book1_data['opening_blanace_cash_in_bank']) && $book1_data['opening_blanace_cash_in_bank'] ? formatIndianCurrency($book1_data['opening_blanace_cash_in_bank']) : 0 }}
                                     </td>
                                     <td
                                         style="
@@ -495,7 +499,8 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $cash_withdraw->vr_date ?? '' }}
+                                               {{( $cash_withdraw->vr_date ? \Carbon\Carbon::parse($cash_withdraw->vr_date)->format('d-m-Y') : '') }}
+
                                             </td>
                                             <td
                                                 style="
@@ -580,7 +585,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ formatIndianCurrency($cash_withdraw->amount, 2) }}
+                                                {{ $cash_withdraw->amount ?  formatIndianCurrency($cash_withdraw->amount, 2) : 0 }}
                                             </td>
                                             <td
                                                 style="
@@ -630,7 +635,8 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $cash_receipt->rct_vr_date ?? '' }}
+                                          {{ $cash_receipt->rct_vr_date ? \Carbon\Carbon::parse($cash_receipt->rct_vr_date)->format('d-m-Y') : '' }}
+
                                             </td>
                                             <td
                                                 style="
@@ -659,7 +665,8 @@
                       height: 5px;
                     ">
                                                 By DV No. {{ $cash_receipt->dv_no ?? '' }} of DV Date
-                                                {{ $cash_receipt->dv_date ?? '' }}
+                                               {{ $cash_receipt->dv_date ? \Carbon\Carbon::parse($cash_receipt->dv_date)->format('d-m-Y') : '' }}
+
                                             </td>
                                             <td
                                                 style="
@@ -686,8 +693,8 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
-                    ">
-                                                {{ '' }}
+                    ">{{ $cash_receipt->dv_no ?? '' }}
+
                                             </td>
                                             <td
                                                 style="
@@ -700,21 +707,7 @@
                       margin: 0px 0px !important;
                       border: 1px solid #000;
                       height: 5px;
-                    ">
-                                                {{ '' }}
-                                            </td>
-                                            <td
-                                                style="
-
-                      line-height: 14px;
-                      font-weight: 600;
-                      color: #000;
-                      text-align: right;
-
-                      margin: 0px 0px !important;
-                      border: 1px solid #000;
-                      height: 5px;
-                    ">
+                    ">  {{  $cash_receipt->rct_vr_no ??'' }}
 
                                             </td>
                                             <td
@@ -729,7 +722,21 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ formatIndianCurrency($cash_receipt->rct_vr_amount, 2) }}
+
+                                            </td>
+                                            <td
+                                                style="
+
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: right;
+
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                                {{ $cash_receipt->rct_vr_amount ? formatIndianCurrency($cash_receipt->rct_vr_amount, 2) : 0 }}
                                             </td>
                                             <td
                                                 style="
@@ -777,7 +784,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ formatIndianCurrency($book1_data['totalCashInHandBalance'], 2) }}
+                                        {{$book1_data['totalCashInHandBalance'] ?  formatIndianCurrency($book1_data['totalCashInHandBalance'], 2) : 0}}
                                     </td>
                                     <td
                                         style="
@@ -791,7 +798,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        {{ formatIndianCurrency($book1_data['totalCashInBankBalance'], 2) }}
+                                        {{ $book1_data['totalCashInBankBalance'] ? formatIndianCurrency($book1_data['totalCashInBankBalance'], 2) : 0 }}
                                     </td>
                                     <td
                                         style="
@@ -868,7 +875,8 @@
                                     text-transform: uppercase;
 
                                   ">
-                                        {{ $print_date }}
+                                       {{ $print_date ?? '' }}
+
                                     </td>
                                 </tr>
                             </tbody>
@@ -892,7 +900,8 @@
                                         CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                         RCI CAMPUS, HYDERABAD - 500 069 <br />
                                         IMPREST (A/c No {{ $setting->public_bank_ac }}) Account as on
-                                        {{ $report_date }} <br />
+                                        {{ $report_date ?? '' }}
+ <br />
                                         <br>
 
                                     </td>
@@ -1139,7 +1148,139 @@
 
 
 
+                                   @if ($book1_data['cash_withdraws'])
+                                    @foreach ($book1_data['cash_withdraws'] as $index => $cash_withdraw)
+                                        <tr>
+                                            <td
+                                                style="
 
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                              {{ $cash_withdraw->vr_date ? \Carbon\Carbon::parse($cash_withdraw->vr_date)->format('d-m-Y') : '' }}
+
+                                            </td>
+                                            <td
+                                                style="
+
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                                {{ $index + 1 }}
+                                            </td>
+                                            <td
+                                                style="
+
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: left;
+
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                                CASH WITHDRAWAL
+                                            </td>
+                                            <td
+                                                style="
+
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: left;
+
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+
+                                            </td>
+                                            <td
+                                                style="
+
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                                {{ $cash_withdraw->chq_no }}
+                                            </td>
+                                            <td
+                                                style="
+
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: center;
+
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+                                                {{ $cash_withdraw->vr_no ?? '' }}
+                                            </td>
+                                            <td
+                                                style="
+
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: right;
+
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+
+                                            </td>
+                                            <td
+                                                style="
+
+                      line-height: 14px;
+                      font-weight: 600;
+                      color: #000;
+                      text-align: right;
+
+                      margin: 0px 0px !important;
+                      border: 1px solid #000;
+                      height: 5px;
+                    ">
+ {{ formatIndianCurrency($cash_withdraw->amount, 2) }}
+                                            </td>
+                                            <td
+                                                style="
+
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+
+                margin: 0px 0px !important;
+                border: 1px solid #000;
+                height: 5px;
+              ">
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
 
 
 
@@ -1158,7 +1299,8 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $cda_bill->cda_bill_date ?? '' }}
+                                              {{ $cda_bill->cda_bill_date ? \Carbon\Carbon::parse($cda_bill->cda_bill_date)->format('d-m-Y') : '' }}
+
                                             </td>
                                             <td
                                                 style="
@@ -1322,7 +1464,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                        0.00
+                                         {{ formatIndianCurrency($book2_data['totalPaymentsForTheDayBank'], 2) ?? 0 }}
                                     </td>
                                     <td
                                         style="
@@ -1532,7 +1674,8 @@
                                     text-transform: uppercase;
 
                                   ">
-                                        {{ $print_date }}
+                                       {{ $print_date ?? '' }}
+
                                     </td>
                                 </tr>
                             </tbody>
@@ -1556,7 +1699,8 @@
             ">
                                         CENTER FOR HIGHENERGY SYSTEMS & SCIENCES (CHESS) <br />
                                         RCI CAMPUS, HYDERABAD - 500 069 <br />
-                                        BALANCE SHEET OF IMPREST ACCOUNT AS ON DATE {{ $report_date }} <br />
+                                        BALANCE SHEET OF IMPREST ACCOUNT AS ON DATE {{ $report_date ?? '' }}
+ <br />
                                         <br>
 
                                     </td>

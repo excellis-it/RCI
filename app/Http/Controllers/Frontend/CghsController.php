@@ -16,7 +16,7 @@ class CghsController extends Controller
      */
     public function index()
     {
-        $cghs = Cghs::paginate(10);
+        $cghs = Cghs::orderBy('id', 'desc')->paginate(10);
         $pay_levels = PmLevel::get();
         $designations = Designation::orderBy('id', 'desc')->get();
         return view('frontend.cghs.list', compact('cghs', 'pay_levels', 'designations'));
@@ -55,19 +55,19 @@ class CghsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'designation_id' => 'required',
+            // 'designation_id' => 'required',
             'pay_level_id' => 'required',
             'contribution' => 'required',
         ]);
 
         $cghs = new Cghs();
-        $cghs->designation_id = $request->designation_id;
+        // $cghs->designation_id = $request->designation_id;
         $cghs->contribution = $request->contribution;
         $cghs->pay_level_id = $request->pay_level_id;
         $cghs->status = $request->status;
         $cghs->save();
 
-        session()->flash('success', 'CGHS created successfully');
+        session()->flash('message', 'CGHS created successfully');
         return response()->json(['success' => 'CGHS created successfully']);
     }
 
@@ -98,18 +98,18 @@ class CghsController extends Controller
     {
         $request->validate([
             'contribution' => 'required',
-            'designation_id' => 'required',
+            // 'designation_id' => 'required',
             'pay_level_id' => 'required',
         ]);
 
         $cghs = Cghs::find($id);
-        $cghs->designation_id = $request->designation_id;
+        // $cghs->designation_id = $request->designation_id;
         $cghs->contribution = $request->contribution;
         $cghs->pay_level_id = $request->pay_level_id;
         $cghs->status = $request->status;
         $cghs->update();
 
-        session()->flash('success', 'CGHS updated successfully');
+        session()->flash('message', 'CGHS updated successfully');
         return response()->json(['success' => 'CGHS updated successfully']);
     }
 

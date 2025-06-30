@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DearnessAllowancePercentage;
 use App\Models\MemberMonthlyDataCredit;
+use App\Models\MemberMonthlyDataDebit;
 use App\Models\PayCommission;
 use App\Models\Tpta;
 
@@ -89,6 +90,44 @@ class DearnessAllowancePercentageController extends Controller
                     $record->da_on_tpt = $total; // da_on_tpt set based on TPT value
                     $record->tot_credits = (($record->tot_credits -  $record->da) - $record->da_on_tpt) + ($da_amount + $total);
                     $record->save();
+
+                    Helper::updateTotalCredit($record->member_id, $current_month, $current_year);
+                    Helper::updateTotalDebit($record->member_id, $current_month, $current_year);
+                }
+
+
+                $records_debit = MemberMonthlyDataDebit::whereHas('member', function ($query) use ($tpt) {
+                    $query->where('pm_level', $tpt->pay_level_id);
+                })
+                    ->where(function ($query) use ($current_month, $current_year) {
+                        $query->where('year', '>', $current_year)
+                            ->orWhere(function ($q) use ($current_month, $current_year) {
+                                $q->where('year', $current_year)
+                                    ->where('month', '>=', $current_month);
+                            });
+                    })
+                    ->get();
+
+                // $records_array[] = $records->toArray();
+                foreach ($records as $record) {
+                    $da_amount = round(($record->pay * $percentage) / 100);
+
+                    $record->da = $da_amount;
+                    $record->da_on_tpt = $total; // da_on_tpt set based on TPT value
+                    if (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'NPS') {
+                        $record->npsc = round((($record->pay + $da_amount) * 14) / 100); // da_on_tpt set based on TPT value
+                    }
+
+                    $record->save();
+                    if (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'NPS') {
+                        $record_debit = MemberMonthlyDataDebit::where('member_id', $record->member_id)->orderBy('id', 'desc')->where('year', $record->year)->where('month', $record->month)->first();
+
+                        if ($record_debit) {
+                            $record_debit->npsg = round((($record->pay + $da_amount) * 14) / 100); // da_on_tpt set based on TPT value
+                            $record_debit->nps_10_rec = round((($record->pay + $da_amount) * 10) / 100);
+                            $record_debit->save();
+                        }
+                    }
 
                     Helper::updateTotalCredit($record->member_id, $current_month, $current_year);
                     Helper::updateTotalDebit($record->member_id, $current_month, $current_year);
@@ -192,8 +231,22 @@ class DearnessAllowancePercentageController extends Controller
 
                     $record->da = $da_amount;
                     $record->da_on_tpt = $total; // da_on_tpt set based on TPT value
-                    $record->tot_credits = (($record->tot_credits -  $record->da) - $record->da_on_tpt) + ($da_amount + $total);
+                    if (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'NPS') {
+                        $record->npsc = round((($record->pay + $da_amount) * 14) / 100); // da_on_tpt set based on TPT value
+                    }
+
                     $record->save();
+
+                    if (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'NPS') {
+                        $record_debit = MemberMonthlyDataDebit::where('member_id', $record->member_id)->orderBy('id', 'desc')->where('year', $record->year)->where('month', $record->month)->first();
+
+                        if ($record_debit) {
+                            $record_debit->npsg = round((($record->pay + $da_amount) * 14) / 100); // da_on_tpt set based on TPT value
+                            $record_debit->nps_10_rec = round((($record->pay + $da_amount) * 10) / 100);
+                            $record_debit->save();
+                        }
+                    }
+
                     Helper::updateTotalCredit($record->member_id, $current_month, $current_year);
                     Helper::updateTotalDebit($record->member_id, $current_month, $current_year);
                 }
