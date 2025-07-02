@@ -132,22 +132,19 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $("#noi").keyup(function(e) {
-                e.preventDefault();
-                var noi = $(this).val();
-                console.log(noi);
-                var v_incr = $("#v_incr").val();
-                if (v_incr == '') {
-                    v_incr = 0;
-                }
-                if (noi == '') {
-                    noi = 1;
-                }
-                var total = parseFloat(v_incr) * parseFloat(noi);
-                $("#total").val(total);
+    $(document).ready(function () {
+        function calculateTotal() {
+            let noi = parseFloat($("#noi").val()) || 1;
+            let v_incr = parseFloat($("#v_incr").val()) || 0;
+            let total = v_incr * noi;
+            $("#total").val(total.toFixed(2)); // Optional: format to 2 decimal places
+        }
 
-            });
+        // Listen for keyup on both inputs
+        $(document).on('keyup', '#noi, #v_incr', function (e) {
+            calculateTotal();
         });
-    </script>
+    });
+</script>
+
 @endpush

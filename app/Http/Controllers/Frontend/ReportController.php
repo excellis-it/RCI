@@ -87,12 +87,15 @@ class ReportController extends Controller
         $the_month = (int) $request->month;
         $the_year = (int) $request->year;
 
+
         $financialYear = $the_month >= 4
             ? $the_year . '-' . ($the_year + 1)
             : ($the_year - 1) . '-' . $the_year;
 
         $report_type = $request->report_type;
         $month = str_pad($the_month, 2, '0', STR_PAD_LEFT);
+
+        $compareDate = Carbon::createFromDate($the_year, $month, 1)->startOfMonth();
 
         $all_members_info = [];
 
@@ -108,7 +111,10 @@ class ReportController extends Controller
             $member_datas = Member::whereIn('id', $monthly_members_data)
                 ->where('e_status', $request->e_status)
                 ->where('member_status', 1)
-                ->where('pay_stop', 'No')
+                ->where(function ($query) use ($compareDate) {
+                    $query->whereNull('pay_stop_date')
+                        ->orWhere('pay_stop_date', '>', $compareDate);
+                })
                 ->orderBy('id', 'asc')
                 ->with('desigs')
                 ->get();
@@ -126,7 +132,10 @@ class ReportController extends Controller
                 ->where('e_status', $request->e_status)
                 ->where('category', $request->category)
                 ->where('member_status', 1)
-                ->where('pay_stop', 'No')
+                ->where(function ($query) use ($compareDate) {
+                    $query->whereNull('pay_stop_date')
+                        ->orWhere('pay_stop_date', '>', $compareDate);
+                })
                 ->orderBy('id', 'asc')
                 ->with('desigs')
                 ->get();
@@ -265,56 +274,245 @@ class ReportController extends Controller
 
         $themonth =  date('m', mktime(0, 0, 0, $request->month, 10));
         $pay_bill_no = $request->year . '-' . 'RCI-CHESS' . $request->month . $request->year . rand(1000, 9999);
-
+        $year = $request->year;
         // $request->merge([
         //     'themonth' => $themonth,
         //     'pay_bill_no' => $pay_bill_no
         // ]);
 
+
+
+        $currentMonth = $themonth;
+        $currentYear = $year ?? now()->year;
+
+        // Build comparison dates
+        $compareDate = Carbon::createFromDate($currentYear, $currentMonth, 1)->startOfMonth();
+        $comparePreviousDate = $compareDate->copy()->subMonth();
+        $previousMonth = $comparePreviousDate->format('m');
+        $previousYear = $comparePreviousDate->format('Y');
+
         $all_members_info = [];
 
-        if ($request->member_id) {
+        if ($request->member_id && $request->generate_by == 'member') {
             $monthly_members_data[] = $request->member_id;
             $member = Member::findOrFail($request->member_id);
+            $previous_monthly_members_data[] = $request->member_id;
 
-            $category_fund_type = Category::where('id', $member->category)->first()['fund_type'];
-            // dd()
-            if (!$category_fund_type && empty($category_fund_type)) {
+
+            $category_fund_type = Category::find($member->category)?->fund_type;
+
+            if (!$category_fund_type) {
                 return response()->json(['message' => 'No fund type added for this category'], 400);
             }
 
-            $member_datas = Member::whereIn('id', $monthly_members_data)
+            // ✅ Current month members
+            $member_datas = Member::whereIn('id', $monthly_members_data)->whereHas('desigs')
                 ->where('e_status', $request->e_status)
                 ->where('member_status', 1)
-                ->where('pay_stop', 'No')
-                ->orderBy('id', 'asc')
+                ->where(function ($query) use ($compareDate) {
+                    $query->whereNull('pay_stop_date')
+                        ->orWhere('pay_stop_date', '>', $compareDate);
+                })
                 ->with('desigs')
+                ->orderBy('id', 'asc')
                 ->get();
         } else {
             $monthly_members_data = MemberMonthlyData::where('year', $request->year)
                 ->where('month', $themonth)
                 ->pluck('member_id');
 
-            $category_fund_type = Category::where('id', $request->category)->first()['fund_type'];
-            // dd()
-            if (!$category_fund_type && empty($category_fund_type)) {
+            $previous_monthly_members_data = MemberMonthlyData::where('year', $previousYear)
+                ->where('month', $previousMonth)
+                ->pluck('member_id');
+
+
+            $category_fund_type = Category::find($request->category)?->fund_type;
+
+            if (!$category_fund_type) {
                 return response()->json(['message' => 'No fund type added for this category'], 400);
             }
 
-            $member_datas = Member::whereIn('id', $monthly_members_data)
+            $member_datas = Member::whereIn('id', $monthly_members_data)->whereHas('desigs')
                 ->where('e_status', $request->e_status)
                 ->where('category', $request->category)
                 ->where('member_status', 1)
-                ->where('pay_stop', 'No')
-                ->orderBy('id', 'asc')
+                ->where(function ($query) use ($compareDate) {
+                    $query->whereNull('pay_stop_date')
+                        ->orWhere('pay_stop_date', '>', $compareDate);
+                })
                 ->with('desigs')
+                ->orderBy('id', 'asc')
                 ->get();
         }
 
+        $last_month_credit_raw =  MemberMonthlyDataCredit::with('member')->whereIn('member_id', $previous_monthly_members_data)->where('year', $previousYear)
+            ->where('month', $previousMonth)->whereHas('member', function ($query) use ($request, $comparePreviousDate) {
+                $query->where('e_status', $request->e_status)
+                    ->when($request->generate_by === 'category' && $request->filled('category'), function ($q) use ($request) {
+                        $q->where('category', $request->category);
+                    })
+                    ->whereHas('desigs')
+                    ->where('member_status', 1)
+                    ->where(function ($q) use ($comparePreviousDate) {
+                        $q->whereNull('pay_stop_date')
+                            ->orWhere('pay_stop_date', '>', $comparePreviousDate);
+                    });
+            })
+
+            ->get()
+            ->groupBy('member_id')
+            ->map(function ($group) {
+                return $group->first(); // only latest
+            })
+            ->values();
+
+        $last_month_debit_raw = MemberMonthlyDataDebit::with('member')->whereIn('member_id', $previous_monthly_members_data)->where('year', $previousYear)
+            ->where('month', $previousMonth)->whereHas('member', function ($query) use ($request, $comparePreviousDate) {
+                $query->where('e_status', $request->e_status)
+                    ->when($request->generate_by === 'category' && $request->filled('category'), function ($q) use ($request) {
+                        $q->where('category', $request->category);
+                    })
+                    ->whereHas('desigs')
+                    ->where('member_status', 1)
+                    ->where(function ($q) use ($comparePreviousDate) {
+                        $q->whereNull('pay_stop_date')
+                            ->orWhere('pay_stop_date', '>', $comparePreviousDate);
+                    });
+            })
+
+            ->get()
+            ->groupBy('member_id')
+            ->map(function ($group) {
+                return $group->first(); // only latest
+            })
+            ->values();
+
+        // Chunk data into groups of 40
+        $last_month_credit_data = $last_month_credit_raw->chunk(40);
+        // dd(  $last_month_credit_data);
+
+        // Define fields to sum
+        $fieldsToSum = [
+            'pay',
+            'da',
+            'hra',
+            'tpt',
+            'da_on_tpt',
+            's_pay',
+            'spl_incentive',
+            'incentive',
+            'dis_alw',
+            'var_incr',
+            'risk_alw',
+            'npsc',
+            'npg_adj',
+            'misc_1'
+        ];
+
+        // Calculate chunk-wise totals
+        $chunkTotals = [];
+
+        foreach ($last_month_credit_data as $chunk) {
+            // dd($last_month_credit_data);
+            $totals = [];
+
+            foreach ($fieldsToSum as $field) {
+                // Sum safely with null handling
+                $totals[$field] = $chunk->sum(function ($item) use ($field) {
+                    return (float) ($item->$field ?? 0);
+                });
+            }
+
+            $chunkTotals[] = $totals;
+        }
+
+        // Convert chunked data to array if needed
+        $last_month_credit_data = $last_month_credit_data->toArray();
 
 
 
+        // Chunk data into groups of 40
+        $last_month_debit_data_new = $last_month_debit_raw->chunk(40);
 
+
+        // Response array
+        $last_month_debit_data = [];
+
+        foreach ($last_month_debit_data_new as $chunk) {
+            $chunk_array = $chunk->toArray();
+
+            // Initialize totals with zero
+            $totals = [
+                'gpa_sub' => 0,
+                // 'gpa_adv' => 0,
+                'cgegis' => 0,
+                'cghs' => 0,
+                'hba_adv' => 0,   // From loan table (loan_id = 1)
+                'hba_int' => 0,   // From loan table (loan_id = 2)
+                'gpf_adv' => 0,   // From loan table (loan_id = 10)
+                'i_tax' => 0,
+                'ecess' => 0,
+                'misc1' => 0,
+                'nps_10_rec' => 0,
+                'npsg' => 0,
+                'npsg_adj' => 0,
+                'nps_14_adj' => 0,
+                'misc_1' => 0,
+                'licence_fee' => 0,
+                'elec' => 0,
+                'water' => 0,
+                'furn' => 0,
+            ];
+
+            foreach ($chunk as $row) {
+                foreach ($totals as $key => $_) {
+                    // Skip loan fields for now, handled below
+                    if (in_array($key, ['hba_adv', 'hba_int', 'gpf_adv'])) {
+                        continue;
+                    }
+
+                    // Safely sum field if it exists and is numeric
+                    $totals[$key] += is_numeric($row->$key ?? null) ? $row->$key : 0;
+                }
+
+                // Collect loan data per member
+                $member_id = $row->member_id;
+
+                if ($member_id) {
+                    $loan_hba_adv = MemberMonthlyDataLoanInfo::where('member_id', $member_id)
+                        ->where('year', $previousYear)
+                        ->where('month', $previousMonth)
+                        ->where('loan_id', 1)
+                        ->sum('inst_amount');
+
+                    $loan_hba_int = MemberMonthlyDataLoanInfo::where('member_id', $member_id)
+                        ->where('year', $previousYear)
+                        ->where('month', $previousMonth)
+                        ->where('loan_id', 2)
+                        ->sum('inst_amount');
+
+                    $loan_gpf_adv = MemberMonthlyDataLoanInfo::where('member_id', $member_id)
+                        ->where('year', $previousYear)
+                        ->where('month', $previousMonth)
+                        ->where('loan_id', 10)
+                        ->sum('inst_amount');
+
+                    // Add loan sums with null-safety
+                    $totals['hba_adv'] += $loan_hba_adv ?? 0;
+                    $totals['hba_int'] += $loan_hba_int ?? 0;
+                    $totals['gpf_adv'] += $loan_gpf_adv ?? 0;
+                }
+            }
+
+            // Append final chunk
+            $last_month_debit_data[] = [
+                'data' => $chunk_array,
+                'totals' => $totals,
+            ];
+        }
+
+
+        // dd($last_month_credit_data, $last_month_debit_data, $chunkTotals);
 
 
         // dd($member_datas->toArray(), $monthly_members_data);
@@ -467,14 +665,26 @@ class ReportController extends Controller
             $all_members_info[] = $combined_member_info;
         }
 
-        $meber_chunk_data_quater = Member::whereIn('id', $monthly_members_data)->where('e_status', $request->e_status)
-            ->where('category', $request->category)
-            ->where('member_status', 1)
-            ->where('pay_stop', 'No')->with([
+        $baseMemberQuery = Member::query()
+            ->whereIn('id', $monthly_members_data)
+            ->where('e_status', $request->e_status)
+            ->where('member_status', 1)->whereHas('desigs')
+            ->where(function ($query) use ($compareDate) {
+                $query->whereNull('pay_stop_date')
+                    ->orWhere('pay_stop_date', '>', $compareDate);
+            });
+
+        // Conditionally apply category if generate_by is 'category'
+        if ($request->generate_by === 'category') {
+            $baseMemberQuery->where('category', $request->category);
+        }
+
+        $meber_chunk_data_quater = (clone $baseMemberQuery)
+            ->with([
                 'memberOneDebit' => function ($query) use ($request, $themonth) {
                     $query->where('year', $request->year)
                         ->where('month', $themonth)
-                        ->latest(); // optional: for ordering, not limiting
+                        ->latest();
                 },
                 'memberPersonalInfo',
                 'memberPersonalInfo.quarter',
@@ -482,18 +692,17 @@ class ReportController extends Controller
             ])
             ->whereHas('memberPersonalInfo', function ($query) {
                 $query->whereNotNull('quater_no');
-            })->get()
-            ->chunk(40)->toArray();
+            })
+            ->get()
+            ->chunk(40)
+            ->toArray();
 
-
-        $meber_chunk_data_income_tax = Member::whereIn('id', $monthly_members_data)->where('e_status', $request->e_status)
-            ->where('category', $request->category)
-            ->where('member_status', 1)
-            ->where('pay_stop', 'No')->with([
+        $meber_chunk_data_income_tax = (clone $baseMemberQuery)
+            ->with([
                 'memberOneDebit' => function ($query) use ($request, $themonth) {
                     $query->where('year', $request->year)
                         ->where('month', $themonth)
-                        ->latest(); // optional: for ordering, not limiting
+                        ->latest();
                 },
                 'memberPersonalInfo',
                 'desigs'
@@ -501,17 +710,18 @@ class ReportController extends Controller
             ->whereHas('memberOneDebit', function ($query) {
                 $query->whereNotNull('i_tax')
                     ->where('i_tax', '!=', 0);
-            })->get()
-            ->chunk(40)->toArray();
+            })
+            ->get()
+            ->chunk(40)
+            ->toArray();
 
-        $meber_chunk_data_misc = Member::whereIn('id', $monthly_members_data)->where('e_status', $request->e_status)
-            ->where('category', $request->category)
-            ->where('member_status', 1)
-            ->where('pay_stop', 'No')->with([
+
+        $meber_chunk_data_misc = (clone $baseMemberQuery)
+            ->with([
                 'memberOneDebit' => function ($query) use ($request, $themonth) {
                     $query->where('year', $request->year)
                         ->where('month', $themonth)
-                        ->latest(); // optional: for ordering, not limiting
+                        ->latest();
                 },
                 'memberPersonalInfo',
                 'desigs'
@@ -519,8 +729,13 @@ class ReportController extends Controller
             ->whereHas('memberOneDebit', function ($query) {
                 $query->whereNotNull('misc1')
                     ->where('misc1', '!=', 0);
-            })->get()
-            ->chunk(40)->toArray();
+            })
+            ->get()
+            ->chunk(40)
+            ->toArray();
+
+
+
 
         // dd($meber_chunk_data_misc);
 
@@ -531,12 +746,14 @@ class ReportController extends Controller
 
         $month =  date('F', mktime(0, 0, 0, $request->month, 10));
         $number_month = $request->month;
-        $year = $request->year;
+
         $logo = Helper::logo() ?? '';
         $da_percent = DearnessAllowancePercentage::where('year', $year)->where('is_active', 1)->first();
         $accountant = User::where('id', $request->account_officer_sign)->first();
 
         $pdf = PDF::loadView('frontend.reports.paybill-generate', compact(
+            'previousMonth',
+            'previousYear',
             'pay_bill_no',
             'month',
             'year',
@@ -552,9 +769,15 @@ class ReportController extends Controller
             'meber_chunk_data_income_tax',
             'financialYear',
             'meber_chunk_data_misc',
-            'themonth'
+            'themonth',
+            'last_month_credit_data',
+            'chunkTotals',
+            'compareDate',
+            'last_month_debit_data'
         ))->setPaper('a3', 'landscape');
         // return view('frontend.reports.paybill-generate')->with(compact(
+        //     'previousMonth',
+        //     'previousYear',
         //     'pay_bill_no',
         //     'month',
         //     'year',
@@ -564,7 +787,17 @@ class ReportController extends Controller
         //     'groupedData',
         //     'category_fund_type',
         //     'allMember40Data',
-        //     'accountant'
+        //     'accountant',
+        //     'number_month',
+        //     'meber_chunk_data_quater',
+        //     'meber_chunk_data_income_tax',
+        //     'financialYear',
+        //     'meber_chunk_data_misc',
+        //     'themonth',
+        //     'last_month_credit_data',
+        //     'chunkTotals',
+        //     'compareDate',
+        //     'last_month_debit_data'
         // ));
         return response($pdf->output(), 200)
             ->header('Content-Type', 'application/pdf')
@@ -582,6 +815,8 @@ class ReportController extends Controller
         $themonth =  $request->themonth;
         $pay_bill_no = $request->pay_bill_no;
 
+        $compareDate = Carbon::createFromDate($request->year, $themonth, 1)->startOfMonth();
+
         $all_members_info = [];
 
         $monthly_members_data = MemberMonthlyData::where('year', $request->year)
@@ -592,7 +827,10 @@ class ReportController extends Controller
             ->where('e_status', $request->e_status)
             ->where('category', $request->category)
             ->where('member_status', 1)
-            ->where('pay_stop', 'No')
+            ->where(function ($query) use ($compareDate) {
+                $query->whereNull('pay_stop_date')
+                    ->orWhere('pay_stop_date', '>', $compareDate);
+            })
             ->orderBy('id', 'asc')
             ->with('desigs')
             ->get();
@@ -1074,7 +1312,7 @@ class ReportController extends Controller
 
     public function getMemberInfo(Request $request)
     {
-        $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')->orderBy('id', 'asc')->get();
+        $members = Member::where('e_status', $request->e_status)->orderBy('id', 'asc')->get();
         return response()->json(['members' => $members]);
     }
 
@@ -2100,7 +2338,7 @@ class ReportController extends Controller
         $paperType = $request->paper_type ?? $setting->pdf_page_type;
         $senior_account_manager_name = Member::findOrFail($request->senior_account_officer)->name ?? '-';
         // return view('frontend.reports.medical-allowance-report-generate')->with(compact('medicalData', 'startYear', 'endYear', 'financial_year', 'logo','reported_date', 'senior_account_manager_name'));
-        $pdf = PDF::loadView('frontend.reports.medical-allowance-report-generate', compact('medicalData', 'startYear', 'endYear', 'financial_year', 'logo','reported_date', 'senior_account_manager_name'))
+        $pdf = PDF::loadView('frontend.reports.medical-allowance-report-generate', compact('medicalData', 'startYear', 'endYear', 'financial_year', 'logo', 'reported_date', 'senior_account_manager_name'))
             ->setPaper('a4', 'portrait');
 
         return $pdf->download("medical-allowance-report-{$startYear}-{$endYear}.pdf");
@@ -2911,12 +3149,16 @@ class ReportController extends Controller
         $all_members_info = [];
 
         $gpf_members = MemberGpf::pluck('member_id')->toArray();
+        $compareDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
 
         $member_datas = Member::whereIn('id', $gpf_members)
             ->where('e_status', 'active')
             // ->where('category', $request->category)
             ->where('member_status', 1)
-            ->where('pay_stop', 'No')
+            ->where(function ($query) use ($compareDate) {
+                $query->whereNull('pay_stop_date')
+                    ->orWhere('pay_stop_date', '>', $compareDate);
+            })
             ->orderBy('id', 'asc')
             ->with('desigs')
             ->get();
@@ -2975,7 +3217,7 @@ class ReportController extends Controller
         $year = $request->year;
         $month = $request->month;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
-
+        $compareDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
         $all_members_info = [];
 
         $gpf_members = MemberGpf::pluck('member_id')->toArray();
@@ -2984,7 +3226,10 @@ class ReportController extends Controller
             ->where('e_status', 'active')
             // ->where('category', $request->category)
             ->where('member_status', 1)
-            ->where('pay_stop', 'No')
+            ->where(function ($query) use ($compareDate) {
+                $query->whereNull('pay_stop_date')
+                    ->orWhere('pay_stop_date', '>', $compareDate);
+            })
             ->orderBy('id', 'asc')
             ->with('desigs')
             ->get();
@@ -3041,7 +3286,7 @@ class ReportController extends Controller
         $year = $request->year;
         $month = $request->month;
         $month_name = date('F', mktime(0, 0, 0, $request->month, 10));
-
+        $compareDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
         $all_members_info = [];
 
         // $gpf_members = MemberGpf::pluck('member_id')->toArray();

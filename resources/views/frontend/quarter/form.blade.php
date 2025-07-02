@@ -5,7 +5,7 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                    {{-- <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Grade Pay</label>
@@ -34,7 +34,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    {{-- <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Quarter Charge</label>
@@ -60,7 +60,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
 
                     <div class="form-group col-md-5 mb-2">
@@ -103,7 +103,7 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row">
-                    <div class="form-group col-md-5 mb-2">
+                    {{-- <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Grade Pay</label>
@@ -131,7 +131,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
@@ -146,7 +146,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-5 mb-2">
+                    {{-- <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Quarter Charge</label>
@@ -157,7 +157,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
 
                     <div class="form-group col-md-5 mb-2">

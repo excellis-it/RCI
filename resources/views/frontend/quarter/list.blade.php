@@ -49,16 +49,16 @@
                                         <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>ID</th>
-                                                <th >Grade Pay</th>
+                                                {{-- <th >Grade Pay</th>
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="license_fee"
                                                     style="cursor: pointer">License Fee<span id="license_fee_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th> --}}
                                                 <th class="sorting" data-sorting_type="desc" data-column_name="qrt_type"
                                                     style="cursor: pointer">Quarter Type<span id="qrt_type_icon"><i
                                                             class="fa fa-arrow-down"></i></span> </th>
-                                                <th class="sorting" data-sorting_type="desc" data-column_name="qrt_charge"
+                                                {{-- <th class="sorting" data-sorting_type="desc" data-column_name="qrt_charge"
                                                     style="cursor: pointer">Quarter Charge<span id="qrt_charge_icon"><i
-                                                            class="fa fa-arrow-down"></i></span> </th>
+                                                            class="fa fa-arrow-down"></i></span> </th> --}}
                                                 <th>Status </th>
                                                 <th></th>
                                             </tr>
@@ -178,19 +178,19 @@
             $('#quarter-create-form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-            
+
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
                     data: formData,
                     success: function(response) {
-                       
+
                         //windows load with toastr message
                         window.location.reload();
                     },
                     error: function(xhr) {
-                       
+
                         // Handle errors (e.g., display validation errors)
                         //clear any old errors
                         $('.text-danger').html('');

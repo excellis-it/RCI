@@ -3083,54 +3083,30 @@ background: #cdcdcd;
                             $totalScoInt = round(array_sum($pageArrayScoInt));
 
                             $totalLtc = round(array_sum($pageArrayLtc));
-                            $totalMedDebit = round(
-                                array_sum($pageArrayMedDebit)
-                            );
+                            $totalMedDebit = round(array_sum($pageArrayMedDebit));
                             $totalTada = round(array_sum($pageArrayTada));
-                            $totalLeaveRec = round(
-                                array_sum($pageArrayLeaveRec)
-                            );
-                            $totalPensionRec = round(
-                                array_sum($pageArrayPensionRec)
-                            );
-                            $totalIncomeTax = round(
-                                array_sum($pageArrayIncomeTax)
-                            );
+                            $totalLeaveRec = round(array_sum($pageArrayLeaveRec));
+                            $totalPensionRec = round(array_sum($pageArrayPensionRec));
+                            $totalIncomeTax = round(array_sum($pageArrayIncomeTax));
                             $totalEduCess = round(array_sum($pageArrayEduCess));
                             $totalPlInsur = round(array_sum($pageArrayPlInsur));
-                            $totalMiscDebit = round(
-                                array_sum($pageArrayMiscDebit)
-                            );
-                            $totalMiscDebitIt = round(
-                                array_sum($pageArrayMiscDebitIt)
-                            );
-                            $totalNps10Rec = round(
-                                array_sum($pageArray_nps_10_rec)
-                            );
+                            $totalMiscDebit = round(array_sum($pageArrayMiscDebit));
+                            $totalMiscDebitIt = round(array_sum($pageArrayMiscDebitIt));
+                            $totalNps10Rec = round(array_sum($pageArray_nps_10_rec));
                             $totalNpsg = round(array_sum($pageArrayNpsg));
-                            $totalNps10Arr = round(
-                                array_sum($pageArray_nps_10_arr)
-                            );
+                            $totalNps10Arr = round(array_sum($pageArray_nps_10_arr));
                             $totalNpsgArr = round(array_sum($pageArrayNpsgArr));
                             $totalNpsAdj = round(array_sum($pageArrayNpsAdj));
-                            $totalNps14Adj = round(
-                                array_sum($pageArray_nps_14_adj)
-                            );
+                            $totalNps14Adj = round(array_sum($pageArray_nps_14_adj));
                             $totalCghsArr = round(array_sum($pageArrayCghsArr));
-                            $totalCgeisArr = round(
-                                array_sum($pageArrayCgeisArr)
-                            );
-                            $totalPenalIntr = round(
-                                array_sum($pageArrayPenalIntr)
-                            );
+                            $totalCgeisArr = round(array_sum($pageArrayCgeisArr));
+                            $totalPenalIntr = round(array_sum($pageArrayPenalIntr));
                             $totalElec = round(array_sum($pageArrayElec));
                             $totalLicenceFee = round(array_sum($pageArrayLicenceFee));
 
                             $totalWater = round(array_sum($pageArrayWater));
                             $totalFurn = round(array_sum($pageArrayFurn));
-                            $totalMiscRent = round(
-                                array_sum($pageArrayMiscRent)
-                            );
+                            $totalMiscRent = round(array_sum($pageArrayMiscRent));
                             $total_sum_debit = 0;
 
 // Then in your Blade template, after the loop, you can display these totals in a new row:
@@ -7382,9 +7358,7 @@ background: #cdcdcd;
         </tbody>
     </table>
     <div class="page-break"></div>
-    @php
-          $last_month_totals = [];
-    @endphp
+
     @foreach ($allMember40Data as $cghs_key => $cghs_data)
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
@@ -7583,145 +7557,9 @@ background: #cdcdcd;
                                 @php
                                     $total_cge_amount = 0;
                                     $total_cge_arr = 0;
-
-
-
-                              // Initialize totals array once
-                              $last_month_totals[$cghs_key] = [
-                                  'pay' => 0,
-                                  'da' => 0,
-                                  'hra' => 0,
-                                  'tpt' => 0,
-                                  'da_on_tpt' => 0,
-                                  's_pay' => 0,
-                                  'spl_incentive' => 0,
-                                  'incentive' => 0,
-                                  'dis_alw' => 0,
-                                  'var_incr' => 0,
-                                  'risk_alw' => 0,
-                                  'npsc' => 0,
-                                  'npg_adj' => 0,
-                                  'misc_1' => 0,
-
-                                  'gpa_sub' => 0,
-                                  'gpa_adv' => 0,
-                                  'cgegis' => 0,
-                                  'cghs' => 0,
-                                  'hba_adv' => 0,
-                                  'hba_int' => 0,
-                                  'i_tax' => 0,
-                                  'ecess' => 0,
-                                  'misc1' => 0,
-                                  'nps_10_rec' => 0,
-                                  'npsg' => 0,
-                                  'npsg_adj' => 0,
-                                  'nps_14_adj' => 0,
-                                  'misc_1' => 0,
-                                  'licence_fee' => 0,
-                                  'elec' => 0,
-                                  'water' => 0,
-                                  'furn' => 0,
-
-                              ];
                                 @endphp
 
                           @foreach ($cghs_data as $key => $all_member)
-                              @php
-                                  $currentMonth = $themonth;
-                                  $currentYear = $year ?? now()->year;
-
-                                  $currentDate = \Carbon\Carbon::createFromDate($currentYear, $currentMonth, 1);
-                                  $previousDate = $currentDate->subMonth();
-                                  $previousMonth = $previousDate->format('m');
-                                  $previousYear = $previousDate->format('Y');
-
-                                  $last_month_data = \App\Models\MemberMonthlyDataCredit::where(
-                                      'member_id',
-                                      $all_member['member_data']['id'],
-                                  )
-                                      ->where('month', $previousMonth)
-                                      ->where('year', $previousYear)
-                                      ->orderBy('id', 'desc')
-                                      ->first();
-
-                                      $last_month_data_debit = \App\Models\MemberMonthlyDataDebit::where(
-                                      'member_id',
-                                      $all_member['member_data']['id'],
-                                  )
-                                      ->where('month', $previousMonth)
-                                      ->where('year', $previousYear)
-                                      ->orderBy('id', 'desc')
-                                      ->first();
-
-                                      $last_month_data_loan_hba_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
-                                      'member_id',
-                                      $all_member['member_data']['id'],
-                                  )
-                                      ->where('month', $previousMonth)
-                                      ->where('year', $previousYear)
-                                      ->where('loan_id', 1)
-                                      ->orderBy('id', 'desc')
-                                      ->sum('inst_amount');
-
-                                        $last_month_data_loan_gpf_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
-                                      'member_id',
-                                      $all_member['member_data']['id'],
-                                  )
-                                      ->where('month', $previousMonth)
-                                      ->where('year', $previousYear)
-                                      ->where('loan_id', 10)
-                                      ->orderBy('id', 'desc')
-                                      ->sum('inst_amount');
-
-                                      $last_month_data_loan_hba_adv_int = \App\Models\MemberMonthlyDataLoanInfo::where(
-                                      'member_id',
-                                      $all_member['member_data']['id'],
-                                  )
-                                      ->where('month', $previousMonth)
-                                      ->where('year', $previousYear)
-                                      ->where('loan_id', 2)
-                                      ->orderBy('id', 'desc')
-                                      ->sum('inst_amount');
-
-                                // dd($last_month_data, $all_member['member_data']['id']);
-                                  $last_month_totals[$cghs_key]['pay'] += $last_month_data['pay'] ?? 0;
-                                  $last_month_totals[$cghs_key]['da'] += $last_month_data['da'] ?? 0;
-                                  $last_month_totals[$cghs_key]['hra'] += $last_month_data['hra'] ?? 0;
-                                  $last_month_totals[$cghs_key]['tpt'] += $last_month_data['tpt'] ?? 0;
-                                  $last_month_totals[$cghs_key]['da_on_tpt'] += $last_month_data['da_on_tpt'] ?? 0;
-                                  $last_month_totals[$cghs_key]['s_pay'] += $last_month_data['s_pay'] ?? 0;
-                                  $last_month_totals[$cghs_key]['spl_incentive'] += $last_month_data['spl_incentive'] ?? 0;
-                                  $last_month_totals[$cghs_key]['incentive'] += $last_month_data['incentive'] ?? 0;
-                                  $last_month_totals[$cghs_key]['dis_alw'] += $last_month_data['dis_alw'] ?? 0;
-                                  $last_month_totals[$cghs_key]['var_incr'] += $last_month_data['var_incr'] ?? 0;
-                                  $last_month_totals[$cghs_key]['risk_alw'] += $last_month_data['risk_alw'] ?? 0;
-                                  $last_month_totals[$cghs_key]['npsc'] += $last_month_data['npsc'] ?? 0;
-                                  $last_month_totals[$cghs_key]['npg_adj'] += $last_month_data['npg_adj'] ?? 0;
-                                  $last_month_totals[$cghs_key]['misc_1'] += $last_month_data['misc_1'] ?? 0;
-
-                                //   dd( $last_month_totals);
-
-
-                                 // 2f) Add each “debit” field into running totals (if you need them)
-                                $last_month_totals[$cghs_key]['gpa_sub']    += $last_month_debit['gpa_sub'] ?? 0;
-                                $last_month_totals[$cghs_key]['gpa_adv']    += $last_month_data_loan_gpf_adv_sum ?? 0;
-                                $last_month_totals[$cghs_key]['cgegis']     += $last_month_debit['cgegis'] ?? 0;
-                                $last_month_totals[$cghs_key]['cghs']       += $last_month_debit['cghs'] ?? 0;
-                                $last_month_totals[$cghs_key]['hba_adv']    += $last_month_data_loan_hba_adv_sum ?? 0;
-                                $last_month_totals[$cghs_key]['hba_int']    += $last_month_data_loan_hba_adv_int ?? 0;
-                                $last_month_totals[$cghs_key]['i_tax']      += $last_month_debit['i_tax'] ?? 0;
-                                $last_month_totals[$cghs_key]['ecess']      += $last_month_debit['ecess'] ?? 0;
-                                $last_month_totals[$cghs_key]['misc1']      += $last_month_debit['misc1'] ?? 0;
-                                $last_month_totals[$cghs_key]['nps_10_rec'] += $last_month_debit['nps_10_rec'] ?? 0;
-                                $last_month_totals[$cghs_key]['npsg']       += $last_month_debit['npsg'] ?? 0;
-                                $last_month_totals[$cghs_key]['npsg_adj']   += $last_month_debit['npsg_adj'] ?? 0;
-                                $last_month_totals[$cghs_key]['nps_14_adj'] += $last_month_debit['nps_14_adj'] ?? 0;
-                                $last_month_totals[$cghs_key]['licence_fee']+= $last_month_debit['licence_fee'] ?? 0;
-                                $last_month_totals[$cghs_key]['elec']       += $last_month_debit['elec'] ?? 0;
-                                $last_month_totals[$cghs_key]['water']      += $last_month_debit['water'] ?? 0;
-                                $last_month_totals[$cghs_key]['furn']       += $last_month_debit['furn'] ?? 0;
-                              @endphp
-
                                     @php
                                         $cghs = round($all_member['details']['member_debit']->cghs ?? 0);
                                         $cgeis_arr = round($all_member['details']['member_debit']->cgeis_arr ?? 0);
@@ -7784,7 +7622,7 @@ background: #cdcdcd;
         </table>
         <div class="page-break"></div>
     @endforeach
-    {{-- @dd($last_month_totals) --}}
+    {{-- @dd($_totals) --}}
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
         style="border-radius: 0px; margin: 0 auto; text-align: center">
         <tbody>
@@ -7923,10 +7761,14 @@ background: #cdcdcd;
         </tbody>
     </table>
 
-    <div class="page-break"></div>
+
+{{-- Change statement --}}
+
 
     {{-- @dd($last_month_totals) --}}
-    @foreach ($allMember40Data as $key_new => $statements)
+    @if (count($last_month_credit_data) > 0)
+ <div class="page-break"></div>
+    @foreach ($last_month_credit_data as $key_new => $statements)
         <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
             style="border-radius: 0px; margin: 0 auto; text-align: center">
             <tbody>
@@ -8462,23 +8304,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                        @php
-                                            $currentMonth = $number_month;
-                                            $currentYear = $year ?? now()->year;
 
-                                            // Create a Carbon date from the current year and month
-                                            $currentDate = \Carbon\Carbon::createFromDate(
-                                                $currentYear,
-                                                $currentMonth,
-                                                1,
-                                            );
-
-                                            // Subtract one month
-                                            $previousDate = $currentDate->subMonth();
-
-                                            $previousMonth = $previousDate->format('m'); // e.g., "May"
-                                            $previousYear = $previousDate->format('Y'); // e.g., 2025
-                                        @endphp
                                         LAST CHARGE {{ $previousMonth }}
                                         / {{ $previousYear }}
                                     </td>
@@ -8510,7 +8336,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                       {{ $last_month_totals[$key_new]['pay'] ?? 0}}
+                                       {{ $chunkTotals[$key_new]['pay'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8526,7 +8352,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                          {{  $last_month_totals[$key_new]['da'] ?? 0}}
+                                          {{  $chunkTotals[$key_new]['da'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8542,7 +8368,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                          {{  $last_month_totals[$key_new]['hra'] ?? 0}}
+                                          {{  $chunkTotals[$key_new]['hra'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8558,7 +8384,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                         {{   $last_month_totals[$key_new]['tpt'] ?? 0}}
+                                         {{   $chunkTotals[$key_new]['tpt'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8574,7 +8400,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                         {{  $last_month_totals[$key_new]['da_on_tpt'] ?? 0}}
+                                         {{  $chunkTotals[$key_new]['da_on_tpt'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8590,7 +8416,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                         {{   $last_month_totals[$key_new]['s_pay'] ?? 0}}
+                                         {{   $chunkTotals[$key_new]['s_pay'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8606,7 +8432,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                          {{    $last_month_totals[$key_new]['spl_incentive'] ?? 0}}
+                                          {{    $chunkTotals[$key_new]['spl_incentive'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8622,7 +8448,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                           {{  $last_month_totals[$key_new]['incentive'] ?? 0}}
+                                           {{  $chunkTotals[$key_new]['incentive'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8638,7 +8464,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                          {{    $last_month_totals[$key_new]['dis_alw'] ?? 0}}
+                                          {{    $chunkTotals[$key_new]['dis_alw'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8654,7 +8480,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                          {{  $last_month_totals[$key_new]['var_incr'] ?? 0}}
+                                          {{  $chunkTotals[$key_new]['var_incr'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8670,7 +8496,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                         {{  $last_month_totals[$key_new]['risk_alw'] ?? 0}}
+                                         {{  $chunkTotals[$key_new]['risk_alw'] ?? 0}}
 
                                     <td
                                         style="
@@ -8685,7 +8511,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                         {{   $last_month_totals[$key_new]['npsc'] ?? 0}}
+                                         {{   $chunkTotals[$key_new]['npsc'] ?? 0}}
 
                                      </td>
 
@@ -8702,7 +8528,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                          {{  $last_month_totals[$key_new]['npg_adj'] ?? 0}}
+                                          {{  $chunkTotals[$key_new]['npg_adj'] ?? 0}}
 
                                     </td>
                                     <td
@@ -8719,7 +8545,7 @@ background: #cdcdcd;
             border-right: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                        {{ $last_month_totals[$key_new]['misc_1'] ?? 0}}
+                                        {{ $chunkTotals[$key_new]['misc_1'] ?? 0}}
                                     </td>
                                 </tr>
 
@@ -8966,27 +8792,7 @@ background: #cdcdcd;
 
                                     </td>
                                 </tr>
-                                @php
-                                $last_month_totals[$cghs_key] = [
-                                    'pay' => 0,
-                                    'da' => 0,
-                                    'hra' => 0,
-                                    'tpt' => 0,
-                                    'da_on_tpt' => 0,
-                                    's_pay' => 0,
-                                    'spl_incentive' => 0,
-                                    'incentive' => 0,
-                                    'dis_alw' => 0,
-                                    'var_incr' => 0,
-                                    'risk_alw' => 0,
-                                    'npsc' => 0,
-                                    'npg_adj' => 0,
-                                    'misc_1' => 0,
 
-
-
-                                ];
-                                  @endphp
 
                                 @php
                                       $this_month_totals = [
@@ -9007,53 +8813,59 @@ background: #cdcdcd;
                               ];
                                 @endphp
 
+
 @foreach ($statements as $statement)
     @php
-        $last_month_data = \App\Models\MemberMonthlyDataCredit::where(
-            'member_id',
-            $statement['member_data']['id'],
-        )
-            ->where('month', $previousMonth)
-            ->where('year', $previousYear)
-            ->orderBy('id', 'desc')
-            ->first();
 
-            // dd($last_month_data);
+
+            // dd($statement);
 
         // fallback if no data found
 
         $last_month_field = [
-            'pay' => $last_month_data['pay'] ?? 0,
-            'da' => $last_month_data['da'] ?? 0,
-            'hra' => $last_month_data['hra'] ?? 0,
-            'tpt' => $last_month_data['tpt'] ?? 0,
-            'da_on_tpt' => $last_month_data['da_on_tpt'] ?? 0,
-            's_pay' => $last_month_data['s_pay'] ?? 0,
-            'spl_incentive' => $last_month_data['spl_incentive'] ?? 0,
-            'incentive' => $last_month_data['incentive'] ?? 0,
-            'dis_alw' => $last_month_data['dis_alw'] ?? 0,
-            'var_incr' => $last_month_data['var_incr'] ?? 0,
-            'risk_alw' => $last_month_data['risk_alw'] ?? 0,
-            'npsc' => $last_month_data['npsc'] ?? 0,
-            'npg_adj' => $last_month_data['npg_adj'] ?? 0,
-            'misc_1' => $last_month_data['misc_1'] ?? 0, // Assuming misc_1 is used for MISC CR total
+            'pay' => $statement['pay'] ?? 0,
+            'da' => $statement['da'] ?? 0,
+            'hra' => $statement['hra'] ?? 0,
+            'tpt' => $statement['tpt'] ?? 0,
+            'da_on_tpt' => $statement['da_on_tpt'] ?? 0,
+            's_pay' => $statement['s_pay'] ?? 0,
+            'spl_incentive' => $statement['spl_incentive'] ?? 0,
+            'incentive' => $statement['incentive'] ?? 0,
+            'dis_alw' => $statement['dis_alw'] ?? 0,
+            'var_incr' => $statement['var_incr'] ?? 0,
+            'risk_alw' => $statement['risk_alw'] ?? 0,
+            'npsc' => $statement['npsc'] ?? 0,
+            'npg_adj' => $statement['npg_adj'] ?? 0,
+            'misc_1' => $statement['misc_1'] ?? 0, // Assuming misc_1 is used for MISC CR total
         ];
 
-        $this_month_totals['pay'] += ($statement['details']['member_credit']->pay ?? 0) - $last_month_field['pay'];
-        $this_month_totals['da'] += ($statement['details']['member_credit']->da ?? 0) - $last_month_field['da'];
-        $this_month_totals['hra'] += ($statement['details']['member_credit']->hra ?? 0) - $last_month_field['hra'];
-        $this_month_totals['tpt'] += ($statement['details']['member_credit']->tpt ?? 0) - $last_month_field['tpt'];
-        $this_month_totals['da_on_tpt'] += ($statement['details']['member_credit']->da_on_tpt ?? 0) - $last_month_field['da_on_tpt'];
-        $this_month_totals['s_pay'] += ($statement['details']['member_credit']->s_pay ?? 0) - $last_month_field['s_pay'];
-        $this_month_totals['spl_incentive'] += ($statement['details']['member_credit']->spl_incentive ?? 0) - $last_month_field['spl_incentive'];
-        $this_month_totals['incentive'] += ($statement['details']['member_credit']->incentive ?? 0) - $last_month_field['incentive'];
-        $this_month_totals['dis_alw'] += ($statement['details']['member_credit']->dis_alw ?? 0) - $last_month_field['dis_alw'];
-        $this_month_totals['var_incr'] += ($statement['details']['member_credit']->var_incr ?? 0) - $last_month_field['var_incr'];
-        $this_month_totals['risk_alw'] += ($statement['details']['member_credit']->risk_alw ?? 0) - $last_month_field['risk_alw'];
-        $this_month_totals['npsc'] += ($statement['details']['member_credit']->npsc ?? 0) - $last_month_field['npsc'];
-        $this_month_totals['npg_adj'] += ($statement['details']['member_credit']->npg_adj ?? 0) - $last_month_field['npg_adj'];
-        $this_month_totals['misc_1'] += ($statement['details']['member_credit']->misc_1 ?? 0) - $last_month_field['misc_1'];
+                $this_month_credit = \App\Models\MemberMonthlyDataCredit::whereHas('member', function ($query) use ($compareDate) {
+                    $query->where(function ($q) use ($compareDate) {
+                        $q->whereNull('pay_stop_date')
+                        ->orWhere('pay_stop_date', '>', $compareDate);
+                    });
+                })
+                ->where('member_id', $statement['member_id'])
+                ->where('month', $themonth)
+                ->where('year', $year)
+                ->orderBy('id', 'desc')
+                ->first();
 
+        $this_month_totals['pay'] += ($this_month_credit->pay ?? 0) - $last_month_field['pay'];
+        $this_month_totals['da'] += ($this_month_credit->da ?? 0) - $last_month_field['da'];
+        $this_month_totals['hra'] += ($this_month_credit->hra ?? 0) - $last_month_field['hra'];
+        $this_month_totals['tpt'] += ($this_month_credit->tpt ?? 0) - $last_month_field['tpt'];
+        $this_month_totals['da_on_tpt'] += ($this_month_credit->da_on_tpt ?? 0) - $last_month_field['da_on_tpt'];
+        $this_month_totals['s_pay'] += ($this_month_credit->s_pay ?? 0) - $last_month_field['s_pay'];
+        $this_month_totals['spl_incentive'] += ($this_month_credit->spl_incentive ?? 0) - $last_month_field['spl_incentive'];
+        $this_month_totals['incentive'] += ($this_month_credit->incentive ?? 0) - $last_month_field['incentive'];
+        $this_month_totals['dis_alw'] += ($this_month_credit->dis_alw ?? 0) - $last_month_field['dis_alw'];
+        $this_month_totals['var_incr'] += ($this_month_credit->var_incr ?? 0) - $last_month_field['var_incr'];
+        $this_month_totals['risk_alw'] += ($this_month_credit->risk_alw ?? 0) - $last_month_field['risk_alw'];
+        $this_month_totals['npsc'] += ($this_month_credit->npsc ?? 0) - $last_month_field['npsc'];
+        $this_month_totals['npg_adj'] += ($this_month_credit->npg_adj ?? 0) - $last_month_field['npg_adj'];
+        $this_month_totals['misc_1'] += ($this_month_credit->misc_1 ?? 0) - $last_month_field['misc_1'];
+                                // dd($statement['member']);
                                     @endphp
                                     <tr>
                                         <td
@@ -9069,7 +8881,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ $statement['member_data']->name ?? '0' }}
+                                            {{ $statement['member']['name'] ?? '0' }}
                                         </td>
                                         <td
                                             style="
@@ -9084,7 +8896,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ $statement['member_data']->pran_number ?? '0' }}
+                                            {{ $statement['member']['pran_number'] ?? '0' }}
                                         </td>
                                         <td
                                             style="
@@ -9099,7 +8911,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ (($statement['details']['member_credit']->pay ?? 0) - $last_month_field['pay']) }}
+                                            {{ (($this_month_credit->pay ?? 0) - $last_month_field['pay']) }}
 
                                         </td>
                                         <td
@@ -9115,7 +8927,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->da ?? 0) -
+                                            {{ ($this_month_credit->da ?? 0) -
                                             $last_month_field['da']  }}
                                         </td>
                                         <td
@@ -9131,7 +8943,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->hra ?? 0) -  $last_month_field['hra']
+                                            {{ ($this_month_credit->hra ?? 0) -  $last_month_field['hra']
                                             }}
                                         </td>
                                         <td
@@ -9147,7 +8959,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->tpt ?? 0) - $last_month_field['tpt']
+                                            {{ ($this_month_credit->tpt ?? 0) - $last_month_field['tpt']
                                             }}
                                         </td>
                                         <td
@@ -9163,7 +8975,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->da_on_tpt ?? 0) - $last_month_field['da_on_tpt']
+                                            {{ ($this_month_credit->da_on_tpt ?? 0) - $last_month_field['da_on_tpt']
                                             }}
                                         </td>
                                         <td
@@ -9179,7 +8991,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->s_pay ?? 0) -  $last_month_field['s_pay']
+                                            {{ ($this_month_credit->s_pay ?? 0) -  $last_month_field['s_pay']
                                             }}
                                         </td>
                                         <td
@@ -9195,7 +9007,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->spl_incentive ?? 0) -  $last_month_field['spl_incentive']
+                                            {{ ($this_month_credit->spl_incentive ?? 0) -  $last_month_field['spl_incentive']
                                            }}
                                         </td>
                                         <td
@@ -9211,7 +9023,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->incentive ?? 0) - $last_month_field['incentive']
+                                            {{ ($this_month_credit->incentive ?? 0) - $last_month_field['incentive']
                                            }}
                                         </td>
                                         <td
@@ -9227,7 +9039,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->dis_alw ?? 0) -   $last_month_field['dis_alw']
+                                            {{ ($this_month_credit->dis_alw ?? 0) -   $last_month_field['dis_alw']
                                             }}
                                             {{-- Assuming 'DRESS ALL' maps to 'wash_alw' or similar --}}
                                         </td>
@@ -9244,7 +9056,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->var_incr ?? 0) -  $last_month_field['var_incr']
+                                            {{ ($this_month_credit->var_incr ?? 0) -  $last_month_field['var_incr']
                                            }}
                                         </td>
                                         <td
@@ -9260,7 +9072,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->risk_alw ?? 0) -   $last_month_field['risk_alw']
+                                            {{ ($this_month_credit->risk_alw ?? 0) -   $last_month_field['risk_alw']
                                            }}
                                         </td>
                                         <td
@@ -9277,7 +9089,7 @@ background: #cdcdcd;
             border-bottom: 1px solid #000;
         ">
                                             {{-- NPS(14%) - This value needs to be calculated. If NPS is part of total credits, you might need to adjust. For now, using the hardcoded 2130 as per your example, but this doesn't make sense for 14% of BASIC. You need to define how this is calculated. --}}
-                                            {{ ($statement['details']['member_credit']->npsc ?? 0) -   $last_month_field['npsc']
+                                            {{ ($this_month_credit->npsc ?? 0) -   $last_month_field['npsc']
                                            }}
                                         </td>
                                         <td
@@ -9293,7 +9105,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->npg_adj ?? 0) -  $last_month_field['npg_adj']}}
+                                            {{ ($this_month_credit->npg_adj ?? 0) -  $last_month_field['npg_adj']}}
                                             {{-- NPS ADJ, keeping as 0 based on your initial table entry --}}
                                         </td>
                                         <td
@@ -9310,7 +9122,7 @@ background: #cdcdcd;
             border-right: 1px solid #000;
             border-bottom: 1px solid #000;
         ">
-                                            {{ ($statement['details']['member_credit']->misc_1 ?? 0) - $last_month_field['misc_1']}}
+                                            {{ ($this_month_credit->misc_1 ?? 0) - $last_month_field['misc_1']}}
                                             {{-- Assuming MISC CR is the sum of misc1 and misc2, or adjust to the correct field --}}
                                         </td>
                                     </tr>
@@ -9592,7 +9404,9 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                         {{($last_month_totals[$key_new]['pay'] ?? 0) + ($this_month_totals['pay'] ?? 0)}}
+     {{ ($chunkTotals[$key_new]['pay'] ?? 0) + ($this_month_totals['pay'] ?? 0) }}
+
+
                                     </td>
                                     <td
                                         style="
@@ -9607,7 +9421,8 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                          {{($last_month_totals[$key_new]['da'] ?? 0) + ($this_month_totals['da'] ?? 0)}}
+        {{ ($chunkTotals[$key_new]['da'] ?? 0) + ($this_month_totals['da'] ?? 0) }}
+
                                     </td>
                                     <td
                                         style="
@@ -9622,7 +9437,7 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                            {{($last_month_totals[$key_new]['hra'] ?? 0) + ($this_month_totals['hra'] ?? 0)}}
+{{ ($chunkTotals[$key_new]['hra'] ?? 0) + ($this_month_totals['hra'] ?? 0) }}
                                     </td>
                                     <td
                                         style="
@@ -9637,7 +9452,8 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                         {{($last_month_totals[$key_new]['tpt'] ?? 0) + ($this_month_totals['tpt'] ?? 0)}}
+
+{{ ($chunkTotals[$key_new]['tpt'] ?? 0) + ($this_month_totals['tpt'] ?? 0) }}
                                     </td>
                                     <td
                                         style="
@@ -9652,7 +9468,10 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                          {{($last_month_totals[$key_new]['da_on_tpt'] ?? 0) + ($this_month_totals['da_on_tpt'] ?? 0)}}
+
+
+{{ ($chunkTotals[$key_new]['da_on_tpt'] ?? 0) + ($this_month_totals['da_on_tpt'] ?? 0) }}
+
                                     </td>
                                     <td
                                         style="
@@ -9667,7 +9486,8 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                        {{($last_month_totals[$key_new]['s_pay'] ?? 0) + ($this_month_totals['s_pay'] ?? 0)}}
+
+{{ ($chunkTotals[$key_new]['s_pay'] ?? 0) + ($this_month_totals['s_pay'] ?? 0) }}
                                     </td>
                                     <td
                                         style="
@@ -9682,7 +9502,9 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                         {{($last_month_totals[$key_new]['spl_incentive'] ?? 0) + ($this_month_totals['spl_incentive'] ?? 0)}}
+
+
+{{ ($chunkTotals[$key_new]['spl_incentive'] ?? 0) + ($this_month_totals['spl_incentive'] ?? 0) }}
                                     </td>
                                     <td
                                         style="
@@ -9697,7 +9519,9 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                           {{($last_month_totals[$key_new]['incentive'] ?? 0) + ($this_month_totals['incentive'] ?? 0)}}
+
+
+{{ ($chunkTotals[$key_new]['incentive'] ?? 0) + ($this_month_totals['incentive'] ?? 0) }}
                                     </td>
                                     <td
                                         style="
@@ -9712,7 +9536,9 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                          {{($last_month_totals[$key_new]['dis_alw'] ?? 0) + ($this_month_totals['dis_alw'] ?? 0)}}
+
+
+{{ ($chunkTotals[$key_new]['dis_alw'] ?? 0) + ($this_month_totals['dis_alw'] ?? 0) }}
                                     </td>
                                     <td
                                         style="
@@ -9727,7 +9553,9 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                        {{($last_month_totals[$key_new]['var_incr'] ?? 0) + ($this_month_totals['var_incr'] ?? 0)}}
+
+
+{{ ($chunkTotals[$key_new]['var_incr'] ?? 0) + ($this_month_totals['var_incr'] ?? 0) }}
                                     </td>
                                     <td
                                         style="
@@ -9742,7 +9570,8 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                          {{($last_month_totals[$key_new]['risk_alw'] ?? 0) + ($this_month_totals['risk_alw'] ?? 0)}}
+
+{{ ($chunkTotals[$key_new]['risk_alw'] ?? 0) + ($this_month_totals['risk_alw'] ?? 0) }}
                                     </td>
                                     <td
                                         style="
@@ -9757,7 +9586,8 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                         {{($last_month_totals[$key_new]['npsc'] ?? 0) + ($this_month_totals['npsc'] ?? 0)}}
+
+{{ ($chunkTotals[$key_new]['npsc'] ?? 0) + ($this_month_totals['npsc'] ?? 0) }}
                                     </td>
                                     <td
                                         style="
@@ -9772,7 +9602,9 @@ background: #cdcdcd;
             border-left: 1px solid #000;
             border-bottom: 1px solid #000;
           ">
-                                        {{($last_month_totals[$key_new]['npg_adj'] ?? 0) + ($this_month_totals['npg_adj'] ?? 0)}}
+
+
+{{ ($chunkTotals[$key_new]['npg_adj'] ?? 0) + ($this_month_totals['npg_adj'] ?? 0) }}
                                     </td>
                                     <td
                                         style="
@@ -9789,7 +9621,9 @@ background: #cdcdcd;
             border-bottom: 1px solid #000;
           ">
 
-                                         {{($last_month_totals[$key_new]['misc_1'] ?? 0) + ($this_month_totals['misc_1'] ?? 0)}}
+
+
+{{ ($chunkTotals[$key_new]['misc_1'] ?? 0) + ($this_month_totals['misc_1'] ?? 0) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -9803,11 +9637,17 @@ background: #cdcdcd;
 
             </tbody>
         </table>
-        <div class="page-break"></div>
+         @if (!$loop->last)
+          <div class="page-break"></div>
+ @endif
+
     @endforeach
+    @endif
+ @if (count($last_month_debit_data) > 0)
 
-    @foreach ($allMember40Data as $key_new => $statements)
-
+      <div class="page-break"></div>
+    @foreach ($last_month_debit_data as $key_new => $debit_statements)
+    @if (count($debit_statements['data']) > 0)
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="border-radius: 0px; margin: 0 auto; text-align: center">
         <tbody>
           <tr>
@@ -10426,7 +10266,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{$last_month_totals[$cghs_key]['gpa_sub'] ?? 0}}
+                       {{$debit_statements['totals']['gpa_sub'] ?? 0}}
 
                     </td>
                      <td style="
@@ -10441,7 +10281,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                                            {{ $last_month_totals[$cghs_key]['gpa_adv'] ?? 0}}
+                                            {{ $debit_statements['totals']['gpf_adv'] ?? 0}}
 
                     </td>
                      <td style="
@@ -10456,7 +10296,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{ $last_month_totals[$cghs_key]['cgegis'] ?? 0}}
+                        {{ $debit_statements['totals']['cgegis'] ?? 0}}
 
                     </td>
                      <td style="
@@ -10471,7 +10311,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ $last_month_totals[$cghs_key]['cghs']  ?? 0}}
+                       {{ $debit_statements['totals']['cghs']  ?? 0}}
 
                     </td>
                                     <td style="
@@ -10486,7 +10326,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{  $last_month_totals[$cghs_key]['hba_adv']   ?? 0}}
+                       {{  $debit_statements['totals']['hba_adv']   ?? 0}}
 
                     </td>
                                     <td style="
@@ -10501,7 +10341,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{    $last_month_totals[$cghs_key]['hba_int'] ?? 0}}
+                       {{    $debit_statements['totals']['hba_int'] ?? 0}}
 
                     </td>
                                     <td style="
@@ -10516,7 +10356,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ $last_month_totals[$cghs_key]['i_tax'] ?? 0}}
+                      {{ $debit_statements['totals']['i_tax'] ?? 0}}
 
                     </td>
                                     <td style="
@@ -10531,7 +10371,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{  $last_month_totals[$cghs_key]['ecess'] ?? 0}}
+                       {{  $debit_statements['totals']['ecess'] ?? 0}}
 
                     </td>
                                     <td style="
@@ -10546,7 +10386,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{  $last_month_totals[$cghs_key]['misc1']  ?? 0}}
+                       {{  $debit_statements['totals']['misc1']  ?? 0}}
 
                     </td>
                                     <td style="
@@ -10561,7 +10401,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{  $last_month_totals[$cghs_key]['nps_10_rec'] ?? 0}}
+                      {{  $debit_statements['totals']['nps_10_rec'] ?? 0}}
 
                     </td>
                                     <td style="
@@ -10576,7 +10416,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ $last_month_totals[$cghs_key]['npsg']  ?? 0}}
+                      {{ $debit_statements['totals']['npsg']  ?? 0}}
 
                     </td>
                     <td style="
@@ -10591,7 +10431,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{$last_month_totals[$cghs_key]['npsg_adj'] ?? 0}}
+                      {{$debit_statements['totals']['npsg_adj'] ?? 0}}
 
                     </td>
                     <td style="
@@ -10606,7 +10446,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                     {{   $last_month_totals[$cghs_key]['nps_14_adj']  ?? 0}}
+                     {{   $debit_statements['totals']['nps_14_adj']  ?? 0}}
 
                     </td>
 
@@ -10622,7 +10462,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                   {{$last_month_totals[$cghs_key]['licence_fee'] ?? 0}}
+                   {{$debit_statements['totals']['licence_fee'] ?? 0}}
 
                     </td>
                     <td style="
@@ -10637,7 +10477,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                   {{$last_month_totals[$cghs_key]['elec'] ?? 0}}
+                   {{$debit_statements['totals']['elec'] ?? 0}}
 
                     </td>
                     <td style="
@@ -10653,7 +10493,7 @@ background: #cdcdcd;
                     border-right: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                  {{ $last_month_totals[$cghs_key]['water']  ?? 0}}
+                  {{ $debit_statements['totals']['water']  ?? 0}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -10668,7 +10508,7 @@ background: #cdcdcd;
                     border-right: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                  {{ $last_month_totals[$cghs_key]['furn']  ?? 0}}
+                  {{ $debit_statements['totals']['furn']  ?? 0}}
                     </td>
                   </tr>
 
@@ -10944,7 +10784,7 @@ background: #cdcdcd;
                   @php
                   $this_month_totals =
                       ['gpa_sub' => 0,
-                                    'gpa_adv' => 0,
+                                    'gpf_adv' => 0,
                                     'cgegis' => 0,
                                     'cghs' => 0,
                                     'hba_adv' => 0,
@@ -10962,55 +10802,18 @@ background: #cdcdcd;
                                     'water' => 0,
                                     'furn' => 0,]
                   @endphp
-        @foreach ($statements as $statement)
-        {{-- @dd($statement) --}}
+        @foreach ($debit_statements['data'] as $debit_statement)
+        {{-- @dd($debit_statement) --}}
             @php
-                $last_month_data_debit = \App\Models\MemberMonthlyDataDebit::where(
-                    'member_id',
-                    $statement['member_data']['id'],
-                )
-                    ->where('month', $previousMonth)
-                    ->where('year', $previousYear)
-                    ->orderBy('id', 'desc')
-                    ->first();
-
-                    // dd($last_month_data_debit, $all_member['member_data']);
-
-                      $last_month_data_loan_gpf_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
-                    'member_id',
-                    $statement['member_data']['id'],
-                )
-                    ->where('month', $previousMonth)
-                    ->where('year', $previousYear)
-                    ->where('loan_id', 10)
-                    ->orderBy('id', 'desc')
-                    ->sum('inst_amount');
-
-                    $last_month_data_loan_hba_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
-                    'member_id',
-                    $statement['member_data']['id'],
-                )
-                    ->where('month', $previousMonth)
-                    ->where('year', $previousYear)
-                    ->where('loan_id', 1)
-                    ->orderBy('id', 'desc')
-                    ->sum('inst_amount');
-
-                    $last_month_data_loan_hba_adv_int = \App\Models\MemberMonthlyDataLoanInfo::where(
-                    'member_id',
-                    $statement['member_data']['id'],
-                )
-                    ->where('month', $previousMonth)
-                    ->where('year', $previousYear)
-                    ->where('loan_id', 2)
-                    ->orderBy('id', 'desc')
-                    ->sum('inst_amount');
-
-
                     $this_month_data_loan_hba_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
                     'member_id',
-                    $statement['member_data']['id'],
-                )
+                    $debit_statement['member_id'],
+                )->whereHas('member', function ($query) use ($compareDate) {
+                    $query->where(function ($q) use ($compareDate) {
+                        $q->whereNull('pay_stop_date')
+                        ->orWhere('pay_stop_date', '>', $compareDate);
+                    });
+                })
                     ->where('month', $themonth)
                     ->where('year', $year)
                     ->where('loan_id', 1)
@@ -11019,8 +10822,13 @@ background: #cdcdcd;
 
                      $this_month_data_loan_gpf_adv_sum = \App\Models\MemberMonthlyDataLoanInfo::where(
                     'member_id',
-                    $statement['member_data']['id'],
-                )
+                    $debit_statement['member_id'],
+                )->whereHas('member', function ($query) use ($compareDate) {
+                    $query->where(function ($q) use ($compareDate) {
+                        $q->whereNull('pay_stop_date')
+                        ->orWhere('pay_stop_date', '>', $compareDate);
+                    });
+                })
                     ->where('month', $themonth)
                     ->where('year', $year)
                     ->where('loan_id', 10)
@@ -11029,49 +10837,66 @@ background: #cdcdcd;
 
                     $this_month_data_loan_hba_adv_int = \App\Models\MemberMonthlyDataLoanInfo::where(
                     'member_id',
-                    $statement['member_data']['id'],
-                )
+                    $debit_statement['member_id'],
+                )->whereHas('member', function ($query) use ($compareDate) {
+                    $query->where(function ($q) use ($compareDate) {
+                        $q->whereNull('pay_stop_date')
+                        ->orWhere('pay_stop_date', '>', $compareDate);
+                    });
+                })
                     ->where('month', $themonth)
                     ->where('year', $year)
                     ->where('loan_id', 2)
                     ->orderBy('id', 'desc')
                     ->sum('inst_amount');
 
-                $last_month_field['gpa_sub']    = $last_month_data_debit['gpa_sub'] ?? 0;
-                $last_month_field['gpa_adv']    = $last_month_data_loan_gpf_adv_sum ?? 0;
-                $last_month_field['cgegis']     = $last_month_data_debit['cgegis'] ?? 0;
-                $last_month_field['cghs']       = $last_month_data_debit['cghs'] ?? 0;
-                $last_month_field['hba_adv']    = $last_month_data_loan_hba_adv_sum ?? 0;
-                $last_month_field['hba_int']    = $last_month_data_loan_hba_adv_int ?? 0;
-                $last_month_field['i_tax']      = $last_month_data_debit['i_tax'] ?? 0;
-                $last_month_field['ecess']      = $last_month_data_debit['ecess'] ?? 0;
-                $last_month_field['misc1']      = $last_month_data_debit['misc1'] ?? 0;
-                $last_month_field['nps_10_rec'] = $last_month_data_debit['nps_10_rec'] ?? 0;
-                $last_month_field['npsg']       = $last_month_data_debit['npsg'] ?? 0;
-                $last_month_field['npsg_adj']   = $last_month_data_debit['npsg_adj'] ?? 0;
-                $last_month_field['nps_14_adj'] = $last_month_data_debit['nps_14_adj'] ?? 0;
-                $last_month_field['licence_fee']= $last_month_data_debit['licence_fee'] ?? 0;
-                $last_month_field['elec']       = $last_month_data_debit['elec'] ?? 0;
-                $last_month_field['water']      = $last_month_data_debit['water'] ?? 0;
-                $last_month_field['furn']       = $last_month_data_debit['furn'] ?? 0;
+                $this_month_debit = \App\Models\MemberMonthlyDataDebit::whereHas('member', function ($query) use ($compareDate) {
+                    $query->where(function ($q) use ($compareDate) {
+                        $q->whereNull('pay_stop_date')
+                        ->orWhere('pay_stop_date', '>', $compareDate);
+                    });
+                })
+                ->where('member_id', $statement['member_id'])
+                ->where('month', $themonth)
+                ->where('year', $year)
+                ->orderBy('id', 'desc')
+                ->first();
+                // dd($debit_statement['gpa_sub']);
+                $last_month_field['gpa_sub']    = $debit_statement['gpa_sub'] ?? 0;
+                $last_month_field['gpf_adv']    = $debit_statement['gpf_adv'] ?? 0;
+                $last_month_field['cgegis']     = $debit_statement['cgegis'] ?? 0;
+                $last_month_field['cghs']       = $debit_statement['cghs'] ?? 0;
+                $last_month_field['hba_adv']    = $debit_statement['hba_adv'] ?? 0;
+                $last_month_field['hba_int']    = $debit_statement['hba_int'] ?? 0;
+                $last_month_field['i_tax']      = $debit_statement['i_tax'] ?? 0;
+                $last_month_field['ecess']      = $debit_statement['ecess'] ?? 0;
+                $last_month_field['misc1']      = $debit_statement['misc1'] ?? 0;
+                $last_month_field['nps_10_rec'] = $debit_statement['nps_10_rec'] ?? 0;
+                $last_month_field['npsg']       = $debit_statement['npsg'] ?? 0;
+                $last_month_field['npsg_adj']   = $debit_statement['npsg_adj'] ?? 0;
+                $last_month_field['nps_14_adj'] = $debit_statement['nps_14_adj'] ?? 0;
+                $last_month_field['licence_fee']= $debit_statement['licence_fee'] ?? 0;
+                $last_month_field['elec']       = $debit_statement['elec'] ?? 0;
+                $last_month_field['water']      = $debit_statement['water'] ?? 0;
+                $last_month_field['furn']       = $debit_statement['furn'] ?? 0;
 
-                $this_month_totals['gpa_sub']     += ($statement['details']['member_debit']->gpa_sub ?? 0) - $last_month_field['gpa_sub'];
-                $this_month_totals['gpa_adv']     += ($this_month_data_loan_gpf_adv_sum ?? 0) - $last_month_field['gpa_adv'];
-                $this_month_totals['cgegis']      += ($statement['details']['member_debit']->cgegis ?? 0) - $last_month_field['cgegis'];
-                $this_month_totals['cghs']        += ($statement['details']['member_debit']->cghs ?? 0) - $last_month_field['cghs'];
-                $this_month_totals['hba_adv']     += $this_month_data_loan_hba_adv_sum;
-                $this_month_totals['hba_int']     += $this_month_data_loan_hba_adv_int;
-                $this_month_totals['i_tax']       += ($statement['details']['member_debit']->i_tax ?? 0) - $last_month_field['i_tax'];
-                $this_month_totals['ecess']       += ($statement['details']['member_debit']->ecess ?? 0) - $last_month_field['ecess'];
-                $this_month_totals['misc1']       += ($statement['details']['member_debit']->misc1 ?? 0) - $last_month_field['misc1'];
-                $this_month_totals['nps_10_rec']  += ($statement['details']['member_debit']->nps_10_rec ?? 0) - $last_month_field['nps_10_rec'];
-                $this_month_totals['npsg']        += ($statement['details']['member_debit']->npsg ?? 0) - $last_month_field['npsg'];
-                $this_month_totals['npsg_adj']    += ($statement['details']['member_debit']->npsg_adj ?? 0) - $last_month_field['npsg_adj'];
-                $this_month_totals['nps_14_adj']  += ($statement['details']['member_debit']->nps_14_adj ?? 0) - $last_month_field['nps_14_adj'];
-                $this_month_totals['licence_fee'] += ($statement['details']['member_debit']->licence_fee ?? 0) - $last_month_field['licence_fee'];
-                $this_month_totals['elec']        += ($statement['details']['member_debit']->elec ?? 0) - $last_month_field['elec'];
-                $this_month_totals['water']       += ($statement['details']['member_debit']->water ?? 0) - $last_month_field['water'];
-                $this_month_totals['furn']        += ($statement['details']['member_debit']->furn ?? 0) - $last_month_field['furn'];
+                $this_month_totals['gpa_sub']     += ($this_month_debit['details']['member_debit']->gpa_sub ?? 0) - $debit_statement['gpa_sub'];
+                $this_month_totals['gpf_adv']     += ($this_month_data_loan_gpf_adv_sum ?? 0) - $debit_statement['gpf_adv'];
+                $this_month_totals['cgegis']      += ($this_month_debit['details']['member_debit']->cgegis ?? 0) - $debit_statement['cgegis'];
+                $this_month_totals['cghs']        += ($this_month_debit['details']['member_debit']->cghs ?? 0) - $debit_statement['cghs'];
+                $this_month_totals['hba_adv']     += ($this_month_data_loan_hba_adv_sum ?? 0)  - $debit_statement['hba_adv'];
+                $this_month_totals['hba_int']     += ($this_month_data_loan_hba_adv_int ?? 0)  - $debit_statement['hba_int'];
+                $this_month_totals['i_tax']       += ($this_month_debit['details']['member_debit']->i_tax ?? 0) - $debit_statement['i_tax'];
+                $this_month_totals['ecess']       += ($this_month_debit['details']['member_debit']->ecess ?? 0) - $debit_statement['ecess'];
+                $this_month_totals['misc1']       += ($this_month_debit['details']['member_debit']->misc1 ?? 0) - $debit_statement['misc1'];
+                $this_month_totals['nps_10_rec']  += ($this_month_debit['details']['member_debit']->nps_10_rec ?? 0) - $debit_statement['nps_10_rec'];
+                $this_month_totals['npsg']        += ($this_month_debit['details']['member_debit']->npsg ?? 0) - $debit_statement['npsg'];
+                $this_month_totals['npsg_adj']    += ($this_month_debit['details']['member_debit']->npsg_adj ?? 0) - $debit_statement['npsg_adj'];
+                $this_month_totals['nps_14_adj']  += ($this_month_debit['details']['member_debit']->nps_14_adj ?? 0) - $debit_statement['nps_14_adj'];
+                $this_month_totals['licence_fee'] += ($this_month_debit['details']['member_debit']->licence_fee ?? 0) - $debit_statement['licence_fee'];
+                $this_month_totals['elec']        += ($this_month_debit['details']['member_debit']->elec ?? 0) - $debit_statement['elec'];
+                $this_month_totals['water']       += ($this_month_debit['details']['member_debit']->water ?? 0) - $debit_statement['water'];
+                $this_month_totals['furn']        += ($this_month_debit['details']['member_debit']->furn ?? 0) - $debit_statement['furn'];
             @endphp
 
                  <tr>
@@ -11087,7 +10912,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{ $statement['member_data']->name ?? '0' }}
+                        {{ $debit_statement['member']['name'] ?? '-' }}
 
                     </td>
                      <td style="
@@ -11102,7 +10927,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ $statement['member_data']->pran_number ?? '0' }}
+                       {{ $debit_statement['member']['pran_number'] ?? '0' }}
                     </td>
                      <td style="
                     font-size: 10px;
@@ -11117,7 +10942,7 @@ background: #cdcdcd;
                     border-bottom: 1px solid #000;
                   ">
                   {{-- {{dd($last_month_field['gpa_sub'])}} --}}
-                        {{ (($statement['details']['member_debit']->gpa_sub ?? 0) - $last_month_field['gpa_sub']) }}
+                        {{ (($this_month_debit['details']['member_debit']->gpa_sub ?? 0) - $last_month_field['gpa_sub']) }}
                     </td>
                      <td style="
                     font-size: 10px;
@@ -11131,7 +10956,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                     {{ (($this_month_data_loan_gpf_adv_sum ?? 0) - $last_month_field['gpa_adv']) }}
+                     {{ (($this_month_data_loan_gpf_adv_sum ?? 0) - $last_month_field['gpf_adv']) }}
                     </td>
 
                                     <td style="
@@ -11146,7 +10971,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($statement['details']['member_debit']->cgegis ?? 0) - $last_month_field['cgegis']) }}
+                       {{ (($this_month_debit['details']['member_debit']->cgegis ?? 0) - $last_month_field['cgegis']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11160,7 +10985,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ (($statement['details']['member_debit']->cghs ?? 0) - $last_month_field['cghs']) }}
+                      {{ (($this_month_debit['details']['member_debit']->cghs ?? 0) - $last_month_field['cghs']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11202,7 +11027,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($statement['details']['member_debit']->i_tax ?? 0) - $last_month_field['i_tax']) }}
+                       {{ (($this_month_debit['details']['member_debit']->i_tax ?? 0) - $last_month_field['i_tax']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11216,7 +11041,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($statement['details']['member_debit']->ecess ?? 0) - $last_month_field['ecess']) }}
+                       {{ (($this_month_debit['details']['member_debit']->ecess ?? 0) - $last_month_field['ecess']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11230,7 +11055,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($statement['details']['member_debit']->misc1 ?? 0) - $last_month_field['misc1']) }}
+                       {{ (($this_month_debit['details']['member_debit']->misc1 ?? 0) - $last_month_field['misc1']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11244,7 +11069,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($statement['details']['member_debit']->nps_10_rec ?? 0) - $last_month_field['nps_10_rec']) }}
+                       {{ (($this_month_debit['details']['member_debit']->nps_10_rec ?? 0) - $last_month_field['nps_10_rec']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11258,7 +11083,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ (($statement['details']['member_debit']->npsg ?? 0) - $last_month_field['npsg']) }}
+                      {{ (($this_month_debit['details']['member_debit']->npsg ?? 0) - $last_month_field['npsg']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11272,7 +11097,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($statement['details']['member_debit']->npsg_adj ?? 0) - $last_month_field['npsg_adj']) }}
+                       {{ (($this_month_debit['details']['member_debit']->npsg_adj ?? 0) - $last_month_field['npsg_adj']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11286,7 +11111,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ (($statement['details']['member_debit']->nps_14_adj ?? 0) - $last_month_field['nps_14_adj']) }}
+                      {{ (($this_month_debit['details']['member_debit']->nps_14_adj ?? 0) - $last_month_field['nps_14_adj']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11300,8 +11125,8 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                  {{-- @dd($statement['details']['member_debit']->licence_fee , $last_month_field['licence_fee']) --}}
-                   {{ (($statement['details']['member_debit']->licence_fee ?? 0) - $last_month_field['licence_fee']) }}
+                  {{-- @dd($debit_statement['details']['member_debit']->licence_fee , $last_month_field['licence_fee']) --}}
+                   {{ (($this_month_debit['details']['member_debit']->licence_fee ?? 0) - $last_month_field['licence_fee']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11315,7 +11140,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                  {{ (($statement['details']['member_debit']->elec ?? 0) - $last_month_field['elec']) }}
+                  {{ (($this_month_debit['details']['member_debit']->elec ?? 0) - $last_month_field['elec']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11329,7 +11154,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                   {{ (($statement['details']['member_debit']->water ?? 0) - $last_month_field['water']) }}
+                   {{ (($this_month_debit['details']['member_debit']->water ?? 0) - $last_month_field['water']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11344,7 +11169,7 @@ background: #cdcdcd;
                     border-right: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                   {{ (($statement['details']['member_debit']->furn ?? 0) - $last_month_field['furn']) }}
+                   {{ (($this_month_debit['details']['member_debit']->furn ?? 0) - $last_month_field['furn']) }}
                     </td>
                   </tr>
                     @endforeach
@@ -11671,7 +11496,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['gpa_adv'] ?? 0) + ($this_month_totals['gpa_adv'] ?? 0)}}
+                       {{($last_month_totals[$key_new]['gpf_adv'] ?? 0) + ($this_month_totals['gpf_adv'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11895,8 +11720,20 @@ background: #cdcdcd;
 
         </tbody>
       </table>
-       <div class="page-break"></div>
-      @endforeach
+       @if (!$loop->last)
+          <div class="page-break"></div>
+ @endif
+       @endif
+
+
+       @endforeach
+@endif
+
+
+
+
+
+{{-- change statement end --}}
 
         @if (count($gpf_adv_arr) > 0)
           <div class="page-break"></div>

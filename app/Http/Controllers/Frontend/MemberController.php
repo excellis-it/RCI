@@ -1453,6 +1453,11 @@ class MemberController extends Controller
         $member_details->cgegis = $request->cgegis;
 
         $member_details->pay_stop = $request->pay_stop;
+        if ($request->pay_stop && $request->pay_stop === 'Yes') {
+            $member_details->pay_stop_date = $request->pay_stop_date;
+        } else {
+            $member_details->pay_stop_date = null;
+        }
         $member_details->e_status = $request->e_status;
         $member_details->update();
 
@@ -1592,6 +1597,13 @@ class MemberController extends Controller
             $update_personal_member->cgegis = $request->cgegis;
             $update_personal_member->cgegis_text = $request->cgegis_text;
             $update_personal_member->pay_stop = $request->pay_stop;
+
+            if ($request->pay_stop && $request->pay_stop === 'Yes') {
+                $update_personal_member->pay_stop_date = $request->pay_stop_date;
+            } else {
+                $update_personal_member->pay_stop_date = null;
+            }
+
             $update_personal_member->landline_no = $request->landline_no;
             $update_personal_member->mobile_no = $request->mobile_no;
             $update_personal_member->mobile_allowance = $request->mobile_allowance;
@@ -1745,6 +1757,12 @@ class MemberController extends Controller
             $personal_member->cgegis = $request->cgegis;
             $personal_member->cgegis_text = $request->cgegis_text;
             $personal_member->pay_stop = $request->pay_stop;
+
+            if ($request->pay_stop && $request->pay_stop === 'Yes') {
+                $personal_member->pay_stop_date = $request->pay_stop_date;
+            } else {
+                $personal_member->pay_stop_date = null;
+            }
             $personal_member->landline_no = $request->landline_no;
             $personal_member->mobile_no = $request->mobile_no;
             $personal_member->mobile_allowance = $request->mobile_allowance;
@@ -2164,13 +2182,13 @@ class MemberController extends Controller
                 }
                 break;
 
-            // case 'GMC':
-            //     $member_debit = MemberMonthlyDataDebit::where('member_id', $memberId)->where('month', $amount_month)->where('year', $amount_year)->latest()->first();
-            //     if ($member_debit) {
-            //         $member_debit->cmg = $amount;
-            //         $member_debit->save();
-            //     }
-            //     break;
+            case 'NPSG':
+                $member_debit = MemberMonthlyDataDebit::where('member_id', $memberId)->where('month', $amount_month)->where('year', $amount_year)->latest()->first();
+                if ($member_debit) {
+                    $member_debit->npsg = $amount;
+                    $member_debit->save();
+                }
+                break;
 
             case 'TPT':
                 $member_credit = MemberMonthlyDataCredit::where('member_id', $memberId)->where('month', $amount_month)->where('year', $amount_year)->latest()->first();
@@ -2280,6 +2298,8 @@ class MemberController extends Controller
             'amount' => 'required',
         ]);
 
+
+
         $selectedValue = $request->rule_name;
         $data = explode(',', $selectedValue);
         $rule_name = $data[0];
@@ -2308,8 +2328,8 @@ class MemberController extends Controller
                 $member_core->update();
             }
         }
-
         if ($rule_name == 'NPSG') {
+
             $member_debit = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_debit) {
                 $member_debit->npsg = $request->amount;

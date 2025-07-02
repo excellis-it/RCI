@@ -696,12 +696,7 @@
 
 
             <div class="row">
-                <div class="col-md-6">
-                    <input type="text" class="form-control" name="cgegis_text" id="cgegis_text"
-                        value="{{ $member_personal->cgegis_text ?? ($member->cgegis_text ?? '') }}" placeholder=""
-                        hidden>
-                    <span class="text-danger"></span>
-                </div>
+
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <div class="row align-items-center">
@@ -728,6 +723,20 @@
                                     <label class="form-check-label" for="inlineRadio2">No</label>
                                 </div>
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Paystop Date</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="date" class="form-control" name="pay_stop_date" id="pay_stop_date"
+                                    value="{{ $member_personal->pay_stop_date ?? ($member->pay_stop_date ?? '') }}" placeholder="">
+                                <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>

@@ -57,17 +57,17 @@ class QuaterController extends Controller
     {
         $request->validate([
             'status' => 'required',
-            'grade_pay_id' => 'required',
-            'license_fee' => 'required',
+            // 'grade_pay_id' => 'required',
+            // 'license_fee' => 'required',
             'qrt_type' => 'required',
-            'qrt_charge' => 'required',
+            // 'qrt_charge' => 'required',
         ]);
 
         $quarter_value = new Quater();
-        $quarter_value->grade_pay_id = $request->grade_pay_id;
-        $quarter_value->license_fee = $request->license_fee;
+        // $quarter_value->grade_pay_id = $request->grade_pay_id;
+        // $quarter_value->license_fee = $request->license_fee;
         $quarter_value->qrt_type = $request->qrt_type;
-        $quarter_value->qrt_charge = $request->qrt_charge;
+        // $quarter_value->qrt_charge = $request->qrt_charge;
         $quarter_value->status = $request->status;
         $quarter_value->save();
 
@@ -101,17 +101,17 @@ class QuaterController extends Controller
     {
         $request->validate([
             'status' => 'required',
-            'grade_pay_id' => 'required',
-            'license_fee' => 'required',
+            // 'grade_pay_id' => 'required',
+            // 'license_fee' => 'required',
             'qrt_type' => 'required',
-            'qrt_charge' => 'required',
+            // 'qrt_charge' => 'required',
         ]);
 
         $quarter_value = Quater::find($id);
-        $quarter_value->grade_pay_id = $request->grade_pay_id;
-        $quarter_value->license_fee = $request->license_fee;
+        // $quarter_value->grade_pay_id = $request->grade_pay_id;
+        // $quarter_value->license_fee = $request->license_fee;
         $quarter_value->qrt_type = $request->qrt_type;
-        $quarter_value->qrt_charge = $request->qrt_charge;
+        // $quarter_value->qrt_charge = $request->qrt_charge;
         $quarter_value->status = $request->status;
         $quarter_value->update();
 
