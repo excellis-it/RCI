@@ -217,10 +217,10 @@
                             <td></td>
                             <td>Brought Forward</td>
                             <td></td>
-                            <td>0</td>
-                            <td>{{ formatIndianCurrency($total_bank_payments) }}</td>
+                            <td style="text-align:right;">0</td>
+                            <td style="text-align:right;">{{ formatIndianCurrency($total_bank_payments) }}</td>
                             @foreach ($category as $cat)
-                                <td>
+                                <td style="text-align:right;">
                                     {{-- @php
                                         $total_previous_balance1[$cat->id] = $total_previous_balance[$cat->id];
                                         $total_previous_reciepts[$cat->id] = $total_previous_balance1[$cat->id];
@@ -335,24 +335,24 @@
 
                                     </td>
                                     <td
-                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                                        @if ( $main_count_cvr  == 0)
                                             0
                                         @endif
                                     </td>
                                     <td
-                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                                        @if ( $main_count_cvr  == 0)
                                             {{ formatIndianCurrency($bank_amount) }}
                                         @endif
                                     </td>
                                     @foreach ($category as $cat)
                                         <td
-                                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                                         </td>
                                     @endforeach
                                     <td
-                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                     </td>
                                 </tr>
@@ -398,7 +398,7 @@
                                             </td>
                                             @foreach ($category as $cat)
                                                 <td
-                                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                     @if (isset($member['reciepts']) && $member['reciepts']['category_id'] == $cat->id)
                                                         {{ $member['amount'] ? formatIndianCurrency($member['amount']) : 0 }}
                                                         @php
@@ -479,10 +479,10 @@
 
                     <tr>
                         <td colspan="4">Total Payments</td>
-                        <td>0</td>
-                        <td>{{ formatIndianCurrency($total_bank_payments) }}</td>
+                        <td style="text-align: right;">0</td>
+                        <td style="text-align: right;">{{ formatIndianCurrency($total_bank_payments) }}</td>
                         @foreach ($category as $cat)
-                            <td>
+                            <td style="text-align: right;">
                                 @if ($start > 0)
                                     @php
                                         $total_previous_balance[$cat->id] =
@@ -503,10 +503,10 @@
 
                     <tr>
                         <td colspan="4">Balance Carried Forward</td>
-                        <td>0</td>
-                        <td>{{ formatIndianCurrency($total_bank_balnace_forword) }}</td>
+                        <td style="text-align: right;">0</td>
+                        <td style="text-align: right;">{{ formatIndianCurrency($total_bank_balnace_forword) }}</td>
                         @foreach ($category as $cat)
-                            <td>
+                            <td style="text-align: right;">
                                 @if ($start > 0)
                                     @php
                                         $total_previous_balance1[$cat->id] = $total_previous_balance[$cat->id];
@@ -531,11 +531,11 @@
                     </tr>
                     <tr>
                         <td colspan="4">Total Receipts</td>
-                        <td>0</td>
-                        <td>{{ formatIndianCurrency($total_bank_payments_reciepts) }}</td>
+                        <td style="text-align: right;">0</td>
+                        <td style="text-align: right;">{{ formatIndianCurrency($total_bank_payments_reciepts) }}</td>
                         @foreach ($category as $cat)
                             {{-- <td>{{ $totalReceipts[$cat->id] }}</td> --}}
-                            <td>
+                            <td style="text-align: right;">
                                 {{-- @if ($start > 0)
                                     {{ $total_previous_reciepts[$cat->id] }}
                                 @else --}}
@@ -769,12 +769,12 @@
 
                 <tr>
                     <td colspan="4">Total Payments</td>
-                    <td>0</td>
-                    <td>{{ formatIndianCurrency($total_bank_payments) }}</td>
+                    <td style="text-align: right;">0</td>
+                    <td style="text-align: right;">{{ formatIndianCurrency($total_bank_payments) }}</td>
                     @foreach ($category as $cat)
-                        <td>{{ formatIndianCurrency($categoryTotals[$cat->id]) }}</td>
+                        <td style="text-align: right;">{{ formatIndianCurrency($categoryTotals[$cat->id]) }}</td>
                     @endforeach
-                    <td></td>
+                    <td style="text-align: right;"></td>
                 </tr>
 
 
@@ -782,8 +782,8 @@
 
                 <tr>
                     <td colspan="4">Balance Carried Forward</td>
-                    <td>0</td>
-                    <td>{{ formatIndianCurrency($total_bank_balnace_forword) }}</td>
+                    <td style="text-align: right;">0</td>
+                    <td style="text-align: right;">{{ formatIndianCurrency($total_bank_balnace_forword) }}</td>
                     @foreach ($category as $cat)
                         {{-- <td>
                     @php
@@ -791,26 +791,26 @@
                     @endphp
                     {{ $balanceCarriedForward[$cat->id] }}
                 </td> --}}
-                        <td>
+                        <td style="text-align: right;">
                             {{ formatIndianCurrency($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date) - $categoryTotals[$cat->id]) }}
                         </td>
                     @endforeach
-                    <td></td>
+                    <td style="text-align: right;"></td>
                 </tr>
 
                 <tr>
                     <td colspan="4">Total Receipts</td>
-                    <td>0
+                    <td style="text-align: right;">0
 
                     </td>
-                    <td>{{ formatIndianCurrency($total_bank_payments_reciepts) }}</td>
+                    <td style="text-align: right;">{{ formatIndianCurrency($total_bank_payments_reciepts) }}</td>
                     @foreach ($category as $cat)
                         {{-- <td>{{ $totalReceipts[$cat->id] }}</td> --}}
-                        <td>
+                        <td style="text-align: right;">
                             {{ formatIndianCurrency($categoryAmounts[$cat->id] + Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                         </td>
                     @endforeach
-                    <td></td>
+                    <td style="text-align: right;"></td>
                 </tr>
             </tbody>
 

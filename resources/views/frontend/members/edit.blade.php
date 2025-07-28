@@ -203,207 +203,253 @@
     </div>
 @endsection
 @push('scripts')
+    <script>
+        $(document).ready(function() {
+            // === Filter Data by Year and Month ===
+            // Remove any previous binding, then bind once
+            let filterTimer;
+            $(document).off('change', '#year, #month').on('change', '#year, #month', function() {
+                clearTimeout(filterTimer);
+                filterTimer = setTimeout(() => {
+                    const year = $('#year').val();
+                    const month = $('#month').val();
 
-<script>
-    $(document).ready(function() {
-        // === Filter Data by Year and Month ===
-      // Remove any previous binding, then bind once
-      let filterTimer;
-        $(document).off('change', '#year, #month').on('change', '#year, #month', function () {
-            clearTimeout(filterTimer);
-            filterTimer = setTimeout(() => {
-                const year = $('#year').val();
-                const month = $('#month').val();
+                    if (year && month) {
+                        $.ajax({
+                            url: '{{ route('members.filterData') }}',
+                            type: 'GET',
+                            data: {
+                                year: year,
+                                month: month,
+                                member_id: '{{ $member->id }}'
+                            },
+                            beforeSend: function() {
+                                $('#filter-year-month').html('<div>Loading...</div>');
+                            },
+                            success: function(response) {
+                                $('#filter-year-month').html(response);
 
-                if (year && month) {
-                    $.ajax({
-                        url: '{{ route('members.filterData') }}',
-                        type: 'GET',
-                        data: {
-                            year: year,
-                            month: month,
-                            member_id: '{{ $member->id }}'
-                        },
-                        beforeSend: function () {
-                            $('#filter-year-month').html('<div>Loading...</div>');
-                        },
-                        success: function (response) {
-                            $('#filter-year-month').html(response);
+                                const baseUrl = window.location.origin + window.location
+                                    .pathname;
+                                history.pushState(null, '',
+                                    `${baseUrl}?year=${year}&month=${month}`);
 
-                            const baseUrl = window.location.origin + window.location.pathname;
-                            history.pushState(null, '', `${baseUrl}?year=${year}&month=${month}`);
-
-                            calculateLoanTotal();
-                            updateTotalDebit();
-                            calculateOrgRecoTotal();
-                        },
-                        error: function (xhr) {
-                            console.error(xhr.responseText);
-                            $('#filter-year-month').html('<div class="text-danger">Error loading data</div>');
-                        }
-                    });
-                }
-            }, 300); // 300ms debounce
-        });
-
-
-
-       $(document).on('keyup', '#misc1', function () {
-            let miscValue = parseFloat($(this).val()) || 0;
-
-            // Calculate 10% and 14% and round to nearest integer
-            let adj10 = Math.round(miscValue * 0.10);
-            let arr14 = Math.round(miscValue * 0.14);
-
-            // Set the values
-            $('#npsg_adj').val(adj10);
-            $('#nps_14_adj').val(arr14);
-        });
-
-
-        // === Calculate Total Loan Installment ===
-        function calculateLoanTotal() {
-            let total = 0;
-            $('.loan_inst_amounts').each(function() {
-                total += parseFloat($(this).val()) || 0;
+                                calculateLoanTotal();
+                                updateTotalDebit();
+                                calculateOrgRecoTotal();
+                            },
+                            error: function(xhr) {
+                                console.error(xhr.responseText);
+                                $('#filter-year-month').html(
+                                    '<div class="text-danger">Error loading data</div>'
+                                );
+                            }
+                        });
+                    }
+                }, 300); // 300ms debounce
             });
 
-            $('#total_loan_inst_amount').val(total.toFixed(2));
-            return total;
-        }
 
-        // === Calculate Organization Recovery Total ===
-        const orgFields = [
-            'ccs_sub', 'mess', 'security', 'misc7', 'ccs_rec', 'asso_fee', 'dbf', 'misc8',
-            'wel_sub', 'ben', 'med_ins', 'wel_rec', 'hdfc', 'maf', 'final_pay', 'lic',
-            'cort_atch', 'ogpf', 'ntp', 'ptax'
-        ];
 
-        function calculateOrgRecoTotal() {
-            let total = 0;
-            orgFields.forEach(id => {
-                const val = parseFloat($('#' + id).val()) || 0;
-                total += val;
+            $(document).on('keyup', '#misc1', function() {
+                let miscValue = parseFloat($(this).val()) || 0;
+
+                // Calculate 10% and 14% and round to nearest integer
+                let adj10 = Math.round(miscValue * 0.10);
+                let arr14 = Math.round(miscValue * 0.14);
+
+                $('#npsg_adj').val(adj10);
+                $('#nps_14_adj').val(arr14);
             });
-            $('#tot_rec').val(total.toFixed(2));
-            getAllTotal(); // ✅ Corrected function name
-        }
 
-        orgFields.forEach(id => {
-            $('#' + id).on('input', calculateOrgRecoTotal);
-        });
+            $(document).on('keyup', '#misc1', function() {
+                let miscValue = parseFloat($(this).val()) || 0;
+                // alert(miscValue  );
 
-        // === Calculate Debits from Deductions ===
-        const debitFields = [
-            "#gpa_sub", "#gpa_adv", "#gpf_arr", "#cgegis", "#cghs", "#hba", "#hba_interest", "#car",
-            "#car_interest",
-            '#gpf_rec', '#npsg_arr', '#nps_10_rec',
-            '#nps_10_arr',
-            '#nps_14_adj',
-            "#scooter", "#scooter_interest", "#comp_adv", "#comp_int", "#fadv", "#ltc", "#medi", "#tada",
-            "#leave_rec", "#pension_rec", "#i_tax", "#ecess", "#pli", "#misc1", "#misc2", "#quarter_charge",
-            "#penal_interest", "#nps_sub", "#eol", "#ccl", "#rent", "#elec", "#elec_arr", "#pc", "#water",
-            "#water_arr",
-            "#arrear_pay", "#npsg", "#npsg_adj", "#ltc_rec", "#medical_rec", "#tada_rec", "#misc3",
-            "#cda", "#furn", "#furn_arr", "#hra_rec", "#cmg", "#tpt_rec", "#licence_fee", "#society"
-        ];
+                let upadj10 = Math.round(miscValue * 0.10);
+                let uparr10 = Math.round(miscValue * 0.10);
 
-        function updateTotalDebit() {
-            let total = 0;
-            debitFields.forEach(field => {
-                if ($(field).length) {
-                    const val = parseFloat($(field).val()) || 0;
+                $('#ups_adj_10_per').val(upadj10);
+                $('#upsg_adj_10_per').val(uparr10);
+            });
+
+
+            // === Calculate Total Loan Installment ===
+            function calculateLoanTotal() {
+                let total = 0;
+                $('.loan_inst_amounts').each(function() {
+                    total += parseFloat($(this).val()) || 0;
+                });
+
+                $('#total_loan_inst_amount').val(total.toFixed(2));
+                return total;
+            }
+
+            // === Calculate Organization Recovery Total ===
+            const orgFields = [
+                'ccs_sub', 'mess', 'security', 'misc7', 'ccs_rec', 'asso_fee', 'dbf', 'misc8',
+                'wel_sub', 'ben', 'med_ins', 'wel_rec', 'hdfc', 'maf', 'final_pay', 'lic',
+                'cort_atch', 'ogpf', 'ntp', 'ptax'
+            ];
+
+            function calculateOrgRecoTotal() {
+                let total = 0;
+                orgFields.forEach(id => {
+                    const val = parseFloat($('#' + id).val()) || 0;
                     total += val;
-                }
+                });
+                $('#tot_rec').val(total.toFixed(2));
+                getAllTotal(); // ✅ Corrected function name
+            }
+
+            orgFields.forEach(id => {
+                $('#' + id).on('input', calculateOrgRecoTotal);
             });
 
-            const loanTotal = parseFloat($('#total_loan_inst_amount').val()) || 0;
-            // alert(loanTotal)
-            // alert(total)
-            let grandTotal = total + loanTotal;
+            // === Calculate Debits from Deductions ===
+            const debitFields = [
+                "#gpa_sub", "#gpa_adv", "#gpf_arr", "#cgegis", "#cghs", "#hba", "#hba_interest", "#car",
+                "#car_interest",
+                '#gpf_rec', '#npsg_arr', '#nps_10_rec',
+                '#nps_10_arr',
+                '#nps_14_adj',
+                '#ups_10_per_rec',
+                '#upsg_10_per',
+                '#ups_arr_10_per',
+                '#upsg_arr_10_per',
+                '#ups_adj_10_per',
+                '#upsg_adj_10_per',
+                "#scooter", "#scooter_interest", "#comp_adv", "#comp_int", "#fadv", "#ltc", "#medi", "#tada",
+                "#leave_rec", "#pension_rec", "#i_tax", "#ecess", "#pli", "#misc1", "#misc2", "#quarter_charge",
+                "#penal_interest", "#nps_sub", "#eol", "#ccl", "#rent", "#elec", "#elec_arr", "#pc", "#water",
+                "#water_arr",
+                "#arrear_pay", "#npsg", "#npsg_adj", "#ltc_rec", "#medical_rec", "#tada_rec", "#misc3",
+                "#cda", "#furn", "#furn_arr", "#hra_rec", "#cmg", "#tpt_rec", "#licence_fee", "#society"
+            ];
 
-            $('#tot_debits').val(grandTotal.toFixed(2)); // sets with 2 decimal places
+            function updateTotalDebit() {
+                let total = 0;
+                debitFields.forEach(field => {
+                    if ($(field).length) {
+                        const val = parseFloat($(field).val()) || 0;
+                        total += val;
+                    }
+                });
+
+                const loanTotal = parseFloat($('#total_loan_inst_amount').val()) || 0;
+                // alert(loanTotal)
+                // alert(total)
+                let grandTotal = total + loanTotal;
+
+                $('#tot_debits').val(grandTotal.toFixed(2)); // sets with 2 decimal places
 
 
-            const totalCredits = parseFloat($('#tot_credits').val()) || 0;
-            console.log('total credit-' + totalCredits);
-            console.log('total -' + total);
+                const totalCredits = parseFloat($('#tot_credits').val()) || 0;
+                console.log('total credit-' + totalCredits);
+                console.log('total -' + total);
 
-            const netPay = Math.max(totalCredits - grandTotal, 0);
-            $('#net_pay').val(netPay.toFixed(2));
+                const netPay = Math.max(totalCredits - grandTotal, 0);
+                $('#net_pay').val(netPay.toFixed(2));
 
-            getAllTotal(); // ✅ Corrected function name
-        }
-
-        debitFields.forEach(field => {
-            $(field).on('keyup', updateTotalDebit);
-        });
-
-        // === Calculate Net Pay and Take Home ===
-        function getAllTotal() {
-            const totalCredits = parseFloat($('#tot_credits').val()) || 0;
-            const otherDebits = parseFloat($('#tot_debits').val()) || 0;
-            // alert(loanTotal);
-            // alert(otherDebits);
-
-            const totalDebits = otherDebits;
-            const netPay = totalCredits - totalDebits;
-            const recovery = parseFloat($('#tot_rec').val()) || 0;
-            const takeHome = netPay - recovery;
-
-            $('#total_gross_pay').val(totalCredits.toFixed(2));
-            $('#total_debits').val(totalDebits.toFixed(2));
-            $('#total_net_pay').val(netPay.toFixed(2));
-            $('#total_recovery').val(recovery.toFixed(2));
-            $('#take_home').val(takeHome.toFixed(2));
-        }
-
-        // === Initial Calculations on Page Load ===
-        calculateLoanTotal();
-        calculateOrgRecoTotal();
-        updateTotalDebit();
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        const currentYear = new Date().getFullYear();
-        const currentMonth = new Date().getMonth() + 1; // getMonth returns 0-indexed value
-
-        // Function to populate months
-        function populateMonths(selectedYear) {
-            let $monthSelect = $('#month');
-            let prevSelected = $monthSelect.val(); // store previously selected month
-            $monthSelect.empty(); // clear existing options
-
-            let maxMonth = 12;
-            if (parseInt(selectedYear) == currentYear) {
-                maxMonth = currentMonth;
+                getAllTotal(); // ✅ Corrected function name
             }
 
-            for (let m = 1; m <= maxMonth; m++) {
-                let monthVal = m.toString().padStart(2, '0');
-                let monthName = new Date(2000, m - 1, 1).toLocaleString('default', { month: 'long' });
+            debitFields.forEach(field => {
+                $(field).on('keyup', updateTotalDebit);
+            });
 
-                // Select currentMonth if year is current and no previous selection,
-                // or retain previous selected month if it exists
-                let isSelected =
-                    (selectedYear == currentYear && m === currentMonth && !prevSelected) ||
-                    (monthVal === prevSelected);
+            // === Calculate Net Pay and Take Home ===
+            function getAllTotal() {
+                const totalCredits = parseFloat($('#tot_credits').val()) || 0;
+                const otherDebits = parseFloat($('#tot_debits').val()) || 0;
+                // alert(loanTotal);
+                // alert(otherDebits);
 
-                $monthSelect.append(
-                    `<option value="${monthVal}" ${isSelected ? 'selected' : ''}>${monthName}</option>`
-                );
+                const totalDebits = otherDebits;
+                const netPay = totalCredits - totalDebits;
+                const recovery = parseFloat($('#tot_rec').val()) || 0;
+                const takeHome = netPay - recovery;
+
+                $('#total_gross_pay').val(totalCredits.toFixed(2));
+                $('#total_debits').val(totalDebits.toFixed(2));
+                $('#total_net_pay').val(netPay.toFixed(2));
+                $('#total_recovery').val(recovery.toFixed(2));
+                $('#take_home').val(takeHome.toFixed(2));
             }
-        }
 
-        // Initial call on page load
-        populateMonths($('#year').val());
-
-        // Change event on year dropdown
-        $('#year').on('change', function () {
-            populateMonths($(this).val());
+            // === Initial Calculations on Page Load ===
+            calculateLoanTotal();
+            calculateOrgRecoTotal();
+            updateTotalDebit();
         });
-    });
-</script>
+    </script>
+    <script>
+        $(document).ready(function() {
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth() + 1; // getMonth returns 0-indexed value
 
+            // Function to populate months
+            function populateMonths(selectedYear) {
+                let $monthSelect = $('#month');
+                let prevSelected = $monthSelect.val(); // store previously selected month
+                $monthSelect.empty(); // clear existing options
+
+                let maxMonth = 12;
+                if (parseInt(selectedYear) == currentYear) {
+                    maxMonth = currentMonth;
+                }
+
+                for (let m = 1; m <= maxMonth; m++) {
+                    let monthVal = m.toString().padStart(2, '0');
+                    let monthName = new Date(2000, m - 1, 1).toLocaleString('default', {
+                        month: 'long'
+                    });
+
+                    // Select currentMonth if year is current and no previous selection,
+                    // or retain previous selected month if it exists
+                    let isSelected =
+                        (selectedYear == currentYear && m === currentMonth && !prevSelected) ||
+                        (monthVal === prevSelected);
+
+                    $monthSelect.append(
+                        `<option value="${monthVal}" ${isSelected ? 'selected' : ''}>${monthName}</option>`
+                    );
+                }
+            }
+
+            // Initial call on page load
+            populateMonths($('#year').val());
+
+            // Change event on year dropdown
+            $('#year').on('change', function() {
+                populateMonths($(this).val());
+            });
+        });
+    </script>
+
+    <script>
+        //grade pay found
+        $(document).ready(function() {
+            $('#pm_level').change(function() {
+                var pm_level = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('members.grade-pay') }}",
+                    type: 'POST',
+                    data: {
+                        pm_level: pm_level
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+
+                        $('#pm_index').val(response.pm_index.value);
+                    }
+
+
+                });
+            });
+        });
+    </script>
 @endpush

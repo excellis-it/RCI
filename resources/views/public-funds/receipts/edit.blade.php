@@ -63,7 +63,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <label>Amount</label>
-                                            <input type="number" step="any" class="form-control"
+                                            <input type="number" step="any" class="form-control" readonly
                                                 name="member_amount[]" value="{{ $member->amount }}">
                                         </div>
                                         <div class="col-md-2">

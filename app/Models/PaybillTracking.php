@@ -5,27 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MemberMonthlyDataVarInfo extends Model
+class PaybillTracking extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-
     protected $fillable = [
+        'e_status',
+        'generate_by',
         'month',
         'year',
-        'apply_date',
+        'account_officer_sign',
         'member_id',
-        'v_incr',
-        'noi',
-        'noi_pending',
-        'total',
-        'stop',
+        'category',
+        'dv_number',
+        'status',
     ];
 
-
+    // Relationships (optional)
     public function member()
     {
         return $this->belongsTo(Member::class);
+    }
+
+    public function categoryData()
+    {
+        return $this->belongsTo(Category::class, 'category');
     }
 }

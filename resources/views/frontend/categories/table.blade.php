@@ -3,7 +3,7 @@
         <tr>
             <td>{{ $category->category ?? 'N/A'}}</td>
             <td>{{ ($category->gazetted == false) ? 'NON-Gazetted' : 'Gazetted' }}</td>
-            <td>{{ $category->designationType->designation_type ?? 'N/A'}}</td>
+            {{-- <td>{{ $category->designationType->designation_type ?? 'N/A'}}</td> --}}
             <td>{{ $category->fund_type ?? 'N/A' }}</td>
             <td>{{ $category->med_ins ?? 'N/A' }}</td>
             <td>{{ $category->wel_sub ?? 'N/A' }}</td>

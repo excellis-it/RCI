@@ -13,7 +13,7 @@ class IncomeTaxSaving extends Model
         'member_id',
         'month',
         'year',
-
+        'financial_year',
         'annual_rent',
         'ph_disable',
         'fd_int',
@@ -49,7 +49,8 @@ class IncomeTaxSaving extends Model
         'cancer_80ddb_senior_dependent',
         'med_tri_80dd_disability',
         'ph_disable_80u_disability',
-        'it_rules'
+        'it_rules',
+        'med_ins'
     ];
 
     public function member()

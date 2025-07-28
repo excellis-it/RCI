@@ -37,8 +37,12 @@ class ChequePaymentController extends Controller
         $limit = $request->get('limit', 10) ?? 10;
 
         // dd( $lastPayme nt->cheq_date);
+        if ($lastPayment && $lastPayment->cheq_date) {
+             $initAllPayments = ChequePayment::with('chequePaymentMembers.member')->whereMonth('cheq_date', date('m', strtotime($lastPayment->cheq_date)))->orderBy('id', 'desc')->get();
+        } else {
+           $initAllPayments = [];
+        }
 
-        $initAllPayments = ChequePayment::with('chequePaymentMembers.member')->whereMonth('cheq_date', date('m', strtotime($lastPayment->cheq_date)))->orderBy('id', 'desc')->get();
 
         // Fetch the data based on the limit; use paginate if it's not 'All'
         if ($limit === 'All') {

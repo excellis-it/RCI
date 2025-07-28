@@ -338,7 +338,7 @@
                                                     <div class="form-group col-md-3 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
-                                                                <label>GMC</label>
+                                                                <label>NPSG</label>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="" id="" value="">
@@ -478,9 +478,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
-                                                <div class="row justify-content-end mt-4">                                                    
+                                                <div class="row justify-content-end mt-4">
                                                     <div class="col-auto mb-2">
                                                         <button type="submit" class="listing_add">Save</button>
                                                     </div>
@@ -498,7 +498,7 @@
                                                     </div>
                                                     <div class="col-auto mb-2">
                                                         Recovey Form
-                                                        <select class="p-2 rounded">                                                            
+                                                        <select class="p-2 rounded">
                                                             <option>Jan</option>
                                                             <option>Feb</option>
                                                             <option>Mar</option>
@@ -531,7 +531,7 @@
                                                                             <th>CPS</th>
                                                                             <th>I.Tax</th>
                                                                             <th>CGHS</th>
-                                                                            <th>GMC</th>
+                                                                            <th>NPSG</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody class="tbody_height_scroll">
@@ -655,7 +655,7 @@
                                                                 <div class="form-group col-md-6 mb-2">
                                                                     <div class="row align-items-center">
                                                                         <div class="col-md-12">
-                                                                            <label>GMC</label>
+                                                                            <label>NPSG</label>
                                                                         </div>
                                                                         <div class="col-md-12">
                                                                             <input type="text" class="form-control" name="" id="" value="">
@@ -679,7 +679,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row justify-content-end mt-4">                                                    
+                                                <div class="row justify-content-end mt-4">
                                                     <div class="col-auto mb-2">
                                                         <button type="submit" class="listing_add">Save</button>
                                                     </div>
@@ -697,7 +697,7 @@
                                                     </div>
                                                     <div class="col-auto mb-2">
                                                         Recovey Form
-                                                        <select class="p-2 rounded">                                                            
+                                                        <select class="p-2 rounded">
                                                             <option>Jan</option>
                                                             <option>Feb</option>
                                                             <option>Mar</option>
@@ -875,7 +875,7 @@
                                                     <div class="form-group col-md-3 mb-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-md-12">
-                                                                <label>GMC</label>
+                                                                <label>NPSG</label>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control" name="" id="" value="">
@@ -1102,7 +1102,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row justify-content-end mt-4">                                                    
+                                                <div class="row justify-content-end mt-4">
                                                     <div class="col-auto mb-2">
                                                         <button type="submit" class="listing_add">Save</button>
                                                     </div>
@@ -1120,7 +1120,7 @@
                                                     </div>
                                                     <div class="col-auto mb-2">
                                                         Recovey Form
-                                                        <select class="p-2 rounded">                                                            
+                                                        <select class="p-2 rounded">
                                                             <option>Jan</option>
                                                             <option>Feb</option>
                                                             <option>Mar</option>
@@ -1213,7 +1213,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row justify-content-end mt-4">                                                    
+                                                <div class="row justify-content-end mt-4">
                                                     <div class="col-auto mb-2">
                                                         <button type="submit" class="listing_add">Save</button>
                                                     </div>
@@ -1231,7 +1231,7 @@
                                                     </div>
                                                     <div class="col-auto mb-2">
                                                         Recovey Form
-                                                        <select class="p-2 rounded">                                                            
+                                                        <select class="p-2 rounded">
                                                             <option>Jan</option>
                                                             <option>Feb</option>
                                                             <option>Mar</option>

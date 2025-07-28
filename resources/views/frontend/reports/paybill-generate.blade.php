@@ -82,9 +82,15 @@
         $pageArrayRiskAllow = [];
         $pageArrayMiscCreditIt = [];
         $pageArrayMiscCredit = [];
+
         $pageArrayNpscCreditIt = [];
         $pageArrayNpgArrsCreditIt = [];
         $pageArrayNpgAdgCredit = [];
+
+
+        $pageArrayUpsc10Credit = [];
+        $pageArrayUpsgArrs10Credit = [];
+        $pageArrayUpsgcrAdj10Credit = [];
 
         $pageArrayGpfSub = [];
         $pageArrayGpfAdv = [];
@@ -138,6 +144,16 @@
         $pageArray_nps_10_rec = [];
         $pageArray_nps_10_arr = [];
         $pageArray_nps_14_adj = [];
+
+        $pageArray_ups_10_per_rec = [];
+        $pageArray_upsg_10_per = [];
+        $pageArray_ups_arr_10_per = [];
+        $pageArray_upsg_arr_10_per = [];
+        $pageArray_ups_adj_10_per = [];
+        $pageArray_upsg_adj_10_per = [];
+
+
+
         $pageArrayPayslipPay = [];
 
         // These should also be initialized per chunk for accurate sums
@@ -166,11 +182,18 @@
             // $pageArrayVariableAmount[$chunkKey] = 0;
             $pageArrayPayAllow[$chunkKey] = 0;
             $pageArrayRiskAllow[$chunkKey] = 0;
+
             $pageArrayNpscCreditIt[$chunkKey] = 0;
             $pageArrayNpgArrsCreditIt[$chunkKey] = 0;
             $pageArrayNpgAdgCredit[$chunkKey] = 0;
+
+            $pageArrayUpsc10Credit[$chunkKey] = 0;
+            $pageArrayUpsgArrs10Credit[$chunkKey] = 0;
+            $pageArrayUpsgcrAdj10Credit[$chunkKey] = 0;
+
             $pageArrayMiscCreditIt[$chunkKey] = 0;
             $pageArrayMiscCredit[$chunkKey] = 0;
+
             $pageArrayGpfSub[$chunkKey] = 0;
             $pageArrayGpfAdv[$chunkKey] = 0;
             $pageArrayGpfArr[$chunkKey] = 0;
@@ -197,12 +220,22 @@
             $pageArrayPlInsur[$chunkKey] = 0;
             $pageArrayMiscDebit[$chunkKey] = 0;
             $pageArrayMiscDebitIt[$chunkKey] = 0;
+
             $pageArrayNpsg[$chunkKey] = 0;
             $pageArrayNpsgArr[$chunkKey] = 0;
             $pageArrayNpsAdj[$chunkKey] = 0;
             $pageArray_nps_10_rec[$chunkKey] = 0;
             $pageArray_nps_10_arr[$chunkKey] = 0;
             $pageArray_nps_14_adj[$chunkKey] = 0;
+
+            $pageArray_ups_10_per_rec[$chunkKey] = 0;
+            $pageArray_upsg_10_per[$chunkKey] = 0;
+            $pageArray_ups_arr_10_per[$chunkKey] = 0;
+            $pageArray_upsg_arr_10_per[$chunkKey] = 0;
+            $pageArray_ups_adj_10_per[$chunkKey] = 0;
+            $pageArray_upsg_adj_10_per[$chunkKey] = 0;
+
+
             $pageArrayCgeisArr[$chunkKey] = 0;
             $pageArrayCghsArr[$chunkKey] = 0;
             $pageArrayPenalIntr[$chunkKey] = 0;
@@ -303,7 +336,14 @@
                                     </td>
                                     <td valign="top"
                                         style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
-                                        NPSC 14%<br>NPSG ARRS 14%<br>NPS ADJ14%<br>MISC CREDIT (IT)<br>MISC CREDIT
+                                       @if ($category_fund_type == 'UPS')
+                                          UPSC 10%<br>UPSG ARRS 10%<br>UPSGCR ADJ10%<br>
+                                        @else
+                                           NPSC 14%<br>NPSG ARRS 14%<br>NPS ADJ14%<br>
+                                       @endif
+
+
+                                        MISC CREDIT (IT)<br>MISC CREDIT
                                     </td>
                                     <td valign="top"
                                         style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
@@ -325,9 +365,16 @@
                                     </td>
                                     <td valign="top"
                                         style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
-                                        NPS 10% REC.<br>NPSG 14%<br>NPS ARR 10%<br>NPSG ARR 14%<br>NPS ADJ
+                                         @if ($category_fund_type == 'UPS')
+                                        UPS 10% REC.<br>UPSG 10%<br>UPS ARR 10%<br>UPSG ARR 10%<br>UPS ADJ
+                                        10%<br>UPSG ADJ
+                                        10%
+                                         @else
+                                           NPS 10% REC.<br>NPSG 14%<br>NPS ARR 10%<br>NPSG ARR 14%<br>NPS ADJ
                                         10%<br>NPS ADJ
                                         14%
+                                        @endif
+
                                     </td>
                                     <td valign="top"
                                         style="font-size: 12px; line-height: 18px; font-weight: 400; border-bottom:1px solid #000; color: #000; text-align: right; padding: 0px 5px; border-left: 1px solid #000; border-top: 1px solid #000; border-right: 1px solid #000; text-transform: uppercase;">
@@ -369,6 +416,7 @@
                                 $totalRiskAllow = 0;
                                 $totalMiscCreditIt = 0;
                                 $totalMiscCredit = 0;
+
                                 $totalGpfSub = 0;
                                 $totalGpfAdv = 0;
                                 $totalGpfArr = 0;
@@ -386,6 +434,7 @@
                                 $totalMiscDebit = 0;
                                 $totalMiscDebitIt = 0;
                                 $totalNps10Rec = 0;
+
                                 $totalCghsArr = 0;
                                 $totalCgeisArr = 0;
                                 $totalPenalIntr = 0;
@@ -397,7 +446,7 @@
                                 $bn = 0;
                                 $totalcredit = 0;
                                 $totalDebit = 0;
-                                $totalNetPay = 0;
+
                                 $totalTableRec = 0;
 
                                 //Loans
@@ -412,9 +461,14 @@
                                 $totalCarInt = 0;
 
                                 $totalLoans = 0;
+
                                 $totalNpscCreditIt = 0;
                                 $totalNpgArrsCreditIt = 0;
                                 $totalNpgAdgCredit = 0;
+
+                                $totalUpsc10Credit = 0;
+                                $totalUpsgArrs10Credit = 0;
+                                $totalUpsgcrAdj10Credit = 0;
 
                                 $totalNpsg = 0;
                                 $totalNpsgArr = 0;
@@ -422,7 +476,14 @@
                                 $total_nps_10_rec = 0;
                                 $total_nps_10_arr = 0;
                                 $total_nps_14_adj = 0;
-                                $totalPayslipPay = 0;
+
+                                $total_ups_10_per_rec = 0;
+                                $total_upsg_10_per = 0;
+                                $total_ups_arr_10_per = 0;
+                                $total_upsg_arr_10_per = 0;
+                                $total_ups_adj_10_per = 0;
+                                $total_upsg_adj_10_per = 0;
+
 
                             @endphp
 
@@ -448,9 +509,15 @@
                                         // $totalVariableAmount += $credit?->variable_amount ?? 0;
                                         $totalPayAllow += $credit?->arrs_pay_alw ?? 0;
                                         $totalRiskAllow += $credit?->risk_alw ?? 0;
+
                                         $totalNpscCreditIt += $credit?->npsc ?? 0;
                                         $totalNpgArrsCreditIt += $credit?->npg_arrs ?? 0;
                                         $totalNpgAdgCredit += $credit?->npg_adj ?? 0;
+
+                                        $totalUpsc10Credit += $credit?->upsc_10 ?? 0;
+                                        $totalUpsgArrs10Credit += $credit?->upsg_arrs_10 ?? 0;
+                                        $totalUpsgcrAdj10Credit += $credit?->upsgcr_adj_10 ?? 0;
+
                                         $totalMiscCreditIt += $credit?->misc1 ?? 0;
                                         $totalMiscCredit += $credit?->misc2 ?? 0;
 
@@ -480,12 +547,22 @@
                                         $totalPlInsur += $debit?->pli ?? 0;
                                         $totalMiscDebit += $debit?->misc1 ?? 0;
                                         $totalMiscDebitIt += $debit?->misc2 ?? 0;
+
                                         $totalNpsg += $debit?->npsg ?? 0;
                                         $totalNpsgArr += $debit?->npsg_arr ?? 0;
                                         $totalNpsAdj += $debit?->npsg_adj ?? 0;
                                         $total_nps_10_rec += $debit?->nps_10_rec ?? 0;
                                         $total_nps_10_arr += $debit?->nps_10_arr ?? 0;
                                         $total_nps_14_adj += $debit?->nps_14_adj ?? 0;
+
+                                        $total_ups_10_per_rec   += $debit?->ups_10_per_rec   ?? 0;
+                                        $total_upsg_10_per      += $debit?->upsg_10_per      ?? 0;
+                                        $total_ups_arr_10_per   += $debit?->ups_arr_10_per   ?? 0;
+                                        $total_upsg_arr_10_per  += $debit?->upsg_arr_10_per  ?? 0;
+                                        $total_ups_adj_10_per   += $debit?->ups_adj_10_per   ?? 0;
+                                        $total_upsg_adj_10_per  += $debit?->upsg_adj_10_per  ?? 0;
+
+
                                         $totalCgeisArr += $debit?->cgeis_arr ?? 0;
                                         $totalCghsArr += $debit?->cghs_arr ?? 0;
                                         $totalPenalIntr += $debit?->penal_intr ?? 0;
@@ -512,6 +589,9 @@
                                             ($credit?->npsc ?? 0) +
                                             ($credit?->npg_arrs ?? 0) +
                                             ($credit?->npg_adj ?? 0) +
+                                            ($credit?->upsc_10 ?? 0) +
+                                            ($credit?->upsg_arrs_10 ?? 0) +
+                                            ($credit?->upsgcr_adj_10 ?? 0)+
                                             ($credit?->misc1 ?? 0) +
                                             ($credit?->misc2 ?? 0);
 
@@ -542,12 +622,21 @@
                                             ($debit?->pli ?? 0) +
                                             ($debit?->misc1 ?? 0) +
                                             ($debit?->misc2 ?? 0) +
+
                                             ($debit?->npsg ?? 0) +
                                             ($debit?->npsg_arr ?? 0) +
                                             ($debit?->npsg_adj ?? 0) +
                                             ($debit?->nps_10_rec ?? 0) +
                                             ($debit?->nps_10_arr ?? 0) +
                                             ($debit?->nps_14_adj ?? 0) +
+
+                                            ($debit?->ups_10_per_rec ?? 0) +
+                                            ($debit?->upsg_10_per ?? 0) +
+                                            ($debit?->ups_arr_10_per ?? 0) +
+                                            ($debit?->upsg_arr_10_per ?? 0) +
+                                            ($debit?->ups_adj_10_per ?? 0) +
+                                            ($debit?->upsg_adj_10_per ?? 0) +
+
                                             ($debit?->cgeis_arr ?? 0) +
                                             ($debit?->cghs_arr ?? 0) +
                                             ($debit?->penal_intr ?? 0) +
@@ -561,7 +650,7 @@
 
                                         $singleNetPay = $singleTotalCredit - $singleTotalDebit;
 
-                                        $totalNetPay += $totalcredit - $totalDebit;
+
 
                                         $totalSingleTableRec =
                                             ($recovery?->tot_rec ?? 0);
@@ -570,7 +659,7 @@
 
                                         $pageArraySingleTableRec[$chunkKey] = $totalTableRec;
 
-                                        $totalPayslipPay += $totalNetPay - $totalTableRec;
+
 
                                         $singlePayslipPay = $singleNetPay - $totalSingleTableRec;
                                     @endphp
@@ -607,6 +696,16 @@
                                             $member_info['details']['member_credit']->npg_arrs ?? 0;
                                         $pageArrayNpgAdgCredit[$chunkKey] +=
                                             $member_info['details']['member_credit']->npg_adj ?? 0;
+
+
+
+
+
+                                        $pageArrayUpsc10Credit[$chunkKey] += $member_info['details']['member_credit']->upsc_10 ?? 0;
+                                        $pageArrayUpsgArrs10Credit[$chunkKey] += $member_info['details']['member_credit']->upsg_arrs_10 ?? 0;
+                                        $pageArrayUpsgcrAdj10Credit[$chunkKey] += $member_info['details']['member_credit']->upsgcr_adj_10 ?? 0;
+
+
                                         $pageArrayMiscCreditIt[$chunkKey] +=
                                             $member_info['details']['member_credit']->misc1 ?? 0;
                                         $pageArrayMiscCredit[$chunkKey] +=
@@ -677,6 +776,15 @@
                                         $pageArray_nps_14_adj[$chunkKey] +=
                                             $member_info['details']['member_debit']->nps_14_adj ?? 0;
 
+
+                                        $pageArray_ups_10_per_rec[$chunkKey] += $member_info['details']['member_debit']->ups_10_per_rec ?? 0;
+                                        $pageArray_upsg_10_per[$chunkKey]    += $member_info['details']['member_debit']->upsg_10_per ?? 0;
+                                        $pageArray_ups_arr_10_per[$chunkKey] += $member_info['details']['member_debit']->ups_arr_10_per ?? 0;
+                                        $pageArray_upsg_arr_10_per[$chunkKey] += $member_info['details']['member_debit']->upsg_arr_10_per ?? 0;
+                                        $pageArray_ups_adj_10_per[$chunkKey] += $member_info['details']['member_debit']->ups_adj_10_per ?? 0;
+                                        $pageArray_upsg_adj_10_per[$chunkKey] += $member_info['details']['member_debit']->upsg_adj_10_per ?? 0;
+
+
                                         $pageArrayCgeisArr[$chunkKey] +=
                                             $member_info['details']['member_debit']->cgeis_arr ?? 0;
                                         $pageArrayCghsArr[$chunkKey] +=
@@ -707,9 +815,15 @@
                                             // ($member_info['details']['member_credit']->variable_amount ?? 0) +
                                             ($member_info['details']['member_credit']->arrs_pay_alw ?? 0) +
                                             ($member_info['details']['member_credit']->risk_alw ?? 0) +
+
                                             ($member_info['details']['member_credit']->npsc ?? 0) +
                                             ($member_info['details']['member_credit']->npg_arrs ?? 0) +
                                             ($member_info['details']['member_credit']->npg_adj ?? 0) +
+
+                                              ($member_info['details']['member_credit']->upsc_10 ?? 0) +
+                                            ($member_info['details']['member_credit']->upsg_arrs_10 ?? 0) +
+                                            ($member_info['details']['member_credit']->upsgcr_adj_10 ?? 0) +
+
                                             ($member_info['details']['member_credit']->misc1 ?? 0) +
                                             ($member_info['details']['member_credit']->misc2 ?? 0);
                                         $pageArraycredit[$chunkKey] += $currentMemberCredit;
@@ -740,12 +854,21 @@
                                             ($member_info['details']['member_debit']->pli ?? 0) +
                                             ($member_info['details']['member_debit']->misc1 ?? 0) +
                                             ($member_info['details']['member_debit']->misc2 ?? 0) +
+
                                             ($member_info['details']['member_debit']->npsg ?? 0) +
                                             ($member_info['details']['member_debit']->npsg_arr ?? 0) +
                                             ($member_info['details']['member_debit']->npsg_adj ?? 0) +
                                             ($member_info['details']['member_debit']->nps_10_rec ?? 0) +
                                             ($member_info['details']['member_debit']->nps_10_arr ?? 0) +
                                             ($member_info['details']['member_debit']->nps_14_adj ?? 0) +
+                                             // UPS 10% fields
+                                            ($member_info['details']['member_debit']->ups_10_per_rec ?? 0) +
+                                            ($member_info['details']['member_debit']->upsg_10_per ?? 0) +
+                                            ($member_info['details']['member_debit']->ups_arr_10_per ?? 0) +
+                                            ($member_info['details']['member_debit']->upsg_arr_10_per ?? 0) +
+                                            ($member_info['details']['member_debit']->ups_adj_10_per ?? 0) +
+                                            ($member_info['details']['member_debit']->upsg_adj_10_per ?? 0)+
+
                                             ($member_info['details']['member_debit']->cgeis_arr ?? 0) +
                                             ($member_info['details']['member_debit']->cghs_arr ?? 0) +
                                             ($member_info['details']['member_debit']->penal_intr ?? 0) +
@@ -788,7 +911,7 @@
                                             {{ $member_info['member_data']->payLevels->value ?? '0' }}<br>
                                             {{ isset($member_info['member_data']->dob) && $member_info['member_data']->dob ? date('d M Y', strtotime($member_info['member_data']->dob )) : '' }} <br>
 
-                                            {{ $member_info['details']['member_core_info']->gpf_acc_no ?? $member_info['member_data']->pran_number ?? '0' }}
+                                            {{ $member_info['member_data']->gpf_no ?? $member_info['member_data']->pran_number ?? '0' }}
                                             <br>
                                              {{ isset($member_info['member_data']->doj_lab) && $member_info['member_data']->doj_lab ? date('d M Y', strtotime($member_info['member_data']->doj_lab )) : '' }}<br>
 
@@ -826,9 +949,16 @@
                                         <td valign="top"
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                            {{ round($member_info['details']['member_credit']->npsc ?? 0) }} <br>
+                                            @if ($category_fund_type == 'UPS')
+                                               {{ round($member_info['details']['member_credit']->upsc_10 ?? 0) }} <br>
+                                                {{ round($member_info['details']['member_credit']->upsg_arrs_10 ?? 0) }} <br>
+                                                {{ round($member_info['details']['member_credit']->upsgcr_adj_10 ?? 0) }} <br>
+                                            @else
+                                                 {{ round($member_info['details']['member_credit']->npsc ?? 0) }} <br>
                                             {{ round($member_info['details']['member_credit']->npg_arrs ?? 0) }} <br>
                                             {{ round($member_info['details']['member_credit']->npg_adj ?? 0) }} <br>
+                                            @endif
+
                                             {{ round($member_info['details']['member_credit']->misc1 ?? 0) }}<br>
                                             {{ round($member_info['details']['member_credit']->misc2 ?? 0) }}
 
@@ -890,12 +1020,22 @@
                                         <td valign="top"
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
+                                             @if ($category_fund_type == 'UPS')
+                                             {{ round($member_info['details']['member_debit']->ups_10_per_rec ?? 0) }} <br>
+                                            {{ round($member_info['details']['member_debit']->upsg_10_per ?? 0) }}<br>
+                                            {{ round($member_info['details']['member_debit']->ups_arr_10_per ?? 0) }} <br>
+                                            {{ round($member_info['details']['member_debit']->upsg_arr_10_per ?? 0) }}<br>
+                                            {{ round($member_info['details']['member_debit']->ups_adj_10_per ?? 0) }}<br>
+                                            {{ round($member_info['details']['member_debit']->upsg_adj_10_per ?? 0) }}<br>
+
+                                             @else
                                             {{ round($member_info['details']['member_debit']->nps_10_rec ?? 0) }} <br>
                                             {{ round($member_info['details']['member_debit']->npsg ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->nps_10_arr ?? 0) }} <br>
                                             {{ round($member_info['details']['member_debit']->npsg_arr ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->npsg_adj ?? 0) }}<br>
                                             {{ round($member_info['details']['member_debit']->nps_14_adj ?? 0) }}<br>
+                                            @endif
                                         </td>
                                         <td valign="top"
                                             style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
@@ -1219,9 +1359,19 @@
                                     <td valign="top"
                                         style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        {{ round($totalNpscCreditIt) }} <br>
+                                         @if ($category_fund_type == 'UPS')
+                                            {{ round($totalUpsc10Credit) }} <br>
+                                        {{ round($totalUpsgArrs10Credit) }} <br>
+                                        {{ round($totalUpsgcrAdj10Credit) }} <br>
+
+                                         @else
+
+                                       {{ round($totalNpscCreditIt) }} <br>
                                         {{ round($totalNpgArrsCreditIt) }} <br>
                                         {{ round($totalNpgAdgCredit) }} <br>
+
+                                        @endif
+
                                         {{ round($totalMiscCreditIt ?? 0) }}<br>
                                         {{ round($totalMiscCredit ?? 0) }}<br>
 
@@ -1273,12 +1423,22 @@
                                     <td valign="top"
                                         style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
+                                 @if ($category_fund_type == 'UPS')
+                                        {{ round($total_ups_10_per_rec) }} <br>
+                                        {{ round($total_upsg_10_per ?? 0) }} <br>
+                                        {{ round($total_ups_arr_10_per) }}<br>
+                                        {{ round($total_upsg_arr_10_per ?? 0) }} <br>
+                                        {{ round($total_ups_adj_10_per ?? 0) }} <br>
+                                        {{ round($total_upsg_adj_10_per) }}
+
+                                 @else
                                         {{ round($total_nps_10_rec) }} <br>
                                         {{ round($totalNpsg ?? 0) }} <br>
                                         {{ round($total_nps_10_arr) }}<br>
                                         {{ round($totalNpsgArr ?? 0) }} <br>
                                         {{ round($totalNpsAdj ?? 0) }} <br>
                                         {{ round($totalNpsAdj) }}
+                                        @endif
                                     </td>
                                     <td valign="top"
                                         style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
@@ -1301,9 +1461,17 @@
                                     <td valign="top"
                                         style="font-size: 14px; line-height: 18px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important;
                              margin: 0px 0px !important; text-transform: uppercase; border-bottom: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000;">
-                                        {{ round($totalcredit ?? 0) }}<br>
+                                        @php
+                                         $totalNetPay = 0;
+                                           $totalPayslipPay = 0;
+                                          $totalNetPay += $totalcredit - $totalDebit;
+
+                                            $totalPayslipPay = $totalNetPay - $totalTableRec;
+                                        @endphp
+
+                                       {{ round($totalcredit ?? 0) }}<br>
                                         {{ round($totalDebit) }}<br>
-                                       {{ round(($totalcredit ?? 0) - ($totalDebit ?? 0)) }}<br>
+                                       {{ round(($totalNetPay ?? 0)) }}<br>
                                         {{ round($totalTableRec) }}<br>
                                         {{ round($totalPayslipPay) }} <br>
                                     </td>
@@ -1598,6 +1766,53 @@ background: #cdcdcd;
 ">
                                     RISK ALLWN
                                 </th>
+                                  @if ($category_fund_type == 'UPS')
+                                    <th
+                                    style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: left;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                    UPSC 10%
+                                </th>
+                                <th
+                                    style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: left;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                    UPSG ARRS 10%
+                                </th>
+                                <th
+                                    style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: left;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                    UPSGCR ADJ10%
+                                </th>
+                                  @else
                                 <th
                                     style="
 font-size: 10px;
@@ -1643,6 +1858,7 @@ background: #cdcdcd;
 ">
                                     NPS ADJ14%
                                 </th>
+                                @endif
                                 <th
                                     style="
 font-size: 10px;
@@ -1706,9 +1922,15 @@ background: #cdcdcd;
                                     'var_incr' => 0,
                                     'pay_allow' => 0,
                                     'risk_allow' => 0,
+
                                     'npsc_credit_it' => 0,
                                     'npg_arrs_credit_it' => 0,
                                     'npg_adg_credit' => 0,
+
+                                    'upsc_10' => 0,
+                                    'upsg_arrs_10' => 0,
+                                    'upsgcr_adj_10' => 0,
+
                                     'misc_credit_it' => 0,
                                     'misc_credit' => 0,
                                 ];
@@ -1729,9 +1951,16 @@ background: #cdcdcd;
                                     $currentVarIncr = $pageArrayVarIncr[$key] ?? 0;
                                     $currentPayAllow = $pageArrayPayAllow[$key] ?? 0;
                                     $currentRiskAllow = $pageArrayRiskAllow[$key] ?? 0;
+
                                     $currentNpscCreditIt = $pageArrayNpscCreditIt[$key] ?? 0;
                                     $currentNpgArrsCreditIt = $pageArrayNpgArrsCreditIt[$key] ?? 0;
                                     $currentNpgAdgCredit = $pageArrayNpgAdgCredit[$key] ?? 0;
+
+                                    $currentUpsc10CreditIt = $pageArrayUpsc10Credit[$key] ?? 0;
+                                    $currentUpsgArrs10CreditIt = $pageArrayUpsgArrs10Credit[$key] ?? 0;
+                                    $currentUpsgcrAdj10Credit = $pageArrayUpsgcrAdj10Credit[$key] ?? 0;
+
+
                                     $currentMiscCreditIt = $pageArrayMiscCreditIt[$key] ?? 0;
                                     $currentMiscCredit = $pageArrayMiscCredit[$key] ?? 0;
 
@@ -1749,9 +1978,15 @@ background: #cdcdcd;
                                         $currentVarIncr +
                                         $currentPayAllow +
                                         $currentRiskAllow +
+
                                         $currentNpscCreditIt +
                                         $currentNpgArrsCreditIt +
                                         $currentNpgAdgCredit +
+
+                                        $currentUpsc10CreditIt +
+                                        $currentUpsgArrs10CreditIt +
+                                        $currentUpsgcrAdj10Credit +
+
                                         $currentMiscCreditIt +
                                         $currentMiscCredit;
 
@@ -1768,9 +2003,15 @@ background: #cdcdcd;
                                     $columnTotals['var_incr'] += $currentVarIncr;
                                     $columnTotals['pay_allow'] += $currentPayAllow;
                                     $columnTotals['risk_allow'] += $currentRiskAllow;
+
                                     $columnTotals['npsc_credit_it'] += $currentNpscCreditIt;
                                     $columnTotals['npg_arrs_credit_it'] += $currentNpgArrsCreditIt;
                                     $columnTotals['npg_adg_credit'] += $currentNpgAdgCredit;
+
+                                    $columnTotals['upsc_10'] += $currentUpsc10CreditIt;
+                                    $columnTotals['upsg_arrs_10'] += $currentUpsgArrs10CreditIt;
+                                    $columnTotals['upsgcr_adj_10'] += $currentUpsgcrAdj10Credit;
+
                                     $columnTotals['misc_credit_it'] += $currentMiscCreditIt;
                                     $columnTotals['misc_credit'] += $currentMiscCredit;
                                 @endphp
@@ -1985,7 +2226,61 @@ background: #cdcdcd;
                                     ">
                                         {{ $currentRiskAllow }}
                                     </td>
+                                    @if ($category_fund_type == 'UPS')
+                                       <td
+                                        style="
+                                        font-size: 10px;
+                                        line-height: 14px;
+                                        font-weight: 400;
+                                        color: #000;
+                                        text-align: right;
+                                        padding: 0px 5px !important;
+                                        margin: 0px 0px !important;
+                                        height: 20px;
+                                        border-top: 1px solid #000;
+                                        border-right: 1px solid #000;
+                                        border-bottom: 1px solid #000;
+                                    ">
+                                        {{ $currentUpsc10CreditIt }}
+
+
+
+                                    </td>
                                     <td
+                                        style="
+                                        font-size: 10px;
+                                        line-height: 14px;
+                                        font-weight: 400;
+                                        color: #000;
+                                        text-align: right;
+                                        padding: 0px 5px !important;
+                                        margin: 0px 0px !important;
+                                        height: 20px;
+                                        border-top: 1px solid #000;
+                                        border-right: 1px solid #000;
+                                        border-bottom: 1px solid #000;
+                                    ">
+                                        {{ $currentUpsgArrs10CreditIt }}
+                                    </td>
+                                    <td
+                                        style="
+                                        font-size: 10px;
+                                        line-height: 14px;
+                                        font-weight: 400;
+                                        color: #000;
+                                        text-align: right;
+                                        padding: 0px 5px !important;
+                                        margin: 0px 0px !important;
+                                        height: 20px;
+                                        border-top: 1px solid #000;
+                                        border-right: 1px solid #000;
+                                        border-bottom: 1px solid #000;
+                                    ">
+                                        {{ $currentUpsgcrAdj10Credit }}
+                                    </td>
+
+                                    @else
+                                       <td
                                         style="
                                         font-size: 10px;
                                         line-height: 14px;
@@ -2033,6 +2328,9 @@ background: #cdcdcd;
                                     ">
                                         {{ $currentNpgAdgCredit }}
                                     </td>
+
+                                    @endif
+
                                     <td
                                         style="
                                         font-size: 10px;
@@ -2281,6 +2579,23 @@ background: #cdcdcd;
                                 ">
                                     {{ $columnTotals['risk_allow'] }}
                                 </td>
+                                 @if ($category_fund_type == 'UPS')
+
+                                   <td
+                                    style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 400;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-right: 1px solid #000;
+                                    border-bottom: 1px solid #000;
+                                ">
+                                    {{ $columnTotals['upsc_10'] }}
+                                </td>
                                 <td
                                     style="
                                     font-size: 10px;
@@ -2294,6 +2609,39 @@ background: #cdcdcd;
                                     border-right: 1px solid #000;
                                     border-bottom: 1px solid #000;
                                 ">
+                                    {{ $columnTotals['upsg_arrs_10'] }}
+                                </td>
+                                <td
+                                    style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 400;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-right: 1px solid #000;
+                                    border-bottom: 1px solid #000;
+                                ">
+                                    {{ $columnTotals['upsgcr_adj_10'] }}
+                                </td>
+
+                                @else
+                                  <td
+                                    style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 400;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-right: 1px solid #000;
+                                    border-bottom: 1px solid #000;
+                                ">
+
                                     {{ $columnTotals['npsc_credit_it'] }}
                                 </td>
                                 <td
@@ -2326,6 +2674,9 @@ background: #cdcdcd;
                                 ">
                                     {{ $columnTotals['npg_adg_credit'] }}
                                 </td>
+
+                                @endif
+
                                 <td
                                     style="
                                     font-size: 10px;
@@ -2836,6 +3187,99 @@ background: #cdcdcd;
 ">
                                     MISC DEBIT (IT)
                                 </th>
+                                 @if ($category_fund_type == 'UPS')
+
+                                  <th
+                                    style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 500;
+color: #000;
+text-align: left;
+padding: 0px 2px !important;
+margin: 0px 0px !important;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                    UPS 10% REC
+                                </th>
+                                <th
+                                    style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 500;
+color: #000;
+text-align: left;
+padding: 0px 2px !important;
+margin: 0px 0px !important;
+border-top: 1px solid #000;
+border-right: 1px solid #000;
+background: #cdcdcd;
+">
+                                    UPSG 10%
+                                </th>
+                                <th
+                                    style="
+                                                                                                                                                                                                                                                            font-size: 10px;
+                                                                                                                                                                                                                                                            line-height: 14px;
+                                                                                                                                                                                                                                                            font-weight: 500;
+                                                                                                                                                                                                                                                            color: #000;
+                                                                                                                                                                                                                                                            text-align: left;
+                                                                                                                                                                                                                                                            padding: 0px 2px !important;
+                                                                                                                                                                                                                                                            margin: 0px 0px !important;
+                                                                                                                                                                                                                                                            border-top: 1px solid #000;
+                                                                                                                                                                                                                                                            border-right: 1px solid #000;
+                                                                                                                                                                                                                                                            background: #cdcdcd;
+                                                                                                                                                                                                                                                            ">
+                                    UPS ARR10%
+                                </th>
+                                <th
+                                    style="
+                                                                                                                                                                                                                                                                                                                            font-size: 10px;
+                                                                                                                                                                                                                                                                                                                            line-height: 14px;
+                                                                                                                                                                                                                                                                                                                            font-weight: 500;
+                                                                                                                                                                                                                                                                                                                            color: #000;
+                                                                                                                                                                                                                                                                                                                            text-align: left;
+                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
+                                                                                                                                                                                                                                                                                                                            margin: 0px 0px !important;
+                                                                                                                                                                                                                                                                                                                            border-top: 1px solid #000;
+                                                                                                                                                                                                                                                                                                                            border-right: 1px solid #000;
+                                                                                                                                                                                                                                                                                                                            background: #cdcdcd;
+                                                                                                                                                                                                                                                                                                                            ">
+                                    UPSG ARR10%
+                                </th>
+                                <th
+                                    style="
+                                                                                                                                                                                                                                                                                                                                                            font-size: 10px;
+                                                                                                                                                                                                                                                                                                                                                            line-height: 14px;
+                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
+                                                                                                                                                                                                                                                                                                                                                            color: #000;
+                                                                                                                                                                                                                                                                                                                                                            text-align: left;
+                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
+                                                                                                                                                                                                                                                                                                                                                            margin: 0px 0px !important;
+                                                                                                                                                                                                                                                                                                                                                            border-top: 1px solid #000;
+                                                                                                                                                                                                                                                                                                                                                            border-right: 1px solid #000;
+                                                                                                                                                                                                                                                                                                                                                            background: #cdcdcd;
+                                                                                                                                                                                                                                                                                                                                                            ">
+                                    UPS ADJ10%
+                                </th>
+                                <th
+                                    style="
+                                                                                                                                                                                                                                                                                                                                                                                            font-size: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                            line-height: 14px;
+                                                                                                                                                                                                                                                                                                                                                                                            font-weight: 500;
+                                                                                                                                                                                                                                                                                                                                                                                            color: #000;
+                                                                                                                                                                                                                                                                                                                                                                                            text-align: left;
+                                                                                                                                                                                                                                                                                                                                                                                            padding: 0px 2px !important;
+                                                                                                                                                                                                                                                                                                                                                                                            margin: 0px 0px !important;
+                                                                                                                                                                                                                                                                                                                                                                                            border-top: 1px solid #000;
+                                                                                                                                                                                                                                                                                                                                                                                            border-right: 1px solid #000;
+                                                                                                                                                                                                                                                                                                                                                                                            background: #cdcdcd;
+                                                                                                                                                                                                                                                                                                                                                                                            ">
+                                    UPSG ADJ10%
+                                </th>
+                                 @else
                                 <th
                                     style="
 font-size: 10px;
@@ -2926,6 +3370,7 @@ background: #cdcdcd;
                                                                                                                                                                                                                                                                                                                                                                                             ">
                                     NPSADJ14%
                                 </th>
+                                @endif
                                 <th
                                     style="
                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 10px;
@@ -3092,12 +3537,22 @@ background: #cdcdcd;
                             $totalPlInsur = round(array_sum($pageArrayPlInsur));
                             $totalMiscDebit = round(array_sum($pageArrayMiscDebit));
                             $totalMiscDebitIt = round(array_sum($pageArrayMiscDebitIt));
+
                             $totalNps10Rec = round(array_sum($pageArray_nps_10_rec));
                             $totalNpsg = round(array_sum($pageArrayNpsg));
                             $totalNps10Arr = round(array_sum($pageArray_nps_10_arr));
                             $totalNpsgArr = round(array_sum($pageArrayNpsgArr));
                             $totalNpsAdj = round(array_sum($pageArrayNpsAdj));
                             $totalNps14Adj = round(array_sum($pageArray_nps_14_adj));
+
+                            $totalUps10PerRec   = round(array_sum($pageArray_ups_10_per_rec));
+                            $totalUpsg10Per     = round(array_sum($pageArray_upsg_10_per));
+                            $totalUpsArr10Per   = round(array_sum($pageArray_ups_arr_10_per));
+                            $totalUpsgArr10Per  = round(array_sum($pageArray_upsg_arr_10_per));
+                            $totalUpsAdj10Per   = round(array_sum($pageArray_ups_adj_10_per));
+                            $totalUpsgAdj10Per  = round(array_sum($pageArray_upsg_adj_10_per));
+
+
                             $totalCghsArr = round(array_sum($pageArrayCghsArr));
                             $totalCgeisArr = round(array_sum($pageArrayCgeisArr));
                             $totalPenalIntr = round(array_sum($pageArrayPenalIntr));
@@ -3142,12 +3597,21 @@ background: #cdcdcd;
                                     $plInsur = $pageArrayPlInsur[$key] ?? 0;
                                     $miscDebit = $pageArrayMiscDebit[$key] ?? 0;
                                     $miscDebitIt = $pageArrayMiscDebitIt[$key] ?? 0;
+
                                     $nps10Rec = $pageArray_nps_10_rec[$key] ?? 0;
                                     $npsg = $pageArrayNpsg[$key] ?? 0;
                                     $nps10Arr = $pageArray_nps_10_arr[$key] ?? 0;
                                     $npsgArr = $pageArrayNpsgArr[$key] ?? 0;
                                     $npsAdj = $pageArrayNpsAdj[$key] ?? 0;
                                     $nps14Adj = $pageArray_nps_14_adj[$key] ?? 0;
+
+                                    $ups10Rec      = $pageArray_ups_10_per_rec[$key] ?? 0;
+                                    $upsg10        = $pageArray_upsg_10_per[$key] ?? 0;
+                                    $ups10Arr      = $pageArray_ups_arr_10_per[$key] ?? 0;
+                                    $upsg10Arr     = $pageArray_upsg_arr_10_per[$key] ?? 0;
+                                    $ups10Adj      = $pageArray_ups_adj_10_per[$key] ?? 0;
+                                    $upsg10Adj     = $pageArray_upsg_adj_10_per[$key] ?? 0;
+
                                     $cghsArr = $pageArrayCghsArr[$key] ?? 0;
                                     $cgeisArr = $pageArrayCgeisArr[$key] ?? 0;
                                     $penalIntr = $pageArrayPenalIntr[$key] ?? 0;
@@ -3184,12 +3648,21 @@ background: #cdcdcd;
                                         $plInsur +
                                         $miscDebit +
                                         $miscDebitIt +
+
                                         $nps10Rec +
                                         $npsg +
                                         $nps10Arr +
                                         $npsgArr +
                                         $npsAdj +
                                         $nps14Adj +
+
+                                         $ups10Rec +
+                                        $upsg10 +
+                                        $ups10Arr +
+                                        $upsg10Arr +
+                                        $ups10Adj +
+                                        $upsg10Adj +
+
                                         $cghsArr +
                                         $cgeisArr +
                                         $penalIntr +
@@ -3607,7 +4080,111 @@ background: #cdcdcd;
                                       ">
                                         {{ $pageArrayMiscDebitIt[$key] ?? 0 }}
                                     </td>
+                                    @if ($category_fund_type == 'UPS')
+                                         <td
+                                        style="
+                                        font-size: 10px;
+                                        line-height: 14px;
+                                        font-weight: 400;
+                                        color: #000;
+                                        text-align: right;
+                                        padding: 0px 5px !important;
+                                        margin: 0px 0px !important;
+                                        height: 20px;
+                                        border-top: 1px solid #000;
+                                        border-right: 1px solid #000;
+                                        border-bottom: 1px solid #000;
+                                      ">
+
+
+
+
+
+
+                                        {{ $pageArray_ups_10_per_rec[$key] ?? 0 }}
+                                    </td>
                                     <td
+                                        style="
+                                        font-size: 10px;
+                                        line-height: 14px;
+                                        font-weight: 400;
+                                        color: #000;
+                                        text-align: right;
+                                        padding: 0px 5px !important;
+                                        margin: 0px 0px !important;
+                                        height: 20px;
+                                        border-top: 1px solid #000;
+                                        border-right: 1px solid #000;
+                                        border-bottom: 1px solid #000;
+                                      ">
+                                        {{ $pageArray_upsg_10_per[$key] ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="
+                                        font-size: 10px;
+                                        line-height: 14px;
+                                        font-weight: 400;
+                                        color: #000;
+                                        text-align: right;
+                                        padding: 0px 5px !important;
+                                        margin: 0px 0px !important;
+                                        height: 20px;
+                                        border-top: 1px solid #000;
+                                        border-right: 1px solid #000;
+                                        border-bottom: 1px solid #000;
+                                      ">
+                                        {{ $pageArray_ups_arr_10_per[$key] ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="
+                                        font-size: 10px;
+                                        line-height: 14px;
+                                        font-weight: 400;
+                                        color: #000;
+                                        text-align: right;
+                                        padding: 0px 5px !important;
+                                        margin: 0px 0px !important;
+                                        height: 20px;
+                                        border-top: 1px solid #000;
+                                        border-right: 1px solid #000;
+                                        border-bottom: 1px solid #000;
+                                      ">
+                                        {{ $pageArray_upsg_arr_10_per[$key] ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="
+                                        font-size: 10px;
+                                        line-height: 14px;
+                                        font-weight: 400;
+                                        color: #000;
+                                        text-align: right;
+                                        padding: 0px 5px !important;
+                                        margin: 0px 0px !important;
+                                        height: 20px;
+                                        border-top: 1px solid #000;
+                                        border-right: 1px solid #000;
+                                        border-bottom: 1px solid #000;
+                                      ">
+                                        {{ $pageArray_ups_adj_10_per[$key] ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="
+                                        font-size: 10px;
+                                        line-height: 14px;
+                                        font-weight: 400;
+                                        color: #000;
+                                        text-align: right;
+                                        padding: 0px 5px !important;
+                                        margin: 0px 0px !important;
+                                        height: 20px;
+                                        border-top: 1px solid #000;
+                                        border-right: 1px solid #000;
+                                        border-bottom: 1px solid #000;
+                                      ">
+                                        {{ $pageArray_upsg_adj_10_per[$key] ?? 0 }}
+                                    </td>
+                                    @else
+                                     <td
                                         style="
                                         font-size: 10px;
                                         line-height: 14px;
@@ -3703,6 +4280,8 @@ background: #cdcdcd;
                                       ">
                                         {{ $pageArray_nps_14_adj[$key] ?? 0 }}
                                     </td>
+
+                                    @endif
                                     <td
                                         style="
                                         font-size: 10px;
@@ -3980,7 +4559,9 @@ background: #cdcdcd;
                                     border-right: 1px solid #000;
                                     border-bottom: 1px solid #000;
                                 ">
-                                    0
+
+{{$totalHbaInt}}
+
                                 </td>
                                 <td
                                     style="
@@ -4012,7 +4593,9 @@ background: #cdcdcd;
                                     border-right: 1px solid #000;
                                     border-bottom: 1px solid #000;
                                 ">
-                                    0
+
+{{$totalCarInt}}
+
                                 </td>
                                 <td
                                     style="
@@ -4028,7 +4611,10 @@ background: #cdcdcd;
                                     border-right: 1px solid #000;
                                     border-bottom: 1px solid #000;
                                 ">
-                                    0
+
+{{$totalScoAdv}}
+
+
                                 </td>
                                 <td
                                     style="
@@ -4044,7 +4630,7 @@ background: #cdcdcd;
                                     border-right: 1px solid #000;
                                     border-bottom: 1px solid #000;
                                 ">
-                                    0
+                                    {{$totalScoInt}}
                                 </td>
                                 <td
                                     style="
@@ -4076,7 +4662,11 @@ background: #cdcdcd;
                                     border-right: 1px solid #000;
                                     border-bottom: 1px solid #000;
                                 ">
-                                    0
+
+
+
+
+                                   {{$totalCompInt}}
                                 </td>
                                 <td
                                     style="
@@ -4092,7 +4682,7 @@ background: #cdcdcd;
                                     border-right: 1px solid #000;
                                     border-bottom: 1px solid #000;
                                 ">
-                                    0
+                                    {{$totalFestAdv}}
                                 </td>
                                 <td
                                     style="
@@ -4254,7 +4844,115 @@ background: #cdcdcd;
                                 ">
                                     {{ $totalMiscDebitIt }}
                                 </td>
+                                @if ($category_fund_type == 'UPS')
+                                                                <td
+                                    style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 700;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-top: 1px solid #000;
+                                    border-right: 1px solid #000;
+                                    border-bottom: 1px solid #000;
+                                ">
+
+                                    {{ $totalUps10PerRec }}
+
+
+
+
+                                </td>
                                 <td
+                                    style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 700;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-top: 1px solid #000;
+                                    border-right: 1px solid #000;
+                                    border-bottom: 1px solid #000;
+                                ">
+                                    {{ $totalUpsg10Per }}
+                                </td>
+                                <td
+                                    style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 700;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-top: 1px solid #000;
+                                    border-right: 1px solid #000;
+                                    border-bottom: 1px solid #000;
+                                ">
+                                    {{ $totalUpsArr10Per }}
+                                </td>
+                                <td
+                                    style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 700;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-top: 1px solid #000;
+                                    border-right: 1px solid #000;
+                                    border-bottom: 1px solid #000;
+                                ">
+
+
+
+                                    {{ $totalUpsgArr10Per }}
+                                </td>
+                                <td
+                                    style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 700;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-top: 1px solid #000;
+                                    border-right: 1px solid #000;
+                                    border-bottom: 1px solid #000;
+                                ">
+                                    {{ $totalUpsAdj10Per }}
+                                </td>
+                                <td
+                                    style="
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    font-weight: 700;
+                                    color: #000;
+                                    text-align: right;
+                                    padding: 0px 5px !important;
+                                    margin: 0px 0px !important;
+                                    height: 20px;
+                                    border-top: 1px solid #000;
+                                    border-right: 1px solid #000;
+                                    border-bottom: 1px solid #000;
+                                ">
+                                    {{ $totalUpsgAdj10Per }}
+                                </td>
+
+                                @else
+
+                                                                <td
                                     style="
                                     font-size: 10px;
                                     line-height: 14px;
@@ -4350,6 +5048,9 @@ background: #cdcdcd;
                                 ">
                                     {{ $totalNps14Adj }}
                                 </td>
+
+                                @endif
+
                                 <td
                                     style="
                                     font-size: 10px;
@@ -5224,6 +5925,114 @@ background: #cdcdcd;
 
                                             </td>
                                         </tr>
+                                        @if ($category_fund_type == 'UPS')
+                                        <tr>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: left;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                UPSC 10%
+                                            </td>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: right;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-right: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+
+
+
+                                                {{ $columnTotals['upsc_10'] }}
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: left;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                UPSG Arrs 10%
+                                            </td>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: right;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-right: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                {{ $columnTotals['upsg_arrs_10'] }}
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: left;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                UPSGCR ADJ10%
+                                            </td>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: right;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-right: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                {{ $columnTotals['upsgcr_adj_10'] }}
+
+                                            </td>
+                                        </tr>
+
+                                        @else
                                         <tr>
                                             <td
                                                 style="
@@ -5326,6 +6135,9 @@ background: #cdcdcd;
 
                                             </td>
                                         </tr>
+
+                                        @endif
+
                                         <tr>
                                             <td
                                                 style="
@@ -6281,7 +7093,225 @@ background: #cdcdcd;
 
                                             </td>
                                         </tr>
+                                        @if ($category_fund_type == 'UPS')
+                                         <tr>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: left;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                UPS 10% REC
+                                            </td>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: right;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-right: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+
+
+                                                {{ $totalUps10PerRec ?? 0 }}
+
+                                            </td>
+                                        </tr>
                                         <tr>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: left;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                UPSG 14%
+                                            </td>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: right;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-right: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                {{ $totalUpsg10Per ?? 0 }}
+
+
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: left;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                UPS ARR10%
+                                            </td>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: right;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-right: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                {{ $totalUpsArr10Per ?? 0 }}
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: left;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                UPSG ARR14%
+                                            </td>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: right;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-right: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+
+
+
+                                                {{ $totalUpsgArr10Per ?? 0 }}
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: left;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                UPS ADJ10%
+                                            </td>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: right;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-right: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+
+
+                                                {{ $totalUpsAdj10Per ?? 0 }}
+
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: left;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                UPSG ADJ14%
+                                            </td>
+                                            <td
+                                                style="
+                            font-size: 10px;
+                            line-height: 14px;
+                            font-weight: 400;
+                            color: #000;
+                            text-align: right;
+                            padding: 0px 5px !important;
+                            margin: 0px 0px !important;
+                            height: 20px;
+                            border-left: 1px solid #000;
+                            border-right: 1px solid #000;
+                            border-bottom: 1px solid #000;
+                          ">
+                                                {{ $totalUpsgAdj10Per ?? 0 }}
+
+                                            </td>
+                                        </tr>
+
+                                        @else
+
+                                         <tr>
                                             <td
                                                 style="
                             font-size: 10px;
@@ -6486,6 +7516,9 @@ background: #cdcdcd;
 
                                             </td>
                                         </tr>
+
+                                        @endif
+
 
                                         <tr>
                                             <td
@@ -6980,7 +8013,7 @@ background: #cdcdcd;
                 ">
 
                                         RECOVERY SCHEDULE OF CGEGIS IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }}
                                     </td>
                                 </tr>
@@ -7381,7 +8414,7 @@ background: #cdcdcd;
                 ">
 
                                         RECOVERY SCHEDULE OF CGHS IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }}
                                     </td>
                                 </tr>
@@ -7986,6 +9019,37 @@ background: #cdcdcd;
                 ">
                                         RISK ALL
                                     </th>
+                                    @if ($category_fund_type == 'UPS')
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-left: 1px solid #000;
+                  border-top: 1px solid #000;
+                ">
+                                        UPSG(10%)
+                                    </th>
+                                    <th
+                                        style="
+                  font-size: 10px;
+                  line-height: 14px;
+                  font-weight: 600;
+                  color: #000;
+                  text-align: center;
+                  padding: 0px 5px !important;
+                  margin: 0px 0px !important;
+                  border-top: 1px solid #000;
+                  border-left: 1px solid #000;
+                ">
+                                        UPSG ADJ
+                                    </th>
+
+                                    @else
                                     <th
                                         style="
                   font-size: 10px;
@@ -8014,6 +9078,9 @@ background: #cdcdcd;
                 ">
                                         NPS ADJ
                                     </th>
+
+                                    @endif
+
                                     <th
                                         style="
                   font-size: 10px;
@@ -8498,6 +9565,41 @@ background: #cdcdcd;
           ">
                                          {{  $chunkTotals[$key_new]['risk_alw'] ?? 0}}
 
+                                      @if ($category_fund_type == 'UPS')
+                                       <td
+                                        style="
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: right;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            height: 20px;
+            border-left: 1px solid #000;
+            border-bottom: 1px solid #000;
+          ">
+                                         {{   $chunkTotals[$key_new]['upsc_10'] ?? 0}}
+
+                                     </td>
+
+                                    <td
+                                        style="
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: right;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            height: 20px;
+            border-left: 1px solid #000;
+            border-bottom: 1px solid #000;
+          ">
+                                          {{  $chunkTotals[$key_new]['upsgcr_adj_10'] ?? 0}}
+
+                                    </td>
+                                      @else
                                     <td
                                         style="
             font-size: 10px;
@@ -8531,6 +9633,7 @@ background: #cdcdcd;
                                           {{  $chunkTotals[$key_new]['npg_adj'] ?? 0}}
 
                                     </td>
+                                    @endif
                                     <td
                                         style="
             font-size: 10px;
@@ -8809,6 +9912,8 @@ background: #cdcdcd;
                                   'risk_alw' => 0,
                                   'npsc' => 0,
                                   'npg_adj' => 0,
+                                   'upsc_10' => 0,
+                                  'upsgcr_adj_10' => 0,
                                   'misc_1' => 0,
                               ];
                                 @endphp
@@ -8836,6 +9941,11 @@ background: #cdcdcd;
             'risk_alw' => $statement['risk_alw'] ?? 0,
             'npsc' => $statement['npsc'] ?? 0,
             'npg_adj' => $statement['npg_adj'] ?? 0,
+
+             'upsc_10' => $statement['upsc_10'] ?? 0,
+            'upsgcr_adj_10' => $statement['upsgcr_adj_10'] ?? 0,
+
+
             'misc_1' => $statement['misc_1'] ?? 0, // Assuming misc_1 is used for MISC CR total
         ];
 
@@ -8850,6 +9960,7 @@ background: #cdcdcd;
                 ->where('year', $year)
                 ->orderBy('id', 'desc')
                 ->first();
+                // dd($this_month_credit);
 
         $this_month_totals['pay'] += ($this_month_credit->pay ?? 0) - $last_month_field['pay'];
         $this_month_totals['da'] += ($this_month_credit->da ?? 0) - $last_month_field['da'];
@@ -8864,6 +9975,10 @@ background: #cdcdcd;
         $this_month_totals['risk_alw'] += ($this_month_credit->risk_alw ?? 0) - $last_month_field['risk_alw'];
         $this_month_totals['npsc'] += ($this_month_credit->npsc ?? 0) - $last_month_field['npsc'];
         $this_month_totals['npg_adj'] += ($this_month_credit->npg_adj ?? 0) - $last_month_field['npg_adj'];
+
+         $this_month_totals['upsc_10'] += ($this_month_credit->upsc_10 ?? 0) - $last_month_field['upsc_10'];
+        $this_month_totals['upsgcr_adj_10'] += ($this_month_credit->upsgcr_adj_10 ?? 0) - $last_month_field['upsgcr_adj_10'];
+
         $this_month_totals['misc_1'] += ($this_month_credit->misc_1 ?? 0) - $last_month_field['misc_1'];
                                 // dd($statement['member']);
                                     @endphp
@@ -9075,6 +10190,42 @@ background: #cdcdcd;
                                             {{ ($this_month_credit->risk_alw ?? 0) -   $last_month_field['risk_alw']
                                            }}
                                         </td>
+                                        @if ($category_fund_type == 'UPS')
+                                        <td
+                                            style="
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: right;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            height: 20px;
+            border-left: 1px solid #000;
+            border-bottom: 1px solid #000;
+        ">
+                                            {{-- NPS(14%) - This value needs to be calculated. If NPS is part of total credits, you might need to adjust. For now, using the hardcoded 2130 as per your example, but this doesn't make sense for 14% of BASIC. You need to define how this is calculated. --}}
+                                            {{ ($this_month_credit->upsc_10 ?? 0) -   $last_month_field['upsc_10']
+                                           }}
+                                        </td>
+                                        <td
+                                            style="
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: right;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            height: 20px;
+            border-left: 1px solid #000;
+            border-bottom: 1px solid #000;
+        ">
+                                            {{ ($this_month_credit->upsgcr_adj_10 ?? 0) -  $last_month_field['upsgcr_adj_10']}}
+                                            {{-- NPS ADJ, keeping as 0 based on your initial table entry --}}
+                                        </td>
+
+                                        @else
                                         <td
                                             style="
             font-size: 10px;
@@ -9108,6 +10259,9 @@ background: #cdcdcd;
                                             {{ ($this_month_credit->npg_adj ?? 0) -  $last_month_field['npg_adj']}}
                                             {{-- NPS ADJ, keeping as 0 based on your initial table entry --}}
                                         </td>
+
+                                        @endif
+
                                         <td
                                             style="
             font-size: 10px;
@@ -9573,7 +10727,43 @@ background: #cdcdcd;
 
 {{ ($chunkTotals[$key_new]['risk_alw'] ?? 0) + ($this_month_totals['risk_alw'] ?? 0) }}
                                     </td>
+                                      @if ($category_fund_type == 'UPS')
+                                       <td
+                                        style="
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: right;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            height: 20px;
+            border-left: 1px solid #000;
+            border-bottom: 1px solid #000;
+          ">
+
+{{ ($chunkTotals[$key_new]['upsc_10'] ?? 0) + ($this_month_totals['upsc_10'] ?? 0) }}
+                                    </td>
                                     <td
+                                        style="
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: 400;
+            color: #000;
+            text-align: right;
+            padding: 0px 5px !important;
+            margin: 0px 0px !important;
+            height: 20px;
+            border-left: 1px solid #000;
+            border-bottom: 1px solid #000;
+          ">
+
+
+{{ ($chunkTotals[$key_new]['upsgcr_adj_10'] ?? 0) + ($this_month_totals['upsgcr_adj_10'] ?? 0) }}
+                                    </td>
+
+                                    @else
+                                     <td
                                         style="
             font-size: 10px;
             line-height: 14px;
@@ -9606,6 +10796,9 @@ background: #cdcdcd;
 
 {{ ($chunkTotals[$key_new]['npg_adj'] ?? 0) + ($this_month_totals['npg_adj'] ?? 0) }}
                                     </td>
+
+                                    @endif
+
                                     <td
                                         style="
             font-size: 10px;
@@ -9824,7 +11017,62 @@ background: #cdcdcd;
                         ">
                       MISC DR
                     </th>
+                    @if ($category_fund_type == 'UPS')
+                     <th style="
+                          font-size: 10px;
+                          line-height: 14px;
+                          font-weight: 600;
+                          color: #000;
+                          text-align: center;
+                          padding: 0px 5px !important;
+                          margin: 0px 0px !important;
+                          border-top: 1px solid #000;
+                          border-left: 1px solid #000;
+                        ">
+                      UPS 10%
+                    </th>
                     <th style="
+                          font-size: 10px;
+                          line-height: 14px;
+                          font-weight: 600;
+                          color: #000;
+                          text-align: center;
+                          padding: 0px 5px !important;
+                          margin: 0px 0px !important;
+                          border-top: 1px solid #000;
+                          border-left: 1px solid #000;
+                        ">
+                     UPSG 10%
+                    </th>
+                    <th style="
+                          font-size: 10px;
+                          line-height: 14px;
+                          font-weight: 600;
+                          color: #000;
+                          text-align: center;
+                          padding: 0px 5px !important;
+                          margin: 0px 0px !important;
+                          border-left: 1px solid #000;
+                          border-top: 1px solid #000;
+                        ">
+                      UPS ADJ(10%)
+                    </th>
+                    <th style="
+                          font-size: 10px;
+                          line-height: 14px;
+                          font-weight: 600;
+                          color: #000;
+                          text-align: center;
+                          padding: 0px 5px !important;
+                          margin: 0px 0px !important;
+                          border-top: 1px solid #000;
+                          border-left: 1px solid #000;
+                        ">
+                      UPSG ADJ(10%)
+                    </th>
+
+                    @else
+                     <th style="
                           font-size: 10px;
                           line-height: 14px;
                           font-weight: 600;
@@ -9848,7 +11096,7 @@ background: #cdcdcd;
                           border-top: 1px solid #000;
                           border-left: 1px solid #000;
                         ">
-                      NPS 14%
+                      NPSG 14%
                     </th>
                     <th style="
                           font-size: 10px;
@@ -9876,6 +11124,9 @@ background: #cdcdcd;
                         ">
                       NPSADJ(14%)
                     </th>
+
+                    @endif
+
                     <th style="
                           font-size: 10px;
                           line-height: 14px;
@@ -10389,6 +11640,68 @@ background: #cdcdcd;
                        {{  $debit_statements['totals']['misc1']  ?? 0}}
 
                     </td>
+                      @if ($category_fund_type == 'UPS')
+                      <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                      {{  $debit_statements['totals']['ups_10_per_rec'] ?? 0}}
+
+                    </td>
+                                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                      {{ $debit_statements['totals']['upsg_10_per']  ?? 0}}
+
+                    </td>
+                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                      {{$debit_statements['totals']['ups_adj_10_per'] ?? 0}}
+
+                    </td>
+                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                     {{   $debit_statements['totals']['upsg_adj_10_per']  ?? 0}}
+
+                    </td>
+                      @else
                                     <td style="
                     font-size: 10px;
                     line-height: 14px;
@@ -10449,6 +11762,7 @@ background: #cdcdcd;
                      {{   $debit_statements['totals']['nps_14_adj']  ?? 0}}
 
                     </td>
+                    @endif
 
                     <td style="
                     font-size: 10px;
@@ -10796,6 +12110,13 @@ background: #cdcdcd;
                                     'npsg' => 0,
                                     'npsg_adj' => 0,
                                     'nps_14_adj' => 0,
+
+                                     'ups_10_per_rec' => 0,
+                                    'upsg_10_per' => 0,
+                                    'ups_adj_10_per' => 0,
+                                    'upsg_adj_10_per' => 0,
+
+
                                     'misc_1' => 0,
                                     'licence_fee' => 0,
                                     'elec' => 0,
@@ -10856,12 +12177,14 @@ background: #cdcdcd;
                         ->orWhere('pay_stop_date', '>', $compareDate);
                     });
                 })
-                ->where('member_id', $statement['member_id'])
+                ->where('member_id', $debit_statement['member_id'])
                 ->where('month', $themonth)
                 ->where('year', $year)
                 ->orderBy('id', 'desc')
                 ->first();
-                // dd($debit_statement['gpa_sub']);
+
+
+
                 $last_month_field['gpa_sub']    = $debit_statement['gpa_sub'] ?? 0;
                 $last_month_field['gpf_adv']    = $debit_statement['gpf_adv'] ?? 0;
                 $last_month_field['cgegis']     = $debit_statement['cgegis'] ?? 0;
@@ -10871,32 +12194,46 @@ background: #cdcdcd;
                 $last_month_field['i_tax']      = $debit_statement['i_tax'] ?? 0;
                 $last_month_field['ecess']      = $debit_statement['ecess'] ?? 0;
                 $last_month_field['misc1']      = $debit_statement['misc1'] ?? 0;
+
                 $last_month_field['nps_10_rec'] = $debit_statement['nps_10_rec'] ?? 0;
                 $last_month_field['npsg']       = $debit_statement['npsg'] ?? 0;
                 $last_month_field['npsg_adj']   = $debit_statement['npsg_adj'] ?? 0;
                 $last_month_field['nps_14_adj'] = $debit_statement['nps_14_adj'] ?? 0;
+
+                $last_month_field['ups_10_per_rec'] = $debit_statement['ups_10_per_rec'] ?? 0;
+                $last_month_field['upsg_10_per']       = $debit_statement['upsg_10_per'] ?? 0;
+                $last_month_field['ups_adj_10_per']   = $debit_statement['ups_adj_10_per'] ?? 0;
+                $last_month_field['upsg_adj_10_per'] = $debit_statement['upsg_adj_10_per'] ?? 0;
+
                 $last_month_field['licence_fee']= $debit_statement['licence_fee'] ?? 0;
                 $last_month_field['elec']       = $debit_statement['elec'] ?? 0;
                 $last_month_field['water']      = $debit_statement['water'] ?? 0;
                 $last_month_field['furn']       = $debit_statement['furn'] ?? 0;
 
-                $this_month_totals['gpa_sub']     += ($this_month_debit['details']['member_debit']->gpa_sub ?? 0) - $debit_statement['gpa_sub'];
+                $this_month_totals['gpa_sub']     += ($this_month_debit->gpa_sub ?? 0) - $debit_statement['gpa_sub'];
                 $this_month_totals['gpf_adv']     += ($this_month_data_loan_gpf_adv_sum ?? 0) - $debit_statement['gpf_adv'];
-                $this_month_totals['cgegis']      += ($this_month_debit['details']['member_debit']->cgegis ?? 0) - $debit_statement['cgegis'];
-                $this_month_totals['cghs']        += ($this_month_debit['details']['member_debit']->cghs ?? 0) - $debit_statement['cghs'];
+                $this_month_totals['cgegis']      += ($this_month_debit->cgegis ?? 0) - $debit_statement['cgegis'];
+                $this_month_totals['cghs']        += ($this_month_debit->cghs ?? 0) - $debit_statement['cghs'];
                 $this_month_totals['hba_adv']     += ($this_month_data_loan_hba_adv_sum ?? 0)  - $debit_statement['hba_adv'];
                 $this_month_totals['hba_int']     += ($this_month_data_loan_hba_adv_int ?? 0)  - $debit_statement['hba_int'];
-                $this_month_totals['i_tax']       += ($this_month_debit['details']['member_debit']->i_tax ?? 0) - $debit_statement['i_tax'];
-                $this_month_totals['ecess']       += ($this_month_debit['details']['member_debit']->ecess ?? 0) - $debit_statement['ecess'];
-                $this_month_totals['misc1']       += ($this_month_debit['details']['member_debit']->misc1 ?? 0) - $debit_statement['misc1'];
-                $this_month_totals['nps_10_rec']  += ($this_month_debit['details']['member_debit']->nps_10_rec ?? 0) - $debit_statement['nps_10_rec'];
-                $this_month_totals['npsg']        += ($this_month_debit['details']['member_debit']->npsg ?? 0) - $debit_statement['npsg'];
-                $this_month_totals['npsg_adj']    += ($this_month_debit['details']['member_debit']->npsg_adj ?? 0) - $debit_statement['npsg_adj'];
-                $this_month_totals['nps_14_adj']  += ($this_month_debit['details']['member_debit']->nps_14_adj ?? 0) - $debit_statement['nps_14_adj'];
-                $this_month_totals['licence_fee'] += ($this_month_debit['details']['member_debit']->licence_fee ?? 0) - $debit_statement['licence_fee'];
-                $this_month_totals['elec']        += ($this_month_debit['details']['member_debit']->elec ?? 0) - $debit_statement['elec'];
-                $this_month_totals['water']       += ($this_month_debit['details']['member_debit']->water ?? 0) - $debit_statement['water'];
-                $this_month_totals['furn']        += ($this_month_debit['details']['member_debit']->furn ?? 0) - $debit_statement['furn'];
+                $this_month_totals['i_tax']       += ($this_month_debit->i_tax ?? 0) - $debit_statement['i_tax'];
+                $this_month_totals['ecess']       += ($this_month_debit->ecess ?? 0) - $debit_statement['ecess'];
+                $this_month_totals['misc1']       += ($this_month_debit->misc1 ?? 0) - $debit_statement['misc1'];
+
+                $this_month_totals['nps_10_rec']  += ($this_month_debit->nps_10_rec ?? 0) - $debit_statement['nps_10_rec'];
+                $this_month_totals['npsg']        += ($this_month_debit->npsg ?? 0) - $debit_statement['npsg'];
+                $this_month_totals['npsg_adj']    += ($this_month_debit->npsg_adj ?? 0) - $debit_statement['npsg_adj'];
+                $this_month_totals['nps_14_adj']  += ($this_month_debit->nps_14_adj ?? 0) - $debit_statement['nps_14_adj'];
+
+                $this_month_totals['ups_10_per_rec']  += ($this_month_debit->ups_10_per_rec ?? 0) - $debit_statement['ups_10_per_rec'];
+                $this_month_totals['upsg_10_per']        += ($this_month_debit->upsg_10_per ?? 0) - $debit_statement['upsg_10_per'];
+                $this_month_totals['ups_adj_10_per']    += ($this_month_debit->ups_adj_10_per ?? 0) - $debit_statement['ups_adj_10_per'];
+                $this_month_totals['upsg_adj_10_per']  += ($this_month_debit->upsg_adj_10_per ?? 0) - $debit_statement['upsg_adj_10_per'];
+
+                $this_month_totals['licence_fee'] += ($this_month_debit->licence_fee ?? 0) - $debit_statement['licence_fee'];
+                $this_month_totals['elec']        += ($this_month_debit->elec ?? 0) - $debit_statement['elec'];
+                $this_month_totals['water']       += ($this_month_debit->water ?? 0) - $debit_statement['water'];
+                $this_month_totals['furn']        += ($this_month_debit->furn ?? 0) - $debit_statement['furn'];
             @endphp
 
                  <tr>
@@ -10942,7 +12279,7 @@ background: #cdcdcd;
                     border-bottom: 1px solid #000;
                   ">
                   {{-- {{dd($last_month_field['gpa_sub'])}} --}}
-                        {{ (($this_month_debit['details']['member_debit']->gpa_sub ?? 0) - $last_month_field['gpa_sub']) }}
+                        {{ (($this_month_debit->gpa_sub ?? 0) - $last_month_field['gpa_sub']) }}
                     </td>
                      <td style="
                     font-size: 10px;
@@ -10971,7 +12308,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->cgegis ?? 0) - $last_month_field['cgegis']) }}
+                       {{ (($this_month_debit->cgegis ?? 0) - $last_month_field['cgegis']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -10985,7 +12322,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ (($this_month_debit['details']['member_debit']->cghs ?? 0) - $last_month_field['cghs']) }}
+                      {{ (($this_month_debit->cghs ?? 0) - $last_month_field['cghs']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11027,7 +12364,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->i_tax ?? 0) - $last_month_field['i_tax']) }}
+                       {{ (($this_month_debit->i_tax ?? 0) - $last_month_field['i_tax']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11041,7 +12378,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->ecess ?? 0) - $last_month_field['ecess']) }}
+                       {{ (($this_month_debit->ecess ?? 0) - $last_month_field['ecess']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11055,7 +12392,23 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->misc1 ?? 0) - $last_month_field['misc1']) }}
+                       {{ (($this_month_debit->misc1 ?? 0) - $last_month_field['misc1']) }}
+                    </td>
+                    @if ($category_fund_type == 'UPS')
+                    
+                                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                       {{ (($this_month_debit->ups_10_per_rec ?? 0) - $last_month_field['ups_10_per_rec']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11069,21 +12422,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->nps_10_rec ?? 0) - $last_month_field['nps_10_rec']) }}
-                    </td>
-                                    <td style="
-                    font-size: 10px;
-                    line-height: 14px;
-                    font-weight: 400;
-                    color: #000;
-                    text-align: right;
-                    padding: 0px 5px !important;
-                    margin: 0px 0px !important;
-                    height: 20px;
-                    border-left: 1px solid #000;
-                    border-bottom: 1px solid #000;
-                  ">
-                      {{ (($this_month_debit['details']['member_debit']->npsg ?? 0) - $last_month_field['npsg']) }}
+                      {{ (($this_month_debit->upsg_10_per ?? 0) - $last_month_field['upsg_10_per']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11097,7 +12436,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->npsg_adj ?? 0) - $last_month_field['npsg_adj']) }}
+                       {{ (($this_month_debit->ups_adj_10_per ?? 0) - $last_month_field['ups_adj_10_per']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11111,8 +12450,69 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ (($this_month_debit['details']['member_debit']->nps_14_adj ?? 0) - $last_month_field['nps_14_adj']) }}
+                      {{ (($this_month_debit->upsg_adj_10_per ?? 0) - $last_month_field['upsg_adj_10_per']) }}
                     </td>
+                        
+                    @else
+                        
+                   
+                                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                       {{ (($this_month_debit->nps_10_rec ?? 0) - $last_month_field['nps_10_rec']) }}
+                    </td>
+                                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                      {{ (($this_month_debit->npsg ?? 0) - $last_month_field['npsg']) }}
+                    </td>
+                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                       {{ (($this_month_debit->npsg_adj ?? 0) - $last_month_field['npsg_adj']) }}
+                    </td>
+                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                      {{ (($this_month_debit->nps_14_adj ?? 0) - $last_month_field['nps_14_adj']) }}
+                    </td>
+                     @endif
                     <td style="
                     font-size: 10px;
                     line-height: 14px;
@@ -11126,7 +12526,7 @@ background: #cdcdcd;
                     border-bottom: 1px solid #000;
                   ">
                   {{-- @dd($debit_statement['details']['member_debit']->licence_fee , $last_month_field['licence_fee']) --}}
-                   {{ (($this_month_debit['details']['member_debit']->licence_fee ?? 0) - $last_month_field['licence_fee']) }}
+                   {{ (($this_month_debit->licence_fee ?? 0) - $last_month_field['licence_fee']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11140,7 +12540,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                  {{ (($this_month_debit['details']['member_debit']->elec ?? 0) - $last_month_field['elec']) }}
+                  {{ (($this_month_debit->elec ?? 0) - $last_month_field['elec']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11154,7 +12554,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                   {{ (($this_month_debit['details']['member_debit']->water ?? 0) - $last_month_field['water']) }}
+                   {{ (($this_month_debit->water ?? 0) - $last_month_field['water']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11169,7 +12569,7 @@ background: #cdcdcd;
                     border-right: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                   {{ (($this_month_debit['details']['member_debit']->furn ?? 0) - $last_month_field['furn']) }}
+                   {{ (($this_month_debit->furn ?? 0) - $last_month_field['furn']) }}
                     </td>
                   </tr>
                     @endforeach
@@ -11482,7 +12882,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{($last_month_totals[$key_new]['gpa_sub'] ?? 0) + ($this_month_totals['gpa_sub'] ?? 0)}}
+                      {{($debit_statements['totals']['gpa_sub'] ?? 0) + ($this_month_totals['gpa_sub'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11496,7 +12896,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['gpf_adv'] ?? 0) + ($this_month_totals['gpf_adv'] ?? 0)}}
+                       {{($debit_statements['totals']['gpf_adv'] ?? 0) + ($this_month_totals['gpf_adv'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11510,7 +12910,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['cgegis'] ?? 0) + ($this_month_totals['cgegis'] ?? 0)}}
+                       {{($debit_statements['totals']['cgegis'] ?? 0) + ($this_month_totals['cgegis'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11524,7 +12924,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['cghs'] ?? 0) + ($this_month_totals['cghs'] ?? 0)}}
+                       {{($debit_statements['totals']['cghs'] ?? 0) + ($this_month_totals['cghs'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11538,7 +12938,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['hba_adv'] ?? 0) + ($this_month_totals['hba_adv'] ?? 0)}}
+                       {{($debit_statements['totals']['hba_adv'] ?? 0) + ($this_month_totals['hba_adv'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11552,7 +12952,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['hba_int'] ?? 0) + ($this_month_totals['hba_int'] ?? 0)}}
+                        {{($debit_statements['totals']['hba_int'] ?? 0) + ($this_month_totals['hba_int'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11566,7 +12966,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['i_tax'] ?? 0) + ($this_month_totals['i_tax'] ?? 0)}}
+                        {{($debit_statements['totals']['i_tax'] ?? 0) + ($this_month_totals['i_tax'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11580,7 +12980,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['ecess'] ?? 0) + ($this_month_totals['ecess'] ?? 0)}}
+                        {{($debit_statements['totals']['ecess'] ?? 0) + ($this_month_totals['ecess'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -11594,8 +12994,65 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['misc1'] ?? 0) + ($this_month_totals['misc1'] ?? 0)}}
+                        {{($debit_statements['totals']['misc1'] ?? 0) + ($this_month_totals['misc1'] ?? 0)}}
                     </td>
+                      @if ($category_fund_type == 'UPS')
+                      <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                        {{($debit_statements['totals']['ups_10_per_rec'] ?? 0) + ($this_month_totals['ups_10_per_rec'] ?? 0)}}
+                    </td>
+                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                        {{($debit_statements['totals']['upsg_10_per'] ?? 0) + ($this_month_totals['upsg_10_per'] ?? 0)}}
+                    </td>
+                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                       {{($debit_statements['totals']['ups_adj_10_per'] ?? 0) + ($this_month_totals['ups_adj_10_per'] ?? 0)}}
+                    </td>
+                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">  {{($debit_statements['totals']['upsg_adj_10_per'] ?? 0) + ($this_month_totals['upsg_adj_10_per'] ?? 0)}}
+                    </td>
+                      @else
                                     <td style="
                     font-size: 10px;
                     line-height: 14px;
@@ -11608,7 +13065,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['nps_10_rec'] ?? 0) + ($this_month_totals['nps_10_rec'] ?? 0)}}
+                        {{($debit_statements['totals']['nps_10_rec'] ?? 0) + ($this_month_totals['nps_10_rec'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11622,7 +13079,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['npsg'] ?? 0) + ($this_month_totals['npsg'] ?? 0)}}
+                        {{($debit_statements['totals']['npsg'] ?? 0) + ($this_month_totals['npsg'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11636,7 +13093,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['npsg_adj'] ?? 0) + ($this_month_totals['npsg_adj'] ?? 0)}}
+                       {{($debit_statements['totals']['npsg_adj'] ?? 0) + ($this_month_totals['npsg_adj'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11649,7 +13106,22 @@ background: #cdcdcd;
                     height: 20px;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
-                  ">  {{($last_month_totals[$key_new]['nps_14_adj'] ?? 0) + ($this_month_totals['nps_14_adj'] ?? 0)}}
+                  ">  {{($debit_statements['totals']['nps_14_adj'] ?? 0) + ($this_month_totals['nps_14_adj'] ?? 0)}}
+                    </td>
+                    @endif
+                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                    {{($debit_statements['totals']['licence_fee'] ?? 0) + ($this_month_totals['licence_fee'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11663,7 +13135,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                    {{($last_month_totals[$key_new]['licence_fee'] ?? 0) + ($this_month_totals['licence_fee'] ?? 0)}}
+                    {{($debit_statements['totals']['elec'] ?? 0) + ($this_month_totals['elec'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11677,21 +13149,7 @@ background: #cdcdcd;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                    {{($last_month_totals[$key_new]['elec'] ?? 0) + ($this_month_totals['elec'] ?? 0)}}
-                    </td>
-                    <td style="
-                    font-size: 10px;
-                    line-height: 14px;
-                    font-weight: 400;
-                    color: #000;
-                    text-align: right;
-                    padding: 0px 5px !important;
-                    margin: 0px 0px !important;
-                    height: 20px;
-                    border-left: 1px solid #000;
-                    border-bottom: 1px solid #000;
-                  ">
-                    {{($last_month_totals[$key_new]['water'] ?? 0) + ($this_month_totals['water'] ?? 0)}}
+                    {{($debit_statements['totals']['water'] ?? 0) + ($this_month_totals['water'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -11706,7 +13164,7 @@ background: #cdcdcd;
                     border-right: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                    {{($last_month_totals[$key_new]['furn'] ?? 0) + ($this_month_totals['furn'] ?? 0)}}
+                    {{($debit_statements['totals']['furn'] ?? 0) + ($this_month_totals['furn'] ?? 0)}}
                     </td>
                   </tr>
                 </tbody>
@@ -11728,6 +13186,7 @@ background: #cdcdcd;
 
        @endforeach
 @endif
+
 
 
 
@@ -11758,7 +13217,7 @@ background: #cdcdcd;
             ">
 
                                         RECOVERY SCHEDULE OF GPF ADV IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                                         {{ $pay_bill_no ?? 0 }}
                                     </td>
@@ -12201,7 +13660,7 @@ background: #cdcdcd;
             ">
 
                                         RECOVERY SCHEDULE OF HBA ADV IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                                         {{ $pay_bill_no ?? 0 }}
                                     </td>
@@ -12643,7 +14102,7 @@ background: #cdcdcd;
                 ">
 
                                         RECOVERY SCHEDULE OF CAR ADV IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                                         {{ $pay_bill_no ?? 0 }}
                                     </td>
@@ -13086,7 +14545,7 @@ background: #cdcdcd;
         ">
 
                                         RECOVERY SCHEDULE OF SCO ADV IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                                         {{ $pay_bill_no ?? 0 }}
                                     </td>
@@ -13528,7 +14987,7 @@ background: #cdcdcd;
         ">
 
                                         RECOVERY SCHEDULE OF COMP ADV IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                                         {{ $pay_bill_no ?? 0 }}
                                     </td>
@@ -13970,7 +15429,7 @@ background: #cdcdcd;
         ">
 
                                         RECOVERY SCHEDULE OF FEST ADV IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                                         {{ $pay_bill_no ?? 0 }}
                                     </td>
@@ -14412,7 +15871,7 @@ background: #cdcdcd;
         ">
 
                                         RECOVERY SCHEDULE OF HBA INT IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                                         {{ $pay_bill_no ?? 0 }}
                                     </td>
@@ -14835,7 +16294,7 @@ background: #cdcdcd;
         ">
 
                                         RECOVERY SCHEDULE OF CAR INT IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                                         {{ $pay_bill_no ?? 0 }}
                                     </td>
@@ -15257,7 +16716,7 @@ background: #cdcdcd;
         ">
 
                                         RECOVERY SCHEDULE OF SCO INT IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                                         {{ $pay_bill_no ?? 0 }}
                                     </td>
@@ -15680,7 +17139,7 @@ background: #cdcdcd;
     ">
 
                                         RECOVERY SCHEDULE OF COMP INT IN R/O
-                                        {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                        {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                         {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                                         {{ $pay_bill_no ?? 0 }}
                                     </td>
@@ -16107,7 +17566,7 @@ background: #cdcdcd;
             ">
 
                                     RECOVERY SCHEDULE OF QUARTER CHARGES IN R/O
-                                    {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                    {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                     {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }}
                                 </td>
                             </tr>
@@ -16744,7 +18203,7 @@ background: #cdcdcd;
             ">
 
                                     RECOVERY SCHEDULE OF INCOME TAX IN R/O
-                                    {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                                    {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                                     {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }}
                                 </td>
                             </tr>
@@ -17220,7 +18679,7 @@ background: #cdcdcd;
                 text-decoration: underline;
               ">
             RECOVERY SCHEDULE OF EMPLOYEE MONTHLY CONTRIBUTION ANNEXURE-II<br><br>
-            (NEW PENSION SCHEME) OF NEW PENSION IN R/O  {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF    {{$number_month ?  date('M', strtotime($number_month)) : '-' }} {{ $year ?? '0' }} {{$pay_bill_no ?? 'N/A'}}
+            (NEW PENSION SCHEME) OF NEW PENSION IN R/O  {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF    {{ \Illuminate\Support\Str::upper($month ?? '0') }} {{ $year ?? '0' }} {{$pay_bill_no ?? 'N/A'}}
           </td>
         </tr>
       </tbody>
@@ -17404,7 +18863,7 @@ background: #cdcdcd;
                 margin: 0px 0px !important;
                 text-transform: uppercase;
               ">
-           BILL/DV DATE : {{$number_month ?  date('M', strtotime($number_month)) : '-' }} {{ $year ?? '0' }}
+           BILL/DV DATE : {{ \Illuminate\Support\Str::upper($month ?? '0') }} {{ $year ?? '0' }}
           </td>
           <td style="
                 font-size: 15px;
@@ -17810,7 +19269,7 @@ background: #cdcdcd;
           border-left: 1px solid #000;
           border-bottom: 1px solid #000;
         ">
-         {{$pension['details']['member_debit']->nps_10_rec ?? 0}}
+         {{round(($pension['details']['member_debit']->nps_10_rec ?? 0))}}
           </td>
           <td style="
           font-size: 10px;
@@ -17838,7 +19297,7 @@ background: #cdcdcd;
           border-left: 1px solid #000;
           border-bottom: 1px solid #000;
         ">
-            {{$pension['details']['member_debit']->npsg_adj ?? 0}}
+            {{round($pension['details']['member_debit']->npsg_adj ?? 0)}}
           </td>
           <td style="
           font-size: 10px;
@@ -17852,7 +19311,7 @@ background: #cdcdcd;
           border-left: 1px solid #000;
           border-bottom: 1px solid #000;
         ">
-        {{$tier_1_total ??0 }}
+        {{round($tier_1_total ??0) }}
           </td>
           <td style="
           font-size: 10px;
@@ -17866,7 +19325,7 @@ background: #cdcdcd;
           border-left: 1px solid #000;
           border-bottom: 1px solid #000;
         ">
-          {{$pension['details']['member_credit']->npsc ?? 0}}
+          {{round($pension['details']['member_credit']->npsc ?? 0)}}
           </td>
           <td style="
           font-size: 10px;
@@ -17894,7 +19353,7 @@ background: #cdcdcd;
           border-left: 1px solid #000;
           border-bottom: 1px solid #000;
         ">
-         {{$pension['details']['member_credit']->npg_adj ?? 0}}
+         {{round($pension['details']['member_credit']->npg_adj ?? 0)}}
           </td>
           <td style="
           font-size: 10px;
@@ -17909,7 +19368,7 @@ background: #cdcdcd;
           border-right: 1px solid #000;
           border-bottom: 1px solid #000;
         ">
-        {{$govt_cont_total ?? 0}}
+        {{round($govt_cont_total ?? 0)}}
           </td>
           <td style="
           font-size: 10px;
@@ -18327,7 +19786,7 @@ style="border-radius: 0px; margin: 0 auto; text-align: center">
 ">
 
                             RECOVERY SCHEDULE OF EOHPL NPS ADJ 10% IN R/O
-                            {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                            {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                             {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                             {{ $pay_bill_no ?? 0 }}
                         </td>
@@ -18704,7 +20163,7 @@ style="border-radius: 0px; margin: 0 auto; text-align: center">
 ">
 
                             RECOVERY SCHEDULE OF GPF SUBSCRIPTION IN R/O
-                            {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                            {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                             {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                             {{ $pay_bill_no ?? 0 }}
                         </td>
@@ -19215,7 +20674,7 @@ style="border-radius: 0px; margin: 0 auto; text-align: center">
 ">
 
                             RECOVERY SCHEDULE OF MISC DEBIT I IN R/O
-                            {{ $category_fund_type == 'NPS' ? 'NPS' : 'GPF' }} STAFF FOR THE MONTH OF
+                            {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
                             {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
                             {{ $pay_bill_no ?? 0 }}
                         </td>
@@ -19388,6 +20847,8 @@ background: #cdcdcd;
                     {{-- @dd($misc_subscription_details) --}}
                         @php
                             $misc_sub_rec = round($misc_subscription_details['member_one_debit']['misc1'] ?? 0);
+
+                            // dd($misc_sub_rec);
 
                             $misc_subscription_page[$misc_subscription_key]['misc_sub_rec'] += $misc_sub_rec;
                         @endphp
@@ -19573,6 +21034,1490 @@ style="border-radius: 0px; margin: 0 auto; text-align: center">
     </tr>
 </tbody>
 </table>
+@endif
+
+@endif
+
+@if ($category_fund_type == 'UPS')
+<div class="page-break"></div>
+    @php
+    $ups_page_array = [];
+    $ups_eol_hpl_array = [];
+    @endphp
+
+@foreach ($allMember40Data as $ups_pension_key => $ups_pensions)
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+<tr>
+  <td style="padding: 0 0px">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+      <tbody>
+        <tr>
+          <td style="
+                font-size: 18px;
+                line-height: 14px;
+                font-weight: 500;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+                text-decoration: underline;
+              ">
+            RECOVERY SCHEDULE OF EMPLOYEE MONTHLY CONTRIBUTION ANNEXURE-II<br><br>
+            (NEW PENSION SCHEME) OF NEW PENSION IN R/O  {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF    {{ \Illuminate\Support\Str::upper($month ?? '0') }} {{ $year ?? '0' }} {{$pay_bill_no ?? 'N/A'}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+<tr>
+  <td style="padding: 10px 0px">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+      <tbody>
+        <tr>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 500;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+
+              ">
+            Office: CHESS, CHESS
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           PAGE NO : {{$ups_pension_key +1}}
+          </td>
+        </tr>
+        <tr>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 500;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+            DEPT_CD : 2
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+              ">
+           NODAL CD------(CDA-cd OF NODAL OFFICE),
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+
+              ">
+           PAo-- CODE :
+          </td>
+        </tr>
+        <tr>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 500;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+            DDO/UNIT CODE : 330000110
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           FIN YEAR : {{$financialYear}}
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                /* text-transform: uppercase; */
+              ">
+           BILL_SUFF(REG/SUPL/arr)
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           PAY AND ALLOW
+          </td>
+        </tr>
+        <tr>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 500;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+            DV NO :
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           BILL/DV DATE : {{ \Illuminate\Support\Str::upper($month ?? '0') }} {{ $year ?? '0' }}
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           SCH_MONTH : {{$number_month ?  date('M', strtotime($number_month)) : '-'}}
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           YEAR : {{ $year ?? '0' }}
+          </td>
+        </tr>
+        <tr>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 500;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+            DP RATE :
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           DA RATE : {{$da_percent['percentage'] ?? 0}}
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           SCHDULE AMOUNT RS. :
+          </td>
+          <td style="
+                font-size: 15px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+              ">
+           (TOTAL OF TIER-1)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+
+
+<tr>
+  <td style="padding: 0 0px">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+      <thead>
+        <tr>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            SRNO
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            PRAN
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            EMP NAME
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+                PAY BAND
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            DA
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            TIER-1 CURRENT
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            TIER-1 ARREAR
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            EOL ARREAR
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            TIER-1 TOTAL
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            GOVTS CONT
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            GOVTS CONT ARREAR
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            GOVTS EOL ARREAR
+          </th>
+          <th style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-align: center;
+                padding: 0px 5px !important;
+                margin: 0px 0px !important;
+                border-left: 1px solid #000;
+                border-top: 1px solid #000;
+                border-right: 1px solid #000;
+                border-bottom: 1px solid #000;
+                background: #cdcdcd;
+              ">
+            GOVTS CONT TOTAL
+          </th>
+          <th style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 600;
+          color: #000;
+          text-align: center;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          border-top: 1px solid #000;
+          border-right: 1px solid #000;
+          border-bottom: 1px solid #000;
+          background: #cdcdcd;
+        ">
+      TOTAL
+    </th>
+        </tr>
+      </thead>
+      <tbody>
+          @php
+          $ups_page_array[$ups_pension_key] = [
+              'page_tier_1_total' => 0,
+              'page_govt_cont_total' => 0,
+              'page_total' => 0
+          ];
+          @endphp
+          @foreach ($ups_pensions as $sub_key => $ups_pension)
+          @php
+              $tier_1_total = ($ups_pension['details']['member_debit']->ups_10_per_rec ?? 0) - ($ups_pension['details']['member_debit']->upsg_adj_10_per ?? 0);
+              $govt_cont_total = ($ups_pension['details']['member_credit']->upsc_10  ?? 0) - ($ups_pension['details']['member_credit']->upsgcr_adj_10 ?? 0);
+              $total = $tier_1_total + $govt_cont_total;
+              if (isset($ups_pension['details']['member_debit']->upsg_adj_10_per) && $ups_pension['details']['member_debit']->upsg_adj_10_per > 0) {
+                $ups_eol_hpl_array[] = $ups_pension;
+              }
+
+              $ups_page_array[$ups_pension_key]['page_tier_1_total'] += ($ups_pension['details']['member_debit']->ups_10_per_rec ?? 0) - ($ups_pension['details']['member_debit']->upsg_adj_10_per ?? 0);
+              $ups_page_array[$ups_pension_key]['page_govt_cont_total'] += ($ups_pension['details']['member_credit']->upsc_10  ?? 0) - ($ups_pension['details']['member_credit']->upsgcr_adj_10 ?? 0);
+              $ups_page_array[$ups_pension_key]['page_total'] += $tier_1_total + $govt_cont_total;
+
+          @endphp
+        <tr>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+            {{$sub_key + 1}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+             {{ $ups_pension['member_data']->pran_number ?? '0' }}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">   {{ $ups_pension['member_data']->name ?? '0' }}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        {{$ups_pension['details']['member_credit']->pay ?? 0}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align:right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+         {{$ups_pension['details']['member_credit']->da ?? 0}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+         {{round($ups_pension['details']['member_debit']->ups_10_per_rec ?? 0)}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        0
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+            {{round($ups_pension['details']['member_debit']->upsg_adj_10_per ?? 0)}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        {{$tier_1_total ??0 }}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+          {{round($ups_pension['details']['member_credit']->upsc_10 ?? 0)}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        0
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+         {{round($ups_pension['details']['member_credit']->upsgcr_adj_10 ?? 0)}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-right: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        {{round($govt_cont_total ?? 0)}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          /* border-left: 1px solid #000; */
+          border-right: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+        {{$total}}
+          </td>
+        </tr>
+        @endforeach
+
+        <tr>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: left;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+Page Summary-{{$ups_pension_key + 1}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align:right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+{{round( $ups_page_array[$ups_pension_key]['page_tier_1_total'] ?? 0)}}
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          border-left: 1px solid #000;
+          border-right: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+         {{round( $ups_page_array[$ups_pension_key]['page_govt_cont_total'] ?? 0)}}
+
+          </td>
+          <td style="
+          font-size: 10px;
+          line-height: 14px;
+          font-weight: 400;
+          color: #000;
+          text-align: right;
+          padding: 0px 5px !important;
+          margin: 0px 0px !important;
+          height: 20px;
+          /* border-left: 1px solid #000; */
+          border-right: 1px solid #000;
+          border-bottom: 1px solid #000;
+        ">
+         {{$ups_page_array[$ups_pension_key]['page_total'] ?? 0}}
+          </td>
+        </tr>
+
+
+
+
+
+      </tbody>
+    </table>
+  </td>
+</tr>
+</tbody>
+</table>
+<div class="page-break"></div>
+@endforeach
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+<tr>
+    <td style="padding: 0 0px">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+            <tbody>
+                <tr>
+                    <td colspan="9"
+                        style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                        GRAND SUMMARY OF NEW PENSION SUBSCRIPTION
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td style="padding: 0 0px">
+        <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <th
+                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                        PAGE SUMMARY</th>
+                    <th
+                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                        GOVTS CONT TOTAL</th>
+                    <th
+                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; background: #cdcdcd;">
+                        TIER-1 TOTAL</th>
+                        <th
+                        style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #000; background: #cdcdcd;">
+                         TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $total_govt_cont_amount = 0;
+                    $total_tier_1_arr = 0;
+                    $gran_total = 0
+                @endphp
+
+                @foreach ($ups_page_array as $page_array_key => $pension_subscription)
+                    @php
+                        $total_tier_1_arr  += $pension_subscription['page_tier_1_total'];
+                        $total_govt_cont_amount+= $pension_subscription['page_govt_cont_total'];
+                        $gran_total += $pension_subscription['page_total'];
+
+                    @endphp
+
+
+
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            Page Summary-{{ $page_array_key + 1 }}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $pension_subscription['page_govt_cont_total'] ?? 0 }}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $pension_subscription['page_tier_1_total'] ?? 0 }}
+                        </td>
+                        <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                        {{ $pension_subscription['page_total'] ?? 0 }}
+                    </td>
+                    </tr>
+                @endforeach
+
+                <tr>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        GRAND SUMMARY
+                    </td>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        {{ $total_govt_cont_amount ?? 0 }}
+                    </td>
+                    <td
+                        style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                        {{ $total_tier_1_arr ?? 0 }}
+                    </td>
+
+                    <td
+                    style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                    {{ $gran_total ?? 0 }}
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td>
+        <table style="width: 100%;">
+            <tbody>
+              ucwords(str_replace('-', ' ', $totalInWords))
+                <tr>
+                    <td colspan="9" style="font-size: 15px; text-align: center;">(TIER-1 Total:- Rupees
+                        {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_tier_1_arr)))) }}
+                        Only)</td>
+                </tr>
+                <tr>
+                  <td colspan="9" style="font-size: 15px; text-align: center;">(GOVTS CONT Total:- Rupees
+                      {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($total_govt_cont_amount)))) }}
+                      Only)</td>
+              </tr>
+
+              <tr>
+                  <td colspan="9" style="font-size: 15px; text-align: left;">NOTE:- PAO CODE AND DVNO is to filled by the Pay Account Office</td>
+              </tr>
+
+                <tr>
+                    <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                        amount of these schedule tallies with the amount deducted from pay bill</td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td style="height: 50px;"></td>
+</tr>
+
+<tr>
+    <td>
+        <table style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td style="font-size: 16px; width: 70%; text-align: left;">
+                        CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                    </td>
+                    <td style="font-size: 16px; text-align: left;">
+                        {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                        ACCOUNTS OFFICER<br>
+                        For Director
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+</tbody>
+</table>
+
+
+@if (count($ups_eol_hpl_array) > 0)
+<div class="page-break"></div>
+@php
+    $chunks = array_chunk($ups_eol_hpl_array, 35);
+    $ups_eol_hpl_page = [];
+    @endphp
+    @foreach ($chunks as $ups_key => $ups_array)
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td
+                            style="
+  font-size: 18px;
+  line-height: 14px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+
+                            RECOVERY SCHEDULE OF EOHPL UPS ADJ 10% IN R/O
+                            {{ $category_fund_type == 'NPS' ? 'NPS' : ($category_fund_type == 'UPS' ? 'UPS' : 'GPF') }} STAFF FOR THE MONTH OF
+                            {{ \Illuminate\Support\Str::upper($month ?? '0') }} - {{ $year ?? '0' }} -
+                            {{ $pay_bill_no ?? 0 }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 10px 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 500;
+  color: #000;
+  text-align: left;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            Page No: {{$ups_key + 1}}
+                        </td>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            CHESS,CHESS
+                        </td>
+                        <td
+                            style="
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  text-transform: uppercase;
+">
+                            UNIT CODE: 330000110
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <thead>
+                    <tr>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            SRNO
+                        </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            EMP NAME
+                        </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  background: #cdcdcd;
+">
+                            EMP CODE
+                        </th>
+                        <th
+                        style="
+font-size: 10px;
+line-height: 14px;
+font-weight: 600;
+color: #000;
+text-align: center;
+padding: 0px 5px !important;
+margin: 0px 0px !important;
+border-left: 1px solid #000;
+border-top: 1px solid #000;
+background: #cdcdcd;
+">
+                        PRAN
+                    </th>
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  background: #cdcdcd;
+">
+                            DESIGNATION
+                        </th>
+
+                        <th
+                            style="
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+  padding: 0px 5px !important;
+  margin: 0px 0px !important;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  background: #cdcdcd;
+">
+                            AMOUNT
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                    $ups_eol_hpl_page[$ups_key]['ups_total_upsg_10_per'] = 0;
+                @endphp
+
+                    @foreach ($ups_array as $details_key => $nps_details)
+                        @php
+                            $upsg_adj_rec = round($nps_details['details']['member_debit']->upsg_adj_10_per ?? 0);
+                            $ups_eol_hpl_page[$ups_key]['ups_total_upsg_10_per'] += $upsg_adj_rec;
+                        @endphp <tr>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $key + 1 }} </td>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $nps_details['member_data']->name ?? '0' }} </td>
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $nps_details['member_data']->emp_id ?? '0' }} </td>
+
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $nps_details['member_data']->pran_number ?? '0' }} </td>
+
+                                <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $nps_details['member_data']['desigs']->designation ?? '0' }} </td>
+
+                            <td
+                                style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-top: 1px solid #000; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                                {{ $upsg_adj_rec ?? 0 }} </td>
+
+                        </tr>
+                    @endforeach
+
+
+
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            Page Summary-{{$ups_key + 1}}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            Total
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px; border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                            {{ $ups_eol_hpl_page[$ups_key]['ups_total_upsg_10_per'] }}
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+@if(count($ups_eol_hpl_array) > 15 && count($ups_eol_hpl_array) > 0)
+<div class="page-break"></div>
+@endif
+@endforeach
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+style="border-radius: 0px; margin: 0 auto; text-align: center">
+<tbody>
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <tbody>
+                    <tr>
+                        <td colspan="9"
+                            style="font-size: 15px; line-height: 14px; font-weight: 400; color: #000; text-align: center; padding: 0px 5px !important; margin: 0px 0px !important; height: 20px;">
+                            GRAND SUMMARY OF EOHPL UPS ADJ 10% SUBSCRIPTION
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding: 0 0px">
+            <table width="65%" border="0" cellpadding="0" cellspacing="0" align="center">
+                <thead>
+                    <tr>
+                        <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                            PAGE SUMMARY</th>
+                        <th
+                            style="font-size: 10px; line-height: 14px; font-weight: 600; color: #000; text-align: center; padding: 0px 5px !important; border-top: 1px solid #000; border-left: 1px solid #000; background: #cdcdcd;">
+                            TOTAL AMOUNT</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                    $ups_gran_total_eol_hpl = 0
+                     @endphp
+
+                @foreach ($ups_eol_hpl_page as $ups_eol_hpl_page_key => $eol_hpl_subscription)
+                @php
+                $ups_gran_total_eol_hpl += $eol_hpl_subscription['ups_total_upsg_10_per']
+                @endphp
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000;">
+                            Page Summary-{{$ups_eol_hpl_page_key + 1}}
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-top: 1px solid #000; border-bottom: 1px solid #000; border-right: 1px solid #000;">
+                            {{ $eol_hpl_subscription['ups_total_upsg_10_per'] }}
+                        </td>
+
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: left; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;">
+                            GRAND SUMMARY
+                        </td>
+                        <td
+                            style="font-size: 10px; line-height: 14px; font-weight: 400; color: #000; text-align: right; padding: 0px 5px !important; border-left: 1px solid #000; border-bottom: 1px solid #000;border-right: 1px solid #000;">
+                            {{ $ups_gran_total_eol_hpl }}
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td colspan="9" style="font-size: 15px; text-align: center;">(Rupees
+                            {{ ucwords(str_replace('-', ' ',(\NumberFormatter::create('en_IN', \NumberFormatter::SPELLOUT)->format($ups_gran_total_eol_hpl)))) }}
+                            Only)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="9" style="font-size: 15px; text-align: left;">Certified that total
+                            amount of these schedule tallies with the amount deducted from pay bill</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="height: 50px;"></td>
+    </tr>
+
+    <tr>
+        <td>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="font-size: 16px; width: 70%; text-align: left;">
+                            CHESS,<br>CHESS<br>DATE: {{ date('d-m-Y') }}
+                        </td>
+                        <td style="font-size: 16px; text-align: left;">
+                            {{ $accountant['user_name'] ?? 'N/A' }}<br>
+                            ACCOUNTS OFFICER<br>
+                            For Director
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+
+
+
 @endif
 
 @endif

@@ -51,6 +51,18 @@
                                                 </div>
                                             </div>
 
+                                            <!-- Year Dropdown -->
+                                            <div class="form-group col-md-6 mb-2">
+                                                <label for="year">Year</label>
+                                                <select class="form-select select2" name="year" id="year">
+                                                    <option value="">Select Year</option>
+                                                    @php $currentYear = date('Y'); @endphp
+                                                    @for ($i = $currentYear; $i >= 2000; $i--)
+                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                    @endfor
+                                                </select>
+                                                <span class="text-danger" id="year_error"></span>
+                                            </div>
                                             <!-- Month Dropdown -->
                                             <div class="form-group col-md-6 mb-2">
                                                 <label for="month">Month</label>
@@ -65,18 +77,6 @@
                                                 <span class="text-danger" id="month_error"></span>
                                             </div>
 
-                                            <!-- Year Dropdown -->
-                                            <div class="form-group col-md-6 mb-2">
-                                                <label for="year">Year</label>
-                                                <select class="form-select select2" name="year" id="year">
-                                                    <option value="">Select Year</option>
-                                                    @php $currentYear = date('Y'); @endphp
-                                                    @for ($i = $currentYear; $i >= 2000; $i--)
-                                                        <option value="{{ $i }}">{{ $i }}</option>
-                                                    @endfor
-                                                </select>
-                                                <span class="text-danger" id="year_error"></span>
-                                            </div>
 
                                             <!-- Member Selection -->
                                             <div class="form-group col-md-6 mb-2" id="member_section">
@@ -134,30 +134,27 @@
                                 </div>
                                 <div class="table-responsive rounded-2">
                                     <table class="table customize-table mb-0 align-middle bg_tbody">
-                                        <thead class="text-white fs-4 bg_blue">
+                                       <thead class="text-white fs-4 bg_blue">
                                             <tr>
                                                 <th>Group ID</th>
                                                 <th>Category Name</th>
+                                                <th>Month Year</th> <!-- New column -->
                                                 <th>Total Gross</th>
                                                 <th>Total Final</th>
                                                 <th>Total Net</th>
-                                                {{-- <th>Actions</th> --}}
                                             </tr>
                                         </thead>
-                                        <tbody class="tbody_height_scroll">
+
+                                       <tbody class="tbody_height_scroll">
                                             @if ($backups->count() > 0)
                                                 @foreach ($backups as $backup)
                                                     <tr>
                                                         <td>{{ $backup->group_id ?? 'N/A' }}</td>
                                                         <td>{{ $backup->category_name ?? 'N/A' }}</td>
+                                                        <td>{{ str_pad($backup->month, 2, '0', STR_PAD_LEFT) }}-{{ $backup->year }}</td> <!-- Month-Year -->
                                                         <td>{{ $backup->total_gross ?? 'N/A' }}</td>
                                                         <td>{{ $backup->total_final ?? 'N/A' }}</td>
                                                         <td>{{ $backup->total_net ?? 'N/A' }}</td>
-                                                        {{-- <td>
-                                                            <a data-route="{{ route('backups.edit', $backup->group_id) }}" href="javascript:void(0);" class="edit_pencil edit-route">
-                                                                <i class="ti ti-pencil"></i>
-                                                            </a>
-                                                        </td> --}}
                                                     </tr>
                                                 @endforeach
                                                 <tr>
@@ -180,6 +177,7 @@
                                                 </tr>
                                             @endif
                                         </tbody>
+
                                     </table>
 
                                 </div>

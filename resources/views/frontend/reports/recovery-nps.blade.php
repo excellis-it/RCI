@@ -137,7 +137,6 @@
                         }));
                         monthDropdown.append(option);
                     }
-
                 } else {
                     monthDropdown.empty();
                     for (var month = 1; month <= 12; month++) {

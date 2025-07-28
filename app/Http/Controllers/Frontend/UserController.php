@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Designation;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -21,7 +22,8 @@ class UserController extends Controller
             $query->whereIn('name', ['ADMIN']);
         })->orderBy('id', 'desc')->paginate(15);
         $roles = Role::where('name', '!=', 'ADMIN')->get();
-        return view('frontend.new-user.list',compact('users','roles'));
+          $designations = Designation::orderBy('id', 'desc')->get();
+        return view('frontend.new-user.list', compact('users', 'roles', 'designations'));
     }
 
     public function fetchData(Request $request)
@@ -31,15 +33,15 @@ class UserController extends Controller
             $sort_type = $request->get('sorttype');
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
-            $users = User::where(function($queryBuilder) use ($query) {
+            $users = User::where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where('id', 'like', '%' . $query . '%')
                     ->orWhere('user_name', 'like', '%' . $query . '%')
                     ->orWhere('email', 'like', '%' . $query . '%')
                     ->orWhere('phone', 'like', '%' . $query . '%')
                     ->orWhere('status', 'like', '%' . $query . '%');
             })
-            ->orderBy($sort_by, $sort_type)
-            ->paginate(10);
+                ->orderBy($sort_by, $sort_type)
+                ->paginate(10);
 
             return response()->json(['data' => view('frontend.new-user.table', compact('users'))->render()]);
         }
@@ -74,8 +76,10 @@ class UserController extends Controller
         $user = new User();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
-        $user->user_name = $request->first_name .' '. $request->last_name;
+        $user->user_name = $request->first_name . ' ' . $request->last_name;
         $user->email = $request->email;
+        $user->so = $request->so;
+        $user->designation_id = $request->designation_id;
         $user->phone = $request->phone;
         $user->password = bcrypt($request->password);
         $user->status = $request->status;
@@ -104,8 +108,8 @@ class UserController extends Controller
         $role_id = $user_detail->roles->first()->id;
         $roles = Role::where('name', '!=', 'ADMIN')->get();
         $edit = true;
-
-        return response()->json(['view' => view('frontend.new-user.form', compact('user_detail','role_id','edit','roles'))->render()]);
+         $designations = Designation::orderBy('id', 'desc')->get();
+        return response()->json(['view' => view('frontend.new-user.form', compact('user_detail', 'role_id', 'edit', 'roles', 'designations'))->render()]);
     }
 
     /**
@@ -113,11 +117,11 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
+            'email' => 'required|email|unique:users,email,' . $id,
             'role' => 'required',
             'status' => 'required',
         ]);
@@ -128,14 +132,17 @@ class UserController extends Controller
         $user = User::find($id);
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
-        $user->user_name = $request->first_name .' '. $request->last_name;
+        $user->user_name = $request->first_name . ' ' . $request->last_name;
         $user->email = $request->email;
         $user->phone = $request->phone;
+        $user->so = $request->so;
+        $user->designation_id = $request->designation_id;
+
         $user->status = $request->status;
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
-        
+
         $user->update();
 
         $user->syncRoles([$role->name]);

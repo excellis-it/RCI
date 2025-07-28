@@ -9,7 +9,8 @@
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link debit-recv" id="recovery-tab" data-bs-toggle="tab" data-bs-target="#recovery-tab-pane"
-            type="button" role="tab" aria-controls="recovery-tab-pane" aria-selected="false">Recoveries Table</button>
+            type="button" role="tab" aria-controls="recovery-tab-pane" aria-selected="false">Recoveries
+            Table</button>
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="core-tab" data-bs-toggle="tab" data-bs-target="#core-tab-pane" type="button"
@@ -351,7 +352,10 @@
             "#pua",
             "#npsc",
             '#npg_arrs',
-            '#npg_adj'
+            '#npg_adj',
+            '#upsc_10',
+            '#upsg_arrs_10',
+            '#upsgcr_adj_10'
         ];
 
         function updateDAPercentage(basicPay, memberID) {
@@ -866,14 +870,14 @@
                     var data = response.data;
                     var save = response.save;
                     toastr.success(response.message);
-                        setTimeout(() => {
-                            var year = "{{ request('year') }}";
-                            var month = "{{ request('month') }}";
-                            let baseUrl = @json(route('members.edit', $member->id));
-                            window.location.href = baseUrl + '?year=' + year +
-                                '&month=' + month;
+                    setTimeout(() => {
+                        var year = "{{ request('year') }}";
+                        var month = "{{ request('month') }}";
+                        let baseUrl = @json(route('members.edit', $member->id));
+                        window.location.href = baseUrl + '?year=' + year +
+                            '&month=' + month;
 
-                        }, 200);
+                    }, 200);
 
                 },
                 error: function(xhr) {
@@ -1693,13 +1697,14 @@
             let noOfInst = parseFloat($('#tot_no_of_inst').val()) || 0;
             let presentInst = parseFloat($('#present_inst_no').val()) || 0;
             let instAmount = parseFloat($('#inst_amount').val()) || 0;
-              let totalAmount = parseFloat($('#total_amount').val()) || 0;
+            let totalAmount = parseFloat($('#total_amount').val()) || 0;
             let remainingInst = instAmount * presentInst;
             let balance = Math.round(totalAmount - remainingInst);
             $('#balance').val(balance);
         }
         $(document).on('input', '#total_amount, #tot_no_of_inst', calculateInstallment);
-        $(document).on('input', '#total_amount,#tot_no_of_inst, #present_inst_no, #inst_amount', calculateBalance);
+        $(document).on('input', '#total_amount,#tot_no_of_inst, #present_inst_no, #inst_amount',
+            calculateBalance);
 
         function calculateInterst() {
             let totalAmount = parseFloat($('#total_amount').val()) || 0;
@@ -1719,26 +1724,26 @@
 
 
 <script>
-    $(document).ready(function () {
-      $(document).on('change', '#loan_name', function () {
-        const selectedText = $('#loan_name option:selected').text();
+    $(document).ready(function() {
+        $(document).on('change', '#loan_name', function() {
+            const selectedText = $('#loan_name option:selected').text();
 
-        if (selectedText.includes('INT')) {
-          $('#interst_percentage').closest('.form-group').hide();
-          $('#total_interest').closest('.form-group').hide();
-        } else {
-          $('#interst_percentage').closest('.form-group').show();
-          $('#total_interest').closest('.form-group').show();
-        }
-      });
+            if (selectedText.includes('INT')) {
+                $('#interst_percentage').closest('.form-group').hide();
+                $('#total_interest').closest('.form-group').hide();
+            } else {
+                $('#interst_percentage').closest('.form-group').show();
+                $('#total_interest').closest('.form-group').show();
+            }
+        });
 
-      // Trigger change on page load if value is already selected
-    //   $('#loan_name').trigger('change');
+        // Trigger change on page load if value is already selected
+        //   $('#loan_name').trigger('change');
     });
-  </script>
+</script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
         const yesRadio = document.getElementById('inlineRadio1');
         const noRadio = document.getElementById('inlineRadio2');
         const payStopDateInput = document.getElementById('pay_stop_date');
@@ -1754,17 +1759,16 @@
 
 
 
-        yesRadio.addEventListener('change', function () {
+        yesRadio.addEventListener('change', function() {
             if (this.checked) {
                 payStopDateInput.value = getTodayDate();
             }
         });
 
-        noRadio.addEventListener('change', function () {
+        noRadio.addEventListener('change', function() {
             if (this.checked) {
                 payStopDateInput.value = '';
             }
         });
     });
 </script>
-

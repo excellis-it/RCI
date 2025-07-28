@@ -44,7 +44,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="tpt" id="tpt"
-                            value="{{ $member_credit->tpt ?? (old('tpt') ?? '') }}" placeholder="" >
+                            value="{{ $member_credit->tpt ?? (old('tpt') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hra" id="hra"
-                            value="{{ $member_credit->hra ?? (old('hra') ?? '') }}" placeholder="" >
+                            value="{{ $member_credit->hra ?? (old('hra') ?? '') }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -254,7 +254,7 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="var_incr" id="var_incr"
                             {{-- value="{{ $member_credit->var_incr ?? (old('var_incr') ?? '') }}" --}} value="{{ $member_credit->var_incr ?? (old('var_incr') ?? '') }}"
-                            placeholder="" readonly>
+                            placeholder="" >
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -455,7 +455,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="npsc" id="npsc"
-                                value="{{ $member_credit->npsc ?? (old('npsc') ?? '') }}" placeholder="">
+                                value="{{ $member_credit->npsc ?? old('npsc') }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -465,11 +465,11 @@
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>NPSG ARRS(14%)</label>
+                            <label>NPSG ARRS (14%)</label>
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="npg_arrs" id="npg_arrs"
-                                value="{{ $member_credit->npg_arrs ?? (old('npg_arrs') ?? '') }}" placeholder="">
+                                value="{{ $member_credit->npg_arrs ?? old('npg_arrs') }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
@@ -479,17 +479,61 @@
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>NPS ADJ(14%)</label>
+                            <label>NPS ADJ (14%)</label>
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="npg_adj" id="npg_adj"
-                                value="{{ $member_credit->npg_adj ?? (old('npg_adj') ?? '') }}" placeholder="">
+                                value="{{ $member_credit->npg_adj ?? old('npg_adj') }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @elseif ($member->memberCategory->fund_type == 'UPS')
+            <div class="col-md-3">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>UPSC (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="upsc_10" id="upsc_10"
+                                value="{{ $member_credit->upsc_10 ?? old('upsc_10') }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>UPSG ARRS (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="upsg_arrs_10" id="upsg_arrs_10"
+                                value="{{ $member_credit->upsg_arrs_10 ?? old('upsg_arrs_10') }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>UPSG ADJ (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="upsgcr_adj_10" id="upsgcr_adj_10"
+                                value="{{ $member_credit->upsgcr_adj_10 ?? old('upsgcr_adj_10') }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
                 </div>
             </div>
         @endif
+
 
         <div class="col-md-3">
             <div class="form-group mb-2">
@@ -506,7 +550,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3" >
+        <div class="col-md-3">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">

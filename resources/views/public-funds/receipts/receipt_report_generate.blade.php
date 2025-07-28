@@ -25,7 +25,7 @@
         td {
             border: 1px solid #000;
             padding: 8px;
-            text-align: left;
+            text-align: right;
             font-size: 16px;
             line-height: 20px;
         }
@@ -103,7 +103,7 @@
                                     border:none;
                       font-size: 14px !important;
                       color: #000;
-                      text-align: left;
+                      text-align: right;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       font-weight: 600;
@@ -138,15 +138,15 @@
             <table class="{{ !$loop->last ? 'page-break' : '' }}">
                 <thead>
                     <tr>
-                        <th>DATE</th>
-                        <th>CBRV</th>
-                        <th>DETAILS</th>
-                        <th>CASH</th>
-                        <th>BANK</th>
+                        <th style="text-align: left">DATE</th>
+                        <th style="text-align: left">CBRV</th>
+                        <th style="text-align: left">DETAILS</th>
+                        <th style="text-align: left">CASH</th>
+                        <th style="text-align: left">BANK</th>
                         @foreach ($category as $cat)
-                            <th>{{ strtoupper($cat->name) }}</th>
+                            <th  style="text-align: left">{{ strtoupper($cat->name) }}</th>
                         @endforeach
-                        <th>SIGN</th>
+                        <th  style="text-align: left">SIGN</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -180,13 +180,13 @@
                     @endphp
                     @if ($count_new_member > 0)
                         <tr>
-                            <td>{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
-                            <td></td>
-                            <td>Brought Forward</td>
-                            <td>0</td>
+                            <td style="text-align: left">{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
+                            <td style="text-align: left"></td>
+                            <td style="text-align: left">Brought Forward</td>
+                            <td style="text-align: right">0</td>
                             <td>{{ (formatIndianCurrency($total_opening_bank_balance)) }}</td>
                             @foreach ($category as $cat)
-                                <td>
+                                <td style="text-align: right">
                                     {{ formatIndianCurrency($total_previous_balance[$cat->id]) }}
                                 </td>
                             @endforeach
@@ -195,13 +195,13 @@
                         </tr>
                     @else
                         <tr>
-                            <td>{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
-                            <td></td>
-                            <td>Opening Balance</td>
-                            <td>0</td>
+                            <td style="text-align: left">{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
+                            <td style="text-align: left"></td>
+                            <td style="text-align: left">Opening Balance</td>
+                            <td style="text-align: right">0</td>
                             <td>{{ formatIndianCurrency($total_opening_bank_balance) }}</td>
                             @foreach ($category as $cat)
-                                <td>
+                                <td style="text-align: right">
                                     {{ formatIndianCurrency(Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                                 </td>
                             @endforeach
@@ -264,29 +264,29 @@
                                     {{ \Carbon\Carbon::parse($receipt->vr_date)->format('d/m/Y') }}
                                 </td>
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
 
                                 @foreach ($category as $cat)
                                     <td
-                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     </td>
                                 @endforeach
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                             </tr>
@@ -302,21 +302,21 @@
                                     {{ $receipt->narration . ' DV No.-' . $receipt->dv_no ?? '-' }}
                                 </td>
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
 
                                     0
                                 </td>
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
                                    {{ (formatIndianCurrency($bank_amount)) }}
                                 </td>
                                 @foreach ($category as $cat)
                                     <td
-                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
+                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
                                     </td>
                                 @endforeach
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom:0;  text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom:0;  text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                             </tr>
@@ -340,17 +340,17 @@
                                             {{ $member['bill_ref'] ?? '' }})
                                         </td>
                                         <td
-                                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                         </td>
                                         <td
-                                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                         </td>
 
                                         @foreach ($category as $cat)
                                             <td
-                                                style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                                style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                                                 @if ($receipt->category_id == $cat->id)
                                                     @if (isset($categoryMemberAmounts[$cat->id]))
                                                         {{ formatIndianCurrency($member['amount']) }}
@@ -360,7 +360,7 @@
                                         @endforeach
 
                                         <td
-                                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                         </td>
                                     </tr>
@@ -416,7 +416,7 @@
                     @endphp
 
                     <tr>
-                        <td colspan="3">Total Receipts</td>
+                        <td colspan="3" style="text-align: left;">Total Receipts</td>
                         <td>0</td>
                         <td>
                             {{ formatIndianCurrency($total_bank_amount) }}
@@ -495,15 +495,15 @@
         <table>
             <thead>
                 <tr>
-                    <th>DATE</th>
-                    <th>CBRV</th>
-                    <th>DETAILS</th>
-                    <th>CASH</th>
-                    <th>BANK</th>
+                    <th style="text-align: left">DATE</th>
+                    <th style="text-align: left">CBRV</th>
+                    <th style="text-align: left">DETAILS</th>
+                    <th style="text-align: left">CASH</th>
+                    <th style="text-align: left">BANK</th>
                     @foreach ($category as $cat)
-                        <th>{{ strtoupper($cat->name) }}</th>
+                        <th style="text-align: left">{{ strtoupper($cat->name) }}</th>
                     @endforeach
-                    <th>SIGN</th>
+                    <th  style="text-align: left">SIGN</th>
                 </tr>
             </thead>
             <tbody>
@@ -520,13 +520,13 @@
                 @endphp
 
                 <tr>
-                    <td>{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
-                    <td></td>
-                    <td>Opening Balance</td>
-                    <td>0</td>
+                    <td style="text-align: left">{{ \Carbon\Carbon::parse($vr_date)->format('d/m/Y') }}</td>
+                    <td style="text-align: left"></td>
+                    <td  style="text-align: left">Opening Balance</td>
+                    <td style="text-align: right">0</td>
                     <td>{{ formatIndianCurrency($total_opening_bank_amount )}}</td>
                     @foreach ($category as $cat)
-                        <td>
+                        <td style="text-align: right">
                             {{ formatIndianCurrency(Helper::get_openings_balance($cat->id, $pre_vr_date)) }}
                         </td>
                     @endforeach
@@ -564,30 +564,30 @@
 
                     <tr style="">
                         <td rowspan="{{ isset($receipt->receiptMembers) ? $receipt->receiptMembers->count() + 2 : 1 }}"
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                             {{ \Carbon\Carbon::parse($receipt->vr_date)->format('d/m/Y') }}
                         </td>
                         <td
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                         </td>
                         <td
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                         </td>
                         <td
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                         </td>
                         <td
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                         </td>
                         @foreach ($category as $cat)
                             <td
-                                style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                             </td>
                         @endforeach
                         <td
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                         </td>
                     </tr>
@@ -595,26 +595,26 @@
 
                     <tr>
                         <td rowspan="{{ $receipt->receiptMembers->count() + 1 }}"
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0;   border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                             {{ $receipt->vr_no }}
                         </td>
                         <td
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; ">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; ">
                             {{ $receipt->narration . ' DV No.-' . $receipt->dv_no ?? '-' }}
                         </td>
                         <td
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
                         </td>
                         <td
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
                         </td>
                         @foreach ($category as $cat)
                             <td
-                                style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
+                                style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important; border-bottom:0;">
                             </td>
                         @endforeach
                         <td
-                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom:0;  text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                            style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom:0;  text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                         </td>
                     </tr>
@@ -631,20 +631,20 @@
                             @endphp
                             <tr style="{{ $loop->last ? 'border-bottom: 1px solid #000;' : 'border-bottom: 0;' }}">
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                                     {{ $member->serial_no }}. {{ $memberName }} - {{ $memberDesign }}
                                 </td>
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                                 @foreach ($category as $cat)
                                     <td
-                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                        style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
                                         @if ($receipt->category_id == $cat->id)
                                             @if (isset($categoryMemberAmounts[$cat->id]))
                                                 {{ formatIndianCurrency($member->amount) }}
@@ -654,7 +654,7 @@
                                 @endforeach
 
                                 <td
-                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: left; padding: 0px 5px !important; margin: 0px 0px !important;">
+                                    style="font-size: 16px; line-height: 20px; font-weight: 400; color: #000; border-top: 0; border-bottom: 0; text-align: right; padding: 0px 5px !important; margin: 0px 0px !important;">
 
                                 </td>
                             </tr>
@@ -708,7 +708,7 @@
                 @endphp
 
                 <tr>
-                    <td colspan="3">Total Receipts</td>
+                    <td colspan="3" style="text-align: left;">Total Receipts</td>
                     <td>0</td>
                     <td>{{ formatIndianCurrency($total_bank_amount) }} </td>
                     @foreach ($category as $cat)

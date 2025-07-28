@@ -61,9 +61,6 @@ use App\Models\Setting;
 use App\Models\Designation;
 use App\Models\MedicalAllowance;
 use App\Models\MemberLandline;
-use App\Models\PaybillTracking;
-use App\Models\PayDetail;
-use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -220,7 +217,6 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView('frontend.reports.payslip-generate', [
             'logo' => $logo,
-            'category_fund_type' => $category_fund_type,
             'member_info' => $member_info,
             'monthName' => $monthName,
             'year' => $the_year,
@@ -246,65 +242,8 @@ class ReportController extends Controller
         $categories = Category::orderBy('id', 'desc')->get();
         $accountants  = User::role('ACCOUNTANT')->get();
         $members = Member::orderBy('id', 'asc')->where('name', '!=', 'The Director, CHESS')->with('designation')->get();
-        $paybills = PaybillTracking::with(['categoryData', 'member'])->latest()->paginate(10);
-        //  dd($paybills);
-        return view('frontend.reports.paybill', compact('categories', 'accountants', 'members', 'paybills'));
+        return view('frontend.reports.paybill', compact('categories', 'accountants', 'members'));
     }
-
-    public function paybillfetch(Request $request)
-    {
-        if ($request->ajax()) {
-            $sort_by = $request->get('sortby') ?? 'id';
-            $sort_type = $request->get('sorttype') ?? 'desc';
-            $query = $request->get('query');
-            $query = str_replace(" ", "%", $query);
-
-            $paybills = PaybillTracking::with(['member', 'categoryData'])
-                ->where(function ($q) use ($query) {
-                    $q->where('dv_number', 'like', '%' . $query . '%')
-                        ->orWhere('e_status', 'like', '%' . $query . '%')
-                        ->orWhereHas('member', function ($q2) use ($query) {
-                            $q2->where('name', 'like', '%' . $query . '%');
-                        })
-                        ->orWhereHas('categoryData', function ($q2) use ($query) {
-                            $q2->where('category', 'like', '%' . $query . '%');
-                        });
-                })
-                ->orderBy($sort_by, $sort_type)
-                ->paginate(10);
-
-            return response()->json([
-                'data' => view('frontend.reports.paybill-table', compact('paybills'))->render()
-            ]);
-        }
-    }
-    public function togglePaybillStatus(Request $request)
-    {
-        $paybill = PaybillTracking::findOrFail($request->id);
-        $paybill->status = !$paybill->status;
-        $paybill->save();
-
-        return response()->json([
-            'label' => $paybill->status ? 'Paid' : 'Unpaid',
-            'class' => $paybill->status ? 'bg-success' : 'bg-danger',
-        ]);
-    }
-
-
-
-    public function paybillDelete($id)
-    {
-        $paybill = PaybillTracking::findOrFail($id);
-
-        // Optional: check permissions or relations before deleting
-
-        $paybill->delete();
-
-        session()->flash('message', 'Paybill deleted successfully.');
-
-        return redirect()->back()->with('success', 'Paybill deleted successfully.');
-    }
-
 
     public function paybillGenerate(Request $request)
     {
@@ -314,13 +253,10 @@ class ReportController extends Controller
             'month' => 'required',
             'year' => 'required',
             'account_officer_sign' => 'required',
-            'dv_number' => 'required|string|unique:paybill_trackings,dv_number',
             // Conditional validation
             'member_id' => $request->generate_by === 'member' ? 'required' : 'nullable',
             'category' => $request->generate_by === 'category' ? 'required' : 'nullable',
         ]);
-
-
 
         // try {
         $the_month = (int) $request->month; // Assume month is numeric (1-12)
@@ -363,23 +299,11 @@ class ReportController extends Controller
             $previous_monthly_members_data[] = $request->member_id;
 
 
-
-            $monthly_members_count = MemberMonthlyData::where('year', $request->year)
-                ->where('month', $themonth)->where('member_id', $request->member_id)
-                ->count();
-
-
-            if ($monthly_members_count == 0) {
-                return response()->json(['message' => 'No data found for the selected criteria'], 400);
-            }
-
-
             $category_fund_type = Category::find($member->category)?->fund_type;
 
             if (!$category_fund_type) {
                 return response()->json(['message' => 'No fund type added for this category'], 400);
             }
-
 
             // ✅ Current month members
             $member_datas = Member::whereIn('id', $monthly_members_data)->whereHas('desigs')
@@ -483,6 +407,7 @@ class ReportController extends Controller
             'npsc',
             'npg_adj',
             'upsc_10',
+            'upsg_arrs_10',
             'upsgcr_adj_10',
             'misc_1'
         ];
@@ -535,12 +460,6 @@ class ReportController extends Controller
                 'npsg' => 0,
                 'npsg_adj' => 0,
                 'nps_14_adj' => 0,
-
-                'ups_10_per_rec' => 0,
-                'upsg_10_per' => 0,
-                'ups_adj_10_per' => 0,
-                'upsg_adj_10_per' => 0,
-
                 'misc_1' => 0,
                 'licence_fee' => 0,
                 'elec' => 0,
@@ -601,14 +520,11 @@ class ReportController extends Controller
 
         // dd($member_datas->toArray(), $monthly_members_data);
 
-
         if ($member_datas->count() == 0) {
             return response()->json(['message' => 'No data found for the selected criteria'], 400);
         }
 
         foreach ($member_datas as $member_data) {
-
-
             $member_details = [
                 'member_credit' => MemberMonthlyDataCredit::where('member_id', $member_data->id)
                     ->where('year', $request->year)
@@ -751,7 +667,7 @@ class ReportController extends Controller
 
             $all_members_info[] = $combined_member_info;
         }
-        // dd($all_members_info);
+
         $baseMemberQuery = Member::query()
             ->whereIn('id', $monthly_members_data)
             ->where('e_status', $request->e_status)
@@ -864,18 +780,6 @@ class ReportController extends Controller
             'compareDate',
             'last_month_debit_data'
         ))->setPaper('a3', 'landscape');
-
-        PaybillTracking::create([
-            'e_status' => $request->e_status,
-            'generate_by' => $request->generate_by,
-            'month' => $request->month,
-            'year' => $request->year,
-            'account_officer_sign' => $request->account_officer_sign,
-            'dv_number' => $request->dv_number,
-            'status' => 0,
-            'member_id' => $request->generate_by === 'member' ? $request->member_id : null,
-            'category' => $request->generate_by === 'category' ? $request->category : null,
-        ]);
         // return view('frontend.reports.paybill-generate')->with(compact(
         //     'previousMonth',
         //     'previousYear',
@@ -1030,156 +934,6 @@ class ReportController extends Controller
         return view('frontend.reports.pl-withdrawl');
     }
 
-
-    public function formSixteenB()
-    {
-        $categories = Category::orderBy('id', 'desc')->get();
-        $members = Member::orderBy('id', 'asc')->where('name', '!=', 'The Director, CHESS')->with('designation')->get();
-        $financialYears = Helper::getFinancialYears();
-        $accountants = User::role('ACCOUNTANT')->get();
-        return view('frontend.reports.form-sixteen-b', compact('members', 'financialYears', 'categories', 'accountants'));
-    }
-
-    public function formSixteenBGenerate(Request $request)
-    {
-
-        $request->validate([
-            'e_status' => 'required',
-            'generate_by' => 'required|in:member,category',
-            // 'recovery_from' => 'nullable',
-            'report_year' => 'required',
-            'member_id' => 'required_if:generate_by,member|nullable',
-            'category'  => 'required_if:generate_by,category|nullable',
-            'accountant' => 'nullable',
-        ]);
-
-        if ($request->accountant) {
-            $accountant = User::with('designation')->find($request->accountant);
-        } else {
-            $accountant = User::with('designation')->role('ACCOUNTANT')->orderBy('id', 'desc')->first();
-        }
-
-
-
-        // dd($accountant);
-
-        // $recovery_form = $request->recovery_from;
-
-        $report_year = $request->report_year;
-        // Extract financial year range
-        [$startYear, $endYear] = explode('-', $request->report_year);
-        $startOfYear = Carbon::createFromDate($startYear, 3, 1)->startOfDay();
-        $endOfYear = Carbon::createFromDate($endYear, 2, 28)->endOfDay();
-
-        // Create month labels like "Mar-24"
-        $yearMonths = [];
-        $current = $startOfYear->copy();
-        while ($current->lessThanOrEqualTo($endOfYear)) {
-            $yearMonths[] = $current->format('M-y');
-            $current->addMonth();
-        }
-
-        $startYear = (int) $startYear;
-        $endYear = (int) $endYear;
-
-        // Load members with payDetails ordered by year and month
-        $membersWithPayDetails = Member::with([
-            'payDetails' => function ($query) use ($startYear, $endYear) {
-                $query->where(function ($q) use ($startYear, $endYear) {
-                    $q->where(function ($sub) use ($startYear) {
-                        $sub->where('year', $startYear)
-                            ->whereBetween('month', [3, 12]);
-                    })->orWhere(function ($sub) use ($endYear) {
-                        $sub->where('year', $endYear)
-                            ->whereBetween('month', [1, 2]);
-                    });
-                })->orderBy('date'); // ✅ Ordered by year then month
-            },
-            'arrears' => function ($query) use ($startYear, $endYear) {
-                $query->where(function ($q) use ($startYear, $endYear) {
-                    $q->whereBetween('date', [
-                        "{$startYear}-03-01", // Start of financial year
-                        "{$endYear}-02-28"    // End of financial year
-                    ]);
-                });
-            },
-            'savings' => function ($query) use ($report_year) {
-                $query->where('financial_year', $report_year);
-            },
-
-            'memberCategory',
-            'memberPersonalInfo',
-            'memberPersonalInfo.quarter',
-            'desigs'
-        ])
-            ->where('e_status', $request->e_status)
-            ->where('member_status', 1)
-            ->whereHas('desigs')
-            ->whereHas('payDetails', function ($query) use ($startYear, $endYear) {
-                $query->where(function ($q) use ($startYear, $endYear) {
-                    $q->where(function ($sub) use ($startYear) {
-                        $sub->where('year', $startYear)
-                            ->whereBetween('month', [3, 12]);
-                    })->orWhere(function ($sub) use ($endYear) {
-                        $sub->where('year', $endYear)
-                            ->whereBetween('month', [1, 2]);
-                    });
-                });
-            })
-            ->when($request->generate_by === 'category', function ($q) use ($request) {
-                $q->where('category', $request->category);
-            })
-            ->when($request->generate_by === 'member', function ($q) use ($request) {
-                $q->where('id', $request->member_id);
-            })
-            ->get();
-
-
-
-        if ($membersWithPayDetails->isEmpty()) {
-            return response()->json(['message' => 'No data found for the selected criteria'], 500);
-        }
-
-
-        // PDF setup
-        $logo = Helper::logo() ?? '';
-        $setting = Setting::first();
-        $paperType = 'potrait';
-
-        $member_data = null;
-        if ($request->generate_by === 'member') {
-            $member_data = Member::find($request->member_id);
-        }
-        $assessment_year = $endYear . '-' . ($endYear + 1);
-
-        $pdf = PDF::loadView('frontend.reports.form-sixteen-b-generate', [
-            'logo' => $logo,
-            'membersWithPayDetails' => $membersWithPayDetails,
-            'yearMonths' => $yearMonths,
-            'reportYear' => $request->report_year,
-            'member_data' => $member_data,
-            'report_year' => $report_year,
-            'assessment_year' => $assessment_year,
-            'accountant' => $accountant
-        ])->setPaper('a4', 'potrait');
-        // return view('frontend.reports.form-sixteen-b-generate', [
-        //     'logo' => $logo,
-        //     'membersWithPayDetails' => $membersWithPayDetails,
-        //     'yearMonths' => $yearMonths,
-        //     'reportYear' => $request->report_year,
-        //     'member_data' => $member_data,
-        //     'report_year' => $report_year,
-        //     'assessment_year' => $assessment_year,
-        //     'accountant' => $accountant
-        // ]);
-
-        $filename = $request->generate_by === 'member'
-            ? 'form-16-' . ($member_data->name ?? 'member') . '-' . $request->report_year . '.pdf'
-            : 'form-16-category-' . $request->category . '-' . $request->report_year . '.pdf';
-
-        return $pdf->download($filename);
-    }
-
     public function annualIncomeTaxReport()
     {
         $categories = Category::orderBy('id', 'desc')->get();
@@ -1193,126 +947,210 @@ class ReportController extends Controller
         $request->validate([
             'e_status' => 'required',
             'generate_by' => 'required|in:member,category',
-            'recovery_from' => 'nullable',
             'report_year' => 'required',
-            'member_id' => 'required_if:generate_by,member|nullable',
-            'category'  => 'required_if:generate_by,category|nullable',
+            // Conditional validation
+            'member_id' => $request->generate_by === 'member' ? 'required' : 'nullable',
+            'category' => $request->generate_by === 'category' ? 'required' : 'nullable',
         ]);
 
-        $recovery_form = $request->recovery_from;
 
-        $report_year = $request->report_year;
-        // Extract financial year range
+        $memberId = $request->member_id;
         [$startYear, $endYear] = explode('-', $request->report_year);
-        $startOfYear = Carbon::createFromDate($startYear, 3, 1)->startOfDay();
-        $endOfYear = Carbon::createFromDate($endYear, 2, 28)->endOfDay();
+        // return $endYear;
 
-        // Create month labels like "Mar-24"
+        $startOfYear = Carbon::createFromDate($startYear, 3, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate("$endYear", 2, 28)->endOfDay();
+
         $yearMonths = [];
         $current = $startOfYear->copy();
+
         while ($current->lessThanOrEqualTo($endOfYear)) {
             $yearMonths[] = $current->format('M-y');
             $current->addMonth();
         }
 
-        $startYear = (int) $startYear;
-        $endYear = (int) $endYear;
+        $member_data = Member::where('id', $memberId)->first();
+        // $member_credit_data = MemberCredit::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        // $member_debit_data = MemberDebit::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
 
-        // Load members with payDetails ordered by year and month
-        $membersWithPayDetails = Member::with([
-            'payDetails' => function ($query) use ($startYear, $endYear) {
-                $query->where(function ($q) use ($startYear, $endYear) {
-                    $q->where(function ($sub) use ($startYear) {
-                        $sub->where('year', $startYear)
-                            ->whereBetween('month', [3, 12]);
-                    })->orWhere(function ($sub) use ($endYear) {
-                        $sub->where('year', $endYear)
-                            ->whereBetween('month', [1, 2]);
-                    });
-                })->orderBy('date'); // ✅ Ordered by year then month
-            },
-            'arrears' => function ($query) use ($startYear, $endYear) {
-                $query->where(function ($q) use ($startYear, $endYear) {
-                    $q->whereBetween('date', [
-                        "{$startYear}-03-01", // Start of financial year
-                        "{$endYear}-02-28"    // End of financial year
-                    ]);
-                });
-            },
-            'savings' => function ($query) use ($report_year) {
-                $query->where('financial_year', $report_year);
-            },
+        $member_credit_data = MemberMonthlyDataCredit::where('member_id', $memberId)->whereBetween('year', [$startYear, $endYear])->get();
+        $member_debit_data = MemberMonthlyDataDebit::where('member_id', $memberId)->whereBetween('year', [$startYear, $endYear])->get();
 
-            'memberCategory',
-            'memberPersonalInfo',
-            'memberPersonalInfo.quarter',
-            'desigs'
-        ])
-            ->where('e_status', $request->e_status)
-            ->where('member_status', 1)
-            ->whereHas('desigs')
-            ->whereHas('payDetails', function ($query) use ($startYear, $endYear) {
-                $query->where(function ($q) use ($startYear, $endYear) {
-                    $q->where(function ($sub) use ($startYear) {
-                        $sub->where('year', $startYear)
-                            ->whereBetween('month', [3, 12]);
-                    })->orWhere(function ($sub) use ($endYear) {
-                        $sub->where('year', $endYear)
-                            ->whereBetween('month', [1, 2]);
-                    });
-                });
-            })
-            ->when($request->generate_by === 'category', function ($q) use ($request) {
-                $q->where('category', $request->category);
-            })
-            ->when($request->generate_by === 'member', function ($q) use ($request) {
-                $q->where('id', $request->member_id);
-            })
-            ->get();
+        $member_core_info = MemberCoreInfo::where('member_id', $memberId)->first();
+        $member_recoveries_data = MemberRecovery::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $member_policy_info = MemberPolicyInfo::where('member_id', $memberId)->sum('amount');
+        $member_loan_info = MemberLoan::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->with('loan')->get();
+        $member_it_exemption_info = MemberIncomeTax::where('member_id', $memberId)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $incometaxRate = IncomeTax::where('financial_year', $request->report_year)->get();
+        $year = $request->report_year;
+        $months = $yearMonths;
 
+        // create an array to store the result month wise
+        $result = [];
 
+        $total_credit = [
+            'basic_pay' => 0,
+            'g_pay' => 0,
+            's_pay' => 0,
+            'f_pay' => 0,
+            'add_inc2' => 0,
+            'var_incr' => 0,
+            'da' => 0,
+            'hra' => 0,
+            'tpt' => 0,
+            'wash_alw' => 0,
+            'misc2' => 0,
+            'ot' => 0,
+            'total' => 0
+        ];
 
-        if ($membersWithPayDetails->isEmpty()) {
-            return response()->json(['message' => 'No data found for the selected criteria'], 500);
+        $total_debit = [
+            'gpf' => 0,
+            'cgegis' => 0,
+            'cghs' => 0,
+            'ptax' => 0,
+            'hba' => 0,
+            'pli' => 0,
+            'eol' => 0,
+            'hdfc' => 0,
+            'misc1' => 0,
+            'i_tax' => 0
+        ];
+
+        $total_policy = 0;
+        $standard_deduction = 50000;
+        $professional_update_allowance = 0;
+        $ceaus = 0;
+        $fixed_deposit = 0;
+        $nsc = 0;
+        $letOutProperty = 0;
+        $pensionIncome = 0;
+        $savingsInterest = 0;
+        $ppf = 0;
+        $otherBonds = 0;
+        $nsc_ctd = 0;
+        $hbaRefund = 0;
+        $tutionFee = 0;
+        $jeevanSuraksha = 0;
+        $ulip = 0;
+        $otherSavings = 0;
+        $relief87A = 0;
+        $relief89 = 0;
+
+        foreach ($yearMonths as $month) {
+            $result[$month]['credit'] = [
+                'basic_pay' => 0,
+                'g_pay' => 0,
+                's_pay' => 0,
+                'f_pay' => 0,
+                'add_inc2' => 0,
+                'var_incr' => 0,
+                'da' => 0,
+                'hra' => 0,
+                'tpt' => 0,
+                'wash_alw' => 0,
+                'misc2' => 0,
+                'ot' => 0,
+                'total' => 0
+            ];
+            $result[$month]['debit'] = [
+                'gpf' => 0,
+                'cgegis' => 0,
+                'cghs' => 0,
+                'ptax' => 0,
+                'hba' => 0,
+                'pli' => 0,
+                'eol' => 0,
+                'hdfc' => 0,
+                'misc1' => 0,
+                'i_tax' => 0
+            ];
+            $result[$month]['policy'] = [
+                'amount' => 0
+            ];
+
+            // Set the policy amount if available for the current month
+            $result[$month]['policy']['amount'] = $member_policy_info[$month] ?? 0;
+            $total_policy += $result[$month]['policy']['amount'];
+
+            foreach ($member_credit_data as $credit) {
+                if (Carbon::parse($credit->year . '-' . $credit->month . '-01')->format('M-y') == $month) {
+                    $result[$month]['credit']['basic_pay'] += $credit->pay ?? 0;
+                    $result[$month]['credit']['g_pay'] += $credit->g_pay ?? 0;
+                    $result[$month]['credit']['s_pay'] += $credit->s_pay ?? 0;
+                    $result[$month]['credit']['f_pay'] += $credit->f_pay ?? 0;
+                    $result[$month]['credit']['add_inc2'] += $credit->add_inc2 ?? 0;
+                    $result[$month]['credit']['var_incr'] += $credit->var_incr ?? 0;
+                    $result[$month]['credit']['da'] += $credit->da ?? 0;
+                    $result[$month]['credit']['hra'] += $credit->hra ?? 0;
+                    $result[$month]['credit']['tpt'] += $credit->tpt ?? 0;
+                    $result[$month]['credit']['wash_alw'] += $credit->wash_alw ?? 0;
+                    $result[$month]['credit']['misc2'] += $credit->misc2 ?? 0;
+                    $result[$month]['credit']['ot'] += $credit->ot ?? 0;
+                }
+            }
+
+            // Calculate the total credit amount for the current month
+            $result[$month]['credit']['total'] = array_sum($result[$month]['credit']);
+
+            // Accumulate total credits for each field
+            foreach ($result[$month]['credit'] as $key => $value) {
+                $total_credit[$key] += $value;
+            }
+
+            foreach ($member_debit_data as $debit) {
+                if (Carbon::parse($debit->year . '-' . $debit->month . '-01')->format('M-y') == $month) {
+                    $result[$month]['debit']['gpf'] += $debit->gpa_sub ?? 0;
+                    $result[$month]['debit']['cgegis'] += $debit->cgegis ?? 0;
+                    $result[$month]['debit']['cghs'] += $debit->cghs ?? 0;
+                    $result[$month]['debit']['ptax'] += $debit->ptax ?? 0;
+                    $result[$month]['debit']['hba'] += $debit->hba ?? 0;
+                    $result[$month]['debit']['pli'] += $debit->pli ?? 0;
+                    $result[$month]['debit']['eol'] += $debit->eol ?? 0;
+                    $result[$month]['debit']['hdfc'] += $debit->hdfc ?? 0;
+                    $result[$month]['debit']['misc1'] += $debit->misc1 ?? 0;
+                    $result[$month]['debit']['i_tax'] += $debit->i_tax ?? 0;
+                }
+            }
+
+            // Accumulate total debits for each field
+            foreach ($result[$month]['debit'] as $key => $value) {
+                $total_debit[$key] += $value;
+            }
+        }
+        // return $yearMonths;
+        $hbaInterest = 0;
+        if ($member_loan_info) {
+
+            $member_loan_info->filter(function ($memberLoan) {
+                return $memberLoan->loan->loan_name === 'hba';
+            })->sum(function ($memberLoan) {
+                return $memberLoan->interest_amount;
+            });
         }
 
+        // create an array to store exemption data for each exemption section
+        $exemption_result = [];
+        foreach ($member_it_exemption_info as $exemption) {
+            $exemption_result[$exemption->section]['section'] = $exemption->section;
+            $exemption_result[$exemption->section]['member_deduction'] = $exemption->member_deduction;
+            $exemption_result[$exemption->section]['max_deduction'] = $exemption->max_deduction;
+        }
 
-        // PDF setup
+        // total for member exemption
+        $total_exemption = 0;
+        foreach ($exemption_result as $exemption) {
+            if (preg_match('/\b80\s*d\b/i', $exemption['section']) || preg_match('/\b80\s*d{2}\b/i', $exemption['section']) || preg_match('/\b80\s*ddb\b/i', $exemption['section']) || preg_match('/\b80\s*u\b/i', $exemption['section']) || preg_match('/\b80\s*e\b/i', $exemption['section']) || preg_match('/\b80\s*g\b/i', $exemption['section']) || preg_match('/\b80\s*tta\b/i', $exemption['section']) || preg_match('/\b80\s*cc\s*g\b/i', $exemption['section']) || preg_match('/\b80\s*ee\b/i', $exemption['section'])) {
+                $total_exemption += $exemption['member_deduction'];
+            }
+        }
+
         $logo = Helper::logo() ?? '';
         $setting = Setting::first();
         $paperType = $request->paper_type ?? $setting->pdf_page_type;
-
-        $member_data = null;
-        if ($request->generate_by === 'member') {
-            $member_data = Member::find($request->member_id);
-        }
-
-        $pdf = PDF::loadView('frontend.reports.annual-income-tax-report-generate', [
-            'logo' => $logo,
-            'membersWithPayDetails' => $membersWithPayDetails,
-            'yearMonths' => $yearMonths,
-            'reportYear' => $request->report_year,
-            'member_data' => $member_data,
-            'report_year' => $report_year,
-            'recovery_form' => $recovery_form
-        ])->setPaper('a4', 'landscape');
-        // return view('frontend.reports.annual-income-tax-report-generate', [
-        //     'logo' => $logo,
-        //     'membersWithPayDetails' => $membersWithPayDetails,
-        //     'yearMonths' => $yearMonths,
-        //     'reportYear' => $request->report_year,
-        //     'member_data' => $member_data,
-        //     'report_year' => $report_year,
-        //     'recovery_form' => $recovery_form
-        // ]);
-
-        $filename = $request->generate_by === 'member'
-            ? 'income-tax-' . ($member_data->name ?? 'member') . '-' . $request->report_year . '.pdf'
-            : 'income-tax-category-' . $request->category . '-' . $request->report_year . '.pdf';
-
-        return $pdf->download($filename);
+        $pdf = PDF::loadView('frontend.reports.annual-income-tax-report-generate', compact('logo', 'member_data', 'member_credit_data', 'member_debit_data', 'member_core_info', 'year', 'months', 'result', 'total_credit', 'total_debit', 'total_policy', 'standard_deduction', 'professional_update_allowance', 'member_loan_info', 'hbaInterest', 'member_it_exemption_info', 'exemption_result', 'total_exemption', 'ceaus', 'fixed_deposit', 'nsc', 'letOutProperty', 'pensionIncome', 'savingsInterest', 'ppf', 'otherBonds', 'nsc_ctd', 'hbaRefund', 'tutionFee', 'jeevanSuraksha', 'ulip', 'otherSavings', 'incometaxRate', 'relief87A', 'relief89'))->setPaper('a3', $paperType);
+        return $pdf->download('income-tax-' . $member_data->name . '-' . $request->report_year . '.pdf');
     }
-
 
     public function salaryCertificate()
     {
@@ -1322,7 +1160,7 @@ class ReportController extends Controller
         $endYear = date('Y');
         $accountants = User::role('ACCOUNTANT')->get();
         $years = range($endYear, $startYear);
-
+            dd($years);
         return view('frontend.reports.salary-certificate', compact('years', 'accountants'));
     }
 
@@ -1384,15 +1222,15 @@ class ReportController extends Controller
         // If you want to download:
         return $pdf->download('salary-certificate-' . $member_data->name . '.pdf');
 
-        // return view('frontend.reports.salary-certificate-generate', compact(
-        //     'member_credit_data',
-        //     'member_debit_data',
-        //     'member_data',
-        //     'year',
-        //     'month',
-        //     'accountant',
-        //     'member_recoveries_data'
-        // ));
+        return view('frontend.reports.salary-certificate-generate', compact(
+            'member_credit_data',
+            'member_debit_data',
+            'member_data',
+            'year',
+            'month',
+            'accountant',
+            'member_recoveries_data'
+        ));
     }
 
 
@@ -1506,86 +1344,27 @@ class ReportController extends Controller
     public function lastPayCertificate()
     {
         $members = Member::orderBy('id', 'asc')->where('e_status', 'retired')->orWhere('e_status', 'transferred')->get();
-        // dd($members);
-        $accountants = User::role('ACCOUNTANT')->get();
-
-        return view('frontend.reports.last-pay-certificate', compact('members', 'accountants'));
+        return view('frontend.reports.last-pay-certificate', compact('members'));
     }
 
     public function lastPayCertificateGenerate(Request $request)
     {
-        // Validate input
         $request->validate([
-            'member_id'            => 'required|exists:members,id',
-            'note'                 => 'nullable',
-            'proceeding_to'        => 'nullable',
-            'transfer_authority'   => 'nullable',
-            'paid_upto_date'       => 'nullable|date',
-            'strike_strength_date' => 'nullable|date',
-            'account_officer_sign' => 'required'
+            'member_id' => 'required',
         ]);
 
-        $accountant = User::where('id', $request->account_officer_sign)->first();
-
-        // Fetch values
-        $note                 = $request->note;
-        $proceeding_to        = $request->proceeding_to;
-        $transfer_authority   = $request->transfer_authority;
-        $paid_upto_date       = $request->paid_upto_date;
-        $strike_strength_date = $request->strike_strength_date;
-
-        // Get member and related data
-        $member_data = Member::where('id', $request->member_id)
-            ->with('desigs', 'payLevels')
-            ->first();
-
+        $member_data = Member::where('id', $request->member_id)->with('desigs', 'payLevels')->first();
         $dojYear = Carbon::parse($member_data->doj_lab)->format('Y');
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->first();
+        $member_debit_data = MemberDebit::where('member_id', $request->member_id)->first();
+        $member_recoveries_data = MemberRecovery::where('member_id', $request->member_id)->first();
+        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
         $drdoPin = $dojYear . 'AD' . str_pad($request->member_id, 4, '0', STR_PAD_LEFT);
-
-        $member_credit_data    = MemberMonthlyDataCredit::where('member_id', $request->member_id)->latest()->first();
-        $member_debit_data     = MemberMonthlyDataDebit::where('member_id', $request->member_id)->latest()->first();
-        $member_recoveries_data = MemberMonthlyDataRecovery::where('member_id', $request->member_id)->latest()->first();
-        $member_core_info      = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->latest()->first();
-
-        $setting   = Setting::first();
+        $setting = Setting::first();
         $paperType = $request->paper_type ?? $setting->pdf_page_type;
-
-        // Prepare PDF view variables
-        $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact(
-            'member_credit_data',
-            'member_debit_data',
-            'member_data',
-            'drdoPin',
-            'member_core_info',
-            'member_recoveries_data',
-            'note',
-            'proceeding_to',
-            'transfer_authority',
-            'paid_upto_date',
-            'strike_strength_date',
-            'accountant'
-        ))->setPaper('a4', 'potrait');
-
-        // You can toggle between view or download depending on the use case
-        // return view('frontend.reports.last-pay-certificate-generate', compact(
-        //     'member_credit_data',
-        //     'member_debit_data',
-        //     'member_data',
-        //     'drdoPin',
-        //     'member_core_info',
-        //     'member_recoveries_data',
-        //     'note',
-        //     'proceeding_to',
-        //     'transfer_authority',
-        //     'paid_upto_date',
-        //     'strike_strength_date',
-        //      'accountant'
-        // ));
-
-        // Uncomment this to enable PDF download
+        $pdf = PDF::loadView('frontend.reports.last-pay-certificate-generate', compact('member_credit_data', 'member_debit_data', 'member_data', 'drdoPin', 'member_core_info', 'member_recoveries_data'))->setPaper('a4', $paperType);
         return $pdf->download('last-pay-certificate-' . $member_data->name . '.pdf');
     }
-
 
     public function getMemberInfo(Request $request)
     {
@@ -2026,10 +1805,10 @@ class ReportController extends Controller
         $reason = $request->reason;
         $month = Carbon::parse($request->apply_date)->subMonth();
 
-        $member_core_data = MemberCoreInfo::where('member_id', $request->member_id)->first();
+        $member_core_data = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->first();
         $member_gpf_datas = MemberGpf::where('member_id', $request->member_id)->where('created_at', '<', $month)->where('created_at', '=', $month)->get();
         $gpf_data = MemberGpf::where('member_id', $request->member_id)->where('created_at', '<', $month)->where('created_at', '=', $month)->latest()->first();
-        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->latest()->first();
+        $member_credit_data = MemberMonthlyDataCredit::where('member_id', $request->member_id)->latest()->first();
 
         $total_sub_amt = 0;
         $total_refund = 0;
@@ -2157,11 +1936,11 @@ class ReportController extends Controller
             $number_months = ['01', '02', '03'];
         }
 
-        $chunk_members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')
-            ->get()->chunk(14);
+        $members = Member::where('e_status', $request->e_status)->where('pay_stop', 'No')
+            ->get();
         $setting = Setting::first();
         $paperType = $request->paper_type ?? $setting->pdf_page_type;
-        $pdf = PDF::loadView('frontend.reports.quaterly-tds-report-generate', compact('chunk_members', 'cap_months', 'months', 'year', 'report_quarter', 'report_year', 'number_months'))->setPaper('a4', $paperType);
+        $pdf = PDF::loadView('frontend.reports.quaterly-tds-report-generate', compact('members', 'cap_months', 'months', 'year', 'report_quarter', 'report_year', 'number_months'))->setPaper('a4', $paperType);
         return $pdf->download('quaterly-tds-report-' . $report_quarter . '-' . $report_year . '.pdf');
     }
     public function groupChildrenAllowance()
@@ -2378,11 +2157,11 @@ class ReportController extends Controller
             ->where(function ($q) use ($startYear, $endYear) {
                 $q->where(function ($sub) use ($startYear) {
                     $sub->where('year', $startYear)
-                        ->whereBetween('month', [3, 12]);
+                        ->whereBetween('month', [4, 12]);
                 })
                     ->orWhere(function ($sub) use ($endYear) {
                         $sub->where('year', $endYear)
-                            ->whereBetween('month', [1, 2]);
+                            ->whereBetween('month', [1, 3]);
                     });
             })
             ->whereHas('member', function ($q) use ($request) {
@@ -2653,7 +2432,51 @@ class ReportController extends Controller
         return $pdf->download('terminal-benefits-' . $member->name . '.pdf');
     }
 
+    public function formSixteenB()
+    {
+        $members = Member::all();
+        $assessment_year = Helper::getFinancialYears();
 
+        return view('frontend.reports.form-sixteen-b', compact('members', 'assessment_year'));
+    }
+
+    public function formSixteenBGenerate(Request $request)
+    {
+        $member = Member::where('id', $request->member_id)->with('desigs')->first();
+        $assessment_year = $request->report_year;
+        $current_financial_year = date('Y') . '-' . (date('Y') + 1);
+        $income_from_other_sources = $request->other_income;
+        $income_from_house_property = $request->house_property_income;
+        $prerequisite172 = 0;
+        $profits_in_lieu = 0;
+        $total_from_other_employer = 0;
+        $amt10a = 0;
+        $amt10b = 0;
+        $exemption10 = 0;
+        $standard_deduction_16 = 0;
+        $entertainment_allow = 0;
+        $profession_tax = 0;
+        $other_deduction_via = 0;
+        $surcharge = 0;
+
+        [$startYear, $endYear] = explode('-', $request->report_year);
+        $startOfYear = Carbon::createFromDate($startYear, 4, 1)->startOfDay();
+        $endOfYear = Carbon::createFromDate("$endYear", 3, 31)->endOfDay();
+
+        $member_it_exemption = MemberIncomeTax::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();
+        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
+        $incometaxRate = IncomeTax::where('financial_year', $request->report_year)->get();
+
+        if ($member_it_exemption->count() == 0) {
+            return redirect()->back()->with('error', 'No data found for the selected year');
+        }
+
+        $setting = Setting::first();
+        $paperType = $request->paper_type ?? $setting->pdf_page_type;
+        $pdf = PDF::loadView('frontend.reports.form-sixteen-b-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year', 'income_from_other_sources', 'income_from_house_property', 'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'incometaxRate', 'surcharge'))->setPaper('a4', $paperType);
+        return $pdf->download('form-sixteen-b-' . $member->name . '.pdf');
+    }
 
     public function ltcAdvance()
     {
@@ -2726,17 +2549,16 @@ class ReportController extends Controller
         $endOfYear = Carbon::createFromDate("$endYear", 3, 31)->endOfDay();
 
         $member_it_exemption = MemberIncomeTax::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->get();
-        $member_credit_data = MemberMonthlyDataCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();
-        $member_debit_data = MemberMonthlyDataDebit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();
-        $member_core_info = MemberMonthlyDataCoreInfo::where('member_id', $request->member_id)->first();
+        $member_credit_data = MemberCredit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();
+        $member_debit_data = MemberDebit::where('member_id', $request->member_id)->whereBetween('created_at', [$startOfYear, $endOfYear])->latest()->first();
+        $member_core_info = MemberCoreInfo::where('member_id', $request->member_id)->first();
         $incometaxRate = IncomeTax::where('financial_year', $request->report_year)->get();
 
-        // if ($member_it_exemption->count() == 0) {
-        //     return redirect()->back()->with('error', 'No data found for the selected year');
-        // }
+        if ($member_it_exemption->count() == 0) {
+            return redirect()->back()->with('error', 'No data found for the selected year');
+        }
         $setting = Setting::first();
         $paperType = $request->paper_type ?? $setting->pdf_page_type;
-        return view('frontend.reports.form-sixteen-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear', 'member_debit_data', 'other_income', 'incometaxRate', 'surcharge', 'tax_deducted_192i', 'tax_paid_192ia'));
         $pdf = PDF::loadView('frontend.reports.form-sixteen-generate', compact('member', 'assessment_year', 'member_credit_data', 'member_it_exemption', 'current_financial_year',  'member_core_info', 'prerequisite172', 'profits_in_lieu', 'total_from_other_employer', 'amt10a', 'amt10b', 'exemption10', 'standard_deduction_16', 'entertainment_allow', 'profession_tax', 'other_deduction_via', 'startYear', 'endYear', 'member_debit_data', 'other_income', 'incometaxRate', 'surcharge', 'tax_deducted_192i', 'tax_paid_192ia'))->setPaper('a4', $paperType);
         return $pdf->download('form-sixteen-' . $member->name . '.pdf');
     }
@@ -2907,7 +2729,7 @@ class ReportController extends Controller
             $chunkReport = []; // Initialize a temporary array for each chunk
 
             foreach ($chunkMember as $index => $member) { // Iterate over the members in the current chunk
-                $member_basic = MemberCredit::where('member_id', $member->id)
+                $member_basic = MemberMonthlyDataCredit::where('member_id', $member->id)
                     ->whereBetween('created_at', [$start_date, $end_date])
                     ->select('pay', 'g_pay')
                     ->latest()
@@ -2953,9 +2775,9 @@ class ReportController extends Controller
                     $da_drawn = $basic * $prev_da_percentage / 100;
                     $diff = $da_due - $da_drawn;
 
-                    $tptData = MemberCredit::where('member_id', $member->id)
-                        ->whereYear('created_at', $year)
-                        ->whereMonth('created_at', $month)
+                    $tptData = MemberMonthlyDataCredit::where('member_id', $member->id)
+                        ->where('year', $year)
+                        ->where('month', $month)
                         ->select('tpt', 'da_on_tpt')
                         ->first();
                     $tpt_due_amt = $tptData->tpt ?? 0;
@@ -2971,9 +2793,9 @@ class ReportController extends Controller
                     $tpt_drawn = $tpt_due_amt + $tpt_da;
                     $tpt_diff = $tpt_due - $tpt_drawn;
 
-                    $npsData = MemberDebit::where('member_id', $member->id)
-                        ->whereYear('created_at', $year)
-                        ->whereMonth('created_at', $month)
+                    $npsData = MemberMonthlyDataDebit::where('member_id', $member->id)
+                        ->where('year', $year)
+                        ->where('month', $month)
                         ->select('pension_rec', 'eol', 'npsg')
                         ->first();
 
@@ -3075,14 +2897,14 @@ class ReportController extends Controller
         $members = Member::where('category', $request->category)->get();
 
         foreach ($members as $member) {
-            $member->credit = MemberCredit::where('member_id', $member->id)
-                ->whereYear('created_at', $request->year)
-                ->whereMonth('created_at', $request->month)
+            $member->credit = MemberMonthlyDataCredit::where('member_id', $member->id)
+                ->where('year', $request->year)
+                ->where('month', $request->month)
                 ->first() ?? null;
 
-            $member->debit = MemberDebit::where('member_id', $member->id)
-                ->whereYear('created_at', $request->year)
-                ->whereMonth('created_at', $request->month)
+            $member->debit = MemberMonthlyDataDebit::where('member_id', $member->id)
+                ->where('year', $request->year)
+                ->where('month', $request->month)
                 ->first() ?? null;
         }
 
@@ -3269,9 +3091,9 @@ class ReportController extends Controller
             $month = $current_date->month;
 
             // Query MemberCredit table for the current month and year
-            $memberCredit = MemberCredit::where('member_id', $member->id)
-                ->whereYear('created_at', $year)
-                ->whereMonth('created_at', $month)
+            $memberCredit = MemberMonthlyDataCredit::where('member_id', $member->id)
+                ->where('year', $year)
+                ->where('month', $month)
                 ->first();
 
             // Query MemberDebit table for the current month and year
@@ -3416,9 +3238,9 @@ class ReportController extends Controller
                     ->where('year', $request->year)
                     ->where('month', $request->month)
                     ->first(),
-                'member_core_info' => MemberCoreInfo::where('member_id', $member_data->id)
-                    ->whereYear('created_at', $request->year)
-                    ->whereMonth('created_at', $request->month)
+                'member_core_info' => MemberMonthlyDataCoreInfo::where('member_id', $member_data->id)
+                    ->where('year', $request->year)
+                    ->where('month', $request->month)
                     ->with('banks')
                     ->first(),
 

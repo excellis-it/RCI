@@ -101,7 +101,7 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-end mt-4">
+    {{-- <div class="row justify-content-end mt-4">
         <div class="col-auto mb-2">
             <button type="button" class="another-btn">Report</button>
         </div>
@@ -125,7 +125,7 @@
                 <option>Dec</option>
             </select>
         </div>
-    </div>
+    </div> --}}
 </div>
 
 @push('scripts')

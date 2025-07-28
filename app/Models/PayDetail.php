@@ -38,7 +38,15 @@ class PayDetail extends Model
         'add_incr',
         'wash_ajw',
         'cghs',
-        'eol_hpl'
+        'eol_hpl',
+        'npsc',
+        'g_pay',
+        'da_tpt',
+        'dis_alw',
+        'nps',
+        'date',
+        'ups_10_per_rec',
+        'upsc_10',
     ];
 
     public function member()

@@ -7,9 +7,23 @@
 @endpush
 
 @section('content')
-    <section id="loading">
-        <div id="loading-content"></div>
-    </section>
+    <!-- Loader Overlay -->
+    <div id="loaderOverlay"
+        style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
     <div class="container-fluid">
         <div class="breadcome-list">
             <div class="d-flex">
@@ -221,6 +235,49 @@
 
                                                                 @include('income-tax.members.rent')
 
+                                                                <div class="row justify-content-end mt-4">
+                                                                    <input type="hidden" name="member_id"
+                                                                        value="{{ $member['id'] ?? '' }}">
+
+                                                                    <div class="col-auto mb-2">
+                                                                        <button type="button" class="another-btn"
+                                                                            id="generateReport">Report</button>
+
+                                                                    </div>
+                                                                    <div class="col-auto mb-2">
+                                                                        <button type="button" class="another-btn"
+                                                                            id="generateReportForm16">FORM16</button>
+                                                                    </div>
+                                                                    <div class="col-auto mb-2">
+                                                                        Recovey Form
+
+                                                                        <select name="recovery_from" id="recovery_from"
+                                                                            class="p-2 rounded">
+                                                                            <option value="">Select Month</option>
+                                                                            <option value="7"
+                                                                                {{ old('recovery_from') == '7' ? 'selected' : '' }}>
+                                                                                Aug</option>
+                                                                            <option value="6"
+                                                                                {{ old('recovery_from') == '6' ? 'selected' : '' }}>
+                                                                                Sep</option>
+                                                                            <option value="5"
+                                                                                {{ old('recovery_from') == '5' ? 'selected' : '' }}>
+                                                                                Oct</option>
+                                                                            <option value="4"
+                                                                                {{ old('recovery_from') == '4' ? 'selected' : '' }}>
+                                                                                Nov</option>
+                                                                            <option value="3"
+                                                                                {{ old('recovery_from') == '3' ? 'selected' : '' }}>
+                                                                                Dec</option>
+                                                                            <option value="2"
+                                                                                {{ old('recovery_from') == '2' ? 'selected' : '' }}>
+                                                                                Jan</option>
+                                                                            <option value="1"
+                                                                                {{ old('recovery_from') == '1' ? 'selected' : '' }}>
+                                                                                Feb</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -242,6 +299,116 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
+                $('#generateReport').on('click', function() {
+                    // Show loader
+                    $('#loaderOverlay').css('display', 'flex');
+
+                    let recovery_from = $('#recovery_from').val();
+                    let report_year = $('#financial_year').val();
+                    let generate_by = 'member'; // fixed for now
+                    let e_status = 'active'; // fixed for now
+                    let member_id = $('[name="member_id"]').val();
+                    let category = ''; // optional if not used
+
+                    $.ajax({
+                        url: '{{ route('reports.annual-income-tax-report-generate') }}',
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            recovery_from,
+                            report_year,
+                            generate_by,
+                            e_status,
+                            member_id,
+                            category
+                        },
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function(blob) {
+                            let now = new Date();
+                            let filename =
+                                `income-tax-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}.pdf`;
+                            let link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = filename;
+                            link.click();
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 422) {
+                                let errors = xhr.responseJSON.errors;
+                                let msg = Object.values(errors).flat().join('\n');
+                                alert("Validation Error:\n" + msg);
+                            } else {
+                                alert("Error: " + (xhr.responseJSON?.message ||
+                                    'Failed to generate report.'));
+                            }
+                        },
+                        complete: function() {
+                            // Hide loader in all cases
+                            $('#loaderOverlay').hide();
+                        }
+                    });
+                });
+
+
+                $('#generateReportForm16').on('click', function() {
+                    // Show loader
+                    $('#loaderOverlay').css('display', 'flex');
+
+                    let recovery_from = $('#recovery_from').val();
+                    let report_year = $('#financial_year').val();
+                    let generate_by = 'member'; // fixed for now
+                    let e_status = 'active'; // fixed for now
+                    let member_id = $('[name="member_id"]').val();
+                    let category = ''; // optional if not used
+
+                    $.ajax({
+                        url: '{{ route('reports.form-16b-generate') }}',
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            recovery_from,
+                            report_year,
+                            generate_by,
+                            e_status,
+                            member_id,
+                            category
+                        },
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function(blob) {
+                            let now = new Date();
+                            let filename =
+                                `form-16-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}.pdf`;
+                            let link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = filename;
+                            link.click();
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 422) {
+                                let errors = xhr.responseJSON.errors;
+                                let msg = Object.values(errors).flat().join('\n');
+                                alert("Validation Error:\n" + msg);
+                            } else {
+                                alert("Error: " + (xhr.responseJSON?.message ||
+                                    'Failed to generate report.'));
+                            }
+                        },
+                        complete: function() {
+                            // Hide loader in all cases
+                            $('#loaderOverlay').hide();
+                        }
+                    });
+                });
+            });
+        </script>
+
+
+        <script>
+            $(document).ready(function() {
                 $('#month_year').change(function() {
                     var monthYear = $(this).val();
                     if (monthYear) {
@@ -260,6 +427,13 @@
                                     }
 
                                     // Populate the fields with response data, defaulting to 0 if null
+                                    $('input[name="dis_alw"]').val(getValue("dis_alw"));
+                                    $('input[name="nps"]').val(getValue("nps"));
+                                    $('input[name="npsc"]').val(getValue("npsc"));
+                                    $('input[name="ups_10_per_rec"]').val(getValue(
+                                        "ups_10_per_rec"));
+                                    $('input[name="upsc_10"]').val(getValue("upsc_10"));
+
                                     $('input[name="var_incr"]').val(getValue("var_incr"));
                                     $('input[name="misc"]').val(getValue("misc"));
                                     $('input[name="p_tax"]').val(getValue("p_tax"));
@@ -280,13 +454,19 @@
                                     $('input[name="pli"]').val(getValue("pli"));
                                     $('input[name="e_pay"]').val(getValue("e_pay"));
                                     $('input[name="tpt"]').val(getValue("tpt"));
+                                    $('input[name="da_tpt"]').val(getValue("da_tpt"));
                                     $('input[name="cgeis"]').val(getValue("cgeis"));
                                     $('input[name="lic"]').val(getValue("lic"));
                                     $('input[name="add_incr"]').val(getValue("add_incr"));
-                                    $('input[name="wash_ajw"]').val(getValue("wash_ajw"));
                                     $('input[name="cghs"]').val(getValue("cghs"));
                                     $('input[name="eol_hpl"]').val(getValue("eol_hpl"));
                                 } else {
+
+                                    $('input[name="dis_alw"]').val(0);
+                                    $('input[name="nps"]').val(0);
+                                    $('input[name="npsc"]').val(0);
+                                    $('input[name="ups_10_per_rec"]').val(0);
+                                    $('input[name="upsc_10"]').val(0);
                                     $('input[name="var_incr"]').val(0);
                                     $('input[name="misc"]').val(0);
                                     $('input[name="p_tax"]').val(0);
@@ -307,10 +487,10 @@
                                     $('input[name="pli"]').val(0);
                                     $('input[name="e_pay"]').val(0);
                                     $('input[name="tpt"]').val(0);
+                                    $('input[name="da_tpt"]').val(0);
                                     $('input[name="cgeis"]').val(0);
                                     $('input[name="lic"]').val(0);
                                     $('input[name="add_incr"]').val(0);
-                                    $('input[name="wash_ajw"]').val(0);
                                     $('input[name="cghs"]').val(0);
                                     $('input[name="eol_hpl"]').val(0);
                                     toastr.error(response.message)
@@ -330,6 +510,11 @@
                         var endYear = parseInt(years[1]); // Second part of financial year
 
                         var months = [{
+                                name: "March",
+                                value: "03",
+                                year: startYear
+                            },
+                            {
                                 name: "April",
                                 value: "04",
                                 year: startYear
@@ -384,11 +569,7 @@
                                 value: "02",
                                 year: endYear
                             },
-                            {
-                                name: "March",
-                                value: "03",
-                                year: endYear
-                            }
+
                         ];
 
                         $("#month").empty().append('<option value="">Select Month</option>');
@@ -589,6 +770,7 @@
                         },
                         success: function(response) {
                             if (response.success) {
+                                $('.not-found').css('display', 'none');
                                 let formattedDate = response.data.date ?? "N/A";
                                 let editRoute =
                                     `{{ route('income-tax.members-income-tax.arrears.edit', ':id') }}`
@@ -695,7 +877,6 @@
                         success: function(response) {
                             let tbody = $("#arrear-table tbody");
                             tbody.empty();
-
                             if (response.arrears.length > 0) {
                                 $.each(response.arrears, function(index, arrear) {
                                     let formattedDate = arrear.date ? new Date(arrear.date)
@@ -728,7 +909,7 @@
                                 });
                             } else {
                                 tbody.html(
-                                    '<tr><td colspan="8" class="text-center">No data available</td></tr>'
+                                    '<tr class="not-found"><td colspan="8" class="text-center">No data available</td></tr>'
                                 );
                             }
                         },
@@ -744,12 +925,130 @@
                 $(document).on("change", "#financial_year", function() {
                     let selectedYear = $(this).val();
                     loadArrearTable(selectedYear);
+                    fetchSavingData(selectedYear);
                 });
+
+                function populateSavingsForm(data) {
+                    $("#savings_annual_rent").val(data.annual_rent || 0);
+                    $("#savings_ph_disable").val(data.ph_disable || 0);
+                    $("#savings_fd_int").val(data.fd_int || 0);
+                    $("#savings_nsc_ctd").val(data.nsc_ctd || 0);
+                    $("#savings_t_fee").val(data.t_fee || 0);
+                    $("#savings_hba_int").val(data.hba_int || 0);
+                    $("#savings_edu_loan_int").val(data.edu_loan_int || 0);
+                    $("#savings_nscint").val(data.nscint || 0);
+                    $("#savings_hba_prncpl").val(data.hba_prncpl || 0);
+                    $("#savings_ohters_s").val(data.ohters_s || 0);
+                    $("#savings_hba_int_80ee").val(data.hba_int_80ee || 0);
+                    $("#savings_others_d").val(data.others_d || 0);
+                    $("#savings_letout").val(data.letout || 0);
+                    $("#savings_infa_bond").val(data.infa_bond || 0);
+                    $("#savings_ac_int_80tta").val(data.ac_int_80tta || 0);
+                    $("#savings_pension").val(data.pension || 0);
+                    $("#savings_js_sukanya").val(data.js_sukanya || 0);
+                    $("#savings_nsdl").val(data.nsdl || 0);
+                    $("#savings_med_trt").val(data.med_trt || 0);
+                    $("#savings_equity_mf").val(data.equity_mf || 0);
+                    $("#savings_ppf").val(data.ppf || 0);
+                    $("#savings_sec_89").val(data.sec_89 || 0);
+                    $("#savings_cancer").val(data.cancer || 0);
+                    $("#savings_cancer_amount").val(data.cancer_amount || 0);
+
+                    $("#savings_cea").val(data.cea || 0);
+                    $("#savings_bonds").val(data.bonds || 0);
+                    $("#savings_ulip").val(data.ulip || 0);
+                    $("#savings_ph").val(data.ph || 0);
+                    $("#savings_lic").val(data.lic || 0);
+                    $("#savings_pli").val(data.pli || 0);
+                    $("#savings_med_ins").val(data.med_ins || 0);
+
+                    //  console.log('med_ins_80d_______'+data.med_ins_80d);
+                    // Radio buttons
+                    if (data.med_ins_80d == 1) {
+                        $("#savings_med_ins1").prop('checked', true);
+                    } else {
+                        $("#savings_med_ins2").prop('checked', true);
+                    }
+
+                    if (data.cancer_80ddb_senior_dependent) {
+                        $("#savings_cancer1").prop('checked', true);
+                    } else {
+                        $("#savings_cancer2").prop('checked', true);
+                    }
+
+                    if (data.med_tri_80dd_disability) {
+                        $("#savings_med_tri1").prop('checked', true);
+                    } else {
+                        $("#savings_med_tri2").prop('checked', true);
+                    }
+
+                    if (data.ph_disable_80u_disability) {
+                        $("#savings_server_dis1").prop('checked', true);
+                    } else {
+                        $("#savings_server_dis2").prop('checked', true);
+                    }
+
+                    if (data.it_rules) {
+                        $("#savings_it_rules1").prop('checked', true);
+                    } else {
+                        $("#savings_it_rules2").prop('checked', true);
+                    }
+                }
+
+
+                function fetchSavingData(financialYear) {
+                    $('.financial_year').val(financialYear)
+                    $.ajax({
+                        url: "{{ route('income-tax.saving.get-data') }}",
+                        type: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            member_id: "{{ $member->id }}",
+                            financial_year: financialYear,
+                        },
+                        beforeSend: function() {
+                            // Show loading indicator
+                            $("#loading").show();
+                        },
+                        success: function(response) {
+                            if (response.status == true) {
+                                // Populate form with data
+                                populateSavingsForm(response.data);
+
+                            } else {
+                                // Reset form if no data found
+                                resetSavingsForm();
+                                // Optionally show message
+                                // alert(response.message);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            alert("Error fetching data. Please try again.");
+                        },
+                        complete: function() {
+                            // Hide loading indicator
+                            $("#loading").hide();
+                        }
+                    });
+                }
+
+                function resetSavingsForm() {
+                    // Save the month_year value before resetting
+                    let monthYear = $("#savings_month_year").val();
+
+                    // Reset the form
+                    $("#savingsForm")[0].reset();
+
+                    // Restore the month_year value
+                    $("#savings_month_year").val(monthYear);
+                }
 
                 // Load arrears table when the page loads if a financial year is selected
                 let preSelectedYear = $("#financial_year").val();
                 if (preSelectedYear) {
                     loadArrearTable(preSelectedYear);
+                    fetchSavingData(preSelectedYear);
                 }
             });
         </script>

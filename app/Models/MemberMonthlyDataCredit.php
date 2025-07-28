@@ -43,7 +43,10 @@ class MemberMonthlyDataCredit extends Model
         'year',
         'apply_date',
         'npg_adj',
-        'npsc'
+        'npsc',
+        'upsc_10',
+        'upsg_arrs_10',
+        'upsgcr_adj_10'
 
     ];
 
@@ -51,6 +54,4 @@ class MemberMonthlyDataCredit extends Model
     {
         return $this->belongsTo(Member::class);
     }
-
-
 }

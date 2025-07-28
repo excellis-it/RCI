@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Models\PayDetail;
 use App\Models\IncomeTaxSaving;
 use App\Models\IncomtTaxRent;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -83,8 +84,15 @@ class MemberController extends Controller
             ->get();
 
         $arrears = IncomeTaxArrears::where('member_id', $id)
-            ->whereYear('date', '>=', $startYear)
-            ->whereYear('date', '<=', $endYear)
+            ->where(function ($query) use ($startYear, $endYear) {
+                $query->where(function ($q) use ($startYear) {
+                    $q->whereYear('date', $startYear)
+                        ->whereMonth('date', '>=', 3); // March to Dec of start year
+                })->orWhere(function ($q) use ($endYear) {
+                    $q->whereYear('date', $endYear)
+                        ->whereMonth('date', '<=', 2); // Jan and Feb of end year
+                });
+            })
             ->get();
 
         return view('income-tax.members.edit', compact('member', 'financialYear', 'rents', 'arrears'));
@@ -129,72 +137,90 @@ class MemberController extends Controller
 
     public function payDetailsStore(Request $request)
     {
-        // Validate inputs
-        $request->validate([
-            'member_id' => 'required|exists:members,id',
-            'month_year' => 'required', // Ensures format MM-YYYY
-            'var_incr' => 'nullable|numeric',
-            'misc' => 'nullable|numeric',
-            'p_tax' => 'nullable|numeric',
-            'hdfc' => 'nullable|numeric',
-            'basic' => 'required|numeric',
-            'da' => 'nullable|numeric',
-            'ot' => 'nullable|numeric',
-            'i_tax' => 'nullable|numeric',
-            'd_misc' => 'nullable|numeric',
-            'd_pay' => 'nullable|numeric',
-            'hra' => 'nullable|numeric',
-            'arrears' => 'nullable|numeric',
-            'hba' => 'nullable|numeric',
-            'gmc' => 'nullable|numeric',
-            's_pay' => 'nullable|numeric',
-            'cca' => 'nullable|numeric',
-            'gpf' => 'nullable|numeric',
-            'pli' => 'nullable|numeric',
-            'e_pay' => 'nullable|numeric',
-            'tpt' => 'nullable|numeric',
-            'cgeis' => 'nullable|numeric',
-            'lic' => 'nullable|numeric',
-            'add_incr' => 'nullable|numeric',
-            'wash_ajw' => 'nullable|numeric',
-            'cghs' => 'nullable|numeric',
-            'eol_hpl' => 'nullable|numeric',
-        ]);
+        $inputFields = [
+            'member_id',
+            'month_year',
+            'var_incr',
+            'misc',
+            'p_tax',
+            'hdfc',
+            'basic',
+            'da',
+            'ot',
+            'i_tax',
+            'd_misc',
+            'd_pay',
+            'hra',
+            'arrears',
+            'hba',
+            's_pay',
+            'cca',
+            'gpf',
+            'nps_10_rec',
+            'npsc',
+            'pli',
+            'e_pay',
+            'tpt',
+            'da_tpt',
+            'cgeis',
+            'lic',
+            'add_incr',
+            'dis_alw',
+            'cghs',
+            'eol_hpl'
+        ];
 
-        // Extract month and year from month_year (format: MM-YYYY)
-        [$month, $year] = explode('-', $request->month_year);
+        $rules = [
+            'member_id'  => 'required|exists:members,id',
+            'month_year' => 'required', // MM-YYYY format
+            'basic'      => 'required|numeric',
+        ];
 
-        // Check if record already exists
+        foreach (array_diff($inputFields, ['member_id', 'month_year', 'basic']) as $field) {
+            $rules[$field] = 'nullable|numeric';
+        }
+
+        $validated = $request->validate($rules);
+
+        // Parse month & year
+        [$month, $year] = explode('-', $validated['month_year']);
+        $date = \Carbon\Carbon::createFromFormat('m-Y', $validated['month_year'])->startOfMonth();
+
+        // First or new
         $payDetail = PayDetail::firstOrNew([
-            'member_id' => $request->member_id,
-            'month' => $month,
-            'year' => $year
+            'member_id' => $validated['member_id'],
+            'month'     => $month,
+            'year'      => $year,
         ]);
 
-        // Fill the attributes dynamically
-        $payDetail->fill($request->except(['month_year']));
+        // Fill validated fields
+        $payDetail->fill(array_intersect_key($validated, array_flip($inputFields)));
+        $payDetail->month = $month;
+        $payDetail->year = $year;
+        $payDetail->date = $date;
 
-        // Save the record
         $payDetail->save();
 
         return response()->json([
             'success' => true,
             'message' => 'Salary details saved successfully',
-            'data' => $payDetail
+            'data'    => $payDetail
         ]);
     }
+
+
 
     public function savingStore(Request $request)
     {
         $request->validate([
             'member_id' => 'required|exists:members,id',
-            'month_year' => 'required',
+            'financial_year' => 'required',
         ]);
 
-        // Extract month and year
-        [$month, $year] = explode('-', $request->month_year);
+        // dd($request->all());
 
         $data = $request->only([
+            'financial_year',
             'annual_rent',
             'ph_disable',
             'fd_int',
@@ -226,6 +252,7 @@ class MemberController extends Controller
             'ulip',
             'ph',
             'med_ins_80d',
+            'med_ins',
             'med_ins_senior_dependent',
             'cancer_80ddb_senior_dependent',
             'med_tri_80dd_disability',
@@ -234,7 +261,7 @@ class MemberController extends Controller
         ]);
 
         // Convert checkboxes/select values to boolean
-        $data['med_ins_80d'] = $request->med_ins == 'Yes' ? 1 : 0;
+        $data['med_ins_80d'] = $request->med_ins_80d == 'Yes' ? 1 : 0;
         $data['med_ins_senior_dependent'] = $request->med_ins == 'Yes' ? 1 : 0;
         $data['cancer_80ddb_senior_dependent'] = $request->cancer == 'Yes' ? 1 : 0;
         $data['med_tri_80dd_disability'] = $request->med_tri == 'Yes' ? 1 : 0;
@@ -242,12 +269,11 @@ class MemberController extends Controller
         $data['it_rules'] = $request->it_rules == 'Yes' ? 1 : 0;
 
         $data['member_id'] = $request->member_id;
-        $data['month'] = $month;
-        $data['year'] = $year;
+        // $data['month'] = $month;
+        // $data['year'] = $year;
 
         $existingSaving = IncomeTaxSaving::where('member_id', $request->member_id)
-            ->where('month', $month)
-            ->where('year', $year)
+            ->where('financial_year', $request->financial_year)
             ->first();
 
         if ($existingSaving) {
@@ -270,17 +296,13 @@ class MemberController extends Controller
     {
         $request->validate([
             'member_id' => 'required|exists:members,id',
-            'month_year' => 'required',
+            'financial_year' => 'required',
         ]);
 
         // Extract month and year from month_year (format: MM-YYYY)
-        $monthYear = explode('-', $request->month_year);
-        $month = $monthYear[0];
-        $year = $monthYear[1];
-
+        $financial_year = $request->financial_year;
         $saving = IncomeTaxSaving::where('member_id', $request->member_id)
-            ->where('month', $month)
-            ->where('year', $year)
+            ->where('financial_year', $financial_year)
             ->first();
 
         if ($saving) {
@@ -412,19 +434,35 @@ class MemberController extends Controller
             return response()->json(['status' => false, 'message' => 'Financial year is required'], 400);
         }
 
-        // Extract start and end year from the financial year (e.g., "2023-2024")
+        // Expected format: "2025-2026"
         $years = explode('-', $financialYear);
         if (count($years) !== 2) {
             return response()->json(['status' => false, 'message' => 'Invalid financial year format'], 400);
         }
 
-        $startYear = (int) trim($years[0]);
-        $endYear = (int) trim($years[1]);
+        $startYear = (int) trim($years[0]); // e.g., 2025
+        $endYear = (int) trim($years[1]);   // e.g., 2026
 
-        // Fetch arrears data within the financial year range
-        $arrears = IncomeTaxArrears::where('member_id', $request->member_id)->whereYear('date', '>=', $startYear)
-            ->whereYear('date', '<=', $endYear)
-            ->orderBy('date', 'asc')
+        // Define full date range: from March 1st of startYear to February end of endYear
+        $startDate = Carbon::create($startYear, 3, 1)->startOfDay();  // 01-03-2025
+        $endDate = Carbon::create($endYear, 2, 28)->endOfDay();       // 28-02-2026 (or 29 if leap year)
+
+        // Adjust for leap year if needed
+        if (checkdate(2, 29, $endYear)) {
+            $endDate = Carbon::create($endYear, 2, 29)->endOfDay();
+        }
+
+        // Fetch arrears for the member within this date range
+        $arrears = IncomeTaxArrears::where('member_id', $request->member_id)
+            ->where(function ($query) use ($startYear, $endYear) {
+                $query->where(function ($q) use ($startYear) {
+                    $q->whereYear('date', $startYear)
+                        ->whereMonth('date', '>=', 3); // March to Dec of start year
+                })->orWhere(function ($q) use ($endYear) {
+                    $q->whereYear('date', $endYear)
+                        ->whereMonth('date', '<=', 2); // Jan and Feb of end year
+                });
+            })
             ->get();
 
         return response()->json([
@@ -432,6 +470,7 @@ class MemberController extends Controller
             'arrears' => $arrears
         ]);
     }
+
 
     public function arrearsDestroy($id)
     {

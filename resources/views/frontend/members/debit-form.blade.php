@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-           {{--<div class="col-md-2">
+            {{-- <div class="col-md-2">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -50,7 +50,7 @@
                 </div>
             </div> --}}
 
-            <div class="col-md-2" >
+            <div class="col-md-2">
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -66,22 +66,38 @@
             </div>
         @endif
         {{-- @dd($member->memberCategory->fund_type) --}}
-         @if ($member->memberCategory->fund_type == 'NPS')
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>NPS Rec(10%)</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="nps_10_rec" id="nps_10_rec"
-                            value="{{ $member_debit->nps_10_rec ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
+        @if ($member->memberCategory->fund_type == 'NPS')
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>NPS Rec (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="nps_10_rec" id="nps_10_rec"
+                                value="{{ $member_debit->nps_10_rec ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @elseif ($member->memberCategory->fund_type == 'UPS')
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>UPS Rec (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="ups_10_per_rec" id="ups_10_per_rec"
+                                value="{{ $member_debit->ups_10_per_rec ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endif
+
 
 
         <div class="col-md-2">
@@ -172,21 +188,37 @@
             </div>
         </div>
         @if ($member->memberCategory->fund_type == 'NPS')
-         <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>NPSG (14%)</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="npsg" id="npsg"
-                            value="{{ $member_debit->npsg ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>NPSG (14%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="npsg" id="npsg"
+                                value="{{ $member_debit->npsg ?? old('npsg') }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @elseif ($member->memberCategory->fund_type == 'UPS')
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>UPSG (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="upsg_10_per" id="upsg_10_per"
+                                value="{{ $member_debit->upsg_10_per ?? old('upsg_10_per') }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endif
+
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -196,6 +228,21 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="i_tax" id="i_tax"
                             value="{{ $member_debit->i_tax ?? ($member_core->i_tax ?? '') }}" placeholder="">
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>Elec Arr</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="elec_arr" id="elec_arr"
+                            value="{{ $member_debit->elec_arr ?? '' }}" placeholder="">
                         <span class="text-danger"></span>
                     </div>
                 </div>
@@ -217,20 +264,6 @@
             </div>
         </div>
 
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>Elec Arr</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="elec_arr" id="elec_arr"
-                            value="{{ $member_debit->elec_arr ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="col-md-2">
             <div class="form-group mb-2">
@@ -274,22 +307,6 @@
                 </div>
             </div>
         </div>
-        @if ($member->memberCategory->fund_type == 'NPS')
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>NPS Arr (10%)</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="nps_10_arr" id="nps_10_arr"
-                            value="{{ $member_debit->nps_10_arr ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -304,6 +321,39 @@
                 </div>
             </div>
         </div>
+        @if ($member->memberCategory->fund_type == 'NPS')
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>NPS Arr (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="nps_10_arr" id="nps_10_arr"
+                                value="{{ $member_debit->nps_10_arr ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @elseif ($member->memberCategory->fund_type == 'UPS')
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>UPS Arr (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="ups_arr_10_per" id="ups_arr_10_per"
+                                value="{{ $member_debit->ups_arr_10_per ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+
         <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
@@ -433,7 +483,7 @@
                 </div>
             </div>
         </div>
-          <div class="col-md-2">
+        <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -447,7 +497,7 @@
                 </div>
             </div>
         </div>
-         <div class="col-md-2">
+        <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -479,7 +529,7 @@
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>GMC</label>
+                        <label>NPSG</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="cmg" id="cmg"
@@ -490,7 +540,7 @@
             </div>
         </div> --}}
 
-        <div class="col-md-2">
+        {{-- <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -503,8 +553,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-          <div class="col-md-2">
+        </div> --}}
+        <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -595,58 +645,103 @@
         </div>
         <!-- NPS 10 Rec -->
         @if ($member->memberCategory->fund_type == 'NPS')
-
-
-        <!-- NPS 10 Arr -->
-
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>NPSG Arrear (14%)</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="npsg_arr" id="npsg_arr"
-                            value="{{ $member_debit->npsg_arr ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
+            <!-- NPSG Arrear (14%) -->
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>NPSG Arrear (14%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="npsg_arr" id="npsg_arr"
+                                value="{{ $member_debit->npsg_arr ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>NPS Adj (10%)</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="npsg_adj" id="npsg_adj"
-                            value="{{ $member_debit->npsg_adj ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- NPG 14 Adj -->
-        <div class="col-md-2">
-            <div class="form-group mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>NPS Adj(14%)</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="nps_14_adj" id="nps_14_adj"
-                            value="{{ $member_debit->nps_14_adj ?? '' }}" placeholder="">
-                        <span class="text-danger"></span>
+            <!-- NPSG Adj (10%) -->
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>NPS Adj (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="npsg_adj" id="npsg_adj"
+                                value="{{ $member_debit->npsg_adj ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+            <!-- NPS Adj (14%) -->
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>NPS Adj (14%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="nps_14_adj" id="nps_14_adj"
+                                value="{{ $member_debit->nps_14_adj ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @elseif ($member->memberCategory->fund_type == 'UPS')
+            <!-- UPSG Arrear (10%) -->
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>UPSG Arrear (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="upsg_arr_10_per" id="upsg_arr_10_per"
+                                value="{{ $member_debit->upsg_arr_10_per ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- UPS Adj (10%) -->
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>UPS Adj (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="ups_adj_10_per" id="ups_adj_10_per"
+                                value="{{ $member_debit->ups_adj_10_per ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UPSG Adj (10%) -->
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>UPSG Adj (10%)</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="upsg_adj_10_per" id="upsg_adj_10_per"
+                                value="{{ $member_debit->upsg_adj_10_per ?? '' }}" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endif
+
 
         {{-- <div class="col-md-2">
             <div class="form-group mb-2">
@@ -692,7 +787,7 @@
             </div>
         </div> --}}
 
-{{-- @dd($member->memberCategory->fund_type) --}}
+        {{-- @dd($member->memberCategory->fund_type) --}}
 
 
 
@@ -730,7 +825,7 @@
                 </div>
             </div>
         </div> --}}
-        <div class="col-md-2" >
+        <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -744,7 +839,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2" >
+        <div class="col-md-2">
             <div class="form-group mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">

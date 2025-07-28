@@ -190,7 +190,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="wel_rec" id="wel_rec"
-                            value="{{ $member_original_recovery->wel_rec ?? (old('wel_rec') ?? 200) }}">
+                            value="{{ $member_original_recovery->wel_rec ?? (old('wel_rec')) }}">
                         <span class="text-danger"></span>
                     </div>
                 </div>

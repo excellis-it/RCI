@@ -30,7 +30,18 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>S/o</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="so" id="so"
+                                    value="{{ $user_detail->so }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -52,6 +63,24 @@
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="phone" id="phone"
                                     value="{{ $user_detail->phone }}">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Designation</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="designation_id" id="designation_id">
+                                    <option value="">Select Designation</option>
+                                    @foreach ($designations as $designation)
+                                        <option value="{{ $designation->id }}"
+                                            {{ $user_detail->designation_id == $designation->id ? 'selected' : '' }}>
+                                            {{ $designation->designation }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -164,6 +193,17 @@
                             </div>
                         </div>
                     </div>
+                      <div class="form-group col-md-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>S/o</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="so" id="so">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group col-md-4 mb-2">
                         <div class="row align-items-center">
@@ -172,6 +212,23 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="email" id="email">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>Designation</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="designation_id" id="designation_id">
+                                    <option value="">Select Designation</option>
+                                    @foreach ($designations as $designation)
+                                        <option value="{{ $designation->id }}">
+                                            {{ $designation->designation }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>

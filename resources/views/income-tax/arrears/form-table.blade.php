@@ -11,7 +11,7 @@
                         <th>I.Tax</th>
                         <th>CGHS</th>
                         <th>
-                            GMC
+                            NPSG
                         </th>
                         <th></th>
                     </tr>

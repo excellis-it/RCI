@@ -64,7 +64,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'category' => 'required|unique:categories|max:255',
-            'designation_type_id' => 'required',
+            // 'designation_type_id' => 'required',
             'gazetted' => 'required',
             'status' => 'required',
             'fund_type' => 'required',
@@ -77,7 +77,7 @@ class CategoryController extends Controller
 
             $category = new Category();
             $category->category = $request->category;
-            $category->designation_type_id = $request->designation_type_id;
+            // $category->designation_type_id = $request->designation_type_id;
             $category->gazetted = $request->gazetted;
             $category->status = $request->status;
             $category->fund_type = $request->fund_type;
@@ -122,7 +122,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'category' => 'required|max:255|unique:categories,category,' . $id,
-            'designation_type_id' => 'required',
+            // 'designation_type_id' => 'required',
             'gazetted' => 'required',
             'status' => 'required',
             'fund_type' => 'required',
@@ -139,7 +139,7 @@ class CategoryController extends Controller
             $oldWelSub = $category->wel_sub;
 
             $category->category = $request->category;
-            $category->designation_type_id = $request->designation_type_id;
+            // $category->designation_type_id = $request->designation_type_id;
             $category->gazetted = $request->gazetted;
             $category->status = $request->status;
             $category->fund_type = $request->fund_type;

@@ -74,7 +74,14 @@ class MemberMonthlyDataDebit extends Model
         'npsg_adj',
         'nps_10_rec',
         'nps_10_arr',
-        'nps_14_adj'
+        'nps_14_adj',
+
+        'ups_10_per_rec',
+        'upsg_10_per',
+        'ups_arr_10_per',
+        'upsg_arr_10_per',
+        'ups_adj_10_per',
+        'upsg_adj_10_per',
     ];
 
 

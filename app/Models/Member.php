@@ -66,6 +66,21 @@ class Member extends Model
         'updated_at'
     ];
 
+    public function payDetails()
+    {
+        return $this->hasMany(PayDetail::class, 'member_id');
+    }
+
+    public function arrears()
+    {
+        return $this->hasMany(IncomeTaxArrears::class, 'member_id');
+    }
+
+     public function savings()
+    {
+        return $this->hasOne(IncomeTaxSaving::class, 'member_id');
+    }
+
 
     public function designation()
     {
@@ -101,7 +116,7 @@ class Member extends Model
     {
         return $this->belongsTo(PmLevel::class, 'pm_level');
     }
-
+    
     public function desigs()
     {
         return $this->belongsTo(Designation::class, 'desig', 'id');

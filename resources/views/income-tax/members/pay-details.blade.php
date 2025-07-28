@@ -24,7 +24,7 @@
                             Incr</label></div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="var_incr" value="">
-                        <span class="text-dang ererror-var_incr" ></span>
+                        <span class="text-dang ererror-var_incr"></span>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="misc" value="">
-                        <span class="text-danger error-misc" ></span>
+                        <span class="text-danger error-misc"></span>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="p_tax" value="">
-                        <span class="text-danger error-p_tax" ></span>
+                        <span class="text-danger error-p_tax"></span>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hdfc" value="">
-                        <span class="text-danger error-hdfc" ></span>
+                        <span class="text-danger error-hdfc"></span>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="basic" value="">
-                        <span class="text-danger error-basic" ></span>
+                        <span class="text-danger error-basic"></span>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="da" value="">
-                        <span class="text-danger error-da" ></span>
+                        <span class="text-danger error-da"></span>
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="ot" value="">
-                        <span class="text-danger error-ot" ></span>
+                        <span class="text-danger error-ot"></span>
                     </div>
                 </div>
             </div>
@@ -105,22 +105,22 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>ITax</label>
+                        <label>I.Tax</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="i_tax" value="">
-                        <span class="text-danger error-i_tax" ></span>
+                        <span class="text-danger error-i_tax"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>DMisc</label>
+                        <label>D.Misc</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="d_misc" value="">
-                        <span class="text-danger error-d_misc" ></span>
+                        <span class="text-danger error-d_misc"></span>
                     </div>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="d_pay" value="">
-                        <span class="text-danger error-d_pay" ></span>
+                        <span class="text-danger error-d_pay"></span>
                     </div>
                 </div>
             </div>
@@ -142,7 +142,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hra" value="">
-                        <span class="text-danger error-hra" ></span>
+                        <span class="text-danger error-hra"></span>
                     </div>
                 </div>
             </div>
@@ -153,7 +153,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="arrears" value="">
-                        <span class="text-danger error-arrears" ></span>
+                        <span class="text-danger error-arrears"></span>
                     </div>
                 </div>
             </div>
@@ -164,21 +164,11 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="hba" value="">
-                        <span class="text-danger error-hba" ></span>
+                        <span class="text-danger error-hba"></span>
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-3 mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>GMC</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="gmc" value="">
-                        <span class="text-danger error-gmc" ></span>
-                    </div>
-                </div>
-            </div>
+
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -186,7 +176,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="s_pay" value="">
-                        <span class="text-danger error-s_pay" ></span>
+                        <span class="text-danger error-s_pay"></span>
                     </div>
                 </div>
             </div>
@@ -197,21 +187,90 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="cca" value="">
-                        <span class="text-danger error-cca" ></span>
+                        <span class="text-danger error-cca"></span>
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-3 mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label>GPF</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="gpf" value="">
-                        <span class="text-danger error-gpf" ></span>
+            @if ($member->memberCategory->fund_type == 'GPF')
+                <div class="form-group col-md-3 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>GPF</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="gpf" value="">
+                            <span class="text-danger error-gpf"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
+
+            @if ($member->memberCategory->fund_type == 'NPS')
+                <div class="col-md-3">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NPS Rec</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="nps" id="nps"
+                                    value="{{ $member_debit->nps ?? '' }}" placeholder="">
+                                <span class="text-danger error-nps"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>NPSC (14%)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="npsc" id="npsc"
+                                    value="{{ $member_credit->npsc ?? (old('npsc') ?? '') }}" placeholder="">
+                                <span class="text-danger error-npsc"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @if ($member->memberCategory->fund_type == 'UPS')
+                {{-- UPS Inputs --}}
+                <div class="col-md-3">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>UPS Rec (10%)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="ups_10_per_rec" id="ups_10_per_rec"
+                                    value="{{ $member_debit->ups_10_per_rec ?? old('ups_10_per_rec') }}"
+                                    placeholder="">
+                                <span class="text-danger error-ups_10_per_rec"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label>UPSC (10%)</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="upsc_10" id="upsc_10"
+                                    value="{{ $member_credit->upsc_10 ?? old('upsc_10') }}" placeholder="">
+                                <span class="text-danger error-upsc_10"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
@@ -227,7 +286,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>E.Pay</label>
+                        <label>F.Pay</label>
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="e_pay" value="">
@@ -242,7 +301,18 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="tpt" value="">
-                        <span class="text-danger error-var_incr" ></span>
+                        <span class="text-danger error-tpt"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-3 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label>DA TPT</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="da_tpt" value="">
+                        <span class="text-danger error-da_tpt"></span>
                     </div>
                 </div>
             </div>
@@ -264,7 +334,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="lic" value="">
-                        <span class="text-danger error-lic" ></span>
+                        <span class="text-danger error-lic"></span>
                     </div>
                 </div>
             </div>
@@ -275,18 +345,18 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="add_incr" value="">
-                        <span class="text-danger error-add_incr" ></span>
+                        <span class="text-danger error-add_incr"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label>Wash AJW</label>
+                        <label>Dress Alw</label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" name="wash_ajw" value="">
-                        <span class="text-danger error-wash_ajw" ></span>
+                        <input type="text" class="form-control" name="dis_alw" value="">
+                        <span class="text-danger error-dis_alw"></span>
                     </div>
                 </div>
             </div>
@@ -297,7 +367,7 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="cghs" value="">
-                        <span class="text-danger error-cghs" ></span>
+                        <span class="text-danger error-cghs"></span>
                     </div>
                 </div>
             </div>
@@ -308,24 +378,26 @@
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" name="eol_hpl" value="">
-                        <span class="text-danger error-eol_hpl" ></span>
+                        <span class="text-danger error-eol_hpl"></span>
                     </div>
                 </div>
             </div>
 
 
         </div>
+
         <div class="row justify-content-end mt-4">
             <div class="col-auto mb-2">
                 <button type="submit" class="listing_add">Save</button>
             </div>
-            {{-- <div class="col-auto mb-2">
-            <button type="button"
-                class="another-btn">Another</button>
-        </div> --}}
             <div class="col-auto mb-2">
                 <button type="reset" class="listing_exit">Cancel</button>
             </div>
+        </div>
+
+    </form>
+    {{-- <div class="row justify-content-end mt-4">
+
             <div class="col-auto mb-2">
                 <button type="button" class="another-btn">Report</button>
             </div>
@@ -349,40 +421,38 @@
                     <option>Dec</option>
                 </select>
             </div>
-        </div>
-    </form>
+        </div> --}}
 </div>
 
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('#salaryForm').on('submit', function(e) {
-            e.preventDefault();
+    <script>
+        $(document).ready(function() {
+            $('#salaryForm').on('submit', function(e) {
+                e.preventDefault();
 
-            $('.text-danger').text(''); // Clear previous errors
+                $('.text-danger').text(''); // Clear previous errors
 
-            let formData = $(this).serialize();
+                let formData = $(this).serialize();
 
-            $.ajax({
-                url: "{{route('income-tax.members-income-tax.saving.pay-details')}}", // Laravel route for form submission
-                type: "POST",
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success(response.message)
+                $.ajax({
+                    url: "{{ route('income-tax.members-income-tax.saving.pay-details') }}", // Laravel route for form submission
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message)
+                        }
+                    },
+                    error: function(xhr) {
+                        $('.text-danger').text(''); // Clear previous errors
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            $('.error-' + key).text(value[0]); // Show validation errors
+                        });
                     }
-                },
-                error: function(xhr) {
-                    $('.text-danger').text(''); // Clear previous errors
-                    let errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        $('.error-' + key).text(value[0]); // Show validation errors
-                    });
-                }
+                });
             });
         });
-    });
-</script>
-
+    </script>
 @endpush

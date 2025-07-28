@@ -466,6 +466,11 @@ class ReceiptController extends Controller
 
             ]);
 
+            ChequePayment::where('receipt_id', $id)->update([
+                'vr_date' => $request->vr_date,
+                'category_id' => $request->category,
+            ]);
+
             // Update receipt members
             // First, delete existing members
             ReceiptMember::where('receipt_id', $id)->delete();

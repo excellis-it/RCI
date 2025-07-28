@@ -31,6 +31,7 @@ use App\Models\Amount;
 use App\Models\Setting;
 use App\Models\CdaBillAuditTeam;
 use App\Models\CashDeposit;
+use App\Models\MemberMonthlyDataCoreInfo;
 use App\Models\MemberMonthlyDataCredit;
 use App\Models\MemberMonthlyDataDebit;
 use App\Models\MemberMonthlyDataLoanInfo;
@@ -610,9 +611,9 @@ class Helper
 
     public static function getTdsDetails($member_id, $month, $year)
     {
-        $tds = MemberCredit::where('member_id', $member_id)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+        $tds = MemberMonthlyDataCredit::where('member_id', $member_id)
+            ->where('month', $month)
+            ->where('year', $year)
             ->orderBy('id', 'desc')
             ->first();
 
@@ -621,9 +622,9 @@ class Helper
 
     public static function getDebitDetails($member_id, $month, $year)
     {
-        $debit = MemberDebit::where('member_id', $member_id)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+        $debit = MemberMonthlyDataDebit::where('member_id', $member_id)
+            ->where('month', $month)
+            ->where('year', $year)
             ->orderBy('id', 'desc')
             ->first();
 
@@ -631,9 +632,9 @@ class Helper
     }
     public static function getCreditDetails($member_id, $month, $year)
     {
-        $credit = MemberCredit::where('member_id', $member_id)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+        $credit = MemberMonthlyDataCredit::where('member_id', $member_id)
+            ->where('month', $month)
+            ->where('year', $year)
             ->orderBy('id', 'desc')
             ->first();
 
@@ -642,9 +643,9 @@ class Helper
 
     public static function getMemberCoreInfo($member_id, $month, $year)
     {
-        $coreInfo = MemberCoreInfo::where('member_id', $member_id)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+        $coreInfo = MemberMonthlyDataCoreInfo::where('member_id', $member_id)
+            ->where('month', $month)
+            ->where('year', $year)
             ->orderBy('id', 'desc')
             ->first();
 
@@ -664,10 +665,10 @@ class Helper
 
     public static function getHbaLoanDetails($member_id, $month, $year)
     {
-        $loan = MemberLoanInfo::where('member_id', $member_id)
+        $loan = MemberMonthlyDataLoanInfo::where('member_id', $member_id)
             ->where('loan_name', 'hba')
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('month', $month)
+            ->where('year', $year)
             ->orderBy('id', 'desc')
             ->first();
 
@@ -812,9 +813,10 @@ class Helper
 
     public static function updateTotalCredit($member_id, $month, $year)
     {
-        $record_member_credit = MemberMonthlyDataCredit::where('member_id', $member_id)->where('month', $month)->where('year', $year)->first();
-        // dd($record_member_credit,$member_id, $month, $year);
-        if ($record_member_credit) {
+          $record_member_credit = MemberMonthlyDataCredit::where('member_id', $member_id)->where('month', $month)->where('year', $year)->first();
+        
+
+           if ($record_member_credit) {
             $creditFields = [
                 'pay',
                 'da',
@@ -830,6 +832,9 @@ class Helper
                 'npsc',
                 'npg_arrs',
                 'npg_adj',
+                'upsc_10',
+                'upsg_arrs_10',
+                'upsgcr_adj_10',
                 'hindi',
                 'cr_water',
                 'add_inc2',
@@ -849,7 +854,6 @@ class Helper
                 'mobile_allow',
                 'broad_band_allow',
                 'gpa_sub',
-                // 'cmg',
                 'cghs',
                 'cgegis',
             ];
@@ -859,10 +863,11 @@ class Helper
                 $value = (float) $record_member_credit->$field ?? 0;
                 $totalCredits += $value;
             }
+            
 
             $record_member_credit->tot_credits = $totalCredits;
             $record_member_credit->save();
-
+//  dd($record_member_credit,$member_id, $month, $year, $totalCredits  );
             return $record_member_credit;
         }
     }
@@ -953,6 +958,12 @@ class Helper
                 'nps_10_rec',
                 'nps_10_arr',
                 'nps_14_adj',
+                'ups_10_per_rec',
+                'upsg_10_per',
+                'ups_arr_10_per',
+                'upsg_arr_10_per',
+                'ups_adj_10_per',
+                'upsg_adj_10_per',
             ];
             $member_loan_infos = MemberMonthlyDataLoanInfo::where('member_id', $member_id)->where('month', $month)->where('year', $year)->get();
             $total_credits = MemberMonthlyDataCredit::where('member_id', $member_id)->where('month', $month)->where('year', $year)->first()['tot_credits'] ?? 0;
@@ -1017,9 +1028,6 @@ class Helper
             $record_member_recovery->save();
         }
     }
-
-
-
 }
 
 

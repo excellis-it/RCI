@@ -88,7 +88,7 @@
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>GMC</label>
+                            <label>NPSG</label>
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="gmc" id="gmc"
@@ -203,7 +203,7 @@
                 <div class="form-group mb-2">
                     <div class="row align-items-center">
                         <div class="col-md-12">
-                            <label>GMC</label>
+                            <label>NPSG</label>
                         </div>
                         <div class="col-md-12">
                             <input type="text" class="form-control" name="gmc" id="gmc"

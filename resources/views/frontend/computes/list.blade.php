@@ -38,7 +38,7 @@
 
                                             <!-- Selection Type (Member or Category) -->
                                             <div class="form-group col-md-12 mb-2">
-                                                <label>Generate Data By:</label> 
+                                                <label>Generate Data By:</label>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="generate_by"
                                                         id="by_member" value="member" checked>
@@ -49,6 +49,18 @@
                                                         id="by_category" value="category">
                                                     <label class="form-check-label" for="by_category">Category</label>
                                                 </div>
+                                            </div>
+                                            <!-- Year Dropdown -->
+                                            <div class="form-group col-md-6 mb-2">
+                                                <label for="year">Year</label>
+                                                <select class="form-select select2" name="year" id="year">
+                                                    <option value="">Select Year</option>
+                                                    @php $currentYear = date('Y'); @endphp
+                                                    @for ($i = $currentYear; $i >= 2000; $i--)
+                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                    @endfor
+                                                </select>
+                                                <span class="text-danger" id="year_error"></span>
                                             </div>
 
                                             <!-- Month Dropdown -->
@@ -65,18 +77,6 @@
                                                 <span class="text-danger" id="month_error"></span>
                                             </div>
 
-                                            <!-- Year Dropdown -->
-                                            <div class="form-group col-md-6 mb-2">
-                                                <label for="year">Year</label>
-                                                <select class="form-select select2" name="year" id="year">
-                                                    <option value="">Select Year</option>
-                                                    @php $currentYear = date('Y'); @endphp
-                                                    @for ($i = $currentYear; $i >= 2000; $i--)
-                                                        <option value="{{ $i }}">{{ $i }}</option>
-                                                    @endfor
-                                                </select>
-                                                <span class="text-danger" id="year_error"></span>
-                                            </div>
 
                                             <!-- Member Selection -->
                                             <div class="form-group col-md-6 mb-2" id="member_section">

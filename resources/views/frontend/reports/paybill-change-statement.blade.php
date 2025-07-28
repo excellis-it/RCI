@@ -1,4 +1,4 @@
- @if (count($last_month_debit_data) > 0)
+@if (count($last_month_debit_data) > 0)
 
       <div class="page-break"></div>
     @foreach ($last_month_debit_data as $key_new => $debit_statements)
@@ -1211,12 +1211,14 @@
                         ->orWhere('pay_stop_date', '>', $compareDate);
                     });
                 })
-                ->where('member_id', $statement['member_id'])
+                ->where('member_id', $debit_statement['member_id'])
                 ->where('month', $themonth)
                 ->where('year', $year)
                 ->orderBy('id', 'desc')
                 ->first();
-                // dd($debit_statement['gpa_sub']);
+
+
+
                 $last_month_field['gpa_sub']    = $debit_statement['gpa_sub'] ?? 0;
                 $last_month_field['gpf_adv']    = $debit_statement['gpf_adv'] ?? 0;
                 $last_month_field['cgegis']     = $debit_statement['cgegis'] ?? 0;
@@ -1235,23 +1237,23 @@
                 $last_month_field['water']      = $debit_statement['water'] ?? 0;
                 $last_month_field['furn']       = $debit_statement['furn'] ?? 0;
 
-                $this_month_totals['gpa_sub']     += ($this_month_debit['details']['member_debit']->gpa_sub ?? 0) - $debit_statement['gpa_sub'];
+                $this_month_totals['gpa_sub']     += ($this_month_debit->gpa_sub ?? 0) - $debit_statement['gpa_sub'];
                 $this_month_totals['gpf_adv']     += ($this_month_data_loan_gpf_adv_sum ?? 0) - $debit_statement['gpf_adv'];
-                $this_month_totals['cgegis']      += ($this_month_debit['details']['member_debit']->cgegis ?? 0) - $debit_statement['cgegis'];
-                $this_month_totals['cghs']        += ($this_month_debit['details']['member_debit']->cghs ?? 0) - $debit_statement['cghs'];
+                $this_month_totals['cgegis']      += ($this_month_debit->cgegis ?? 0) - $debit_statement['cgegis'];
+                $this_month_totals['cghs']        += ($this_month_debit->cghs ?? 0) - $debit_statement['cghs'];
                 $this_month_totals['hba_adv']     += ($this_month_data_loan_hba_adv_sum ?? 0)  - $debit_statement['hba_adv'];
                 $this_month_totals['hba_int']     += ($this_month_data_loan_hba_adv_int ?? 0)  - $debit_statement['hba_int'];
-                $this_month_totals['i_tax']       += ($this_month_debit['details']['member_debit']->i_tax ?? 0) - $debit_statement['i_tax'];
-                $this_month_totals['ecess']       += ($this_month_debit['details']['member_debit']->ecess ?? 0) - $debit_statement['ecess'];
-                $this_month_totals['misc1']       += ($this_month_debit['details']['member_debit']->misc1 ?? 0) - $debit_statement['misc1'];
-                $this_month_totals['nps_10_rec']  += ($this_month_debit['details']['member_debit']->nps_10_rec ?? 0) - $debit_statement['nps_10_rec'];
-                $this_month_totals['npsg']        += ($this_month_debit['details']['member_debit']->npsg ?? 0) - $debit_statement['npsg'];
-                $this_month_totals['npsg_adj']    += ($this_month_debit['details']['member_debit']->npsg_adj ?? 0) - $debit_statement['npsg_adj'];
-                $this_month_totals['nps_14_adj']  += ($this_month_debit['details']['member_debit']->nps_14_adj ?? 0) - $debit_statement['nps_14_adj'];
-                $this_month_totals['licence_fee'] += ($this_month_debit['details']['member_debit']->licence_fee ?? 0) - $debit_statement['licence_fee'];
-                $this_month_totals['elec']        += ($this_month_debit['details']['member_debit']->elec ?? 0) - $debit_statement['elec'];
-                $this_month_totals['water']       += ($this_month_debit['details']['member_debit']->water ?? 0) - $debit_statement['water'];
-                $this_month_totals['furn']        += ($this_month_debit['details']['member_debit']->furn ?? 0) - $debit_statement['furn'];
+                $this_month_totals['i_tax']       += ($this_month_debit->i_tax ?? 0) - $debit_statement['i_tax'];
+                $this_month_totals['ecess']       += ($this_month_debit->ecess ?? 0) - $debit_statement['ecess'];
+                $this_month_totals['misc1']       += ($this_month_debit->misc1 ?? 0) - $debit_statement['misc1'];
+                $this_month_totals['nps_10_rec']  += ($this_month_debit->nps_10_rec ?? 0) - $debit_statement['nps_10_rec'];
+                $this_month_totals['npsg']        += ($this_month_debit->npsg ?? 0) - $debit_statement['npsg'];
+                $this_month_totals['npsg_adj']    += ($this_month_debit->npsg_adj ?? 0) - $debit_statement['npsg_adj'];
+                $this_month_totals['nps_14_adj']  += ($this_month_debit->nps_14_adj ?? 0) - $debit_statement['nps_14_adj'];
+                $this_month_totals['licence_fee'] += ($this_month_debit->licence_fee ?? 0) - $debit_statement['licence_fee'];
+                $this_month_totals['elec']        += ($this_month_debit->elec ?? 0) - $debit_statement['elec'];
+                $this_month_totals['water']       += ($this_month_debit->water ?? 0) - $debit_statement['water'];
+                $this_month_totals['furn']        += ($this_month_debit->furn ?? 0) - $debit_statement['furn'];
             @endphp
 
                  <tr>
@@ -1297,7 +1299,7 @@
                     border-bottom: 1px solid #000;
                   ">
                   {{-- {{dd($last_month_field['gpa_sub'])}} --}}
-                        {{ (($this_month_debit['details']['member_debit']->gpa_sub ?? 0) - $last_month_field['gpa_sub']) }}
+                        {{ (($this_month_debit->gpa_sub ?? 0) - $last_month_field['gpa_sub']) }}
                     </td>
                      <td style="
                     font-size: 10px;
@@ -1326,7 +1328,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->cgegis ?? 0) - $last_month_field['cgegis']) }}
+                       {{ (($this_month_debit->cgegis ?? 0) - $last_month_field['cgegis']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1340,7 +1342,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ (($this_month_debit['details']['member_debit']->cghs ?? 0) - $last_month_field['cghs']) }}
+                      {{ (($this_month_debit->cghs ?? 0) - $last_month_field['cghs']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1382,7 +1384,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->i_tax ?? 0) - $last_month_field['i_tax']) }}
+                       {{ (($this_month_debit->i_tax ?? 0) - $last_month_field['i_tax']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1396,7 +1398,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->ecess ?? 0) - $last_month_field['ecess']) }}
+                       {{ (($this_month_debit->ecess ?? 0) - $last_month_field['ecess']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1410,7 +1412,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->misc1 ?? 0) - $last_month_field['misc1']) }}
+                       {{ (($this_month_debit->misc1 ?? 0) - $last_month_field['misc1']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1424,7 +1426,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->nps_10_rec ?? 0) - $last_month_field['nps_10_rec']) }}
+                       {{ (($this_month_debit->nps_10_rec ?? 0) - $last_month_field['nps_10_rec']) }}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1438,7 +1440,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ (($this_month_debit['details']['member_debit']->npsg ?? 0) - $last_month_field['npsg']) }}
+                      {{ (($this_month_debit->npsg ?? 0) - $last_month_field['npsg']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1452,7 +1454,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{ (($this_month_debit['details']['member_debit']->npsg_adj ?? 0) - $last_month_field['npsg_adj']) }}
+                       {{ (($this_month_debit->npsg_adj ?? 0) - $last_month_field['npsg_adj']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1466,7 +1468,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{ (($this_month_debit['details']['member_debit']->nps_14_adj ?? 0) - $last_month_field['nps_14_adj']) }}
+                      {{ (($this_month_debit->nps_14_adj ?? 0) - $last_month_field['nps_14_adj']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1481,7 +1483,7 @@
                     border-bottom: 1px solid #000;
                   ">
                   {{-- @dd($debit_statement['details']['member_debit']->licence_fee , $last_month_field['licence_fee']) --}}
-                   {{ (($this_month_debit['details']['member_debit']->licence_fee ?? 0) - $last_month_field['licence_fee']) }}
+                   {{ (($this_month_debit->licence_fee ?? 0) - $last_month_field['licence_fee']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1495,7 +1497,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                  {{ (($this_month_debit['details']['member_debit']->elec ?? 0) - $last_month_field['elec']) }}
+                  {{ (($this_month_debit->elec ?? 0) - $last_month_field['elec']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1509,7 +1511,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                   {{ (($this_month_debit['details']['member_debit']->water ?? 0) - $last_month_field['water']) }}
+                   {{ (($this_month_debit->water ?? 0) - $last_month_field['water']) }}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1524,7 +1526,7 @@
                     border-right: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                   {{ (($this_month_debit['details']['member_debit']->furn ?? 0) - $last_month_field['furn']) }}
+                   {{ (($this_month_debit->furn ?? 0) - $last_month_field['furn']) }}
                     </td>
                   </tr>
                     @endforeach
@@ -1837,7 +1839,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                      {{($last_month_totals[$key_new]['gpa_sub'] ?? 0) + ($this_month_totals['gpa_sub'] ?? 0)}}
+                      {{($debit_statements['totals']['gpa_sub'] ?? 0) + ($this_month_totals['gpa_sub'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1851,7 +1853,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['gpf_adv'] ?? 0) + ($this_month_totals['gpf_adv'] ?? 0)}}
+                       {{($debit_statements['totals']['gpf_adv'] ?? 0) + ($this_month_totals['gpf_adv'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1865,7 +1867,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['cgegis'] ?? 0) + ($this_month_totals['cgegis'] ?? 0)}}
+                       {{($debit_statements['totals']['cgegis'] ?? 0) + ($this_month_totals['cgegis'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1879,7 +1881,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['cghs'] ?? 0) + ($this_month_totals['cghs'] ?? 0)}}
+                       {{($debit_statements['totals']['cghs'] ?? 0) + ($this_month_totals['cghs'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1893,7 +1895,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['hba_adv'] ?? 0) + ($this_month_totals['hba_adv'] ?? 0)}}
+                       {{($debit_statements['totals']['hba_adv'] ?? 0) + ($this_month_totals['hba_adv'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1907,7 +1909,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['hba_int'] ?? 0) + ($this_month_totals['hba_int'] ?? 0)}}
+                        {{($debit_statements['totals']['hba_int'] ?? 0) + ($this_month_totals['hba_int'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1921,7 +1923,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['i_tax'] ?? 0) + ($this_month_totals['i_tax'] ?? 0)}}
+                        {{($debit_statements['totals']['i_tax'] ?? 0) + ($this_month_totals['i_tax'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1935,7 +1937,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['ecess'] ?? 0) + ($this_month_totals['ecess'] ?? 0)}}
+                        {{($debit_statements['totals']['ecess'] ?? 0) + ($this_month_totals['ecess'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1949,7 +1951,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['misc1'] ?? 0) + ($this_month_totals['misc1'] ?? 0)}}
+                        {{($debit_statements['totals']['misc1'] ?? 0) + ($this_month_totals['misc1'] ?? 0)}}
                     </td>
                                     <td style="
                     font-size: 10px;
@@ -1963,7 +1965,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['nps_10_rec'] ?? 0) + ($this_month_totals['nps_10_rec'] ?? 0)}}
+                        {{($debit_statements['totals']['nps_10_rec'] ?? 0) + ($this_month_totals['nps_10_rec'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1977,7 +1979,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                        {{($last_month_totals[$key_new]['npsg'] ?? 0) + ($this_month_totals['npsg'] ?? 0)}}
+                        {{($debit_statements['totals']['npsg'] ?? 0) + ($this_month_totals['npsg'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -1991,7 +1993,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                       {{($last_month_totals[$key_new]['npsg_adj'] ?? 0) + ($this_month_totals['npsg_adj'] ?? 0)}}
+                       {{($debit_statements['totals']['npsg_adj'] ?? 0) + ($this_month_totals['npsg_adj'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -2004,21 +2006,7 @@
                     height: 20px;
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
-                  ">  {{($last_month_totals[$key_new]['nps_14_adj'] ?? 0) + ($this_month_totals['nps_14_adj'] ?? 0)}}
-                    </td>
-                    <td style="
-                    font-size: 10px;
-                    line-height: 14px;
-                    font-weight: 400;
-                    color: #000;
-                    text-align: right;
-                    padding: 0px 5px !important;
-                    margin: 0px 0px !important;
-                    height: 20px;
-                    border-left: 1px solid #000;
-                    border-bottom: 1px solid #000;
-                  ">
-                    {{($last_month_totals[$key_new]['licence_fee'] ?? 0) + ($this_month_totals['licence_fee'] ?? 0)}}
+                  ">  {{($debit_statements['totals']['nps_14_adj'] ?? 0) + ($this_month_totals['nps_14_adj'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -2032,7 +2020,7 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                    {{($last_month_totals[$key_new]['elec'] ?? 0) + ($this_month_totals['elec'] ?? 0)}}
+                    {{($debit_statements['totals']['licence_fee'] ?? 0) + ($this_month_totals['licence_fee'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -2046,7 +2034,21 @@
                     border-left: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                    {{($last_month_totals[$key_new]['water'] ?? 0) + ($this_month_totals['water'] ?? 0)}}
+                    {{($debit_statements['totals']['elec'] ?? 0) + ($this_month_totals['elec'] ?? 0)}}
+                    </td>
+                    <td style="
+                    font-size: 10px;
+                    line-height: 14px;
+                    font-weight: 400;
+                    color: #000;
+                    text-align: right;
+                    padding: 0px 5px !important;
+                    margin: 0px 0px !important;
+                    height: 20px;
+                    border-left: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                  ">
+                    {{($debit_statements['totals']['water'] ?? 0) + ($this_month_totals['water'] ?? 0)}}
                     </td>
                     <td style="
                     font-size: 10px;
@@ -2061,7 +2063,7 @@
                     border-right: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                    {{($last_month_totals[$key_new]['furn'] ?? 0) + ($this_month_totals['furn'] ?? 0)}}
+                    {{($debit_statements['totals']['furn'] ?? 0) + ($this_month_totals['furn'] ?? 0)}}
                     </td>
                   </tr>
                 </tbody>

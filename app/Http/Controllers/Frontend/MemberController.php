@@ -61,6 +61,7 @@ use App\Models\MemberIncomeTax;
 use App\Models\MemberNewspaperAllowance;
 use App\Models\MemberChildAllowance;
 use App\Models\MemberBagPurse;
+use App\Models\MemberMonthlyData;
 use App\Models\MemberMonthlyDataCoreInfo;
 use App\Models\MemberMonthlyDataExpectation;
 use App\Models\MemberMonthlyDataLoanInfo;
@@ -165,7 +166,7 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-
+        // dd($request->all());
         $validated = $request->validate([
             'pers_no' => 'required|max:255',
             'gender' => 'required',
@@ -181,7 +182,7 @@ class MemberController extends Controller
             'status' => 'required',
             'old_bp' => 'required',
             'g_pay_val' => 'required',
-            //'fund_type' => 'required',
+            'emp_id' => 'required|unique:members,emp_id',
             'dob' => 'required|date',
             'doj_lab' => 'required|date',
             // 'adhar_number' => 'required',
@@ -205,14 +206,15 @@ class MemberController extends Controller
         // fund_type set
         $fundtype = '';
         $category_fund_type = Category::where('id', $request->category_id)->first()->fund_type;
+        // dd( $category_fund_type);
         $fundtype = $category_fund_type ?? '';
-
         // store data
         $member = new Member();
         $member->e_status = $request->e_status;
         $member->pers_no = $request->pers_no;
+        $member->emp_id = $request->emp_id;
+
         $member->name = $request->name;
-        $member->emp_id = $constantString . $counter++;
         $member->gender = $request->gender;
         $member->pm_level = $request->pm_level;
         $member->pm_index = $request->pm_index;
@@ -672,6 +674,14 @@ class MemberController extends Controller
         $credit_member_monthly->npg_arrs = $request->npg_arrs;
         $credit_member_monthly->npg_adj = $request->npg_adj;
 
+        $credit_member_monthly->upsc_10 = $request->upsc_10;
+        $credit_member_monthly->upsg_arrs_10 = $request->upsg_arrs_10;
+        $credit_member_monthly->upsgcr_adj_10 = $request->upsgcr_adj_10;
+
+
+
+
+
 
         $credit_member_monthly->tot_credits = $request->tot_credits;
         $credit_member_monthly->remarks = $request->remarks;
@@ -871,7 +881,7 @@ class MemberController extends Controller
         $check_debit_member_monthly->hra_rec = $request->hra_rec;
         $check_debit_member_monthly->tot_debits = $request->tot_debits;
         $check_debit_member_monthly->cghs = $request->cghs;
-        $check_debit_member_monthly->ptax = $request->ptax;
+        // $check_debit_member_monthly->ptax = $request->ptax;
         // $check_debit_member_monthly->cmg = $request->cmg ?? 0;
         $check_debit_member_monthly->pli = $request->pli;
         $check_debit_member_monthly->scooter = $request->scooter;
@@ -894,13 +904,21 @@ class MemberController extends Controller
         $check_debit_member_monthly->penal_intr = $request->penal_interest;
         // $check_debit_member_monthly->society = $request->society;
         $check_debit_member_monthly->arrear_pay = $request->arrear_pay;
+
         $check_debit_member_monthly->npsg = $request->npsg;
         $check_debit_member_monthly->npsg_arr = $request->npsg_arr;
         $check_debit_member_monthly->npsg_adj = $request->npsg_adj;
-
         $check_debit_member_monthly->nps_10_rec = $request->nps_10_rec ?? 0;
         $check_debit_member_monthly->nps_10_arr = $request->nps_10_arr ?? 0;
         $check_debit_member_monthly->nps_14_adj = $request->nps_14_adj ?? 0;
+
+
+        $check_debit_member_monthly->ups_10_per_rec = $request->ups_10_per_rec;
+        $check_debit_member_monthly->upsg_10_per = $request->upsg_10_per;
+        $check_debit_member_monthly->upsg_arr_10_per = $request->upsg_arr_10_per;
+        $check_debit_member_monthly->ups_adj_10_per = $request->ups_adj_10_per ?? 0;
+        $check_debit_member_monthly->upsg_adj_10_per = $request->upsg_adj_10_per ?? 0;
+        $check_debit_member_monthly->ups_arr_10_per = $request->ups_arr_10_per ?? 0;
 
 
         $check_debit_member_monthly->hba_cur_instl = $request->hba_cur_instl;
@@ -930,183 +948,15 @@ class MemberController extends Controller
         if ($request->nps_14_adj && $request->nps_14_adj > 0 && $credit_member_monthly) {
             $credit_member_monthly->npg_adj = $request->nps_14_adj;
         }
-
         $credit_member_monthly->save();
-        Helper::updateTotalCredit($request->member_id, $request->current_month, $request->current_year);
 
-        if (count($check_debit_member) > 0) {
-
-            $update_debit_member = MemberDebit::where('member_id', $request->member_id)->whereMonth('created_at', $request->current_month)->whereYear('created_at', $request->current_year)->first();
-
-            $update_debit_member->gpa_sub = $request->gpa_sub ?? 0;
-            // $update_debit_member->nps_sub = $request->nps_sub ?? 0;
-            $update_debit_member->eol = $request->eol;
-            $update_debit_member->ccl = $request->ccl;
-            $update_debit_member->rent = $request->rent;
-            $update_debit_member->lf_arr = $request->lf_arr;
-            $update_debit_member->tada = $request->tada;
-            $update_debit_member->hba = $request->hba;
-            $update_debit_member->misc1 = $request->misc1;
-            $update_debit_member->gpf_rec = $request->gpf_rec;
-            $update_debit_member->i_tax = $request->i_tax;
-            $update_debit_member->elec = $request->elec;
-            $update_debit_member->elec_arr = $request->elec_arr;
-            $update_debit_member->medi = $request->medi;
-            $update_debit_member->pc = $request->pc;
-            $update_debit_member->misc2 = $request->misc2;
-            $update_debit_member->gpf_arr = $request->gpf_arr;
-            $update_debit_member->ecess = $request->ecess;
-            $update_debit_member->water = $request->water;
-            $update_debit_member->water_arr = $request->water_arr;
-            $update_debit_member->ltc = $request->ltc;
-            $update_debit_member->fadv = $request->fadv;
-            $update_debit_member->misc3 = $request->misc3;
-            $update_debit_member->cgegis = $request->cgegis;
-            $update_debit_member->cda = $request->cda;
-            $update_debit_member->furn = $request->furn;
-            $update_debit_member->furn_arr = $request->furn_arr;
-            $update_debit_member->car = $request->car;
-            $update_debit_member->hra_rec = $request->hra_rec;
-            $update_debit_member->tot_debits = $request->tot_debits;
-            $update_debit_member->cghs = $request->cghs;
-            $update_debit_member->ptax = $request->ptax;
-            // $update_debit_member->cmg = $request->cmg ?? 0;
-            $update_debit_member->pli = $request->pli;
-            $update_debit_member->scooter = $request->scooter;
-            $update_debit_member->tpt_rec = $request->tpt_rec;
-            $update_debit_member->net_pay = $request->net_pay;
-            $update_debit_member->basic = $request->basics;
-            // $update_debit_member->gpf_adv = $request->gpa_adv;
-            $update_debit_member->hba_int = $request->hba_interest;
-            $update_debit_member->comp_adv = $request->comp_adv;
-            $update_debit_member->comp_int = $request->comp_int;
-            $update_debit_member->leave_rec = $request->leave_rec;
-            $update_debit_member->pension_rec = $request->pension_rec;
-            $update_debit_member->car_int = $request->car_interest;
-            $update_debit_member->sco_int = $request->scooter_interest;
-            $update_debit_member->quarter_charges = $request->quarter_charge;
-            $update_debit_member->cgeis_arr = $request->cgeis_arr;
-            $update_debit_member->cghs_arr = $request->cghs_arr;
-            $update_debit_member->penal_intr = $request->penal_interest;
-            // $update_debit_member->society = $request->society;
-            $update_debit_member->arrear_pay = $request->arrear_pay;
-
-            $update_debit_member->npsg = $request->npsg;
-            $update_debit_member->npsg_arr = $request->npsg_arr;
-            $update_debit_member->npsg_adj = $request->npsg_adj;
-
-            $update_debit_member->nps_10_rec = $request->nps_10_rec ?? 0;
-            $update_debit_member->nps_10_arr = $request->nps_10_arr ?? 0;
-            $update_debit_member->nps_14_adj = $request->nps_14_adj ?? 0;
-
-            $update_debit_member->hba_cur_instl = $request->hba_cur_instl;
-            $update_debit_member->hba_total_instl = $request->hba_total_instl;
-            $update_debit_member->hba_int_cur_instl = $request->hba_int_cur_instl;
-            $update_debit_member->hba_int_total_instl = $request->hba_int_total_instl;
-            $update_debit_member->car_adv_prin_instl = $request->car_adv_prin_instl;
-            $update_debit_member->car_adv_total_instl = $request->car_adv_total_instl;
-            $update_debit_member->scot_adv_prin_instl = $request->scot_adv_prin_instl;
-            $update_debit_member->sco_adv_int_curr_instl = $request->sco_adv_int_curr_instl;
-            $update_debit_member->sco_adv_int_total_instl = $request->sco_adv_int_total_instl;
-            $update_debit_member->comp_prin_curr_instl = $request->comp_prin_curr_instl;
-            $update_debit_member->comp_prin_total_instl = $request->comp_prin_total_instl;
-            $update_debit_member->comp_adv_int = $request->comp_adv_int;
-            $update_debit_member->comp_int_curr_instl = $request->comp_int_curr_instl;
-            $update_debit_member->comp_int_total_instl = $request->comp_int_total_instl;
-            $update_debit_member->fest_adv_prin_cur = $request->fest_adv_prin_cur;
-            $update_debit_member->fest_adv_total_cur = $request->fest_adv_total_cur;
-            // $update_debit_member->ltc_rec = $request->ltc_rec;
-            $update_debit_member->medical_rec = $request->medical_rec;
-            // $update_debit_member->tada_rec = $request->tada_rec;
-            $update_debit_member->remarks = $request->remarks;
-            $update_debit_member->update();
-
-            // session()->flash('message', 'Member debit updated successfully');
-            return response()->json(['message' => 'Member debit updated successfully']);
-        } else {
-            $debit_member = new MemberDebit();
-            $debit_member->member_id = $request->member_id;
-            $debit_member->gpa_sub = $request->gpa_sub ?? 0;
-            // $debit_member->nps_sub = $request->nps_sub ?? 0;
-            $debit_member->eol = $request->eol;
-            $debit_member->ccl = $request->ccl;
-            $debit_member->rent = $request->rent;
-            $debit_member->lf_arr = $request->lf_arr;
-            $debit_member->tada = $request->tada;
-            $debit_member->hba = $request->hba;
-            $debit_member->misc1 = $request->misc1;
-            $debit_member->gpf_rec = $request->gpf_rec;
-            $debit_member->i_tax = $request->i_tax;
-            $debit_member->elec = $request->elec;
-            $debit_member->elec_arr = $request->elec_arr;
-            $debit_member->medi = $request->medi;
-            $debit_member->pc = $request->pc;
-            $debit_member->misc2 = $request->misc2;
-            $debit_member->gpf_arr = $request->gpf_arr;
-            $debit_member->ecess = $request->ecess;
-            $debit_member->water = $request->water;
-            $debit_member->water_arr = $request->water_arr;
-            $debit_member->ltc = $request->ltc;
-            $debit_member->fadv = $request->fadv;
-            $debit_member->misc3 = $request->misc3;
-            $debit_member->cgegis = $request->cgegis;
-            $debit_member->cda = $request->cda;
-            $debit_member->furn = $request->furn;
-            $debit_member->furn_arr = $request->furn_arr;
-            $debit_member->car = $request->car;
-            $debit_member->hra_rec = $request->hra_rec;
-            $debit_member->tot_debits = $request->tot_debits;
-            $debit_member->cghs = $request->cghs;
-            $debit_member->ptax = $request->ptax;
-            // $debit_member->cmg = $request->cmg ?? 0;
-            $debit_member->pli = $request->pli;
-            $debit_member->scooter = $request->scooter;
-            $debit_member->tpt_rec = $request->tpt_rec;
-            $debit_member->net_pay = $request->net_pay;
-            $debit_member->basic = $request->basic;
-            // $debit_member->gpf_adv = $request->gpa_adv;
-            $debit_member->hba_int = $request->hba_interest;
-            $debit_member->comp_adv = $request->comp_adv;
-            $debit_member->comp_int = $request->comp_int;
-            $debit_member->leave_rec = $request->leave_rec;
-            $debit_member->pension_rec = $request->pension_rec;
-            $debit_member->car_int = $request->car_interest;
-            $debit_member->sco_int = $request->scooter_interest;
-            $debit_member->quarter_charges = $request->quarter_charge;
-            $debit_member->cgeis_arr = $request->cgeis_arr;
-            $debit_member->cghs_arr = $request->cghs_arr;
-            $debit_member->penal_intr = $request->penal_interest;
-            // $debit_member->society = $request->society;
-            $debit_member->arrear_pay = $request->arrear_pay;
-            $debit_member->npsg = $request->npsg;
-            $debit_member->npsg_arr = $request->npsg_arr;
-            $debit_member->npsg_adj = $request->npsg_adj;
-            $debit_member->hba_cur_instl = $request->hba_cur_instl;
-            $debit_member->hba_total_instl = $request->hba_total_instl;
-            $debit_member->hba_int_cur_instl = $request->hba_int_cur_instl;
-            $debit_member->hba_int_total_instl = $request->hba_int_total_instl;
-            $debit_member->car_adv_prin_instl = $request->car_adv_prin_instl;
-            $debit_member->car_adv_total_instl = $request->car_adv_total_instl;
-            $debit_member->scot_adv_prin_instl = $request->scot_adv_prin_instl;
-            $debit_member->sco_adv_int_curr_instl = $request->sco_adv_int_curr_instl;
-            $debit_member->sco_adv_int_total_instl = $request->sco_adv_int_total_instl;
-            $debit_member->comp_prin_curr_instl = $request->comp_prin_curr_instl;
-            $debit_member->comp_prin_total_instl = $request->comp_prin_total_instl;
-            $debit_member->comp_adv_int = $request->comp_adv_int;
-            $debit_member->comp_int_curr_instl = $request->comp_int_curr_instl;
-            $debit_member->comp_int_total_instl = $request->comp_int_total_instl;
-            $debit_member->fest_adv_prin_cur = $request->fest_adv_prin_cur;
-            $debit_member->fest_adv_total_cur = $request->fest_adv_total_cur;
-            // $debit_member->ltc_rec = $request->ltc_rec;
-            $debit_member->medical_rec = $request->medical_rec;
-            // $debit_member->tada_rec = $request->tada_rec;
-            $debit_member->remarks = $request->remarks;
-
-            $debit_member->save();
-
-            // session()->flash('message', 'Member debit added successfully');
-            return response()->json(['message' => 'Member debit added successfully']);
+        if ($request->ups_adj_10_per && $request->ups_adj_10_per > 0 && $credit_member_monthly) {
+            $credit_member_monthly->upsgcr_adj_10 = $request->ups_adj_10_per;
         }
+        $credit_member_monthly->save();
+
+        Helper::updateTotalCredit($request->member_id, $request->current_month, $request->current_year);
+        Helper::updateTotalDebit($request->member_id, $request->current_month, $request->current_year);
     }
 
     public function memberRecoveryOriginalUpdate(Request $request)
@@ -1451,6 +1301,7 @@ class MemberController extends Controller
         $member_details->quater_no = $request->quater_no;
         $member_details->ex_service = $request->ex_service;
         $member_details->cgegis = $request->cgegis;
+        $member_details->doj_service1 = $request->doj_service;
 
         $member_details->pay_stop = $request->pay_stop;
         if ($request->pay_stop && $request->pay_stop === 'Yes') {
@@ -1461,11 +1312,13 @@ class MemberController extends Controller
         $member_details->e_status = $request->e_status;
         $member_details->update();
 
-
+        // dd($request->e_status);
 
         $check_personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->get();
 
-
+        $exceptions_this_month = MemberMonthlyDataExpectation::where('member_id', $request->member_id)->where('amount_year', $current_year)->where('amount_month', $current_month)->get();
+        $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+        // dd($exceptions_this_month);
         if (count($check_personal_member) > 0) {
             $update_personal_member = MemberPersonalInfo::where('member_id', $request->member_id)->first();
 
@@ -1478,7 +1331,7 @@ class MemberController extends Controller
             if ($update_personal_member->basic != $request->basic) {
                 $member = Member::where('id', $request->member_id)->first();
 
-                $da_percentage = DearnessAllowancePercentage::where('is_active', 1)->first();
+
                 $basicPay = $request->basic;
                 $daAmount = $da_percentage ? round(($basicPay * $da_percentage->percentage) / 100) : 0;
 
@@ -1515,6 +1368,11 @@ class MemberController extends Controller
                     $npsc = round((($basicPay + $daAmount) * 14) / 100);
                 }
 
+                $upsc_10 = 0;
+                if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'UPS') {
+                    $upsc_10 = round((($basicPay + $daAmount) * 10) / 100);
+                }
+
                 if ($member_credit_monthly) {
                     $member_credit_monthly->pay = $basicPay;
                     $member_credit_monthly->da = $daAmount;
@@ -1522,25 +1380,40 @@ class MemberController extends Controller
                     $member_credit_monthly->hra = $hraAmount;
                     $member_credit_monthly->da_on_tpt = $tptDa;
                     $member_credit_monthly->npsc = $npsc;
+                    $member_credit_monthly->upsc_10 = $upsc_10;
+
+
+                    foreach ($exceptions_this_month as $exception) {
+                        if ($exception->rule_name == 'TPT') {
+                            $member_credit_monthly->tpt = $exception->amount ?? 0;
+                            if ($member_credit_monthly->tpt == 0) {
+                                $member_credit_monthly->da_on_tpt = 0;
+                            } else {
+                                $total = round($exception->amount * $da_percentage->percentage / 100);
+                                $member_credit_monthly->da_on_tpt = $total;
+                            }
+                        }
+
+                        if ($exception->rule_name == 'DA') {
+                            $member_credit_monthly->da = $exception->amount ?? 0;
+                            if ($member_credit_monthly->da == 0) {
+                                $member_credit_monthly->da_on_tpt = 0;
+                                $member_credit_monthly->tpt = 0;
+                            } else {
+                                $total = round($exception->amount * $da_percentage->percentage / 100);
+                                $member_credit_monthly->tpt = $tptAmount;
+                                $member_credit_monthly->da_on_tpt = $total;
+                            }
+                        }
+
+                        if ($exception->rule_name == 'HRA') {
+                            $member_credit_monthly->hra = $exception->amount ?? 0;
+                        }
+                    }
                     $member_credit_monthly->save();
                 }
 
 
-                // NPS calculations if applicable
-                // $npsDeduction = 0;
-                // $npsDeductionGovt = 0;
-                // $gmcDeduction = 0;
-                // // $npsSubTotal = 0;
-                // // $npsGMCTotal = 0;
-                // if ($member->memberCategory->fund_type == 'NPS') {
-                //     $npsDeduction = round(($basicPay + $daAmount) * 10 / 100);
-                //     //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
-                //     $npsSubTotal = $npsDeduction + $npsDeductionGovt;
-                // }
-                // if ($member->memberCategory->fund_type == 'NPS') {
-                //     $gmcDeduction = round(($basicPay + $daAmount) * 14 / 100);
-                //     $npsGMCTotal = $gmcDeduction;
-                // }
 
                 // GPF calculations if applicable
                 $gpfDeduction = 0;
@@ -1555,7 +1428,16 @@ class MemberController extends Controller
                     $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
                 }
 
+                $ups_10_per_rec = 0;
+                $upsg_10_per = 0;
+                if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'UPS') {
+                    $ups_10_per_rec = round((($basicPay + $daAmount) * 10) / 100);
+                    $upsg_10_per = round((($basicPay + $daAmount) * 10) / 100);
+                }
+
                 if ($member_debit_monthly) {
+
+
 
                     $member_debit_monthly->gpa_sub = $gpfDeduction;
                     // $member_debit_monthly->nps_sub = $npsSubTotal;
@@ -1563,6 +1445,25 @@ class MemberController extends Controller
                     $member_debit_monthly->basic = $basicPay;
                     $member_debit_monthly->npsg = $npsg;
                     $member_debit_monthly->nps_10_rec = $nps_10_rec;
+
+                    $member_debit_monthly->ups_10_per_rec = $ups_10_per_rec;
+                    $member_debit_monthly->upsg_10_per = $upsg_10_per;
+
+                    if ($exceptions_this_month) {
+                        foreach ($exceptions_this_month as $exception) {
+                            if ($exception->rule_name == 'GPF') {
+                                $member_debit_monthly->gpa_sub = $exception->amount ?? 0;
+                            }
+
+                            if ($exception->rule_name == 'NPSG') {
+                                $member_debit_monthly->npsg = $exception->amount ?? 0;
+                            }
+
+                            if ($exception->rule_name == 'UPSG') {
+                                $member_debit_monthly->upsg_10_per = $exception->amount ?? 0;
+                            }
+                        }
+                    }
                     $member_debit_monthly->save();
                 }
             }
@@ -1629,14 +1530,26 @@ class MemberController extends Controller
                 $cgegis_amount = Cgegis::where('id', $request->cgegis)->first() ?? '';
                 $cgegis_amount = $cgegis_amount->value ?? 0;
                 $member_debit_monthly->cgegis = $cgegis_amount;
-                $member_debit_monthly->save();
 
                 $cgaData = Cghs::where('pay_level_id', $request->pm_level)->first();
 
                 if ($cgaData) {
                     $member_debit_monthly->cghs =  $cgaData->contribution;
-                    $member_debit_monthly->save();
                 }
+
+                if ($exceptions_this_month) {
+                    foreach ($exceptions_this_month as $exception) {
+
+                        if ($exception->rule_name == 'CGHS') {
+                            $member_debit_monthly->cghs = $exception->amount ?? 0;
+                        }
+
+                        if ($exception->rule_name == 'CGEGIS') {
+                            $member_debit_monthly->cgegis = $exception->amount ?? 0;
+                        }
+                    }
+                }
+                $member_debit_monthly->save();
             }
 
             // update pg in memeber
@@ -1689,26 +1602,44 @@ class MemberController extends Controller
                 ->get();
             // dd($records->toArray());
             $tpt = Tpta::where('pay_level_id', $request->pm_level)->where('status', 1)->first();
+            //  dd($tpt);
             if ($tpt) {
                 foreach ($records as $record) {
                     $record->tpt = $tpt->tpt_allowance;
                     $record->da_on_tpt = $tpt->tpt_da; // da_on_tpt set based on TPT value
-                    $record->tot_credits = (($record->tot_credits -  $record->tpt) - $record->da_on_tpt) + ($tpt->tpt_allowance + $tpt->tpt_da);
+                    foreach ($exceptions_this_month as $exception) {
+                        if ($exception->rule_name == 'TPT') {
+                            $record->tpt = $exception->amount ?? 0;
+                            if ($record->tpt == 0) {
+                                $record->da_on_tpt = 0;
+                            } else {
+                                $total = round($exception->amount * $da_percentage->percentage / 100);
+                                $record->da_on_tpt = $total;
+                            }
+                        }
+                    }
                     $record->save();
+
+                    // dd($records->toArray(), $exceptions_this_month);
                 }
             }
 
 
             $wel_rec = 0;
             $category = Category::where('id', $request->category)->first();
-            // dd($category, $request->category);
+
             if ($category) {
-                if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
-                    $wel_rec = 20;
-                } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
-                    $wel_rec = 10;
+
+                $member_pg = Member::where('id', $request->member_id)->first()->pg;
+                if ($member_pg == 1) {
+                    $medIns = 0;
+                } else {
+                    $medIns = $category->med_ins ?? 0;;
                 }
+
+                $welSub = $category->wel_sub ?? 0;
             }
+
 
             MemberMonthlyDataRecovery::where('member_id', $request->member_id)->where(function ($query) use ($current_month, $current_year) {
                 $query->where('year', '>', $current_year)
@@ -1717,7 +1648,7 @@ class MemberController extends Controller
                             ->where('month', '>=', $current_month);
                     });
             })
-                ->update(['wel_rec' => $wel_rec]);
+                ->update(['wel_sub' => $welSub, 'med_ins' => $medIns]);
 
             Helper::updateTotalCredit($request->member_id, $current_month, $current_year);
             Helper::updateTotalDebit($request->member_id, $current_month, $current_year);
@@ -1750,7 +1681,7 @@ class MemberController extends Controller
             $personal_member->group = $request->group;
             $personal_member->division = $request->division;
 
-            $personal_member->doj_service = $request->doj_service;
+            $personal_member->doj_service1 = $request->doj_service;
             $personal_member->quater_no = $request->quater_no;
             $personal_member->dop = $request->dop;
             $personal_member->fund_type = $request->fund_type;
@@ -2190,6 +2121,14 @@ class MemberController extends Controller
                 }
                 break;
 
+            case 'UPSG':
+                $member_debit = MemberMonthlyDataDebit::where('member_id', $memberId)->where('month', $amount_month)->where('year', $amount_year)->latest()->first();
+                if ($member_debit) {
+                    $member_debit->upsg_10_per = $amount;
+                    $member_debit->save();
+                }
+                break;
+
             case 'TPT':
                 $member_credit = MemberMonthlyDataCredit::where('member_id', $memberId)->where('month', $amount_month)->where('year', $amount_year)->latest()->first();
                 if ($member_credit) {
@@ -2333,6 +2272,15 @@ class MemberController extends Controller
             $member_debit = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
             if ($member_debit) {
                 $member_debit->npsg = $request->amount;
+                $member_debit->update();
+            }
+        }
+
+         if ($rule_name == 'UPSG') {
+
+            $member_debit = MemberMonthlyDataDebit::where('member_id', $request->member_id)->orderBy('id', 'desc')->where('month', $month)->where('year', $year)->first() ?? '';
+            if ($member_debit) {
+                $member_debit->upsg_10_per = $request->amount;
                 $member_debit->update();
             }
         }
@@ -2948,13 +2896,69 @@ class MemberController extends Controller
                     ->first();
                 if ($tptData) {
                     $tptAmount = $tptData->tpt_allowance;
-                    $tptDa = round(($tptAmount) / 2);
+                    $tptDa = round($tptAmount * $da_percentage->percentage / 100);
                 }
             }
         }
+
+
+        // 6. Personal info data
+        $member_personal_data = [
+            'member_id' => $member->id,
+            'basic' => $member->basic,
+            'emp_id' => $member->emp_id,
+            'name' => $member->name,
+            'g_pay' => $member->g_pay,
+            'cadre' => $member->cadre,
+            'dob' => $member->dob,
+            'next_inr' => $member->next_inr,
+            'ex_service' => $member->ex_service,
+            'payband' => $member->pay_band,
+            'pm_level' => $member->pm_level,
+            'gender' => $member->gender,
+            'status' => $member->status,
+            'doj_lab' => $member->doj_lab,
+            'quater' => $member->quater,
+            'ph' => null,
+            'old_basic' => $member->old_bp,
+            'pm_index' => $member->pm_index,
+            'desig' => $member->desig,
+            'category' => $member->category,
+            'doj_service' => $member->doj_service1,
+            'quater_no' => $member->quater_no,
+            'dop' => $member->dop,
+            'fund_type' => $member->fund_type,
+            'cgegis' => $member->cgegis,
+            'cgegis_text' => '',
+            'pay_stop' => $member->pay_stop,
+            'landline_no' => '',
+            'mobile_no' => '',
+            'mobile_allowance' => 0,
+            'broadband_allowance' => 0,
+            'landline_allowance' => 0,
+            'cr_water' => 0,
+            'e_status' => $member->e_status
+        ];
+
+        // dd($member_personal_data);
+
+        MemberPersonalInfo::updateOrCreate(
+            ['member_id' => $member->id],
+            $member_personal_data
+        );
+
+
+
+
+
         $npsc = 0;
         if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'NPS') {
             $npsc = round((($basicPay + $daAmount) * 14) / 100);
+        }
+
+        $upsc = 0;
+        if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'UPS') {
+            $upsc = round((($basicPay + $daAmount) * 10) / 100);
         }
 
         $member_credit_data_monthly = [
@@ -2979,6 +2983,7 @@ class MemberController extends Controller
             'npa' => 0,
             'deptn_alw' => 0,
             'npsc' => $npsc,
+            'upsc_10' => $upsc,
             'misc1' => 0,
             'var_incr' => 0,
             'wash_alw' => 0,
@@ -2989,7 +2994,7 @@ class MemberController extends Controller
             'incentive' => 0,
             'variable_amount' => 0,
             'arrs_pay_alw' => 0,
-            'tot_credits' => $basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay + $npsc,
+            'tot_credits' => $basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay + $npsc + $upsc,
             'remarks' => null,
         ];
 
@@ -3038,25 +3043,7 @@ class MemberController extends Controller
         // 2. Debit data update - Calculate various deductions
         $deductionsTotal = 0;
 
-        // NPS calculations if applicable
-        $npsDeduction = 0;
-        $npsDeductionGovt = 0;
-        $gmcDeduction = 0;
-        $npsSubTotal = 0;
-        $npsGMCTotal = 0;
-        // if ($member->memberCategory->fund_type == 'NPS') {
-        //     $npsDeduction = round(($basicPay + $daAmount) * 10 / 100);
-        //     //  $npsDeductionGovt = ($basicPay + $daAmount) * 14 / 100;
-        //     $npsSubTotal = $npsDeduction + $npsDeductionGovt;
-        //     $deductionsTotal += $npsSubTotal;
-        // }
-        // if ($member->memberCategory->fund_type == 'NPS') {
-        //     $gmcDeduction = round(($basicPay + $daAmount) * 14 / 100);
-        //     $npsGMCTotal = $gmcDeduction;
-        //     $deductionsTotal += $npsGMCTotal;
-        // }
 
-        // GPF calculations if applicable
         $gpfDeduction = 0;
         if ($member->memberCategory->fund_type == 'GPF') {
             $gpfDeduction = round(($basicPay + $daAmount) * 10 / 100);
@@ -3089,6 +3076,16 @@ class MemberController extends Controller
             $deductionsTotal += $npsg;
             $nps_10_rec = round((($basicPay + $daAmount) * 10) / 100);
             $deductionsTotal += $nps_10_rec;
+        }
+
+
+        $ups_10_per_rec = 0;
+        $upsg_10_per = 0;
+        if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'UPS') {
+            $ups_10_per_rec = round((($basicPay + $daAmount) * 10) / 100);
+            $deductionsTotal += $ups_10_per_rec;
+            $upsg_10_per = round((($basicPay + $daAmount) * 10) / 100);
+            $deductionsTotal += $upsg_10_per;
         }
 
         $member_debit_data_monthly = [
@@ -3126,7 +3123,7 @@ class MemberController extends Controller
             'car' => 0,
             'hra_rec' => 0,
             'cghs' => $cghsDeduction,
-            'ptax' => 200,
+            'ptax' => 0,
             // 'cmg' => $npsGMCTotal,
             'pli' => 0,
             'scooter' => 0,
@@ -3134,7 +3131,7 @@ class MemberController extends Controller
             'licence_fee' => 0,
 
             'tot_debits' => $deductionsTotal,
-            'net_pay' => ($basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay + $npsc) - $deductionsTotal,
+            'net_pay' => ($basicPay + $daAmount + $tptAmount + $tptDa + $hraAmount + $member->g_pay + $npsc + $upsc) - $deductionsTotal,
             'basic' => $basicPay,
             'gpf_adv' => 0,
             'hba_int' => 0,
@@ -3154,11 +3151,15 @@ class MemberController extends Controller
             'npsg' => $npsg,
             'npsg_arr' => 0,
             'npsg_adj' => 0,
-
-
             'nps_10_rec' => $nps_10_rec,
             'nps_10_arr' => 0,
             'nps_14_adj' => 0,
+
+            'ups_10_per_rec' => $ups_10_per_rec,
+            'upsg_10_per' => $upsg_10_per,
+            'upsg_arr_10_per' => 0,
+            'ups_adj_10_per' => 0,
+            'upsg_adj_10_per' => 0,
 
             'hba_cur_instl' => 0,
             'hba_total_instl' => 0,
@@ -3219,7 +3220,7 @@ class MemberController extends Controller
             'car' => 0,
             'hra_rec' => 0,
             'cghs' => round($cghsDeduction),
-            'ptax' => 200,
+            'ptax' => 0,
             // 'cmg' => round($npsGMCTotal),
             'pli' => 0,
             'scooter' => 0,
@@ -3283,7 +3284,7 @@ class MemberController extends Controller
                 'noi' => $pmLevelData->noi,
                 'noi_pending' => $pmLevelData->noi,
                 'total' => $pmLevelData->var_incr * $pmLevelData->noi,
-                'stop' => 'No'
+                'stop' => NULL
             ];
 
             $member_recovery_monthly = MemberMonthlyDataVarInfo::updateOrCreate(
@@ -3297,7 +3298,7 @@ class MemberController extends Controller
                 'noi' => $pmLevelData->noi,
                 'noi_pending' => $pmLevelData->noi,
                 'total' => $pmLevelData->var_incr * $pmLevelData->noi,
-                'stop' => 'No'
+                'stop' => NULL
             ];
 
             $member_recovery = MemberRecovery::updateOrCreate(
@@ -3325,11 +3326,11 @@ class MemberController extends Controller
 
         $wel_rec = 0;
 
-        if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
-            $wel_rec = 20;
-        } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
-            $wel_rec = 10;
-        }
+        // if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
+        //     $wel_rec = 20;
+        // } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
+        //     $wel_rec = 10;
+        // }
 
         // 4. Original recovery data
         $member_org_recovery_data_monthly = [
@@ -3444,52 +3445,18 @@ class MemberController extends Controller
             'ifsc' => ''
         ];
 
+
         $member_core = MemberCoreInfo::updateOrCreate(
             ['member_id' => $member->id],
             $member_core_data
         );
 
-        // 6. Personal info data
-        $member_personal_data = [
-            'member_id' => $member->id,
-            'basic' => $member->basic,
-            'emp_id' => $member->emp_id,
-            'name' => $member->name,
-            'g_pay' => $member->g_pay,
-            'cadre' => $member->cadre,
-            'dob' => $member->dob,
-            'next_inr' => $member->next_inr,
-            'ex_service' => $member->ex_service,
-            'payband' => $member->pay_band,
-            'pm_level' => $member->pm_level,
-            'gender' => $member->gender,
-            'status' => $member->status,
-            'doj_lab' => $member->doj_lab,
-            'quater' => $member->quater,
-            'ph' => null,
-            'old_basic' => $member->old_bp,
-            'pm_index' => $member->pm_index,
-            'desig' => $member->desig,
-            'category' => $member->category,
-            'doj_service' => $member->doj_service1,
-            'quater_no' => $member->quater_no,
-            'dop' => $member->dop,
-            'fund_type' => $member->fund_type,
-            'cgegis' => $member->cgegis,
-            'cgegis_text' => '',
-            'pay_stop' => $member->pay_stop,
-            'landline_no' => '',
-            'mobile_no' => '',
-            'mobile_allowance' => 0,
-            'broadband_allowance' => 0,
-            'landline_allowance' => 0,
-            'cr_water' => 0,
-            'e_status' => $member->e_status
-        ];
 
-        $member_personal = MemberPersonalInfo::updateOrCreate(
-            ['member_id' => $member->id],
-            $member_personal_data
-        );
+        $member_monthly_data = new MemberMonthlyData();
+        $member_monthly_data->member_id = $member->id;
+        $member_monthly_data->month =  date('m');
+        $member_monthly_data->year = date('Y');
+        $member_monthly_data->apply_date = date('Y-m-d');
+        $member_monthly_data->save();
     }
 }

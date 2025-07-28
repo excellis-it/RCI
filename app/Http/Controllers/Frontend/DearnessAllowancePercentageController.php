@@ -85,22 +85,12 @@ class DearnessAllowancePercentageController extends Controller
 
                 // $records_array[] = $records->toArray();
                 foreach ($records as $record) {
-                    $exceptions_this_month = MemberMonthlyDataExpectation::where('member_id', $record->member_id)
-                        ->where(function ($query) use ($current_year, $current_month) {
-                            $query->where('amount_year', '<', $current_year)
-                                ->orWhere(function ($q) use ($current_year, $current_month) {
-                                    $q->where('amount_year', $current_year)
-                                        ->where('amount_month', '<=', $current_month);
-                                });
-                        })
-                        ->get();
-
-
-
+                    $exceptions_this_month = MemberMonthlyDataExpectation::where('member_id', $record->member_id)->where('amount_year', $record->year)->where('amount_month', $record->month)->get();
 
                     $da_amount = round(($record->pay * $percentage) / 100);
 
                     $record->da = $da_amount;
+                    $record->tpt = $tpt->tpt_allowance;
                     $record->da_on_tpt = $total; // da_on_tpt set based on TPT value
 
                     foreach ($exceptions_this_month as $exception) {
@@ -116,45 +106,81 @@ class DearnessAllowancePercentageController extends Controller
 
                         if ($exception->rule_name == 'DA') {
                             $record->da = $exception->amount ?? 0;
+                            if ($record->da == 0) {
+                                $record->da_on_tpt = 0;
+                                $record->tpt = 0;
+                            } else {
+                                $total = round($exception->amount * $percentage / 100);
+                                $record->tpt = $tpt->tpt_allowance;
+                                $record->da_on_tpt = $total;
+                            }
                         }
-
-                        // if ($exception->rule_name == 'NPSG') {
-                        //     $member_debit_monthly_data->npsg = $exception->amount ?? 0;
-                        // }
                     }
 
                     if (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'NPS') {
                         $record->npsc = round((($record->pay + $da_amount) * 14) / 100); // da_on_tpt set based on TPT value
+                    } elseif (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'UPS') {
+                        $record->upsc_10 = round((($record->pay + $da_amount) * 10) / 100); // da_on_tpt set based on TPT value
                     }
 
-                    $record->tot_credits = (($record->tot_credits -  $record->da) - $record->da_on_tpt) + ($da_amount + $total);
                     $record->save();
 
+                    // Existing NPS block
                     if (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'NPS') {
-                        $record_debit = MemberMonthlyDataDebit::where('member_id', $record->member_id)->orderBy('id', 'desc')->where('year', $record->year)->where('month', $record->month)->first();
+                        $record_debit = MemberMonthlyDataDebit::where('member_id', $record->member_id)
+                            ->orderBy('id', 'desc')
+                            ->where('year', $record->year)
+                            ->where('month', $record->month)
+                            ->first();
 
                         if ($record_debit) {
-                            $exceptions_this_month = MemberMonthlyDataExpectation::where('member_id', $record->member_id)
-                                ->where(function ($query) use ($current_year, $current_month) {
-                                    $query->where('amount_year', '<', $current_year)
-                                        ->orWhere(function ($q) use ($current_year, $current_month) {
-                                            $q->where('amount_year', $current_year)
-                                                ->where('amount_month', '<=', $current_month);
-                                        });
-                                })->where('rule_name', 'NPSG')
+                            $exceptions_this_month_npsg = MemberMonthlyDataExpectation::where('member_id', $record->member_id)
+                                ->where('amount_year', $record->year)
+                                ->where('amount_month', $record->month)
+                                ->where('rule_name', 'NPSG')
                                 ->first();
-                            if ($exceptions_this_month) {
-                                $record_debit->npsg = $exceptions_this_month->amount ?? 0;
+
+                            if ($exceptions_this_month_npsg) {
+                                $record_debit->npsg = $exceptions_this_month_npsg->amount ?? 0;
                             } else {
+                                // Assuming $da_amount is defined elsewhere in your code for both NPS and UPS
                                 $record_debit->npsg = round((($record->pay + $da_amount) * 14) / 100); // da_on_tpt set based on TPT value
                             }
                             $record_debit->nps_10_rec = round((($record->pay + $da_amount) * 10) / 100);
                             $record_debit->save();
                         }
                     }
+                    // ELSE IF FUND_TYPE UPS
+                    elseif (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'UPS') {
+                        $record_debit = MemberMonthlyDataDebit::where('member_id', $record->member_id)
+                            ->orderBy('id', 'desc')
+                            ->where('year', $record->year)
+                            ->where('month', $record->month)
+                            ->first();
 
-                    Helper::updateTotalCredit($record->member_id, $current_month, $current_year);
-                    Helper::updateTotalDebit($record->member_id, $current_month, $current_year);
+                        if ($record_debit) {
+                            // Assuming 'UPSG' is the rule_name for UPS Government contribution expectations
+                            $exceptions_this_month_upsg = MemberMonthlyDataExpectation::where('member_id', $record->member_id)
+                                ->where('amount_year', $record->year)
+                                ->where('amount_month', $record->month)
+                                ->where('rule_name', 'UPSG') // Assuming 'UPSG' for UPS Government contribution
+                                ->first();
+
+                            if ($exceptions_this_month_upsg) {
+                                $record_debit->upsg_10_per = $exceptions_this_month_upsg->amount ?? 0;
+                            } else {
+                                // Assuming a 14% contribution from the government for UPS as well, similar to NPSG
+                                $record_debit->upsg_10_per = round((($record->pay + $da_amount) * 10) / 100);
+                            }
+
+                            // Member's 10% contribution
+                            $record_debit->ups_10_per_rec = round((($record->pay + $da_amount) * 10) / 100);
+                            $record_debit->save();
+                        }
+                    }
+
+                   Helper::updateTotalCredit($record->member_id, $record->month, $record->year);
+                    Helper::updateTotalDebit($record->member_id, $record->month, $record->year);
                 }
 
 
@@ -256,21 +282,13 @@ class DearnessAllowancePercentageController extends Controller
 
                 // $records_array[] = $records->toArray();
                 foreach ($records as $record) {
-                    $exceptions_this_month = MemberMonthlyDataExpectation::where('member_id', $record->member_id)
-                        ->where(function ($query) use ($current_year, $current_month) {
-                            $query->where('amount_year', '<', $current_year)
-                                ->orWhere(function ($q) use ($current_year, $current_month) {
-                                    $q->where('amount_year', $current_year)
-                                        ->where('amount_month', '<=', $current_month);
-                                });
-                        })
-                        ->get();
+                    $exceptions_this_month = MemberMonthlyDataExpectation::where('member_id', $record->member_id)->where('amount_year', $record->year)->where('amount_month', $record->month)->get();
 
 
 
 
                     $da_amount = round(($record->pay * $percentage) / 100);
-
+                    $record->tpt = $tpt->tpt_allowance;
                     $record->da = $da_amount;
                     $record->da_on_tpt = $total; // da_on_tpt set based on TPT value
 
@@ -287,45 +305,83 @@ class DearnessAllowancePercentageController extends Controller
 
                         if ($exception->rule_name == 'DA') {
                             $record->da = $exception->amount ?? 0;
+                            $da_amount = $exception->amount ?? 0;
+                            if ($record->da == 0) {
+                                $record->da_on_tpt = 0;
+                                $record->tpt = 0;
+                            } else {
+                                $total = round($exception->amount * $percentage / 100);
+                                $record->tpt = $tpt->tpt_allowance;
+                                $record->da_on_tpt = $total;
+                            }
                         }
-
-                        // if ($exception->rule_name == 'NPSG') {
-                        //     $member_debit_monthly_data->npsg = $exception->amount ?? 0;
-                        // }
                     }
+
 
                     if (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'NPS') {
                         $record->npsc = round((($record->pay + $da_amount) * 14) / 100); // da_on_tpt set based on TPT value
+                    } elseif (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'UPS') {
+                        $record->upsc_10 = round((($record->pay + $da_amount) * 10) / 100); // da_on_tpt set based on TPT value
                     }
 
-                    $record->tot_credits = (($record->tot_credits -  $record->da) - $record->da_on_tpt) + ($da_amount + $total);
                     $record->save();
 
+                    // Existing NPS block
                     if (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'NPS') {
-                        $record_debit = MemberMonthlyDataDebit::where('member_id', $record->member_id)->orderBy('id', 'desc')->where('year', $record->year)->where('month', $record->month)->first();
+                        $record_debit = MemberMonthlyDataDebit::where('member_id', $record->member_id)
+                            ->orderBy('id', 'desc')
+                            ->where('year', $record->year)
+                            ->where('month', $record->month)
+                            ->first();
 
                         if ($record_debit) {
-                            $exceptions_this_month = MemberMonthlyDataExpectation::where('member_id', $record->member_id)
-                                ->where(function ($query) use ($current_year, $current_month) {
-                                    $query->where('amount_year', '<', $current_year)
-                                        ->orWhere(function ($q) use ($current_year, $current_month) {
-                                            $q->where('amount_year', $current_year)
-                                                ->where('amount_month', '<=', $current_month);
-                                        });
-                                })->where('rule_name', 'NPSG')
+                            $exceptions_this_month_npsg = MemberMonthlyDataExpectation::where('member_id', $record->member_id)
+                                ->where('amount_year', $record->year)
+                                ->where('amount_month', $record->month)
+                                ->where('rule_name', 'NPSG')
                                 ->first();
-                            if ($exceptions_this_month) {
-                                $record_debit->npsg = $exceptions_this_month->amount ?? 0;
+
+                            if ($exceptions_this_month_npsg) {
+                                $record_debit->npsg = $exceptions_this_month_npsg->amount ?? 0;
                             } else {
+                                // Assuming $da_amount is defined elsewhere in your code for both NPS and UPS
                                 $record_debit->npsg = round((($record->pay + $da_amount) * 14) / 100); // da_on_tpt set based on TPT value
                             }
                             $record_debit->nps_10_rec = round((($record->pay + $da_amount) * 10) / 100);
                             $record_debit->save();
                         }
                     }
+                    // ELSE IF FUND_TYPE UPS
+                    elseif (isset($record->member->memberCategory->fund_type) && $record->member->memberCategory->fund_type == 'UPS') {
+                        $record_debit = MemberMonthlyDataDebit::where('member_id', $record->member_id)
+                            ->orderBy('id', 'desc')
+                            ->where('year', $record->year)
+                            ->where('month', $record->month)
+                            ->first();
 
-                    Helper::updateTotalCredit($record->member_id, $current_month, $current_year);
-                    Helper::updateTotalDebit($record->member_id, $current_month, $current_year);
+                        if ($record_debit) {
+                            // Assuming 'UPSG' is the rule_name for UPS Government contribution expectations
+                            $exceptions_this_month_upsg = MemberMonthlyDataExpectation::where('member_id', $record->member_id)
+                                ->where('amount_year', $record->year)
+                                ->where('amount_month', $record->month)
+                                ->where('rule_name', 'UPSG') // Assuming 'UPSG' for UPS Government contribution
+                                ->first();
+
+                            if ($exceptions_this_month_upsg) {
+                                $record_debit->upsg_10_per = $exceptions_this_month_upsg->amount ?? 0;
+                            } else {
+                                // Assuming a 14% contribution from the government for UPS as well, similar to NPSG
+                                $record_debit->upsg_10_per = round((($record->pay + $da_amount) * 10) / 100);
+                            }
+
+                            // Member's 10% contribution
+                            $record_debit->ups_10_per_rec = round((($record->pay + $da_amount) * 10) / 100);
+                            $record_debit->save();
+                        }
+                    }
+
+                    Helper::updateTotalCredit($record->member_id, $record->month, $record->year);
+                    Helper::updateTotalDebit($record->member_id, $record->month, $record->year);
                 }
             }
         }

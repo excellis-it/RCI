@@ -609,7 +609,7 @@ class MemberController extends Controller
                 'noi' => $pmLevelData->noi,
                 'noi_pending' => $pmLevelData->noi,
                 'total' => $pmLevelData->var_incr * $pmLevelData->noi,
-                'stop' => 'No'
+                'stop' => NULL
             ];
 
             $member_recovery = MemberRecovery::updateOrCreate(
@@ -633,7 +633,7 @@ class MemberController extends Controller
             'ben' => 0,
             'med_ins' => 0,
             'tot_rec' => 0,
-            'wel_rec' => 200,
+            'wel_rec' => 0,
             'hdfc' => 0,
             'maf' => 0,
             'final_pay' => 0,

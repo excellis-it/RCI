@@ -37,7 +37,7 @@
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="row">
-                                    
+
                                             <div class="form-group col-md-4 mb-2">
                                                 <div class="col-md-12">
                                                     <label>Employee Status</label>
@@ -52,7 +52,7 @@
                                                         <div class="error" style="color:red;">
                                                             {{ $errors->first('e_status') }}</div>
                                                     @endif
-                                                    
+
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-4 mb-2">
@@ -66,7 +66,7 @@
                                                         <div class="error" style="color:red;">
                                                             {{ $errors->first('member_id') }}</div>
                                                     @endif
-                                                    
+
                                                 </div>
                                             </div>
 
@@ -86,7 +86,7 @@
                                                             <div class="error" style="color:red;">
                                                                 {{ $errors->first('year') }}</div>
                                                         @endif
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -104,10 +104,10 @@
                                                             <div class="error" style="color:red;">
                                                                 {{ $errors->first('month') }}</div>
                                                         @endif
-                                                        
+
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>
 
                                             <div class="form-group col-md-4 mb-2 type-select" >
                                                 <div class="col-md-12">
@@ -145,7 +145,7 @@
 @endsection
 
 @push('scripts')
-  
+
     <script>
         $(document).ready(function() {
             $('#report_year').change(function() {
@@ -174,7 +174,7 @@
                         monthDropdown.append(option);
                     }
                 }
-                
+
             });
         });
     </script>
@@ -187,8 +187,8 @@
                 url: "{{ route('reports.get-all-members') }}",
                 type: 'POST',
                 data: { e_status, _token: '{{ csrf_token() }}' },
-                
-                
+
+
                 success: ({ members }) => {
                     // Reference the existing select element
                     const memberDropdown = $('#member_id');

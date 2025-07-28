@@ -16,7 +16,7 @@
                                     <th>CPS</th>
                                     <th>I.Tax</th>
                                     <th>CGHS</th>
-                                    <th>GMC</th>
+                                    <th>NPSG</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -83,7 +83,7 @@
                             <span class="text-danger cghs-err"></span>
                         </div>
                         <div class="form-group col-md-6 mb-2">
-                            <label>GMC</label>
+                            <label>NPSG</label>
                             <input type="text" class="form-control" name="gmc">
                             <span class="text-danger gmc-err"></span>
                         </div>
@@ -104,16 +104,7 @@
 
             </div>
         </div>
-        <div class="row justify-content-end mt-4">
-            {{-- <div class="col-auto mb-2">
-                <button type="submit" class="listing_add">Save</button>
-            </div> --}}
-            {{-- <div class="col-auto mb-2">
-                <button type="button" class="another-btn">Another</button>
-            </div> --}}
-            {{-- <div class="col-auto mb-2">
-                <button type="reset" class="listing_exit">Cancel</button>
-            </div> --}}
+        {{-- <div class="row justify-content-end mt-4">
             <div class="col-auto mb-2">
                 <button type="button" class="another-btn">Report</button>
             </div>
@@ -137,6 +128,6 @@
                     <option>Dec</option>
                 </select>
             </div>
-        </div>
+        </div> --}}
     </form>
 </div>

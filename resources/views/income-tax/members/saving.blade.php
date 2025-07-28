@@ -2,8 +2,9 @@
     <form id="savingsForm">
         @csrf
         <input type="hidden" name="member_id" value="{{ $member->id }}">
+          <input type="hidden" name="financial_year" class="financial_year" value="">
         <div class="row">
-            <div class="form-group col-md-3 mb-2">
+            {{-- <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Month Year</label>
@@ -15,7 +16,7 @@
                         <span class="text-danger month_year_error"></span>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
@@ -34,7 +35,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_ph_disable">PH Disable</label>
+                        <label for="savings_ph_disable">PH Disable (80U)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="ph_disable"
@@ -62,7 +63,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_nsc_ctd">NSC CTD</label>
+                        <label for="savings_nsc_ctd">NSC CTD (80 C)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="nsc_ctd" id="savings_nsc_ctd"
@@ -76,7 +77,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_t_fee">T. Fee</label>
+                        <label for="savings_t_fee">T. Fee (80 C)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="t_fee" id="savings_t_fee"
@@ -104,7 +105,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_edu_loan_int">Education Loan Interest</label>
+                        <label for="savings_edu_loan_int">Education Loan Interest (80 G)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="edu_loan_int"
@@ -132,7 +133,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_hba_prncpl">HBA Principal</label>
+                        <label for="savings_hba_prncpl">HBA Principal (80 C)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="hba_prncpl"
@@ -142,25 +143,13 @@
                 </div>
             </div>
 
-            {{-- ohters_s --}}
-            <div class="form-group col-md-3 mb-2">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <label for="savings_ohters_s">Others (Savings)</label>
-                    </div>
-                    <div class="col-md-12">
-                        <input type="number" step="any" class="form-control" name="ohters_s"
-                            id="savings_ohters_s" value="{{ old('ohters_s', $model->ohters_s ?? '') }}">
-                        <span class="text-danger">{{ $errors->first('ohters_s') }}</span>
-                    </div>
-                </div>
-            </div>
+
 
             {{-- hba_int_80ee --}}
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_hba_int_80ee">HBA Int. (80EE)</label>
+                        <label for="savings_hba_int_80ee">HBA Int. (80 EE)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="hba_int_80ee"
@@ -174,7 +163,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_others_d">Others (Deduction)</label>
+                        <label for="savings_others_d">Others (Deduction) (80 G)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="others_d"
@@ -188,7 +177,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_letout">Let Out</label>
+                        <label for="savings_letout">Let Out </label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="letout"
@@ -202,7 +191,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_pli">PLI</label>
+                        <label for="savings_pli">PLI (80 C)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="pli" id="savings_pli"
@@ -213,7 +202,7 @@
             </div>
 
             {{-- infa_bond --}}
-            <div class="form-group col-md-3 mb-2">
+            {{-- <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label for="savings_infa_bond">Infa Bond</label>
@@ -224,7 +213,7 @@
                         <span class="text-danger">{{ $errors->first('infa_bond') }}</span>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             {{-- ac_int_80tta --}}
             <div class="form-group col-md-3 mb-2">
@@ -258,7 +247,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_js_sukanya">JS Sukanya</label>
+                        <label for="savings_js_sukanya">JS Sukanya (80 C)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="js_sukanya"
@@ -272,7 +261,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_nsdl">NSDL</label>
+                        <label for="savings_nsdl">NSDL 80CCD(1b)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="nsdl" id="savings_nsdl"
@@ -286,7 +275,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_med_trt">Medical Treatment</label>
+                        <label for="savings_med_trt">Medical Treatment (80 DD)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="med_trt"
@@ -296,11 +285,25 @@
                 </div>
             </div>
 
+             {{-- med_trt --}}
+            <div class="form-group col-md-3 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label for="savings_med_ins">Medical Ins (80D)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="number" step="any" class="form-control" name="med_ins"
+                            id="savings_med_ins" value="{{ old('med_ins', $model->med_ins ?? '') }}">
+                        <span class="text-danger">{{ $errors->first('med_ins') }}</span>
+                    </div>
+                </div>
+            </div>
+
             {{-- equity_mf --}}
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_equity_mf">Equity MF</label>
+                        <label for="savings_equity_mf">Equity / MF (80 CCG)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="equity_mf"
@@ -314,7 +317,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_ppf">PPF</label>
+                        <label for="savings_ppf">PPF (80 C)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="ppf" id="savings_ppf"
@@ -328,7 +331,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_lic">LIC</label>
+                        <label for="savings_lic">LIC (80 C)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="lic" id="savings_lic"
@@ -356,7 +359,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_cancer">Cancer</label>
+                        <label for="savings_cancer">Cancer (80 DDB)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="cancer_amount"
@@ -370,7 +373,7 @@
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_cea">CEA</label>
+                        <label for="savings_cea">CEA (U/s 10(14))</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="cea" id="savings_cea"
@@ -393,12 +396,24 @@
                     </div>
                 </div>
             </div>
-
+            {{-- ohters_s --}}
+            <div class="form-group col-md-3 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <label for="savings_ohters_s">Others - S (80 C)</label>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="number" step="any" class="form-control" name="ohters_s"
+                            id="savings_ohters_s" value="{{ old('ohters_s', $model->ohters_s ?? '') }}">
+                        <span class="text-danger">{{ $errors->first('ohters_s') }}</span>
+                    </div>
+                </div>
+            </div>
             {{-- ulip --}}
             <div class="form-group col-md-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-md-12">
-                        <label for="savings_ulip">ULIP</label>
+                        <label for="savings_ulip">ULIP (80 C)</label>
                     </div>
                     <div class="col-md-12">
                         <input type="number" step="any" class="form-control" name="ulip" id="savings_ulip"
@@ -433,16 +448,16 @@
                 <div class="row align-items-center">
                     <div class="col-md-12">
                         <label>Med Ins ( 80 D ) Sr. Citizen
-                            Dependent Inclided</label>
+                            Dependent Included</label>
                     </div>
                     <div class="col-md-12">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="med_ins" id="savings_med_ins1"
+                            <input class="form-check-input" type="radio" name="med_ins_80d" id="savings_med_ins1"
                                 value="Yes">
                             <label class="form-check-label" for="savings_med_ins1">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="med_ins" id="savings_med_ins2"
+                            <input class="form-check-input" type="radio" name="med_ins_80d" id="savings_med_ins2"
                                 value="No" checked="">
                             <label class="form-check-label" for="savings_med_ins2">No</label>
                         </div>
@@ -518,52 +533,28 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="it_rules" id="savings_it_rules1"
                                 value="Yes">
-                            <label class="form-check-label" for="savings_it_rules1">Yes</label>
+                            <label class="form-check-label" for="savings_it_rules1">New</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="it_rules" id="savings_it_rules2"
                                 value="No" checked="">
-                            <label class="form-check-label" for="savings_it_rules2">No</label>
+                            <label class="form-check-label" for="savings_it_rules2">Old</label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row justify-content-end mt-4">
+        <div class="row d-flex justify-content-end">
             <div class="col-auto mb-2">
                 <button type="submit" id="saveSavingsBtn" class="listing_add">Save</button>
             </div>
-            {{-- <div class="col-auto mb-2">
-                <button type="button" id="anotherSavingsBtn" class="another-btn">Another</button>
-            </div> --}}
             <div class="col-auto mb-2">
                 <button type="reset" class="listing_exit">Cancel</button>
             </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="another-btn">Report</button>
-            </div>
-            <div class="col-auto mb-2">
-                <button type="button" class="another-btn">FORM16</button>
-            </div>
-            <div class="col-auto mb-2">
-                Recovey Form
-                <select class="p-2 rounded">
-                    <option>Jan</option>
-                    <option>Feb</option>
-                    <option>Mar</option>
-                    <option>Apr</option>
-                    <option>May</option>
-                    <option>Jun</option>
-                    <option>Jul</option>
-                    <option>Aug</option>
-                    <option>Sep</option>
-                    <option>Oct</option>
-                    <option>Nov</option>
-                    <option>Dec</option>
-                </select>
-            </div>
         </div>
     </form>
+
+
 </div>
 
 
@@ -651,7 +642,11 @@
                 $("#savings_ph").val(data.ph || 0);
                 $("#savings_lic").val(data.lic || 0);
                 $("#savings_pli").val(data.pli || 0);
+                   $("#savings_med_ins").val(data.med_ins || 0);
                 // Radio buttons
+
+
+
                 if (data.med_ins_80d) {
                     $("#savings_med_ins1").prop('checked', true);
                 } else {
@@ -737,14 +732,7 @@
                 resetSavingsForm();
             });
 
-            // Tab click handlers to ensure proper loading of data
-            $('#savings-tab').on('shown.bs.tab', function(e) {
-                // If month year is already selected, fetch the data
-                let monthYear = $("#savings_month_year").val();
-                if (monthYear) {
-                    fetchSavingData(monthYear);
-                }
-            });
+
         });
     </script>
 @endpush

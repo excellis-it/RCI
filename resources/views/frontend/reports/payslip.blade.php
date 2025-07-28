@@ -92,7 +92,7 @@
                                                 <label for="member_id">Member</label>
                                                 <select class="form-select select2" name="member_id" id="member_id">
                                                     <option value="">Select Member</option>
-                                                 
+
                                                 </select>
                                                 @error('member_id')
                                                     <div class="text-danger">{{ $message }}</div>
@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     </script>
-    
+
 
 <script>
     // report_type change event
@@ -392,7 +392,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var monthDropdown = $('#report_month');
 
                 if (year == currentDate.getFullYear()) {
-                    var currentMonth = currentDate.getMonth();
+                    var currentMonth = currentDate.getMonth() + 1;
                     var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
 
                     monthDropdown.empty();

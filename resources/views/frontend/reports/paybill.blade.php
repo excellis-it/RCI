@@ -4,6 +4,33 @@
 @endsection
 
 @push('styles')
+    <style>
+        .toggle-status {
+            display: inline-block;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .toggle-status.bg-success {
+            background-color: #28a745 !important;
+            color: white;
+        }
+
+        .toggle-status.bg-danger {
+            background-color: #dc3545 !important;
+            color: white;
+        }
+
+        .toggle-status:hover {
+            opacity: 0.85;
+            box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -38,6 +65,7 @@
                     <div class="card-body">
                         <div id="form">
                             <form id="paybillForm">
+                                {{-- <form id="" action="{{ route('reports.paybill-generate') }}" method="POST"> --}}
                                 @csrf
 
                                 <div class="row">
@@ -84,7 +112,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group col-md-6 mb-2" id="member_section"
+                                            <div class="form-group col-md-4 mb-2" id="member_section"
                                                 style="display: {{ old('generate_by') == 'member' ? 'block' : 'none' }};">
                                                 <label for="member_id">Member</label>
                                                 <select class="form-select select2" name="member_id" id="member_id">
@@ -96,7 +124,21 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="form-group col-md-6 mb-2" id="category_section"
+                                            <div class="form-group col-md-4 mb-2">
+                                                <div class="col-md-12">
+                                                    <label>DV NO.</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input type="text" name="dv_number" id=""
+                                                        class="form-control" value="{{ old('dv_number') }}">
+                                                    @if ($errors->has('dv_number'))
+                                                        <div class="error" style="color:red;">
+                                                            {{ $errors->first('dv_number') }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-4 mb-2" id="category_section"
                                                 style="display: {{ old('generate_by', 'category') == 'category' ? 'block' : 'none' }};">
                                                 <label for="category">Category</label>
                                                 <select class="form-select select2" name="category" id="category">
@@ -190,6 +232,44 @@
                                 </div>
                             </form>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-4 mt-4">
+                                <div class="row justify-content-end">
+                                    <div class="col-md-5 col-lg-3 mb-2 mt-4">
+                                        <div class="position-relative">
+                                            <input type="text" class="form-control search_table" value=""
+                                                id="search" placeholder="Search">
+                                            <span class="table_search_icon"><i class="fa fa-search"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive rounded-2">
+                                    <table class="table customize-table mb-0 align-middle bg_tbody">
+                                        <thead class="text-white fs-4 bg_blue">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>DV Number</th>
+                                                <th>Status</th>
+                                                <th>Generate By</th>
+                                                <th>Month</th>
+                                                <th>Year</th>
+                                                <th>Member/Category</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody_height_scroll">
+                                            @include('frontend.reports.paybill-table')
+                                        </tbody>
+                                    </table>
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
+                                    <input type="hidden" name="hidden_column_name" id="hidden_column_name"
+                                        value="id" />
+                                    <input type="hidden" name="hidden_sort_type" id="hidden_sort_type"
+                                        value="desc" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -198,6 +278,134 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $(document).on('click', '#delete', function(e) {
+            swal({
+                    title: "Are you sure?",
+                    text: "To delete this paybill.",
+                    type: "warning",
+                    confirmButtonText: "Yes",
+                    showCancelButton: true
+                })
+                .then((result) => {
+                    if (result.value) {
+                        window.location = $(this).data('route');
+                    } else if (result.dismiss === 'cancel') {
+                        swal(
+                            'Cancelled',
+                            'Your stay here :)',
+                            'error'
+                        )
+                    }
+                })
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '.toggle-status', function() {
+            const span = $(this);
+            const id = span.data('id');
+
+            $.ajax({
+                url: "{{ route('paybill-trackings.toggleStatus') }}",
+                method: 'POST',
+                data: {
+                    id: id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    toastr.success('Status updated successfully');
+
+                    span
+                        .text(response.label)
+                        .attr('title', 'Click to mark as ' + (response.label === 'Paid' ? 'Unpaid' :
+                            'Paid'))
+                        .removeClass('bg-success bg-danger')
+                        .addClass(response.class === 'bg-success' ? 'bg-success' : 'bg-danger');
+                },
+                error: function() {
+                    toastr.error('Failed to update status.');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
+        tooltipTriggerList.forEach(el => {
+            new bootstrap.Tooltip(el);
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+
+            function fetch_data(page, sort_type, sort_by, query) {
+                $.ajax({
+                    url: "{{ route('paybill.fetch-data') }}",
+                    data: {
+                        page: page,
+                        sortby: sort_by,
+                        sorttype: sort_type,
+                        query: query
+                    },
+                    success: function(data) {
+                        $('tbody').html(data.data);
+                    }
+                });
+            }
+
+            $(document).on('keyup', '#search', function() {
+                var query = $('#search').val();
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+                var page = $('#hidden_page').val();
+                fetch_data(page, sort_type, column_name, query);
+            });
+
+            $(document).on('click', '.sorting', function() {
+                var column_name = $(this).data('column_name');
+                var order_type = $(this).data('sorting_type');
+                var reverse_order = '';
+                if (order_type == 'asc') {
+                    $(this).data('sorting_type', 'desc');
+                    reverse_order = 'desc';
+                    // clear_icon();
+                    $('#' + column_name + '_icon').html(
+                        '<i class="fa fa-arrow-down"></i>');
+                }
+                if (order_type == 'desc') {
+                    // alert(order_type);
+                    $(this).data('sorting_type', 'asc');
+                    reverse_order = 'asc';
+                    // clear_icon();
+                    $('#' + column_name + '_icon').html(
+                        '<i class="fa fa-arrow-up"></i>');
+                }
+                $('#hidden_column_name').val(column_name);
+                $('#hidden_sort_type').val(reverse_order);
+                var page = $('#hidden_page').val();
+                var query = $('#search').val();
+                fetch_data(page, reverse_order, column_name, query);
+            });
+
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                $('#hidden_page').val(page);
+                var column_name = $('#hidden_column_name').val();
+                var sort_type = $('#hidden_sort_type').val();
+
+                var query = $('#search').val();
+
+                $('li').removeClass('active');
+                $(this).parent().addClass('active');
+                fetch_data(page, sort_type, column_name, query);
+            });
+
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('paybillForm');
@@ -249,6 +457,8 @@
                         a.click();
                         a.remove();
                         window.URL.revokeObjectURL(url);
+
+
                     })
                     .catch(error => {
                         if (error.message !== "Validation failed") {
@@ -322,7 +532,7 @@
                 var monthDropdown = $('#report_month');
 
                 if (year == currentDate.getFullYear()) {
-                    var currentMonth = currentDate.getMonth();
+                    var currentMonth = currentDate.getMonth() + 1;
                     var endMonth = (year == currentDate.getFullYear()) ? currentMonth : 12;
 
                     monthDropdown.empty();
@@ -378,7 +588,7 @@
                         }) => {
                             memberDropdown.append(
                                 `<option value="${id}">${name} (${emp_id})</option>`
-                                );
+                            );
                         });
 
                         var select_box_element = document.querySelector('.search-select-box');

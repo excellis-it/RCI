@@ -139,7 +139,7 @@
                                     <option value="">Select</option>
                                     @foreach ($pgs as $pg)
                                         <option value="{{ $pg->id }}"
-                                            {{ (isset($member->pg)) && $pg->id == (($member->pg ?? null)) ? 'selected' : '' }}>
+                                            {{ isset($member->pg) && $pg->id == ($member->pg ?? null) ? 'selected' : '' }}>
                                             {{ $pg->value }}
                                         </option>
                                     @endforeach
@@ -194,55 +194,61 @@
                             </div>
                         </div>
                     </div>
-                  <div class="form-group  mb-2">
-    <div class="row align-items-center">
-        <div class="col-md-12">
-            <label for="e_status">Employment Status</label>
-        </div>
-        <div class="col-md-12">
-            <select class="form-select" name="e_status" id="e_status">
-                <option value="">Select</option>
-                <option value="active"
-                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
-                        (($member_personal->e_status ?? null) == 'active' || ($member->e_status ?? null) == 'active')
-                        ? 'selected' : '' }}>
-                    Active
-                </option>
-                <option value="deputation"
-                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
-                        (($member_personal->e_status ?? null) == 'deputation' || ($member->e_status ?? null) == 'deputation')
-                        ? 'selected' : '' }}>
-                    On Deputation
-                </option>
-                <option value="contractual"
-                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
-                        (($member_personal->e_status ?? null) == 'contractual' || ($member->e_status ?? null) == 'contractual')
-                        ? 'selected' : '' }}>
-                    Contractual
-                </option>
-                <option value="retired"
-                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
-                        (($member_personal->e_status ?? null) == 'retired' || ($member->e_status ?? null) == 'retired')
-                        ? 'selected' : '' }}>
-                    Retired
-                </option>
-                <option value="suspended"
-                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
-                        (($member_personal->e_status ?? null) == 'suspended' || ($member->e_status ?? null) == 'suspended')
-                        ? 'selected' : '' }}>
-                    Suspended
-                </option>
-                <option value="transferred"
-                    {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
-                        (($member_personal->e_status ?? null) == 'transferred' || ($member->e_status ?? null) == 'transferred')
-                        ? 'selected' : '' }}>
-                    Transferred
-                </option>
-            </select>
-            <span class="text-danger"></span>
-        </div>
-    </div>
-</div>
+                    <div class="form-group  mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <label for="e_status">Employment Status</label>
+                            </div>
+                            <div class="col-md-12">
+                                <select class="form-select" name="e_status" id="e_status">
+                                    <option value="">Select</option>
+                                    <option value="active"
+                                        {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                                        (($member_personal->e_status ?? null) == 'active' || ($member->e_status ?? null) == 'active')
+                                            ? 'selected'
+                                            : '' }}>
+                                        Active
+                                    </option>
+                                    <option value="deputation"
+                                        {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                                        (($member_personal->e_status ?? null) == 'deputation' || ($member->e_status ?? null) == 'deputation')
+                                            ? 'selected'
+                                            : '' }}>
+                                        On Deputation
+                                    </option>
+                                    <option value="contractual"
+                                        {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                                        (($member_personal->e_status ?? null) == 'contractual' || ($member->e_status ?? null) == 'contractual')
+                                            ? 'selected'
+                                            : '' }}>
+                                        Contractual
+                                    </option>
+                                    <option value="retired"
+                                        {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                                        (($member_personal->e_status ?? null) == 'retired' || ($member->e_status ?? null) == 'retired')
+                                            ? 'selected'
+                                            : '' }}>
+                                        Retired
+                                    </option>
+                                    <option value="suspended"
+                                        {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                                        (($member_personal->e_status ?? null) == 'suspended' || ($member->e_status ?? null) == 'suspended')
+                                            ? 'selected'
+                                            : '' }}>
+                                        Suspended
+                                    </option>
+                                    <option value="transferred"
+                                        {{ (isset($member_personal->e_status) || isset($member->e_status)) &&
+                                        (($member_personal->e_status ?? null) == 'transferred' || ($member->e_status ?? null) == 'transferred')
+                                            ? 'selected'
+                                            : '' }}>
+                                        Transferred
+                                    </option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -306,23 +312,15 @@
                             <div class="col-md-12">
                                 <label>PM Index</label>
                             </div>
+                            {{-- @dd($member_personal->pm_index) --}}
                             <div class="col-md-12">
-                                <select class="form-select" name="pm_index" id="pm_index">
-                                    <option value="">Select</option>
-                                    @foreach ($pmIndexes as $pmIndex)
-                                        <option value="{{ $pmIndex->id }}"
-                                            {{ (isset($member_personal->pm_index) || isset($member->pm_index)) && $pmIndex->id == ($member_personal->pm_index ?? ($member->pm_index ?? null)) ? 'selected' : '' }}>
-                                            {{ $pmIndex->value }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="pm_index" id="pm_index"
+                                    value="{{ $member_personal->pm_index ?? ($member->pm_index ?? '') }}">
+                                <span class="text-danger"></span>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-
-
-
-
 
                 </div>
             </div>
@@ -532,6 +530,21 @@
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
+                                <label>Quater No</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="quater_no" id="quater_no"
+                                    value="{{ $member_personal->quater_no ?? ($member->quater_no ?? '') }}"
+                                    placeholder="">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
                                 <label>Employment Status</label>
                             </div>
                             <div class="col-md-12">
@@ -572,7 +585,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
+
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -591,21 +605,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <label>Quater No</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="quater_no" id="quater_no"
-                                    value="{{ $member_personal->quater_no ?? ($member->quater_no ?? '') }}"
-                                    placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
@@ -646,6 +646,13 @@
                                             : '' }}>
                                         NPS
                                     </option>
+                                    <option value="UPS"
+                                        {{ (isset($member_personal->fund_type) || isset($member->fund_type)) &&
+                                        (($member_personal->fund_type ?? null) == 'UPS' || ($member->fund_type ?? null) == 'UPS')
+                                            ? 'selected'
+                                            : '' }}>
+                                        UPS
+                                    </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -673,23 +680,22 @@
                         </div>
                     </div>
                 </div>
- <div class="form-group col-md-6 mb-2">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-md-12">
-                                                                <label>CGEIS</label>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <div type="text" class="form-control  " name=""
-                                                                    placeholder="">
-                                                                    @foreach ($cgegises as $cgegis)
-                                                                        {{ $cgegis->group_name . '-' . $cgegis->value }},
-                                                                    @endforeach
-                                                                </div>
+                <div class="form-group col-md-6 mb-2">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <label>CGEIS</label>
+                        </div>
+                        <div class="col-md-12">
+                            <div type="text" class="form-control  " name="" placeholder="">
+                                @foreach ($cgegises as $cgegis)
+                                    {{ $cgegis->group_name . '-' . $cgegis->value }},
+                                @endforeach
+                            </div>
 
-                                                                <span class="text-danger"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>
@@ -727,7 +733,7 @@
                         </div>
                     </div>
                 </div>
-                  <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="form-group mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -735,7 +741,8 @@
                             </div>
                             <div class="col-md-12">
                                 <input type="date" class="form-control" name="pay_stop_date" id="pay_stop_date"
-                                    value="{{ $member_personal->pay_stop_date ?? ($member->pay_stop_date ?? '') }}" placeholder="">
+                                    value="{{ $member_personal->pay_stop_date ?? ($member->pay_stop_date ?? '') }}"
+                                    placeholder="">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

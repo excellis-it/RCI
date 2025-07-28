@@ -396,6 +396,11 @@ Route::middleware('permssions')->group(function () {
     Route::get('/reports-paybill', [ReportController::class, 'paybill'])->name('reports.paybill');
     Route::post('/reports-paybill-generate', [ReportController::class, 'paybillGenerate'])->name('reports.paybill-generate');
 
+    Route::get('/paybill-fetch', [ReportController::class, 'paybillfetch'])->name('paybill.fetch-data');
+    Route::get('/paybill-delete/{id}', [ReportController::class, 'paybillDelete'])->name('paybill-trackings.delete');
+    Route::post('/paybill-toggle-status', [ReportController::class, 'togglePaybillStatus'])->name('paybill-trackings.toggleStatus');
+
+
     Route::get('/generate-children-allowance', [ReportController::class, 'cildrenAllowance'])->name('reports.children-allowance');
     Route::post('/reports-children-allowanc-generate', [ReportController::class, 'cildrenAllowanceGenerate'])->name('reports.children-allowance-generate');
 

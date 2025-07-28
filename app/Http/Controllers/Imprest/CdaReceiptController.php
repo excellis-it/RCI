@@ -95,14 +95,23 @@ class CdaReceiptController extends Controller
             'dv_date' => 'required|date',
             'rct_vr_amount' => 'required|numeric',
             'remark' => 'nullable|string|max:255',
-            'bill_no' => 'required|unique:cda_receipts,bill_id',
+            'bill_no' => 'required',
 
         ]);
 
         // Insert new records into CDAReceipt based on cda_bill_no
         $advBills = CdaBillAuditTeam::where('cda_bill_no', $request->bill_no)->get();
 
+        // dd($advBills->toArray());
+
+
         foreach ($advBills as $advBill) {
+            $count_cdreceipt = CDAReceipt::where('bill_id', $advBill->id)->count();
+            if ($count_cdreceipt > 0) {
+                continue;
+            }
+
+
             $cdreceipt = CDAReceipt::create([
                 'bill_id' => $advBill->id, // Use the current bill ID from CdaBillAuditTeam
                 'rct_vr_no' => $request->rct_vr_no,

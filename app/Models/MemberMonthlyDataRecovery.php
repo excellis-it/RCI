@@ -38,5 +38,4 @@ class MemberMonthlyDataRecovery extends Model
         'ptax',
         'remarks',
     ];
-    
 }

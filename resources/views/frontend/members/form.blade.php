@@ -70,8 +70,20 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group col-md-3 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <label>Employee ID</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" class="form-control" name="emp_id" id="emp_id"
+                                                    value="{{ old('emp_id') ?? '' }}" placeholder="">
+                                                <span class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                    <div class="form-group col-md-6 mb-2">
+                                    <div class="form-group col-md-3 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-md-12">
                                                 <label>Name</label>
@@ -227,14 +239,14 @@
 
 
                                 <!-- <div class="col-md-4">
-                                                                                                        <div class="row">
-                                                                                                            <div class="form-group col-md-12 mb-2">
-                                                                                                                <div class="row align-items-center">
-                                                                                                                    <div class="col-md-12">
-                                                                                                                        <label>Category</label>
-                                                                                                                    </div>
-                                                                                                                    <div class="col-md-12">
-                                                                                                                        {{-- <select class="form-select" name="category"
+                                                                                                            <div class="row">
+                                                                                                                <div class="form-group col-md-12 mb-2">
+                                                                                                                    <div class="row align-items-center">
+                                                                                                                        <div class="col-md-12">
+                                                                                                                            <label>Category</label>
+                                                                                                                        </div>
+                                                                                                                        <div class="col-md-12">
+                                                                                                                            {{-- <select class="form-select" name="category"
                                                                     id="category">
                                                                     <option value="">Select</option>
                                                                     @foreach ($categories as $category)
@@ -243,15 +255,15 @@
                                             @endforeach
 
                                             </select> --}}
-                                                                                                                        <input type="text" class="form-control"
-                                                                                                                            id="category_value" readonly>
-                                                                                                                        <input type="hidden" class="form-control" name="category" id="category">
-                                                                                                                        <span class="text-danger"></span>
+                                                                                                                            <input type="text" class="form-control"
+                                                                                                                                id="category_value" readonly>
+                                                                                                                            <input type="hidden" class="form-control" name="category" id="category">
+                                                                                                                            <span class="text-danger"></span>
+                                                                                                                        </div>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </div>
-                                                                                                        </div>
-                                                                                                    </div> -->
+                                                                                                        </div> -->
 
 
                                 <div class="row">
@@ -684,13 +696,13 @@
                                                                 <select class="form-select" name="cgegis"
                                                                     id="cgegis">
                                                                     <option value="">Select</option>
-                                                                  @foreach ($cgegises as $cgegis)
-                                                                   <option value="{{ $cgegis->id }}">
+                                                                    @foreach ($cgegises as $cgegis)
+                                                                        <option value="{{ $cgegis->id }}">
                                                                             {{ $cgegis->group_name }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
-                                                               
+
                                                                 <span class="text-danger"></span>
                                                             </div>
                                                         </div>
@@ -771,7 +783,9 @@
                                                 <select name="member_city" class="form-select" id="member_city">
                                                     <option value="">Select</option>
                                                     @foreach ($cities as $city)
-                                                        <option value="{{ $city->id }}" {{ $city->id == 1 ? 'selected' : '' }}>{{ $city->name }}</option>
+                                                        <option value="{{ $city->id }}"
+                                                            {{ $city->id == 1 ? 'selected' : '' }}>{{ $city->name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                                 <span class="text-danger"></span>
@@ -892,7 +906,7 @@
 @endsection
 
 @push('scripts')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             var lastId = localStorage.getItem('lastId');
             if (lastId === null) {
@@ -905,7 +919,7 @@
             localStorage.setItem('lastId', lastId);
             document.getElementById('emp_id').value = randomId;
         });
-    </script>
+    </script> --}}
 
     <script>
         $(document).ready(function() {

@@ -218,10 +218,7 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.payslip') }}">Payslip</a>
                             </li>
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.annual-income-tax-report') }}">Annual Income Tax</a>
-                            </li>
+
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.paybill') }}">Paybill</a>
@@ -266,19 +263,32 @@
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.salary-certificate') }}">Salary Certificate</a>
                             </li>
-                            <li class="mb-2">
+                              <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.annual-income-tax-report') }}">Annual Income Tax</a>
+                            </li>
+                               <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.form-16b') }}">Form 16 (Part B)</a>
+                            </li>
+                             <li class="mb-2">
+                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
+                                    href="{{ route('reports.quaterly-tds') }}">Quaterly TDS Report</a>
+                            </li>
+
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.bonus-schedule') }}">Bonus & Dress Allowance</a>
-                            </li>
+                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.last-pay-certificate') }}">Last Pay Certificate</a>
                             </li>
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.professional-update-allowance') }}">Professional Update
                                     Allowance</a>
-                            </li>
+                            </li> --}}
                             {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.crv')}}" >CRV</a>
@@ -288,10 +298,7 @@
                                     href="{{ route('reports.pl-withdrawl')}}" >PL Withdrawl</a>
                             </li> --}}
 
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.quaterly-tds') }}">Quaterly TDS Report</a>
-                            </li>
+
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
@@ -313,20 +320,14 @@
                                     href="{{ route('reports.form-16') }}">Form 16 </a>
                             </li> --}}
 
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('reports.form-16') }}">Form 16 (Part A)</a>
-                            </li>
+                            </li> --}}
 
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.form-16b') }}">Form 16 (Part B)</a>
-                            </li>
 
-                            <li class="mb-2">
-                                <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
-                                    href="{{ route('reports.da-arrears') }}">DA Arrears</a>
-                            </li>
+
+
 
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"

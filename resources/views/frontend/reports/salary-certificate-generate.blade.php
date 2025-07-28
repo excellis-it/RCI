@@ -23,7 +23,7 @@
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
-                      
+
                       border-left: 1px solid #000;
                       border-right: 1px solid #000;
                       border-top: 1px solid #000;
@@ -33,11 +33,11 @@
                                 </td>
                             </tr>
                             <tr>
-                              <td style="height: 20px; border-left: 1px solid;  border-right: 1px solid #000;"></td>
-                          </tr>
+                                <td style="height: 20px; border-left: 1px solid;  border-right: 1px solid #000;"></td>
+                            </tr>
                             <tr>
-                              <td
-                                  style="
+                                <td
+                                    style="
                     font-size: 14px;
                     line-height: 18px;
                     font-weight: 600;
@@ -50,15 +50,15 @@
                     border-left: 1px solid #000;
                     border-right: 1px solid #000;
                   ">
-                                  SALARY CERTIFICATE
-                              </td>
-                          </tr>
-                          <tr>
-                            <td style="height: 20px; border-left: 1px solid;  border-right: 1px solid #000;"></td>
-                        </tr>
-                          <tr>
-                            <td
-                                style="
+                                    SALARY CERTIFICATE
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height: 20px; border-left: 1px solid;  border-right: 1px solid #000;"></td>
+                            </tr>
+                            <tr>
+                                <td
+                                    style="
                   font-size: 14px;
                   line-height: 18px;
                   font-weight: 400;
@@ -69,15 +69,17 @@
                    border-left: 1px solid #000;
                     border-right: 1px solid #000;
                 ">
-                                This is to certify that <span style="font-weight: 600 !important;">Sri/Smt {{ ucwords($member_data->name) ?? '' }},
-                                {{ $member_data->desigs->designation ?? '' }}
-                                ({{ $member_data->emp_id ?? '' }}) </span> is in receipt of the following Pay & Allowances for
-                                the Month of {{ $month }} {{ $year }}
-                            </td>
-                        </tr>
-                        <tr>
-                          <td style="height: 20px; border-left: 1px solid;  border-right: 1px solid #000;"></td>
-                      </tr>
+                                    This is to certify that <span style="font-weight: 600 !important;">Sri/Smt
+                                        {{ ucwords($member_data->name) ?? '' }},
+                                        {{ $member_data->desigs->designation ?? '' }}
+                                        ({{ $member_data->emp_id ?? '' }}) </span> is in receipt of the following Pay &
+                                    Allowances for
+                                    the Month of {{ $month }} {{ $year }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height: 20px; border-left: 1px solid;  border-right: 1px solid #000;"></td>
+                            </tr>
                         </tbody>
                     </table>
                 </td>
@@ -176,35 +178,134 @@
                     ">
                                     {{ $member_credit_data->pay ?? 0 }}
                                 </td>
+                                @if (isset($member_credit_data->member->memberCategory->fund_type) &&
+                                        $member_credit_data->member->memberCategory->fund_type == 'NPS')
+                          
                                 <td
                                     style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: left;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                      padding: 0px 5px;
-                    ">
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+                border: 1px solid #000;
+                padding: 0px 5px;
+            ">
                                     NPS Rec
                                 </td>
                                 <td
                                     style="
-                      font-size: 10px;
-                      line-height: 14px;
-                      font-weight: 400;
-                      color: #000;
-                      text-align: right;
-                      margin: 0px 0px !important;
-                      text-transform: uppercase;
-                      border: 1px solid #000;
-                      padding: 0px 5px;
-                    ">
-                                    {{ $member_debit_data->pension_rec ?? 0 }}
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: right;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+                border: 1px solid #000;
+                padding: 0px 5px;
+            ">
+                                    @php
+                                        $total_recoveries =
+                                            ($member_debit_data->npsg ?? 0) +
+                                            ($member_debit_data->nps_10_rec ?? 0) +
+                                            ($member_debit_data->cghs ?? 0) +
+                                            ($member_debit_data->cgegis ?? 0) +
+                                            ($member_recoveries_data->ptax ?? 0) +
+                                            ($member_debit_data->ecess ?? 0) +
+                                            ($member_recoveries_data->wel_sub ?? 0) +
+                                            ($member_debit_data->i_tax ?? 0);
+                                    @endphp
+                                    {{ $member_debit_data->nps_10_rec ?? 0 }}
                                 </td>
                             </tr>
+                        @elseif (isset($member_credit_data->member->memberCategory->fund_type) &&
+                                $member_credit_data->member->memberCategory->fund_type == 'UPS')
+                          
+                                <td
+                                    style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+                border: 1px solid #000;
+                padding: 0px 5px;
+            ">
+                                    UPS Rec
+                                </td>
+                                <td
+                                    style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: right;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+                border: 1px solid #000;
+                padding: 0px 5px;
+            ">
+                                    @php
+                                        $total_recoveries =
+                                            ($member_debit_data->upsg_10_per ?? 0) +
+                                            ($member_debit_data->ups_10_per_rec ?? 0) +
+                                            ($member_debit_data->cghs ?? 0) +
+                                            ($member_debit_data->cgegis ?? 0) +
+                                            ($member_recoveries_data->ptax ?? 0) +
+                                            ($member_debit_data->ecess ?? 0) +
+                                            ($member_recoveries_data->wel_sub ?? 0) +
+                                            ($member_debit_data->i_tax ?? 0);
+                                    @endphp
+                                    {{ $member_debit_data->ups_10_per_rec ?? 0 }}
+                                </td>
+                            </tr>
+                        @else
+                         
+                                <td
+                                    style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: left;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+                border: 1px solid #000;
+                padding: 0px 5px;
+            ">
+                                    GPF SUB
+                                </td>
+                                <td
+                                    style="
+                font-size: 10px;
+                line-height: 14px;
+                font-weight: 400;
+                color: #000;
+                text-align: right;
+                margin: 0px 0px !important;
+                text-transform: uppercase;
+                border: 1px solid #000;
+                padding: 0px 5px;
+            ">
+                                    @php
+                                        $total_recoveries =
+                                            ($member_debit_data->gpa_sub ?? 0) +
+                                            ($member_debit_data->cghs ?? 0) +
+                                            ($member_debit_data->cgegis ?? 0) +
+                                            ($member_recoveries_data->ptax ?? 0) +
+                                            ($member_debit_data->ecess ?? 0) +
+                                            ($member_recoveries_data->wel_sub ?? 0) +
+                                            ($member_debit_data->i_tax ?? 0);
+                                    @endphp
+                                    {{ $member_debit_data->gpa_sub ?? 0 }}
+                                </td>
+                            </tr>
+                            @endif
                             <tr>
                                 <td
                                     style="
@@ -218,7 +319,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    Grade Pay
+                                    Level
                                 </td>
                                 <td
                                     style="
@@ -232,7 +333,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    {{ $member_credit_data->g_pay ?? 0 }}
+                                    {{ $member_data->payLevels->value ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -276,7 +377,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    Var Incr
+                                    DA
                                 </td>
                                 <td
                                     style="
@@ -290,7 +391,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    {{ $member_credit_data->var_incr ?? 0 }}
+                                    {{ $member_credit_data->da ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -334,7 +435,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    DA
+                                    HRA
                                 </td>
                                 <td
                                     style="
@@ -348,7 +449,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    {{ $member_credit_data->da ?? 0 }}
+                                    {{ $member_credit_data->hra ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -376,7 +477,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    {{ $member_debit_data->ptax ?? 0 }}
+                                    {{ $member_recoveries_data->ptax ?? 0 }}
                                 </td>
                             </tr>
                             <tr>
@@ -392,7 +493,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    HRA
+                                    TPT
                                 </td>
                                 <td
                                     style="
@@ -406,7 +507,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    {{ $member_credit_data->hra ?? 0 }}
+                                    {{ $member_credit_data->tpt ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -450,7 +551,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    TPT
+                                    DA on TPT
                                 </td>
                                 <td
                                     style="
@@ -464,7 +565,7 @@
                       border: 1px solid #000;
                       padding: 0px 5px;
                     ">
-                                    {{ $member_credit_data->tpt ?? 0 }}
+                                    {{ $member_credit_data->da_on_tpt ?? 0 }}
                                 </td>
                                 <td
                                     style="
@@ -472,16 +573,128 @@
                       line-height: 14px;
                       font-weight: 400;
                       color: #000;
-                      text-align: right;
+                      /* text-align: right; */
+                      text-align: left;
                       margin: 0px 0px !important;
                       text-transform: uppercase;
                       border: 1px solid #000;
                       height: 10px;
                       padding: 0px 5px;
                     ">
+                                    E. Cess
                                 </td>
                                 <td
                                     style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                    text-align: right;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      height: 10px;
+                      padding: 0px 5px;
+                    ">
+                                    {{ $member_debit_data->ecess ?? 0 }}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      padding: 0px 5px;
+                    ">
+                                    VAR INC
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                         text-align: left;
+                      text-align: right;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      padding: 0px 5px;
+                    ">
+                                    {{ round($member_credit_data->var_incr ?? 0) }}
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+ text-align: left;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      height: 10px;
+                      padding: 0px 5px;
+                    ">
+                                    Welfare
+                                </td>
+                                <td
+                                    style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                        text-align: right;
+
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      height: 10px;
+                      padding: 0px 5px;
+                    ">
+                                    {{ $member_recoveries_data->wel_sub ?? 0 }}
+                                </td>
+                            </tr>
+                            @if (isset($member_credit_data->member->memberCategory->fund_type) &&
+                                    $member_credit_data->member->memberCategory->fund_type == 'NPS')
+                                <tr>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      padding: 0px 5px;
+                    ">
+                                        NPSC 14%
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: right;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      padding: 0px 5px;
+                    ">
+                                        {{ $member_credit_data->npsc ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="
                       font-size: 10px;
                       line-height: 14px;
                       font-weight: 400;
@@ -493,8 +706,89 @@
                       height: 10px;
                       padding: 0px 5px;
                     ">
-                                </td>
-                            </tr>
+                                        NPSG 14%
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                        text-align: right;
+
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      height: 10px;
+                      padding: 0px 5px;
+                    ">
+                                        {{ round($member_debit_data->npsg ?? 0) }}
+                                    </td>
+                                </tr>
+                            @elseif (isset($member_credit_data->member->memberCategory->fund_type) &&
+                                    $member_credit_data->member->memberCategory->fund_type == 'UPS')
+                                <tr>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      padding: 0px 5px;
+                    ">
+                                        UPSC 10%
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: right;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      padding: 0px 5px;
+                    ">
+                                        {{ $member_credit_data->upsc_10 ?? 0 }}
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                      text-align: left;
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      height: 10px;
+                      padding: 0px 5px;
+                    ">
+                                        UPSG 10%
+                                    </td>
+                                    <td
+                                        style="
+                      font-size: 10px;
+                      line-height: 14px;
+                      font-weight: 400;
+                      color: #000;
+                        text-align: right;
+
+                      margin: 0px 0px !important;
+                      text-transform: uppercase;
+                      border: 1px solid #000;
+                      height: 10px;
+                      padding: 0px 5px;
+                    ">
+                                        {{ round($member_debit_data->upsg_10_per ?? 0) }}
+                                    </td>
+                                </tr>
+                            @endif
                         </tbody>
                         <tfoot>
                             <tr>
@@ -525,13 +819,40 @@
                       padding: 0px 5px;
                     ">
                                     @php
-                                        $gross =
-                                            ($member_credit_data->pay ?? 0) +
-                                            ($member_credit_data->g_pay ?? 0) +
-                                            ($member_credit_data->var_incr ?? 0) +
-                                            ($member_credit_data->da ?? 0) +
-                                            ($member_credit_data->hra ?? 0) +
-                                            ($member_credit_data->tpt ?? 0);
+                                        if (
+                                            isset($member_credit_data->member->memberCategory->fund_type) &&
+                                            $member_credit_data->member->memberCategory->fund_type == 'NPS'
+                                        ) {
+                                            $gross =
+                                                ($member_credit_data->pay ?? 0) +
+                                                ($member_credit_data->var_incr ?? 0) +
+                                                ($member_credit_data->da ?? 0) +
+                                                ($member_credit_data->hra ?? 0) +
+                                                ($member_credit_data->da_on_tpt ?? 0) +
+                                                ($member_credit_data->tpt ?? 0) +
+                                                ($member_credit_data->npsc ?? 0);
+                                        } elseif (
+                                            isset($member_credit_data->member->memberCategory->fund_type) &&
+                                            $member_credit_data->member->memberCategory->fund_type == 'UPS'
+                                        ) {
+                                            // This is where the 'UPS' specific calculation would go
+                                            $gross =
+                                                ($member_credit_data->pay ?? 0) +
+                                                ($member_credit_data->var_incr ?? 0) +
+                                                ($member_credit_data->da ?? 0) +
+                                                ($member_credit_data->hra ?? 0) +
+                                                ($member_credit_data->da_on_tpt ?? 0) +
+                                                ($member_credit_data->tpt ?? 0) +
+                                                ($member_credit_data->upsc_10 ?? 0); // Assuming 'upsc_10' is a property on member_credit_data
+                                        } else {
+                                            $gross =
+                                                ($member_credit_data->pay ?? 0) +
+                                                ($member_credit_data->var_incr ?? 0) +
+                                                ($member_credit_data->da ?? 0) +
+                                                ($member_credit_data->hra ?? 0) +
+                                                ($member_credit_data->da_on_tpt ?? 0) +
+                                                ($member_credit_data->tpt ?? 0);
+                                        }
                                     @endphp
                                     {{ $gross }}
                                 </td>
@@ -563,14 +884,7 @@
                       height: 10px;
                       padding: 0px 5px;
                     ">
-                                    @php
-                                        $total_recoveries =
-                                            ($member_debit_data->pension_rec ?? 0) +
-                                            ($member_debit_data->cghs ?? 0) +
-                                            ($member_debit_data->cgegis ?? 0) +
-                                            ($member_debit_data->ptax ?? 0) +
-                                            ($member_debit_data->i_tax ?? 0);
-                                    @endphp
+
                                     {{ $total_recoveries }}
                                 </td>
                             </tr>
@@ -686,8 +1000,8 @@
                                 </td>
                             </tr>
                             <tr>
-                              <td colspan="2"
-                                  style="
+                                <td colspan="2"
+                                    style="
                     font-size: 10px;
                     line-height: 14px;
                     font-weight: 400;
@@ -699,14 +1013,14 @@
                     border-right: 1px solid #000;
                     border-bottom: 1px solid #000;
                   ">
-                                  @php
-                                      use App\Helpers\Helper;
+                                    @php
+                                        use App\Helpers\Helper;
 
-                                      $words = Helper::convert($net_pay);
-                                  @endphp
-                                  ({{ $words }})
-                              </td>
-                          </tr>
+                                        $words = Helper::convert($net_pay);
+                                    @endphp
+                                    ({{ $words }})
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </td>
@@ -716,10 +1030,10 @@
                 <td style="padding: 0 0px">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
                         <tbody>
-                          <tr>
-                            <td style="height: 20px;  border-left: 1px solid #000;"></td>
-                            <td style="height: 20px; border-right: 1px solid #000;"></td>
-                          </tr>
+                            <tr>
+                                <td style="height: 20px;  border-left: 1px solid #000;"></td>
+                                <td style="height: 20px; border-right: 1px solid #000;"></td>
+                            </tr>
                             <tr>
                                 <td colspan="2"
                                     style="
@@ -743,8 +1057,8 @@
                                 </td>
                             </tr>
                             <tr>
-                              <td style="height: 50px;  border-left: 1px solid #000;"></td>
-                              <td style="height: 50px; border-right: 1px solid #000;"></td>
+                                <td style="height: 50px;  border-left: 1px solid #000;"></td>
+                                <td style="height: 50px; border-right: 1px solid #000;"></td>
                             <tr>
                                 <td
                                     style="
@@ -772,7 +1086,8 @@
                       border-right: 1px solid #000;
                       border-bottom: 1px solid #000;
                     ">
-                               <span style="font-size: 18px; line-height: 22px;">( {{ $accountant ?? '' }} )</span><br>
+                                    <span style="font-size: 18px; line-height: 22px;">( {{ $accountant ?? '' }}
+                                        )</span><br>
                                     Accounts Officer<br>
                                     For Director, CHESS <br>
                                     Vignyanakancha, Hyd-69<br>

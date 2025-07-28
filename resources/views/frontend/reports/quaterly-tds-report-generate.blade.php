@@ -2,11 +2,24 @@
 <html lang="en">
 <title>RCI</title>
 <meta charset="utf-8" />
+
+<style>
+    @page {
+        margin: 10px;
+        padding: 10px;
+    }
+     .page-break {
+        page-break-before: always;
+    }
+</style>
 @php
     use App\Helpers\Helper;
 @endphp
 
 <body style="background: #fff">
+    @foreach ($chunk_members as $member_key => $members)
+
+
     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
         <tbody>
             <tr>
@@ -15,7 +28,7 @@
                         <tbody>
                             <tr>
                                 <td style="font-size: 14px; width: 30%;"></td>
-                                <td style=" text-align: center; font-weight: bold; font-size: 18px; width: 40%;">
+                                <td style=" text-align: center; font-weight: bold; font-size: 16px; width: 40%;">
                                     {{ isset($report_quarter) ? $report_quarter : '' }} BIN
                                     DETAILS IN R/O FINANCIAL YEAR {{ isset($report_year) ? $report_year : '' }}</td>
                                 <td style="font-size: 14px; text-align: right; width: 30%;">
@@ -63,32 +76,32 @@
                             </tr>
                             <tr>
                                 <td
-                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:16px; text-align:center; font-weight: bold;">
+                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:14px; text-align:center; font-weight: bold;">
                                     GROSS</td>
                                 <td
-                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:16px; text-align:center; font-weight: bold;">
+                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:14px; text-align:center; font-weight: bold;">
                                     GROSS</td>
                                 <td
-                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:16px; text-align:center; padding:  5px 5px; font-weight: bold;">
+                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:14px; text-align:center; padding:  5px 5px; font-weight: bold;">
                                     GROSS</td>
                                 <td
-                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:16px; text-align:center; padding:  5px 5px; font-weight: bold;">
+                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:14px; text-align:center; padding:  5px 5px; font-weight: bold;">
                                     IT</td>
                                 <td
-                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:16px; text-align:center; padding:  5px 5px; font-weight: bold;">
+                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:14px; text-align:center; padding:  5px 5px; font-weight: bold;">
                                     E.Cess</td>
                                 <td
-                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:16px; text-align:center; padding:  5px 5px; font-weight: bold;">
+                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:14px; text-align:center; padding:  5px 5px; font-weight: bold;">
                                     IT</td>
 
                                 <td
-                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:16px; text-align:center; padding:  5px 5px; font-weight: bold;">
+                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:14px; text-align:center; padding:  5px 5px; font-weight: bold;">
                                     E.Cess</td>
                                 <td
-                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:16px; text-align:center; padding:  5px 5px; font-weight: bold;">
+                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:14px; text-align:center; padding:  5px 5px; font-weight: bold;">
                                     IT</td>
                                 <td
-                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:16px; text-align:center; padding:  5px 5px; font-weight: bold;">
+                                    style="border: 1px solid #000; padding: 0 5px 0 5px; font-size:14px; text-align:center; padding:  5px 5px; font-weight: bold;">
                                     E.Cess</td>
 
 
@@ -165,7 +178,7 @@
                             @else
                                 <tr>
                                     <td colspan="12" style="text-align: center;">No data found</td>
-                                </tr>    
+                                </tr>
                             @endif
 
 
@@ -175,6 +188,12 @@
             </tr>
         </tbody>
     </table>
+       @if (count($chunk_members) > 1)
+    @if (!$loop->last)
+        <div class="page-break"></div>
+    @endif
+    @endif
+     @endforeach
 </body>
 
 </html>

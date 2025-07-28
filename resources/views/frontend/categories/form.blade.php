@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-7 mb-2">
+                    {{-- <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Designation Type</label>
@@ -52,7 +52,7 @@
                                 <span class="text-danger" id="designation_type_id-error"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -164,7 +164,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-7 mb-2">
+                    {{-- <div class="form-group col-md-7 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <label>Designation Type</label>
@@ -180,7 +180,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group col-md-5 mb-2">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -206,7 +206,7 @@
                                 <select class="form-select" name="fund_type" id="fund_type">
                                     <option value="">Select Fund Type</option>
                                     @foreach ($fund_typs as $fund_type)
-                                        <option value="{{ $fund_type->value }}">{{ $fund_type->fund_type }}</option>
+                                        <option value="{{ $fund_type->value }}">{{ $fund_type->value }}</option>
                                     @endforeach
                                 </select>
                                 <span class="text-danger"></span>

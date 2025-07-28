@@ -195,7 +195,8 @@ class MemberPayGenerate extends Controller
 
                 $stopDate = $var_noi->stop ? Carbon::parse($var_noi->stop)->startOfDay() : null;
 
-                if ((!$stopDate || $stopDate->greaterThan($currentDate))) {
+                if (($stopDate !== null && $stopDate->greaterThan($currentDate))) {
+                    // dd($stopDate);
                     $var_inc_amount = $var_noi->total;
                     // $count_var_noi = $var_noi->noi - 1;
                 } else {
@@ -282,8 +283,18 @@ class MemberPayGenerate extends Controller
                     }
                 }
 
+
                 if ($exception->rule_name == 'DA') {
                     $member_credit_monthly_data->da = $exception->amount ?? 0;
+                    $daAmount = $exception->amount ?? 0;
+                    if ($member_credit_monthly_data->da == 0) {
+                        $member_credit_monthly_data->da_on_tpt = 0;
+                        $member_credit_monthly_data->tpt = 0;
+                    } else {
+                        $total = round($exception->amount * $percentage / 100);
+                        $member_credit_monthly_data->tpt = $tptAmount;
+                        $member_credit_monthly_data->da_on_tpt = $total;
+                    }
                 }
 
                 if ($exception->rule_name == 'HRA') {
@@ -299,10 +310,17 @@ class MemberPayGenerate extends Controller
                 $npsc = 0;
             }
 
+
+            $upsc = 0;
+            if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'UPS') {
+                $upsc = round((($basicPay + $daAmount) * 10) / 100);
+            }
+
             // $npg_arrs = 0;
             // $npg_adj = 0;
             $member_credit_monthly_data->member_id = $member_id;
             $member_credit_monthly_data->npsc = round($npsc);
+            $member_credit_monthly_data->upsc_10 = round($upsc);
             // $member_credit_monthly_data->npg_arrs = round($npg_arrs);
             // $member_credit_monthly_data->npg_adj = round($npg_adj);
 
@@ -330,6 +348,9 @@ class MemberPayGenerate extends Controller
                 'npsc',
                 'npg_arrs',
                 'npg_adj',
+                'upsc_10',
+                'upsg_arrs_10',
+                'upsgcr_adj_10',
                 'hindi',
                 'cr_water',
                 'add_inc2',
@@ -462,6 +483,16 @@ class MemberPayGenerate extends Controller
             // $member_debit_monthly_data->nps_10_arr = 0;
             // $member_debit_monthly_data->nps_14_adj = 0;
 
+            $ups_10_per_rec = 0;
+            $upsg_10_per = 0;
+            if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'UPS') {
+                $ups_10_per_rec = round((($basicPay + $daAmount) * 10) / 100);
+                $upsg_10_per = round((($basicPay + $daAmount) * 10) / 100);
+            }
+
+            $member_debit_monthly_data->ups_10_per_rec = round($ups_10_per_rec);
+            $member_debit_monthly_data->upsg_10_per = round($upsg_10_per);
+
             if ($exceptions_this_month) {
                 foreach ($exceptions_this_month as $exception) {
                     if ($exception->rule_name == 'GPF') {
@@ -470,6 +501,10 @@ class MemberPayGenerate extends Controller
 
                     if ($exception->rule_name == 'NPSG') {
                         $member_debit_monthly_data->npsg = $exception->amount ?? 0;
+                    }
+
+                    if ($exception->rule_name == 'UPSG') {
+                        $member_debit_monthly_data->upsg_10_per = $exception->amount ?? 0;
                     }
 
                     if ($exception->rule_name == 'CGHS') {
@@ -568,6 +603,12 @@ class MemberPayGenerate extends Controller
                 'nps_10_rec',
                 'nps_10_arr',
                 'nps_14_adj',
+                'ups_10_per_rec',
+                'upsg_10_per',
+                'ups_arr_10_per',
+                'upsg_arr_10_per',
+                'ups_adj_10_per',
+                'upsg_adj_10_per',
                 // 'society'
             ];
 
@@ -649,13 +690,13 @@ class MemberPayGenerate extends Controller
             if (isset($member_recovery) && optional($member_recovery)->wel_rec == 0) {
                 $wel_rec = 0;
 
-                if (isset($category) && isset($category->category)) {
-                    if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
-                        $wel_rec = 20;
-                    } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
-                        $wel_rec = 10;
-                    }
-                }
+                // if (isset($category) && isset($category->category)) {
+                //     if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
+                //         $wel_rec = 20;
+                //     } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
+                //         $wel_rec = 10;
+                //     }
+                // }
 
                 if (isset($member_recovery_monthly_data)) {
                     $member_recovery_monthly_data->wel_rec = $wel_rec;
@@ -893,7 +934,7 @@ class MemberPayGenerate extends Controller
 
                         $stopDate = $var_noi->stop ? Carbon::parse($var_noi->stop)->startOfDay() : null;
 
-                        if ((!$stopDate || $stopDate->greaterThan($currentDate))) {
+                        if ($stopDate !== null && $stopDate->greaterThan($currentDate)) {
                             $var_inc_amount = $var_noi->total;
                             // $count_var_noi = $var_noi->noi - 1;
                         } else {
@@ -982,6 +1023,15 @@ class MemberPayGenerate extends Controller
 
                         if ($exception->rule_name == 'DA') {
                             $member_credit_monthly_data->da = $exception->amount ?? 0;
+                            $daAmount = $exception->amount ?? 0;
+                            if ($member_credit_monthly_data->da == 0) {
+                                $member_credit_monthly_data->da_on_tpt = 0;
+                                $member_credit_monthly_data->tpt = 0;
+                            } else {
+                                $total = round($exception->amount * $percentage / 100);
+                                $member_credit_monthly_data->tpt = $tptAmount;
+                                $member_credit_monthly_data->da_on_tpt = $total;
+                            }
                         }
 
                         if ($exception->rule_name == 'HRA') {
@@ -996,10 +1046,16 @@ class MemberPayGenerate extends Controller
                         $npsc = 0;
                     }
 
+                    $upsc = 0;
+                    if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'UPS') {
+                        $upsc = round((($basicPay + $daAmount) * 10) / 100);
+                    }
+
                     // $npg_arrs = 0;
                     // $npg_adj = 0;
                     $member_credit_monthly_data->member_id = $member_id;
                     $member_credit_monthly_data->npsc = round($npsc);
+                    $member_credit_monthly_data->upsc_10 = round($upsc);
                     // $member_credit_monthly_data->npg_arrs = round($npg_arrs);
                     // $member_credit_monthly_data->npg_adj = round($npg_adj);
 
@@ -1027,6 +1083,9 @@ class MemberPayGenerate extends Controller
                         'npsc',
                         'npg_arrs',
                         'npg_adj',
+                        'upsc_10',
+                        'upsg_arrs_10',
+                        'upsgcr_adj_10',
                         'hindi',
                         'cr_water',
                         'add_inc2',
@@ -1161,6 +1220,16 @@ class MemberPayGenerate extends Controller
                     // $member_debit_monthly_data->nps_10_arr = 0;
                     // $member_debit_monthly_data->nps_14_adj = 0;
 
+                    $ups_10_per_rec = 0;
+                    $upsg_10_per = 0;
+                    if (isset($member->memberCategory->fund_type) && $member->memberCategory->fund_type == 'UPS') {
+                        $ups_10_per_rec = round((($basicPay + $daAmount) * 10) / 100);
+                        $upsg_10_per = round((($basicPay + $daAmount) * 10) / 100);
+                    }
+
+                    $member_debit_monthly_data->ups_10_per_rec = round($ups_10_per_rec);
+                    $member_debit_monthly_data->upsg_10_per = round($upsg_10_per);
+
                     if ($exceptions_this_month) {
                         foreach ($exceptions_this_month as $exception) {
                             if ($exception->rule_name == 'GPF') {
@@ -1169,6 +1238,10 @@ class MemberPayGenerate extends Controller
 
                             if ($exception->rule_name == 'NPSG') {
                                 $member_debit_monthly_data->npsg = $exception->amount ?? 0;
+                            }
+
+                            if ($exception->rule_name == 'UPSG') {
+                                $member_debit_monthly_data->upsg_10_per = $exception->amount ?? 0;
                             }
 
                             if ($exception->rule_name == 'CGHS') {
@@ -1267,6 +1340,12 @@ class MemberPayGenerate extends Controller
                         'nps_10_rec',
                         'nps_10_arr',
                         'nps_14_adj',
+                        'ups_10_per_rec',
+                        'upsg_10_per',
+                        'ups_arr_10_per',
+                        'upsg_arr_10_per',
+                        'ups_adj_10_per',
+                        'upsg_adj_10_per',
                         // 'society'
                     ];
 
@@ -1347,13 +1426,13 @@ class MemberPayGenerate extends Controller
                     if (isset($member_recovery) && optional($member_recovery)->wel_rec == 0) {
                         $wel_rec = 0;
 
-                        if (isset($category) && isset($category->category)) {
-                            if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
-                                $wel_rec = 20;
-                            } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
-                                $wel_rec = 10;
-                            }
-                        }
+                        // if (isset($category) && isset($category->category)) {
+                        //     if (in_array($category->category, ['CGO NPS', 'CGO GPF', 'CGO DEP'])) {
+                        //         $wel_rec = 20;
+                        //     } elseif (in_array($category->category, ['NIE NPS', 'NIE'])) {
+                        //         $wel_rec = 10;
+                        //     }
+                        // }
 
                         if (isset($member_recovery_monthly_data)) {
                             $member_recovery_monthly_data->wel_rec = $wel_rec;
