@@ -26,8 +26,8 @@
                                 <tr>
                                     <td
                                         style="
-              font-size: 10px;
-              line-height: 14px;
+              font-size: 18px;
+              line-height: 20px;
               font-weight: 600;
               color: #000;
               text-align: center;
@@ -54,14 +54,15 @@
                                 <tr>
                                     <td
                                         style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 600;
                       color: #000;
                       text-align: center;
                       padding: 0px 5px !important;
                       margin: 0px 0px !important;
                       border: 1px solid #000;
+                        border-bottom: 1px solid #ffffff;
                     ">
                                         Outstanding Bills as on {{ $report_date }}
                                     </td>
@@ -77,8 +78,8 @@
                                 <tr>
                                     <td
                                         style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -91,8 +92,8 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -105,8 +106,8 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -119,8 +120,8 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -133,8 +134,8 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -147,8 +148,8 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -161,8 +162,8 @@
                                     </td>
                                     <td
                                         style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -182,8 +183,8 @@
                                         <tr>
                                             <td
                                                 style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -196,8 +197,8 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -210,8 +211,8 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -224,8 +225,8 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -238,8 +239,8 @@
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -248,12 +249,12 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $advanceFund->adv_date }}
+                                                {{ $advanceFund->adv_date ? date('d-m-Y', strtotime($advanceFund->adv_date)) : '' }}
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -262,12 +263,12 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $advanceFund->adv_amount }}
+                                                {{ formatIndianCurrency($advanceFund->adv_amount, 2) }}
                                             </td>
                                             <td
                                                 style="
-                      font-size: 10px;
-                      line-height: 14px;
+                      font-size: 16px;
+                      line-height: 20px;
                       font-weight: 400;
                       color: #000;
                       text-align: center;
@@ -276,7 +277,7 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
-                                                {{ $advanceFund->outstand_amount }}
+                                                {{ formatIndianCurrency($advanceFund->outstand_amount, 2) }}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -286,8 +287,8 @@
                                 <tr>
                                     <td
                                         style="
-                font-size: 10px;
-                line-height: 14px;
+                font-size: 16px;
+                line-height: 20px;
                 font-weight: 400;
                 color: #000;
                 text-align: center;
@@ -299,8 +300,8 @@
                                     </td>
                                     <td
                                         style="
-                font-size: 10px;
-                line-height: 14px;
+                font-size: 16px;
+                line-height: 20px;
                 font-weight: 400;
                 color: #000;
                 text-align: center;
@@ -312,8 +313,8 @@
                                     </td>
                                     <td
                                         style="
-                font-size: 10px;
-                line-height: 14px;
+                font-size: 16px;
+                line-height: 20px;
                 font-weight: 400;
                 color: #000;
                 text-align: center;
@@ -325,8 +326,8 @@
                                     </td>
                                     <td
                                         style="
-                font-size: 10px;
-                line-height: 14px;
+                font-size: 16px;
+                line-height: 20px;
                 font-weight: 400;
                 color: #000;
                 text-align: center;
@@ -338,8 +339,8 @@
                                     </td>
                                     <td
                                         style="
-                font-size: 10px;
-                line-height: 14px;
+                font-size: 16px;
+                line-height: 20px;
                 font-weight: 400;
                 color: #000;
                 text-align: center;
@@ -353,8 +354,8 @@
                                     </td>
                                     <td
                                         style="
-            font-size: 10px;
-            line-height: 14px;
+            font-size: 16px;
+            line-height: 20px;
             font-weight: 400;
             color: #000;
             text-align: center;
@@ -363,12 +364,12 @@
             border: 1px solid #000;
             height: 5px;
           ">
-                                        {{ $totalAmount }}
+                                        {{ formatIndianCurrency($totalAmount, 2) }}
                                     </td>
                                     <td
                                         style="
-                font-size: 10px;
-                line-height: 14px;
+                font-size: 16px;
+                line-height: 20px;
                 font-weight: 400;
                 color: #000;
                 text-align: center;
@@ -377,7 +378,7 @@
                 border: 1px solid #000;
                 height: 5px;
               ">
-                                        {{ $totalOutStandAmount }}
+                                        {{ formatIndianCurrency($totalOutStandAmount, 2) }}
                                     </td>
                                 </tr>
 
