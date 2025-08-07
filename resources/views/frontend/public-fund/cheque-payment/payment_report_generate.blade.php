@@ -460,7 +460,7 @@
                     {{-- @dd(count($new_member)); --}}
                     @if (count($new_member) <= 24)
                         @php
-                            $pixel_table = 700 - 30 * count($new_member);
+                            $pixel_table = 715 - 30 * count($new_member);
                         @endphp
                         <tr>
                             <td height="{{ $pixel_table }}px"></td>
