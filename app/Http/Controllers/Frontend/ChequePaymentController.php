@@ -38,9 +38,9 @@ class ChequePaymentController extends Controller
 
         // dd( $lastPayme nt->cheq_date);
         if ($lastPayment && $lastPayment->cheq_date) {
-             $initAllPayments = ChequePayment::with('chequePaymentMembers.member')->whereMonth('cheq_date', date('m', strtotime($lastPayment->cheq_date)))->orderBy('id', 'desc')->get();
+            $initAllPayments = ChequePayment::with('chequePaymentMembers.member')->whereMonth('cheq_date', date('m', strtotime($lastPayment->cheq_date)))->orderBy('id', 'desc')->get();
         } else {
-           $initAllPayments = [];
+            $initAllPayments = [];
         }
 
 
@@ -521,8 +521,24 @@ class ChequePaymentController extends Controller
             ->get()
             ->chunk(25);
 
-        // Chunk after fetching data
-        // dd($payment_members->toArray());
+
+        $payment_members_new = ChequePaymentMember::with(['chequePayment', 'member.desigs', 'reciepts'])
+            ->where('cheq_date', $chq_date)
+            ->where('amount', '>', 0)
+            ->orderByRaw('CAST(cheq_no AS UNSIGNED) ASC')
+            ->get()
+            ->groupBy('cheq_no');
+
+        // Get the sum of amounts per cheque number
+        $bank_amounts_by_cheq_no = $payment_members_new->map(function ($group) {
+            return $group->sum(function ($item) {
+                return (float)$item->amount;
+            });
+        });
+
+        // dd($amounts_by_cheq_no->toArray());
+
+
         // dd($payments);
 
         // // get and set in the payments array data for each row set each unique cheque number starting from 1
@@ -561,11 +577,11 @@ class ChequePaymentController extends Controller
             ->where('receipts.vr_date', $chq_date)
             ->get();
 
-        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'print_date', 'payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
+        $pdf = PDF::loadView('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'bank_amounts_by_cheq_no', 'print_date', 'payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'))->setPaper('a3', 'landscape');
 
         return $pdf->download('payment-report-' . $chq_date . '.pdf');
 
-        return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'print_date', 'payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'));
+        return view('frontend.public-fund.cheque-payment.payment_report_generate', compact('logo', 'print_date', 'bank_amounts_by_cheq_no', 'payment_members', 'receipts', 'category', 'pre_vr_date', 'payments', 'chq_date', 'settings'));
     }
 
 

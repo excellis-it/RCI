@@ -148,7 +148,7 @@ class ImprestReportController extends Controller
             $cda_bill_receipts_check = CDAReceipt::whereDate('rct_vr_date', '<=', $request_date)->pluck('bill_id');
 
 
-            $cda_bills = CdaBillAuditTeam::whereNotIn('settle_id', $cda_bill_receipts_check)->whereDate('cda_bill_date',  '=', $request_date)->get();
+            $cda_bills = CdaBillAuditTeam::whereNotIn('id', $cda_bill_receipts_check)->whereDate('cda_bill_date',  '=', $request_date)->get();
 
             //  return $cda_bills;
 
@@ -547,7 +547,7 @@ class ImprestReportController extends Controller
 
         // Book 2 data
         $cda_bill_receipts_check = CDAReceipt::whereDate('rct_vr_date', '<=', $reportDate)->pluck('bill_id');
-        $cda_bills = CdaBillAuditTeam::whereNotIn('settle_id', $cda_bill_receipts_check)->whereDate('cda_bill_date', '=', $reportDate)->get();
+        $cda_bills = CdaBillAuditTeam::whereNotIn('id', $cda_bill_receipts_check)->whereDate('cda_bill_date', '=', $reportDate)->get();
 
         $total_bill_balance = 0;
         foreach ($cda_bills as $cda_bill) {

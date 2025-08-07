@@ -1593,8 +1593,14 @@
                       border: 1px solid #000;
                       height: 5px;
                     ">
+
+                                    @php
+                                        $total_credit_bank =
+                                            ($book2_data['totalPaymentsForTheDayBank'] ?? 0) +
+                                            ($book2_data['closing_balance_cash_in_bank'] ?? 0);
+                                    @endphp
                                     {{-- {{ formatIndianCurrency($book2_data['grand_total_cash_in_bank'], 2) ?? 0 }} --}}
-                                    {{ formatIndianCurrency($book2_data['closing_balance_cash_in_bank'], 2) ?? 0 }}
+                                    {{ formatIndianCurrency($total_credit_bank, 2) ?? 0 }}
                                 </td>
                                 <td
                                     style="

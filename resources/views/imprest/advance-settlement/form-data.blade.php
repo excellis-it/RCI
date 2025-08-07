@@ -149,7 +149,7 @@
                         </div>
                         <div class="col-md-12">
                             <input type="date" class="form-control" name="var_date" id="var_date"
-                                value="{{ $advance_funds->adv_date }}" placeholder="" readonly>
+                                value="{{ $advance_funds->adv_date }}" placeholder="">
                             <span class="text-danger"></span>
                         </div>
                     </div>
