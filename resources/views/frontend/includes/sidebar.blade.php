@@ -119,14 +119,14 @@ use App\Helpers\Helper;
                         <span class="hide-menu">Assoc</span>
                     </a>
                 </li> --}}
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a class="sidebar-link" href="" aria-expanded="false">
                         <span>
                             <i class="ti ti-certificate"></i>
                         </span>
                         <span class="hide-menu">PayCertificate</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ Request::is('password') ? 'active' : '' }}" href="{{ route('password') }}"
                         aria-expanded="false">
