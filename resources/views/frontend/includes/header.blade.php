@@ -567,10 +567,10 @@
                                     href="{{ route('tptas.index') }}">TPT</a>
                             </li>
 
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('income-taxes.index') }}">Income Tax</a>
-                            </li>
+                            </li> --}}
                             <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('gpfs.index') }}">GPF</a>
@@ -595,10 +595,10 @@
                                     href="{{ route('bag-allowance.index') }}">Office Bag Allowance</a>
                             </li>
 
-                            <li class="mb-2">
+                            {{-- <li class="mb-2">
                                 <a class="fw-semibold text-dark bg-hover-primary text-decoration-none"
                                     href="{{ route('pension-rate.index') }}">Pension Rates</a>
-                            </li>
+                            </li> --}}
 
                             {{-- manik's work --}}
 
